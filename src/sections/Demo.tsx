@@ -64,7 +64,7 @@ export default function Demo() {
           {/* Demo Image */}
           <div className="relative rounded-xl overflow-hidden border border-white/10 shadow-2xl">
             <img
-              src="/PhyAgentOS-website/scene.png"
+              src="/scene.png"
               alt="Robot Assembly"
               className="w-full h-auto"
             />

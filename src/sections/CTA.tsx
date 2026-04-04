@@ -41,7 +41,7 @@ export default function CTA() {
       <div
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: 'url(/PhyAgentOS-website/human_robot.png)',
+          backgroundImage: 'url(/human_robot.png)',
           backgroundSize: '100% auto',
           backgroundPosition: 'center top',
           backgroundRepeat: 'no-repeat',

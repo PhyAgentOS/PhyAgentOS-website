@@ -75,7 +75,7 @@ export default function Hero() {
       <div
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: 'url(/PhyAgentOS-website/home_page.png)',
+          backgroundImage: 'url(/home_page.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'blur(4px)',

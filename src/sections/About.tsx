@@ -92,7 +92,7 @@ export default function About() {
       <div 
         className="absolute inset-0 opacity-5"
         style={{
-          backgroundImage: 'url(/PhyAgentOS-website/blueprint.jpg)',
+          backgroundImage: 'url(/blueprint.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -156,7 +156,7 @@ export default function About() {
                 
                 {/* Neural network image */}
                 <img
-                  src="/PhyAgentOS-website/scene.png"
+                  src="/scene.png"
                   alt="Neural Network"
                   className="relative z-10 w-full h-full object-contain"
                 />

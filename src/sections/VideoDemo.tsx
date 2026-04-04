@@ -74,7 +74,7 @@ export default function VideoDemo() {
               {/* Video */}
               <video
                 ref={videoRef}
-                src="/PhyAgentOS-website/demo.webm"
+                src="/demo.webm"
                 className="w-full h-auto aspect-video"
                 autoPlay
                 loop
