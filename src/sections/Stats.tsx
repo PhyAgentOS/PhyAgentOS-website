@@ -4,11 +4,66 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const stats = [
-  { value: 54, suffix: '+', label: 'GitHub Stars' },
-  { value: 8, suffix: '+', label: 'Supported Robots' },
-  { value: 5, suffix: '', label: 'Core Contributors' },
+const GITHUB_OWNER = import.meta.env.VITE_GITHUB_OWNER ?? 'SYSU-HCP-EAI';
+const GITHUB_REPO = import.meta.env.VITE_GITHUB_REPO ?? 'PhyAgentOS';
+const METRICS_REFRESH_INTERVAL = 6 * 60 * 60 * 1000;
+
+type StatConfig = {
+  label: string;
+  suffix: string;
+  value: number;
+};
+
+const supportedRobots = 8;
+
+const initialStats: StatConfig[] = [
+  { value: 0, suffix: '+', label: 'GitHub Stars' },
+  { value: supportedRobots, suffix: '+', label: 'Supported Robots' },
+  { value: 0, suffix: '', label: 'Core Contributors' },
 ];
+
+async function fetchContributorCount(signal: AbortSignal) {
+  const response = await fetch(
+    `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contributors?per_page=1&anon=true`,
+    {
+      signal,
+      headers: {
+        Accept: 'application/vnd.github+json',
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to load contributors: ${response.status}`);
+  }
+
+  const linkHeader = response.headers.get('link');
+  if (linkHeader) {
+    const lastPageMatch = linkHeader.match(/&page=(\d+)>; rel="last"/);
+    if (lastPageMatch) {
+      return Number(lastPageMatch[1]);
+    }
+  }
+
+  const contributors = (await response.json()) as unknown[];
+  return contributors.length;
+}
+
+async function fetchStarCount(signal: AbortSignal) {
+  const response = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}`, {
+    signal,
+    headers: {
+      Accept: 'application/vnd.github+json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to load repository metadata: ${response.status}`);
+  }
+
+  const repository = (await response.json()) as { stargazers_count?: number };
+  return repository.stargazers_count ?? 0;
+}
 
 function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
   const [displayValue, setDisplayValue] = useState(0);
@@ -47,8 +102,33 @@ function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
 export default function Stats() {
   const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [stats, setStats] = useState<StatConfig[]>(initialStats);
 
   useEffect(() => {
+    const controller = new AbortController();
+
+    const updateMetrics = async () => {
+      try {
+        const [stars, contributors] = await Promise.all([
+          fetchStarCount(controller.signal),
+          fetchContributorCount(controller.signal),
+        ]);
+
+        setStats([
+          { value: stars, suffix: '+', label: 'GitHub Stars' },
+          { value: supportedRobots, suffix: '+', label: 'Supported Robots' },
+          { value: contributors, suffix: '', label: 'Core Contributors' },
+        ]);
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          console.error('Unable to refresh GitHub impact metrics', error);
+        }
+      }
+    };
+
+    updateMetrics();
+    const intervalId = window.setInterval(updateMetrics, METRICS_REFRESH_INTERVAL);
+
     const ctx = gsap.context(() => {
       if (contentRef.current) {
         gsap.fromTo(contentRef.current.children,
@@ -68,7 +148,11 @@ export default function Stats() {
       }
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      controller.abort();
+      window.clearInterval(intervalId);
+      ctx.revert();
+    };
   }, []);
 
   return (
