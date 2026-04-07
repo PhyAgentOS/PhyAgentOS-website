@@ -5,11 +5,11 @@
   "description": "Build, deploy and orchestrate embodied AI agents across the four key components of physical intelligence: Perception, Cognition, Action and Learning.",
   "primaryCta": {
     "label": "Get Started",
-    "href": "https://github.com/SYSU-HCP-EAI/PhyAgentOS/blob/main/docs/USER_MANUAL.md"
+    "href": "https://github.com/PhyAgentOS/PhyAgentOS/blob/main/docs/user_manual/README.md"
   },
   "secondaryCta": {
     "label": "Explore Docs",
-    "href": "https://github.com/SYSU-HCP-EAI/PhyAgentOS/blob/main/docs/plans/Report.md"
+    "href": "https://github.com/PhyAgentOS/PhyAgentOS/blob/main/docs/user_development_guide/README.md"
   },
   "workspaceName": "phyagentos.workspace",
   "workspaceSectionLabel": "Workspace",

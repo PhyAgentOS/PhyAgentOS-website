@@ -65,7 +65,7 @@ export default function CTA() {
             </p>
             
             <a
-              href="https://github.com/SYSU-HCP-EAI/PhyAgentOS/blob/main/docs/USER_MANUAL.md"
+              href="https://github.com/PhyAgentOS/PhyAgentOS/blob/main/docs/user_manual/README.md"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3 bg-brand-accent hover:bg-brand-accent-light text-white font-medium rounded-lg transition-all duration-300 flex items-center gap-2 group mx-auto"

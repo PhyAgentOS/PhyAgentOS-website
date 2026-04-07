@@ -88,7 +88,7 @@ export default function Navigation() {
                 GitHub
               </a>
               <a
-                href="https://github.com/SYSU-HCP-EAI/PhyAgentOS/blob/main/docs/USER_MANUAL.md"
+                href="https://github.com/PhyAgentOS/PhyAgentOS/blob/main/docs/user_manual/README.md"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-brand-accent hover:bg-brand-accent-light text-white text-sm font-medium rounded-lg transition-colors"
@@ -155,7 +155,7 @@ export default function Navigation() {
               GitHub
             </a>
             <a
-              href="https://github.com/SYSU-HCP-EAI/PhyAgentOS/blob/main/docs/USER_MANUAL.md"
+              href="https://github.com/PhyAgentOS/PhyAgentOS/blob/main/docs/user_manual/README.md"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full px-4 py-3 bg-brand-accent hover:bg-brand-accent-light text-white font-medium rounded-lg transition-colors text-center"
