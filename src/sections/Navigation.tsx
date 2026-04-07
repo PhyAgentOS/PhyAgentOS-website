@@ -10,6 +10,7 @@ const navItems = [
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const logoSrc = `${import.meta.env.BASE_URL}LOGO.png`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,9 +51,11 @@ export default function Navigation() {
               }}
             >
               <img
-                src="/LOGO.png"
+                src={logoSrc}
                 alt="PhyAgentOS logo"
                 className="h-8 w-8 sm:h-9 sm:w-9 rounded-lg object-contain"
+                loading="eager"
+                decoding="async"
               />
               <span className="font-display font-semibold text-white hidden sm:block">
                 PhyAgentOS

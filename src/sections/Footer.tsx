@@ -13,6 +13,8 @@ const resources = [
 ];
 
 export default function Footer() {
+  const logoSrc = `${import.meta.env.BASE_URL}LOGO.png`;
+
   return (
     <footer className="relative bg-brand-bg-light overflow-hidden">
       {/* Grid background */}
@@ -25,9 +27,11 @@ export default function Footer() {
             <div className="lg:col-span-2 space-y-6">
               <div className="flex items-center gap-3">
                 <img
-                  src="/LOGO.png"
+                  src={logoSrc}
                   alt="PhyAgentOS logo"
                   className="h-10 w-10 rounded-lg object-contain"
+                  loading="eager"
+                  decoding="async"
                 />
                 <div>
                   <h3 className="text-xl font-display font-bold text-brand-text-dark">PhyAgentOS</h3>
