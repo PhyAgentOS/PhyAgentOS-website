@@ -1,6 +1,195 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import gsap from 'gsap';
+
+type HeroAgent = {
+  name: string;
+  status: 'running' | 'idle' | 'error';
+  type: string;
+  sdkVersion: string;
+  hardware: {
+    controller: string;
+    sensors: string[];
+    actuator: string;
+  };
+};
+
+type HeroTask = {
+  name: string;
+  status: 'queued' | 'running' | 'blocked' | 'done';
+  assignedAgents: string[];
+  sequence: string[];
+};
+
+type HeroSkill = {
+  name: string;
+  level: string;
+  cooldown: string;
+  assignedAgents: string[];
+};
+
+type EnvironmentNode = {
+  agent: string;
+  position: string;
+  state: 'ready' | 'moving' | 'charging' | 'error';
+};
+
+type HeroEnvironment = {
+  scene: string;
+  weather: string;
+  floor: string;
+  nodes: EnvironmentNode[];
+};
+
+type HeroContent = {
+  announcement: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  primaryCta: {
+    label: string;
+    href: string;
+  };
+  secondaryCta: {
+    label: string;
+    href: string;
+  };
+  workspaceName: string;
+  workspaceSectionLabel: string;
+  sidebarItems: string[];
+  agents: HeroAgent[];
+  tasks: HeroTask[];
+  skills: HeroSkill[];
+  environment: HeroEnvironment;
+};
+
+const fallbackContent: HeroContent = {
+  announcement: 'Introducing PhyAgentOS: The Embodied AI Framework',
+  title: 'Where Intelligence\nMeets Physics',
+  subtitle: 'PhyAgentOS',
+  description:
+    'Build, deploy and orchestrate embodied AI agents across the four key components of physical intelligence: Perception, Cognition, Action and Learning.',
+  primaryCta: {
+    label: 'Get Started',
+    href: 'https://github.com/SYSU-HCP-EAI/PhyAgentOS/blob/main/docs/USER_MANUAL.md',
+  },
+  secondaryCta: {
+    label: 'Explore Docs',
+    href: 'https://github.com/SYSU-HCP-EAI/PhyAgentOS/blob/main/docs/plans/Report.md',
+  },
+  workspaceName: 'phyagentos.workspace',
+  workspaceSectionLabel: 'Workspace',
+  sidebarItems: ['Overview', 'Agents', 'Tasks', 'Skills', 'Environment'],
+  agents: [
+    {
+      name: 'AgileX PIPER',
+      status: 'running',
+      type: 'Arm',
+      sdkVersion: 'agilex-sdk@2.4.1',
+      hardware: {
+        controller: 'Jetson Orin NX',
+        sensors: ['RGB-D Camera', '6-axis F/T Sensor'],
+        actuator: '6-DoF Servo Arm',
+      },
+    },
+    {
+      name: 'Unitree GO2',
+      status: 'idle',
+      type: 'Quadruped',
+      sdkVersion: 'unitree-sdk@3.8.0',
+      hardware: {
+        controller: 'Unitree Mainboard',
+        sensors: ['LiDAR', 'Stereo Camera', 'IMU'],
+        actuator: '12 Joint Motors',
+      },
+    },
+    {
+      name: 'DoBot NOVA 2',
+      status: 'running',
+      type: 'Arm',
+      sdkVersion: 'dobot-api@1.9.3',
+      hardware: {
+        controller: 'x86 IPC',
+        sensors: ['Wrist Camera', 'Proximity Sensor'],
+        actuator: '4-DoF Collaborative Arm',
+      },
+    },
+    {
+      name: 'FRANKA R3',
+      status: 'error',
+      type: 'Arm',
+      sdkVersion: 'franka-ros@0.11.0',
+      hardware: {
+        controller: 'Franka Control Unit',
+        sensors: ['Joint Torque Sensor', 'Depth Camera'],
+        actuator: '7-DoF Precision Arm',
+      },
+    },
+  ],
+  tasks: [
+    {
+      name: 'Fruit Harvest Pipeline',
+      status: 'running',
+      assignedAgents: ['Unitree GO2', 'DoBot NOVA 2'],
+      sequence: ['Perceive orchard rows', 'Pick ripe fruits', 'Deliver to basket'],
+    },
+    {
+      name: 'Tea Service Routine',
+      status: 'queued',
+      assignedAgents: ['AgileX PIPER'],
+      sequence: ['Fetch cup', 'Boil water', 'Steep and serve'],
+    },
+    {
+      name: 'Waste Disposal Loop',
+      status: 'running',
+      assignedAgents: ['Unitree GO2', 'FRANKA R3'],
+      sequence: ['Detect bins', 'Sort trash', 'Transport to station'],
+    },
+  ],
+  skills: [
+    {
+      name: 'One-click Deployment',
+      level: 'L5',
+      cooldown: '0s',
+      assignedAgents: ['AgileX PIPER', 'DoBot NOVA 2'],
+    },
+    {
+      name: 'Fruit Picking',
+      level: 'L4',
+      cooldown: '6s',
+      assignedAgents: ['DoBot NOVA 2', 'FRANKA R3'],
+    },
+    {
+      name: 'Tea Brewing',
+      level: 'L3',
+      cooldown: '15s',
+      assignedAgents: ['AgileX PIPER'],
+    },
+    {
+      name: 'Trash Throwing',
+      level: 'L4',
+      cooldown: '4s',
+      assignedAgents: ['Unitree GO2'],
+    },
+    {
+      name: 'Desk Cleaning',
+      level: 'L5',
+      cooldown: '8s',
+      assignedAgents: ['FRANKA R3', 'AgileX PIPER'],
+    },
+  ],
+  environment: {
+    scene: 'Kitchen-Lab A',
+    weather: 'Indoor stable',
+    floor: 'Epoxy + anti-slip mat',
+    nodes: [
+      { agent: 'AgileX PIPER', position: '(2.2m, 1.1m)', state: 'ready' },
+      { agent: 'Unitree GO2', position: '(5.8m, 3.4m)', state: 'moving' },
+      { agent: 'DoBot NOVA 2', position: '(4.1m, 2.6m)', state: 'ready' },
+      { agent: 'FRANKA R3', position: '(1.3m, 4.7m)', state: 'error' },
+    ],
+  },
+};
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
@@ -10,8 +199,54 @@ export default function Hero() {
   const descRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
   const mockupRef = useRef<HTMLDivElement>(null);
+  const [content, setContent] = useState<HeroContent>(fallbackContent);
+  const titleLines = content.title.split('\n');
 
   useEffect(() => {
+    const controller = new AbortController();
+
+    const loadContent = async () => {
+      try {
+        const response = await fetch('/content/hero.json', { signal: controller.signal });
+
+        if (!response.ok) {
+          throw new Error(`Failed to load hero content: ${response.status}`);
+        }
+
+        const data = (await response.json()) as Partial<HeroContent>;
+
+        setContent(previousContent => ({
+          ...previousContent,
+          ...data,
+          primaryCta: {
+            ...previousContent.primaryCta,
+            ...data.primaryCta,
+          },
+          secondaryCta: {
+            ...previousContent.secondaryCta,
+            ...data.secondaryCta,
+          },
+          sidebarItems: data.sidebarItems ?? previousContent.sidebarItems,
+          agents: data.agents ?? previousContent.agents,
+          tasks: data.tasks ?? previousContent.tasks,
+          skills: data.skills ?? previousContent.skills,
+          environment: {
+            ...previousContent.environment,
+            ...data.environment,
+            nodes: data.environment?.nodes ?? previousContent.environment.nodes,
+          },
+        }));
+      } catch (error) {
+        if (controller.signal.aborted) {
+          return;
+        }
+
+        console.error('Unable to load hero content from /content/hero.json', error);
+      }
+    };
+
+    loadContent();
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ delay: 0.3 });
       
@@ -63,7 +298,10 @@ export default function Hero() {
       }
     }, heroRef);
 
-    return () => ctx.revert();
+    return () => {
+      controller.abort();
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -95,7 +333,7 @@ export default function Hero() {
             className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 backdrop-blur-sm rounded-full border border-white/20 mb-8 cursor-pointer hover:bg-black/70 transition-colors"
           >
             <Sparkles className="w-4 h-4 text-brand-accent" />
-            <span className="text-sm text-white/90">Introducing PhyAgentOS: The Embodied AI Framework</span>
+            <span className="text-sm text-white/90">{content.announcement}</span>
             <ArrowRight className="w-4 h-4 text-white/60" />
           </a>
           
@@ -104,9 +342,12 @@ export default function Hero() {
             ref={titleRef}
             className="text-5xl sm:text-6xl lg:text-7xl font-display font-bold text-white tracking-tight mb-4"
           >
-            Where Intelligence
-            <br />
-            Meets Physics
+            {titleLines.map((line, index) => (
+              <span key={`${line}-${index}`}>
+                {line}
+                {index < titleLines.length - 1 && <br />}
+              </span>
+            ))}
           </h1>
           
           {/* Subtitle */}
@@ -114,7 +355,7 @@ export default function Hero() {
             ref={subtitleRef}
             className="text-xl sm:text-2xl text-white/80 mb-6"
           >
-            PhyAgentOS
+            {content.subtitle}
           </p>
           
           {/* Description */}
@@ -122,28 +363,27 @@ export default function Hero() {
             ref={descRef}
             className="text-base sm:text-lg text-white/60 max-w-2xl mx-auto leading-relaxed mb-10"
           >
-            Build, deploy and orchestrate embodied AI agents across the four key components of
-            physical intelligence: Perception, Cognition, Action and Learning.
+            {content.description}
           </p>
           
           {/* Buttons */}
           <div ref={buttonsRef} className="flex flex-wrap justify-center gap-4">
             <a
-              href="https://github.com/SYSU-HCP-EAI/PhyAgentOS/blob/main/docs/USER_MANUAL.md"
+              href={content.primaryCta.href}
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3 bg-brand-accent hover:bg-brand-accent-light text-white font-medium rounded-lg transition-all duration-300 flex items-center gap-2 group"
             >
-              Get Started
+              {content.primaryCta.label}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
             <a
-              href="https://github.com/SYSU-HCP-EAI/PhyAgentOS/blob/main/docs/plans/Report.md"
+              href={content.secondaryCta.href}
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-medium rounded-lg border border-white/20 transition-all duration-300"
             >
-              Explore Docs
+              {content.secondaryCta.label}
             </a>
           </div>
         </div>
@@ -164,7 +404,7 @@ export default function Hero() {
             </div>
             <div className="flex-1 flex justify-center">
               <div className="px-4 py-1 bg-black/50 rounded-md text-xs text-white/50 font-mono">
-                phyagentos.workspace
+                {content.workspaceName}
               </div>
             </div>
           </div>
@@ -173,8 +413,8 @@ export default function Hero() {
           <div className="bg-[#0a0a0a] p-6 grid grid-cols-12 gap-4">
             {/* Sidebar */}
             <div className="col-span-3 space-y-2">
-              <div className="text-xs font-mono text-white/40 uppercase mb-3">Workspace</div>
-              {['Overview', 'Agents', 'Tasks', 'Skills', 'Environment'].map((item, i) => (
+              <div className="text-xs font-mono text-white/40 uppercase mb-3">{content.workspaceSectionLabel}</div>
+              {content.sidebarItems.map((item, i) => (
                 <div 
                   key={item}
                   className={`px-3 py-2 rounded-md text-sm ${i === 0 ? 'bg-brand-accent/20 text-brand-accent' : 'text-white/60 hover:bg-white/5'}`}
@@ -185,44 +425,94 @@ export default function Hero() {
             </div>
             
             {/* Main Content */}
-            <div className="col-span-6 space-y-4">
-              <div className="text-lg font-medium text-white mb-4">Active Agents</div>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { name: 'AgileX PIPER', status: 'running', type: 'Arm' },
-                  { name: 'Unitree GO2', status: 'idle', type: 'Quadruped' },
-                  { name: 'DoBot NOVA 2', status: 'running', type: 'Arm' },
-                  { name: 'FRANKA R3', status: 'error', type: 'Arm' },
-                ].map((agent) => (
-                  <div key={agent.name} className="bg-white/5 rounded-lg p-4 border border-white/10">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-white">{agent.name}</span>
-                      <span className={`w-2 h-2 rounded-full ${
-                        agent.status === 'running' ? 'bg-green-500' : 
-                        agent.status === 'error' ? 'bg-red-500' : 'bg-yellow-500'
-                      }`} />
-                    </div>
-                    <div className="text-xs text-white/50">{agent.type}</div>
+            <div className="col-span-9 space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white/5 rounded-lg border border-white/10 p-4">
+                  <div className="text-xs font-mono text-white/40 uppercase mb-3">Agents</div>
+                  <div className="space-y-3">
+                    {content.agents.map((agent) => (
+                      <div key={agent.name} className="rounded-md border border-white/10 bg-black/30 p-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-white">{agent.name}</span>
+                          <span className={`w-2 h-2 rounded-full ${
+                            agent.status === 'running' ? 'bg-green-500' :
+                            agent.status === 'error' ? 'bg-red-500' : 'bg-yellow-500'
+                          }`} />
+                        </div>
+                        <div className="text-xs text-white/60">{agent.type} · {agent.sdkVersion}</div>
+                        <div className="text-xs text-white/50 mt-1">HW: {agent.hardware.controller}</div>
+                        <div className="text-xs text-white/50">Sensors: {agent.hardware.sensors.join(', ')}</div>
+                        <div className="text-xs text-white/50">Actuator: {agent.hardware.actuator}</div>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
+
+                <div className="bg-white/5 rounded-lg border border-white/10 p-4">
+                  <div className="text-xs font-mono text-white/40 uppercase mb-3">Tasks</div>
+                  <div className="space-y-3">
+                    {content.tasks.map(task => (
+                      <div key={task.name} className="rounded-md border border-white/10 bg-black/30 p-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-white">{task.name}</span>
+                          <span className={`text-[10px] uppercase ${
+                            task.status === 'running'
+                              ? 'text-green-400'
+                              : task.status === 'done'
+                                ? 'text-cyan-400'
+                                : task.status === 'blocked'
+                                  ? 'text-red-400'
+                                  : 'text-yellow-400'
+                          }`}>{task.status}</span>
+                        </div>
+                        <div className="text-xs text-white/50">Agents: {task.assignedAgents.join(', ')}</div>
+                        <div className="text-xs text-white/50 mt-1">{task.sequence.join(' -> ')}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
-            
-            {/* Right Panel */}
-            <div className="col-span-3 space-y-4">
-              <div className="text-xs font-mono text-white/40 uppercase mb-3">System Status</div>
-              <div className="space-y-3">
-                <div className="flex justify-between text-sm">
-                  <span className="text-white/60">Agents</span>
-                  <span className="text-white">4</span>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white/5 rounded-lg border border-white/10 p-4">
+                  <div className="text-xs font-mono text-white/40 uppercase mb-3">Skills</div>
+                  <div className="space-y-2">
+                    {content.skills.map(skill => (
+                      <div key={skill.name} className="rounded-md border border-white/10 bg-black/30 p-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-white">{skill.name}</span>
+                          <span className="text-[10px] text-brand-accent">{skill.level}</span>
+                        </div>
+                        <div className="text-xs text-white/50 mt-1">Cooldown: {skill.cooldown}</div>
+                        <div className="text-xs text-white/50">Agents: {skill.assignedAgents.join(', ')}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-white/60">Tasks</span>
-                  <span className="text-white">12</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-white/60">Skills</span>
-                  <span className="text-white">28</span>
+
+                <div className="bg-white/5 rounded-lg border border-white/10 p-4">
+                  <div className="text-xs font-mono text-white/40 uppercase mb-3">Environment</div>
+                  <div className="rounded-md border border-white/10 bg-black/30 p-3 mb-3">
+                    <div className="text-sm text-white">{content.environment.scene}</div>
+                    <div className="text-xs text-white/50">{content.environment.weather} · {content.environment.floor}</div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {content.environment.nodes.map(node => (
+                      <div key={node.agent} className="rounded-md border border-white/10 bg-black/30 p-2">
+                        <div className="text-xs text-white">{node.agent}</div>
+                        <div className="text-[11px] text-white/50">{node.position}</div>
+                        <div className={`text-[10px] uppercase mt-1 ${
+                          node.state === 'moving'
+                            ? 'text-cyan-400'
+                            : node.state === 'error'
+                              ? 'text-red-400'
+                              : node.state === 'charging'
+                                ? 'text-yellow-400'
+                                : 'text-green-400'
+                        }`}>{node.state}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

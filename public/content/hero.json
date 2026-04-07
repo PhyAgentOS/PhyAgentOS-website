@@ -1,0 +1,126 @@
+{
+  "announcement": "Introducing PhyAgentOS: The Embodied AI Framework",
+  "title": "Where Intelligence\nMeets Physics",
+  "subtitle": "PhyAgentOS",
+  "description": "Build, deploy and orchestrate embodied AI agents across the four key components of physical intelligence: Perception, Cognition, Action and Learning.",
+  "primaryCta": {
+    "label": "Get Started",
+    "href": "https://github.com/SYSU-HCP-EAI/PhyAgentOS/blob/main/docs/USER_MANUAL.md"
+  },
+  "secondaryCta": {
+    "label": "Explore Docs",
+    "href": "https://github.com/SYSU-HCP-EAI/PhyAgentOS/blob/main/docs/plans/Report.md"
+  },
+  "workspaceName": "phyagentos.workspace",
+  "workspaceSectionLabel": "Workspace",
+  "sidebarItems": ["Overview", "Agents", "Tasks", "Skills", "Environment"],
+  "agents": [
+    {
+      "name": "AgileX PIPER",
+      "status": "running",
+      "type": "Arm",
+      "sdkVersion": "agilex-sdk@2.4.1",
+      "hardware": {
+        "controller": "Jetson Orin NX",
+        "sensors": ["RGB-D Camera", "6-axis F/T Sensor"],
+        "actuator": "6-DoF Servo Arm"
+      }
+    },
+    {
+      "name": "Unitree GO2",
+      "status": "idle",
+      "type": "Quadruped",
+      "sdkVersion": "unitree-sdk@3.8.0",
+      "hardware": {
+        "controller": "Unitree Mainboard",
+        "sensors": ["LiDAR", "Stereo Camera", "IMU"],
+        "actuator": "12 Joint Motors"
+      }
+    },
+    {
+      "name": "DoBot NOVA 2",
+      "status": "running",
+      "type": "Arm",
+      "sdkVersion": "dobot-api@1.9.3",
+      "hardware": {
+        "controller": "x86 IPC",
+        "sensors": ["Wrist Camera", "Proximity Sensor"],
+        "actuator": "4-DoF Collaborative Arm"
+      }
+    },
+    {
+      "name": "FRANKA R3",
+      "status": "error",
+      "type": "Arm",
+      "sdkVersion": "franka-ros@0.11.0",
+      "hardware": {
+        "controller": "Franka Control Unit",
+        "sensors": ["Joint Torque Sensor", "Depth Camera"],
+        "actuator": "7-DoF Precision Arm"
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "name": "Fruit Harvest Pipeline",
+      "status": "running",
+      "assignedAgents": ["Unitree GO2", "DoBot NOVA 2"],
+      "sequence": ["Perceive orchard rows", "Pick ripe fruits", "Deliver to basket"]
+    },
+    {
+      "name": "Tea Service Routine",
+      "status": "queued",
+      "assignedAgents": ["AgileX PIPER"],
+      "sequence": ["Fetch cup", "Boil water", "Steep and serve"]
+    },
+    {
+      "name": "Waste Disposal Loop",
+      "status": "running",
+      "assignedAgents": ["Unitree GO2", "FRANKA R3"],
+      "sequence": ["Detect bins", "Sort trash", "Transport to station"]
+    }
+  ],
+  "skills": [
+    {
+      "name": "One-click Deployment",
+      "level": "L5",
+      "cooldown": "0s",
+      "assignedAgents": ["AgileX PIPER", "DoBot NOVA 2"]
+    },
+    {
+      "name": "Fruit Picking",
+      "level": "L4",
+      "cooldown": "6s",
+      "assignedAgents": ["DoBot NOVA 2", "FRANKA R3"]
+    },
+    {
+      "name": "Tea Brewing",
+      "level": "L3",
+      "cooldown": "15s",
+      "assignedAgents": ["AgileX PIPER"]
+    },
+    {
+      "name": "Trash Throwing",
+      "level": "L4",
+      "cooldown": "4s",
+      "assignedAgents": ["Unitree GO2"]
+    },
+    {
+      "name": "Desk Cleaning",
+      "level": "L5",
+      "cooldown": "8s",
+      "assignedAgents": ["FRANKA R3", "AgileX PIPER"]
+    }
+  ],
+  "environment": {
+    "scene": "Kitchen-Lab A",
+    "weather": "Indoor stable",
+    "floor": "Epoxy + anti-slip mat",
+    "nodes": [
+      { "agent": "AgileX PIPER", "position": "(2.2m, 1.1m)", "state": "ready" },
+      { "agent": "Unitree GO2", "position": "(5.8m, 3.4m)", "state": "moving" },
+      { "agent": "DoBot NOVA 2", "position": "(4.1m, 2.6m)", "state": "ready" },
+      { "agent": "FRANKA R3", "position": "(1.3m, 4.7m)", "state": "error" }
+    ]
+  }
+}
