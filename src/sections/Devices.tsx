@@ -31,14 +31,14 @@ const devices = [
     name: 'Franka Research 3',
     type: 'Industrial Arm',
     image: '/franka.png',
-    status: 'untested',
-    description: 'Driver protocol integration in progress',
+    status: 'verified',
+    description: 'Driver protocol integration supported',
   },
   {
     name: 'XLeRobot',
     type: 'Dual Arm',
     image: '/XLeRobot.png',
-    status: 'partial',
+    status: 'verified',
     description: 'Dual-arm operation protocol supported',
   },
   {
