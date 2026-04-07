@@ -200,7 +200,21 @@ export default function Hero() {
   const buttonsRef = useRef<HTMLDivElement>(null);
   const mockupRef = useRef<HTMLDivElement>(null);
   const [content, setContent] = useState<HeroContent>(fallbackContent);
+  const [activeWorkspaceTab, setActiveWorkspaceTab] = useState('Overview');
   const titleLines = content.title.split('\n');
+
+  const runningAgentCount = content.agents.filter(agent => agent.status === 'running').length;
+  const runningTaskCount = content.tasks.filter(task => task.status === 'running').length;
+
+  useEffect(() => {
+    if (content.sidebarItems.length === 0) {
+      return;
+    }
+
+    if (!content.sidebarItems.includes(activeWorkspaceTab)) {
+      setActiveWorkspaceTab(content.sidebarItems[0]);
+    }
+  }, [activeWorkspaceTab, content.sidebarItems]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -414,22 +428,44 @@ export default function Hero() {
             {/* Sidebar */}
             <div className="col-span-3 space-y-2">
               <div className="text-xs font-mono text-white/40 uppercase mb-3">{content.workspaceSectionLabel}</div>
-              {content.sidebarItems.map((item, i) => (
-                <div 
+              {content.sidebarItems.map(item => (
+                <button
+                  type="button"
                   key={item}
-                  className={`px-3 py-2 rounded-md text-sm ${i === 0 ? 'bg-brand-accent/20 text-brand-accent' : 'text-white/60 hover:bg-white/5'}`}
+                  onClick={() => setActiveWorkspaceTab(item)}
+                  className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${activeWorkspaceTab === item ? 'bg-brand-accent/20 text-brand-accent' : 'text-white/60 hover:bg-white/5'}`}
                 >
                   {item}
-                </div>
+                </button>
               ))}
             </div>
             
             {/* Main Content */}
             <div className="col-span-9 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              {activeWorkspaceTab === 'Overview' && (
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="bg-white/5 rounded-lg border border-white/10 p-4">
+                    <div className="text-xs font-mono text-white/40 uppercase mb-2">Agents</div>
+                    <div className="text-2xl text-white font-semibold">{content.agents.length}</div>
+                    <div className="text-xs text-white/50 mt-1">Running: {runningAgentCount}</div>
+                  </div>
+                  <div className="bg-white/5 rounded-lg border border-white/10 p-4">
+                    <div className="text-xs font-mono text-white/40 uppercase mb-2">Tasks</div>
+                    <div className="text-2xl text-white font-semibold">{content.tasks.length}</div>
+                    <div className="text-xs text-white/50 mt-1">Running: {runningTaskCount}</div>
+                  </div>
+                  <div className="bg-white/5 rounded-lg border border-white/10 p-4">
+                    <div className="text-xs font-mono text-white/40 uppercase mb-2">Skills</div>
+                    <div className="text-2xl text-white font-semibold">{content.skills.length}</div>
+                    <div className="text-xs text-white/50 mt-1">Scene: {content.environment.scene}</div>
+                  </div>
+                </div>
+              )}
+
+              {activeWorkspaceTab === 'Agents' && (
                 <div className="bg-white/5 rounded-lg border border-white/10 p-4">
                   <div className="text-xs font-mono text-white/40 uppercase mb-3">Agents</div>
-                  <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-3">
                     {content.agents.map((agent) => (
                       <div key={agent.name} className="rounded-md border border-white/10 bg-black/30 p-3">
                         <div className="flex items-center justify-between mb-2">
@@ -447,7 +483,9 @@ export default function Hero() {
                     ))}
                   </div>
                 </div>
+              )}
 
+              {activeWorkspaceTab === 'Tasks' && (
                 <div className="bg-white/5 rounded-lg border border-white/10 p-4">
                   <div className="text-xs font-mono text-white/40 uppercase mb-3">Tasks</div>
                   <div className="space-y-3">
@@ -471,12 +509,12 @@ export default function Hero() {
                     ))}
                   </div>
                 </div>
-              </div>
+              )}
 
-              <div className="grid grid-cols-2 gap-4">
+              {activeWorkspaceTab === 'Skills' && (
                 <div className="bg-white/5 rounded-lg border border-white/10 p-4">
                   <div className="text-xs font-mono text-white/40 uppercase mb-3">Skills</div>
-                  <div className="space-y-2">
+                  <div className="grid grid-cols-2 gap-3">
                     {content.skills.map(skill => (
                       <div key={skill.name} className="rounded-md border border-white/10 bg-black/30 p-3">
                         <div className="flex items-center justify-between">
@@ -489,7 +527,9 @@ export default function Hero() {
                     ))}
                   </div>
                 </div>
+              )}
 
+              {activeWorkspaceTab === 'Environment' && (
                 <div className="bg-white/5 rounded-lg border border-white/10 p-4">
                   <div className="text-xs font-mono text-white/40 uppercase mb-3">Environment</div>
                   <div className="rounded-md border border-white/10 bg-black/30 p-3 mb-3">
@@ -514,7 +554,7 @@ export default function Hero() {
                     ))}
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
