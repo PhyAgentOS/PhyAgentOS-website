@@ -24,9 +24,11 @@ export default function Footer() {
             {/* Brand */}
             <div className="lg:col-span-2 space-y-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-brand-accent flex items-center justify-center">
-                  <span className="text-white font-display font-bold text-lg">P</span>
-                </div>
+                <img
+                  src="/LOGO.png"
+                  alt="PhyAgentOS logo"
+                  className="h-10 w-10 rounded-lg object-contain"
+                />
                 <div>
                   <h3 className="text-xl font-display font-bold text-brand-text-dark">PhyAgentOS</h3>
                   <p className="text-sm font-mono text-brand-text-dark/50">Physical Agent OS</p>

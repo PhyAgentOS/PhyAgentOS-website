@@ -49,9 +49,11 @@ export default function Navigation() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
-              <div className="w-8 h-8 rounded-lg bg-brand-accent flex items-center justify-center">
-                <span className="text-white font-display font-bold">P</span>
-              </div>
+              <img
+                src="/LOGO.png"
+                alt="PhyAgentOS logo"
+                className="h-8 w-8 sm:h-9 sm:w-9 rounded-lg object-contain"
+              />
               <span className="font-display font-semibold text-white hidden sm:block">
                 PhyAgentOS
               </span>

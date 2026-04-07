@@ -74,7 +74,7 @@ export default function VideoDemo() {
               {/* Video */}
               <video
                 ref={videoRef}
-                src="/demo.webm"
+                src="/demo.mp4"
                 className="w-full h-auto aspect-video"
                 autoPlay
                 loop
