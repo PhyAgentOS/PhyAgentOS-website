@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhyAgentOS Architecture Overview</title>
+  <style>
+    :root {
+      --bg: #f5efe6;
+      --paper: #fffaf3;
+      --ink: #1d2a30;
+      --muted: #66757d;
+      --line: #20323a;
+      --brain: #dff0e6;
+      --protocol: #f8e5b7;
+      --safe: #f6d0c3;
+      --hal: #dbe8f7;
+      --return: #ece3f6;
+      --accent: #b65c34;
+      --shadow: 0 20px 60px rgba(29, 42, 48, 0.10);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 8% 0%, rgba(182, 92, 52, 0.12), transparent 24%),
+        radial-gradient(circle at 100% 18%, rgba(76, 125, 178, 0.10), transparent 24%),
+        linear-gradient(180deg, #fbf6ee 0%, var(--bg) 100%);
+      padding-top: 64px;
+    }
+
+    /* Navigation Bar */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(29, 42, 48, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-container {
+      max-width: 1680px;
+      margin: 0 auto;
+      padding: 0 26px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: white;
+    }
+
+    .nav-brand img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+
+    .nav-brand span {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-link {
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-cta {
+      padding: 8px 16px;
+      background: var(--accent);
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .nav-cta:hover {
+      background: #c96a40;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .nav-container {
+        padding: 0 16px;
+      }
+    }
+
+    .page {
+      width: min(1680px, calc(100vw - 28px));
+      margin: 18px auto 30px;
+      padding: 26px 26px 30px;
+      background: rgba(255, 250, 243, 0.93);
+      border: 1px solid rgba(29, 42, 48, 0.10);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 36px;
+      line-height: 1.06;
+      letter-spacing: -0.03em;
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      max-width: 1100px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(29, 42, 48, 0.12);
+      background: #fff;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot.brain { background: #5f9e77; }
+    .dot.protocol { background: #cc951e; }
+    .dot.safe { background: #ca6a49; }
+    .dot.hal { background: #4b7eb4; }
+    .dot.return { background: #7f62ac; }
+
+    .figure {
+      position: relative;
+      padding: 34px 18px 138px;
+      border-radius: 28px;
+      border: 1px solid rgba(29, 42, 48, 0.10);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.62) 100%);
+      overflow: hidden;
+    }
+
+    .band-labels {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(170px, 1fr));
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .band {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .main-chain {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(170px, 1fr));
+      gap: 14px;
+      align-items: stretch;
+      position: relative;
+      z-index: 2;
+    }
+
+    .node {
+      position: relative;
+      padding: 18px 16px 16px;
+      border-radius: var(--radius);
+      border: 2px solid rgba(29, 42, 48, 0.12);
+      min-height: 220px;
+      background: var(--paper);
+      box-shadow: 0 10px 24px rgba(29, 42, 48, 0.05);
+    }
+
+    .node h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .node p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .node ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .brain {
+      background: linear-gradient(180deg, #edf8f0 0%, var(--brain) 100%);
+    }
+
+    .protocol {
+      background: linear-gradient(180deg, #fff6de 0%, var(--protocol) 100%);
+    }
+
+    .safe {
+      background: linear-gradient(180deg, #fdebe4 0%, var(--safe) 100%);
+    }
+
+    .hal {
+      background: linear-gradient(180deg, #eef5fd 0%, var(--hal) 100%);
+    }
+
+    .return {
+      background: linear-gradient(180deg, #f4eefc 0%, var(--return) 100%);
+    }
+
+    .arrow-row {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(170px, 1fr));
+      gap: 14px;
+      margin: 10px 0 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .arrow {
+      height: 38px;
+      position: relative;
+    }
+
+    .arrow::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      top: 18px;
+      height: 2px;
+      background: var(--line);
+    }
+
+    .arrow::after {
+      content: "";
+      position: absolute;
+      right: 10px;
+      top: 13px;
+      width: 10px;
+      height: 10px;
+      border-top: 2px solid var(--line);
+      border-right: 2px solid var(--line);
+      transform: rotate(45deg);
+    }
+
+    .arrow span {
+      position: absolute;
+      left: 14px;
+      top: -1px;
+      padding: 2px 8px;
+      background: rgba(255, 250, 243, 0.98);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .return-lane {
+      position: absolute;
+      left: 62px;
+      right: 62px;
+      bottom: 52px;
+      height: 84px;
+      border-bottom: 3px solid #7f62ac;
+      border-left: 3px solid #7f62ac;
+      border-right: 3px solid #7f62ac;
+      border-radius: 0 0 32px 32px;
+      opacity: 0.92;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .return-arrow-head {
+      position: absolute;
+      left: 58px;
+      bottom: 130px;
+      width: 16px;
+      height: 16px;
+      border-left: 3px solid #7f62ac;
+      border-top: 3px solid #7f62ac;
+      transform: rotate(-45deg);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .return-text {
+      position: absolute;
+      right: 90px;
+      bottom: 18px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(244, 238, 252, 0.96);
+      border: 1px solid rgba(127, 98, 172, 0.30);
+      color: #6d54a0;
+      font-size: 13px;
+      z-index: 2;
+    }
+
+    .protocol-strip {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1.2fr;
+      gap: 16px;
+    }
+
+    .panel {
+      padding: 18px 18px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(29, 42, 48, 0.10);
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .panel h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .panel p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .panel ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .scenario {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 22px;
+      border: 1px solid rgba(29, 42, 48, 0.10);
+      background: rgba(255,255,255,0.76);
+    }
+
+    .scenario h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .scenario p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .scenario-flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(29, 42, 48, 0.12);
+      background: white;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .scenario-arrow {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    @media (max-width: 1420px) {
+      .band-labels,
+      .main-chain,
+      .arrow-row {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      .return-lane,
+      .return-arrow-head,
+      .return-text {
+        display: none;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .main-chain,
+      .band-labels,
+      .arrow-row,
+      .protocol-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        width: min(100vw - 14px, 1680px);
+        padding: 18px 14px 22px;
+      }
+
+      .figure {
+        padding: 18px 12px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../" class="nav-brand">
+        <img src="../LOGO.png" alt="PhyAgentOS Logo">
+        <span>PhyAgentOS</span>
+      </a>
+      <div class="nav-links">
+        <a href="../#features" class="nav-link">Features</a>
+        <a href="../#architecture" class="nav-link">Architecture</a>
+        <a href="../#devices" class="nav-link">Devices</a>
+        <a href="./" class="nav-link" style="color: white; background: rgba(255,255,255,0.1);">Docs</a>
+      </div>
+      <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <h1>PhyAgentOS 当前项目真实结构总图</h1>
+    <p class="subtitle">
+      这张图采用“横向主链 + 回环箭头”的系统总图表达方式。中间主链展示一次请求如何推进到物理执行，
+      底部回环箭头强调执行结果如何重新变成下一轮认知输入，因此它更接近论文或汇报中的 architecture overview。
+    </p>
+
+    <section class="legend">
+      <div class="tag"><span class="dot brain"></span>认知编排层</div>
+      <div class="tag"><span class="dot protocol"></span>文件协议层</div>
+      <div class="tag"><span class="dot safe"></span>安全校验层</div>
+      <div class="tag"><span class="dot hal"></span>HAL 执行层</div>
+      <div class="tag"><span class="dot return"></span>状态回流层</div>
+    </section>
+
+    <section class="figure">
+      <div class="band-labels">
+        <div class="band">Input</div>
+        <div class="band">Context</div>
+        <div class="band">Tool Planning</div>
+        <div class="band">Protocol Mapping</div>
+        <div class="band">Critic Gate</div>
+        <div class="band">HAL Execution</div>
+      </div>
+
+      <div class="main-chain">
+        <article class="node brain">
+          <h2>1. 用户与通道输入</h2>
+          <p>来自 CLI 或 gateway 通道的请求首先被标准化成统一消息事件。</p>
+          <ul>
+            <li>`paos agent` / `paos gateway`</li>
+            <li>Telegram / Slack / QQ / WhatsApp</li>
+            <li>`InboundMessage` -> `MessageBus`</li>
+          </ul>
+        </article>
+
+        <article class="node brain">
+          <h2>2. AgentLoop 组装上下文</h2>
+          <p>系统读取会话历史、记忆和 workspace 中的协议文件，构成本轮推理输入。</p>
+          <ul>
+            <li>`ContextBuilder`</li>
+            <li>`SessionManager`</li>
+            <li>`MEMORY.md` / `HISTORY.md`</li>
+            <li>`ENVIRONMENT.md` / `EMBODIED.md` / `ROBOTS.md`</li>
+          </ul>
+        </article>
+
+        <article class="node brain">
+          <h2>3. 模型选择工具链</h2>
+          <p>LLM 不直接调用硬件接口，而是通过工具把高层目标表达成可验证的操作意图。</p>
+          <ul>
+            <li>`query_scene_graph`</li>
+            <li>`semantic_navigate`</li>
+            <li>`target_navigation`</li>
+            <li>`execute_robot_action`</li>
+          </ul>
+        </article>
+
+        <article class="node protocol">
+          <h2>4. 语义任务映射为协议动作</h2>
+          <p>系统将目标、位姿和机器人路由信息组织成标准动作参数，并准备写入动作队列。</p>
+          <ul>
+            <li>解析 target / zone / goal_pose</li>
+            <li>解析 robot workspace</li>
+            <li>落到 `ACTION.md` 的标准 schema</li>
+          </ul>
+        </article>
+
+        <article class="node safe">
+          <h2>5. Critic 决定动作是否放行</h2>
+          <p>动作真正落盘前，需要对照能力约束与当前环境进行安全与可执行性校验。</p>
+          <ul>
+            <li>读取 `EMBODIED.md`</li>
+            <li>读取 `ENVIRONMENT.md`</li>
+            <li>`VALID` 才能进入队列</li>
+            <li>`INVALID` 写入 `LESSONS.md`</li>
+          </ul>
+        </article>
+
+        <article class="node hal">
+          <h2>6. HAL Watchdog 与 Driver 执行</h2>
+          <p>执行侧轮询动作队列，通过驱动适配到仿真器或真实机器人，并更新运行状态。</p>
+          <ul>
+            <li>`hal_watchdog.py`</li>
+            <li>`BaseDriver` + built-in / plugin driver</li>
+            <li>执行导航、移动、操作等原子动作</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="arrow-row">
+        <div class="arrow"><span>标准化请求</span></div>
+        <div class="arrow"><span>读取运行上下文</span></div>
+        <div class="arrow"><span>生成工具意图</span></div>
+        <div class="arrow"><span>形成动作协议</span></div>
+        <div class="arrow"><span>动作获准进入队列</span></div>
+        <div class="arrow"><span>落地到仿真/真机</span></div>
+      </div>
+
+      <div class="return-lane"></div>
+      <div class="return-arrow-head"></div>
+      <div class="return-text">执行结果与环境状态回写后，重新进入下一轮 Agent 上下文</div>
+    </section>
+
+    <section class="protocol-strip">
+      <article class="panel protocol">
+        <h3>文件协议层是系统边界</h3>
+        <p>PhyAgentOS 当前最关键的结构设计，不是某个类，而是 workspace 文件协议。</p>
+        <ul>
+          <li>`EMBODIED.md`：能力与约束</li>
+          <li>`ENVIRONMENT.md`：环境、scene graph、robot runtime state</li>
+          <li>`ACTION.md`：待执行动作队列</li>
+          <li>`LESSONS.md`：失败经验与拒绝记录</li>
+          <li>`ROBOTS.md`：fleet 模式下的机器人索引</li>
+        </ul>
+      </article>
+
+      <article class="panel return">
+        <h3>回环逻辑</h3>
+        <p>该系统不是单向命令下发，而是标准的“状态闭环”。</p>
+        <ul>
+          <li>执行前：Agent 读取环境与能力</li>
+          <li>执行中：Watchdog 消费动作并调用 driver</li>
+          <li>执行后：动作结果和环境变化回写文件</li>
+          <li>下一轮：Agent 再读取新状态继续推理</li>
+        </ul>
+      </article>
+
+      <article class="panel hal">
+        <h3>具身扩展方式</h3>
+        <p>设备差异被 `BaseDriver` 接口与插件机制吸收，因此上层认知链可以跨本体复用。</p>
+        <ul>
+          <li>内置 driver：simulation / go2 / xlerobot</li>
+          <li>外部 plugin driver：manifest + registry 动态接入</li>
+          <li>fleet 模式：由 `EmbodimentRegistry` 做路径路由</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="scenario">
+      <h3>示例主链：让 `go2_edu_001` 走到最近的苹果附近</h3>
+      <p>
+        在这个真实场景里，系统通常会先读取 scene graph 找到苹果，再通过 `semantic_navigate`
+        生成目标位姿，随后交给 `execute_robot_action` 做 Critic 校验，最终写入目标机器人的
+        `ACTION.md`，由 watchdog 取出并执行，最后把结果更新回 `ENVIRONMENT.md`。
+      </p>
+      <div class="scenario-flow">
+        <span class="chip">用户请求</span>
+        <span class="scenario-arrow">→</span>
+        <span class="chip">读取 `ENVIRONMENT.md` / `ROBOTS.md`</span>
+        <span class="scenario-arrow">→</span>
+        <span class="chip">`query_scene_graph` 定位苹果</span>
+        <span class="scenario-arrow">→</span>
+        <span class="chip">`semantic_navigate` 生成 `goal_pose`</span>
+        <span class="scenario-arrow">→</span>
+        <span class="chip">Critic 校验</span>
+        <span class="scenario-arrow">→</span>
+        <span class="chip">写入 `ACTION.md`</span>
+        <span class="scenario-arrow">→</span>
+        <span class="chip">Watchdog + Driver 执行</span>
+        <span class="scenario-arrow">→</span>
+        <span class="chip">回写 `ENVIRONMENT.md`</span>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
