@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Reference - PhyAgentOS Documentation</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --surface-hover: #1a1a1a;
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.6);
+      --accent: #b65c34;
+      --accent-light: #d4744a;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .nav-brand img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+
+    .nav-brand span {
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .nav-categories {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 32px;
+      padding-left: 32px;
+      border-left: 1px solid var(--border);
+    }
+
+    .nav-category {
+      padding: 6px 14px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .nav-category:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-category.active {
+      color: var(--accent);
+      background: rgba(182, 92, 52, 0.1);
+    }
+
+    .nav-cta {
+      padding: 8px 16px;
+      background: var(--accent);
+      color: white;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent-light);
+    }
+
+    @media (max-width: 768px) {
+      .nav-categories {
+        display: none;
+      }
+    }
+
+    /* Main Content */
+    .main {
+      padding-top: 64px;
+      min-height: 100vh;
+    }
+
+    .hero {
+      padding: 80px 24px 60px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Coming Soon */
+    .coming-soon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 24px;
+      text-align: center;
+    }
+
+    .coming-soon-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(99, 102, 241, 0.2));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 32px;
+      font-size: 40px;
+    }
+
+    .coming-soon h2 {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .coming-soon p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin-bottom: 32px;
+    }
+
+    .coming-soon .btn {
+      padding: 12px 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .coming-soon .btn:hover {
+      background: var(--surface-hover);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .footer p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../" class="nav-brand">
+        <img src="../LOGO.png" alt="PhyAgentOS Logo">
+        <span>PhyAgentOS</span>
+      </a>
+      <div class="nav-categories">
+        <a href="./architecture.html" class="nav-category">Architecture</a>
+        <a href="./api-reference.html" class="nav-category active">API Reference</a>
+        <a href="./developer-guide.html" class="nav-category">Developer Guide</a>
+      </div>
+      <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Hero -->
+    <section class="hero">
+      <h1>API Reference</h1>
+      <p>Complete API documentation for PhyAgentOS core modules, drivers, and interfaces.</p>
+    </section>
+
+    <!-- Coming Soon -->
+    <section class="coming-soon">
+      <div class="coming-soon-icon">🔌</div>
+      <h2>Coming Soon</h2>
+      <p>
+        The API Reference documentation is currently under development. 
+        Stay tuned for comprehensive documentation of PhyAgentOS APIs.
+      </p>
+      <a href="./" class="btn">Back to Documentation Home</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        PhyAgentOS Documentation &copy; 2024 
+        &middot; <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS">GitHub</a>
+        &middot; <a href="../">Back to Home</a>
+      </p>
+    </footer>
+  </main>
+</body>
+</html>

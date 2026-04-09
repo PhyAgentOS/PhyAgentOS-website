@@ -7,32 +7,32 @@ gsap.registerPlugin(ScrollTrigger);
 
 const docItems = [
   {
-    title: '技术资料',
-    subtitle: 'Architecture',
-    description: '深入了解 PhyAgentOS 的系统架构设计，包括 State-as-a-File 协议、双轨架构和组件交互流程。',
+    title: 'Architecture',
+    subtitle: 'Technical Documentation',
+    description: 'Deep dive into PhyAgentOS system architecture design, including State-as-a-File protocol, dual-track architecture, and component interaction flows.',
     icon: BookOpen,
-    href: `${import.meta.env.BASE_URL}docs/current_architecture_flowchart.html`,
+    href: `${import.meta.env.BASE_URL}docs/architecture.html`,
     color: 'from-emerald-500/20 to-teal-500/20',
     iconColor: 'text-emerald-400',
     borderColor: 'border-emerald-500/30',
   },
   {
-    title: 'API 使用',
-    subtitle: 'API Reference',
-    description: '完整的 API 文档，涵盖核心模块、驱动接口、协议表面和工具链的详细使用说明。',
+    title: 'API Reference',
+    subtitle: 'API Documentation',
+    description: 'Complete API documentation covering core modules, driver interfaces, protocol surfaces, and toolchain usage.',
     icon: Code,
-    href: '#',
+    href: `${import.meta.env.BASE_URL}docs/api-reference.html`,
     color: 'from-blue-500/20 to-indigo-500/20',
     iconColor: 'text-blue-400',
     borderColor: 'border-blue-500/30',
     comingSoon: true,
   },
   {
-    title: '开发文档',
-    subtitle: 'Developer Guide',
-    description: '开发者指南，学习如何扩展 PhyAgentOS，创建自定义驱动和插件，以及最佳实践。',
+    title: 'Developer Guide',
+    subtitle: 'Development Guide',
+    description: 'Learn how to extend PhyAgentOS, create custom drivers and plugins, and follow best practices.',
     icon: FileCode,
-    href: '#',
+    href: `${import.meta.env.BASE_URL}docs/developer-guide.html`,
     color: 'from-amber-500/20 to-orange-500/20',
     iconColor: 'text-amber-400',
     borderColor: 'border-amber-500/30',
@@ -83,10 +83,10 @@ export default function Docs() {
             {/* Section Header */}
             <div className="text-center mb-16">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-white mb-4">
-                文档中心
+                Documentation
               </h2>
               <p className="text-lg text-white/60 max-w-2xl mx-auto">
-                探索 PhyAgentOS 的技术文档，从架构设计到 API 参考，助你快速构建具身智能应用
+                Explore PhyAgentOS technical documentation, from architecture design to API references, to help you build embodied AI applications quickly.
               </p>
             </div>
 
@@ -127,10 +127,10 @@ export default function Docs() {
                     {/* Footer */}
                     <div className="flex items-center justify-between mt-6 pt-6 border-t border-white/10">
                       {item.comingSoon ? (
-                        <span className="text-sm text-white/40">即将推出</span>
+                        <span className="text-sm text-white/40">Coming Soon</span>
                       ) : (
                         <span className={`text-sm ${item.iconColor} font-medium`}>
-                          查看文档
+                          View Documentation
                         </span>
                       )}
                       {item.comingSoon ? (

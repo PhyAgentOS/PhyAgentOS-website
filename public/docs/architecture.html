@@ -97,6 +97,35 @@
       background: rgba(255, 255, 255, 0.1);
     }
 
+    .nav-categories {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 32px;
+      padding-left: 32px;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-category {
+      padding: 6px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .nav-category:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-category.active {
+      color: #b65c34;
+      background: rgba(182, 92, 52, 0.15);
+    }
+
     .nav-cta {
       padding: 8px 16px;
       background: var(--accent);
@@ -113,7 +142,7 @@
     }
 
     @media (max-width: 768px) {
-      .nav-links {
+      .nav-links, .nav-categories {
         display: none;
       }
       .nav-container {
@@ -466,11 +495,10 @@
         <img src="../LOGO.png" alt="PhyAgentOS Logo">
         <span>PhyAgentOS</span>
       </a>
-      <div class="nav-links">
-        <a href="../#features" class="nav-link">Features</a>
-        <a href="../#architecture" class="nav-link">Architecture</a>
-        <a href="../#devices" class="nav-link">Devices</a>
-        <a href="./" class="nav-link" style="color: white; background: rgba(255,255,255,0.1);">Docs</a>
+      <div class="nav-categories">
+        <a href="./architecture.html" class="nav-category active">Architecture</a>
+        <a href="./api-reference.html" class="nav-category">API Reference</a>
+        <a href="./developer-guide.html" class="nav-category">Developer Guide</a>
       </div>
       <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
     </div>
