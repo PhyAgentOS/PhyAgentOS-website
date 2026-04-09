@@ -5,7 +5,7 @@ const navItems = [
   { label: 'Features', href: '#features' },
   { label: 'Architecture', href: '#architecture' },
   { label: 'Devices', href: '#devices' },
-  { label: 'Docs', href: `${import.meta.env.BASE_URL}docs/index.html`, external: true },
+  { label: 'Docs', href: '#docs', external: false },
 ];
 
 export default function Navigation() {
@@ -69,9 +69,7 @@ export default function Navigation() {
                 <a
                   key={item.href}
                   href={item.href}
-                  target={item.external ? '_blank' : undefined}
-                  rel={item.external ? 'noopener noreferrer' : undefined}
-                  onClick={(e) => !item.external && handleNavClick(e, item.href)}
+                  onClick={(e) => handleNavClick(e, item.href)}
                   className="px-4 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/5 transition-all duration-200"
                 >
                   {item.label}
@@ -138,15 +136,7 @@ export default function Navigation() {
               <a
                 key={item.href}
                 href={item.href}
-                target={item.external ? '_blank' : undefined}
-                rel={item.external ? 'noopener noreferrer' : undefined}
-                onClick={(e) => {
-                  if (!item.external) {
-                    handleNavClick(e, item.href);
-                  } else {
-                    setIsMobileMenuOpen(false);
-                  }
-                }}
+                onClick={(e) => handleNavClick(e, item.href)}
                 className="block px-4 py-3 rounded-lg text-white font-medium hover:bg-white/5 transition-colors"
               >
                 {item.label}

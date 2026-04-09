@@ -11,6 +11,7 @@ import VideoDemo from './sections/VideoDemo';
 import Stats from './sections/Stats';
 import Devices from './sections/Devices';
 import Testimonials from './sections/Testimonials';
+import Docs from './sections/Docs';
 import CTA from './sections/CTA';
 import Footer from './sections/Footer';
 
@@ -52,6 +53,7 @@ function App() {
         <Stats />
         <Devices />
         <Testimonials />
+        <Docs />
         <CTA />
       </main>
       <Footer />
