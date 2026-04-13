@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhyAgentOS 开发指南 - 代码风格、命名约定与目录约定</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    :root {
+      --bg: #0a0a0a;
+      --text: #ffffff;
+      --text-dim: #b9b9b9;
+      --text-muted: #737373;
+      --accent: #c44b3d;
+      --accent-light: #e05a4a;
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 18px 42px rgba(0,0,0,0.34);
+      --page-width: 1460px;
+      --prose-width: 980px;
+      --toc-width: 280px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; color: var(--text); font-family: Inter, system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(196, 75, 61, 0.10), transparent 22%),
+        radial-gradient(circle at top right, rgba(196, 75, 61, 0.06), transparent 18%),
+        linear-gradient(180deg, #0b0b0b 0%, #0a0a0a 100%);
+      line-height: 1.72; padding-top: 72px;
+    }
+    a { color: inherit; text-decoration: none; }
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(10,10,10,0.82); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-container {
+      max-width: 1680px; margin: 0 auto; height: 72px; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .nav-brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 600; color: #fff; }
+    .nav-brand img { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,0.06); padding: 4px; object-fit: contain; }
+    .nav-brand span { font-family: "Space Grotesk", Inter, sans-serif; }
+    .nav-categories {
+      display: flex; align-items: center; gap: 6px; margin-left: auto; padding-left: 28px;
+      border-left: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-category {
+      padding: 8px 14px; border-radius: 999px; color: rgba(255,255,255,0.7); font-size: 14px; transition: all .25s ease;
+    }
+    .nav-category:hover { color: #fff; background: rgba(255,255,255,0.06); }
+    .nav-category.active { color: #fff; background: rgba(196,75,61,0.16); box-shadow: 0 0 0 1px rgba(196,75,61,0.22) inset; }
+    .nav-cta {
+      padding: 10px 16px; border-radius: 999px; background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: #fff; font-size: 14px; font-weight: 600; box-shadow: 0 0 20px rgba(196, 75, 61, 0.25);
+    }
+    .page { width: min(var(--page-width), calc(100vw - 32px)); margin: 0 auto 34px; padding: 20px; }
+    .hero, .card, .mini-card {
+      background: linear-gradient(180deg, rgba(19,19,19,0.96), rgba(14,14,14,0.96));
+      border: 1px solid var(--border); border-radius: 22px; box-shadow: var(--shadow);
+    }
+    .hero { position: relative; overflow: hidden; padding: 38px 40px 34px; margin-bottom: 26px; }
+    .hero::before {
+      content: ""; position: absolute; inset: auto auto -110px -70px; width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(196, 75, 61, 0.12), transparent 68%);
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px;
+      color: rgba(255,255,255,0.82); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      font-size: 13px; margin-bottom: 14px;
+    }
+    h1 { margin: 0 0 12px; font-family: "Space Grotesk", Inter, sans-serif; font-size: clamp(32px, 5vw, 52px); line-height: 1.06; }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent;
+    }
+    .subtitle { margin: 0; max-width: 860px; color: #c7c7c7; font-size: 16px; line-height: 1.92; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) var(--toc-width); gap: 28px; align-items: start; }
+    .content { min-width: 0; max-width: var(--prose-width); }
+    .toc {
+      position: sticky; top: 90px; padding: 18px; border-radius: 22px; background: rgba(17,17,17,0.92);
+      border: 1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow);
+    }
+    .toc-title { margin: 0 0 12px; font-family: "Space Grotesk", Inter, sans-serif; font-size: 15px; color: #fff; }
+    .toc a {
+      display: block; padding: 10px 12px; margin-bottom: 5px; border-radius: 12px; color: var(--text-muted);
+      font-size: 14px; line-height: 1.45; transition: all .2s ease;
+    }
+    .toc a:hover, .toc a.active { color: #fff; background: rgba(196,75,61,0.14); box-shadow: 0 0 0 1px rgba(196,75,61,0.18) inset; }
+    .card { padding: 24px; margin-bottom: 22px; scroll-margin-top: 88px; }
+    .card h2, .mini-card h3 { margin: 0 0 10px; color: #fff; font-family: "Space Grotesk", Inter, sans-serif; }
+    .card h2 { font-size: 24px; line-height: 1.28; }
+    .lead, .card p, .card li, .mini-card p, .mini-card li { color: var(--text-dim); font-size: 14px; line-height: 1.9; }
+    .lead { margin-top: 0; margin-bottom: 16px; color: #c4c4c4; font-size: 15px; }
+    .grid-2, .grid-3 { display: grid; gap: 16px; margin-top: 14px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .mini-card { padding: 22px; }
+    table {
+      width: 100%; border-collapse: collapse; margin-top: 14px; overflow: hidden; border-radius: 18px;
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    }
+    th, td {
+      text-align: left; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: top;
+      font-size: 14px; line-height: 1.7;
+    }
+    th { background: rgba(255,255,255,0.05); color: #fff; font-weight: 700; }
+    td { color: var(--text-dim); }
+    tr:last-child td { border-bottom: none; }
+    pre {
+      margin: 14px 0 0; padding: 16px; border-radius: 18px; background: #121212; border: 1px solid rgba(255,255,255,0.08);
+      color: #f5f5f5; overflow: auto; font-size: 13px; line-height: 1.72;
+    }
+    code { font-family: "JetBrains Mono", monospace; font-size: 0.95em; }
+    .callout {
+      margin: 14px 0; padding: 14px 16px; border-radius: 16px; background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08); border-left: 4px solid var(--accent); color: var(--text-dim);
+    }
+    .footer { margin-top: 12px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); color: var(--text-muted); font-size: 13px; }
+
+    @media (max-width: 1180px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc { position: relative; top: 0; order: -1; }
+    }
+    @media (max-width: 980px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .page { width: min(100vw - 14px, 1680px); padding: 10px; }
+    }
+    @media (max-width: 768px) {
+      .nav-categories { display: none; }
+      .nav-container { padding: 0 14px; }
+      .nav-brand span { font-size: 14px; }
+      .hero, .card, .mini-card { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  
+  <nav class='nav'>
+    <div class='nav-container'>
+      <a href='../../index.html' class='nav-brand'>
+        <img src='../../../../imgs/logo_en.png' alt='PhyAgentOS Logo' onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+        <span>PhyAgentOS Docs</span>
+      </a>
+      <div class='nav-categories'>
+        <a href='../../framework-design/index.html' class='nav-category '>框架设计</a>
+        <a href='../../api-usage/index.html' class='nav-category '>API 使用</a>
+        <a href='../../development-guide/index.html' class='nav-category active'>开发指南</a>
+      </div>
+      <a href='https://github.com/SYSU-HCP-EAI/PhyAgentOS' target='_blank' class='nav-cta'>GitHub</a>
+    </div>
+  </nav>
+
+
+  <main class="page">
+    <header class="hero">
+      <div class="eyebrow">Developer Guide / Code Style</div>
+      <h1><span class="gradient-text">代码风格</span>与命名约定</h1>
+      <p class="subtitle">
+        这页不追求给出一套完全外部化的编码规范，而是总结当前仓库中已经能直接观察到的风格线索：如何命名 driver、profile、plugin、runtime 文件，目录边界应该怎样划分，哪些逻辑应放在主仓库，哪些逻辑更适合下沉到插件或 runtime 层，以及哪些基本质量门槛值得长期保持。
+      </p>
+    </header>
+
+    <div class="layout">
+      <div class="content">
+        <section class="card" id="existing-signals">
+          <h2>1. 先以仓库现有风格为准</h2>
+          <p class="lead">这个项目已经给出了一些明确的风格信号。与其额外发明一套规则，不如先尊重仓库现有约定，再在此基础上补充具体建议。</p>
+          <table>
+            <thead>
+              <tr>
+                <th>来源</th>
+                <th>可直接观察到的约定</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>pyproject.toml</code></td>
+                <td>使用 Ruff；`line-length = 100`；`target-version = py311`；lint 选择 `E/F/I/N/W`</td>
+              </tr>
+              <tr>
+                <td><code>hal/base_driver.py</code></td>
+                <td>Driver 接口采用清晰的动词命名：`load_scene`、`execute_action`、`get_scene`、`get_runtime_state`</td>
+              </tr>
+              <tr>
+                <td><code>hal/drivers/__init__.py</code></td>
+                <td>内置 driver 通过短名映射到完整类路径，短名偏向 snake_case</td>
+              </tr>
+              <tr>
+                <td>模板与 profile</td>
+                <td>运行态协议文件使用全大写 Markdown 文件名，如 `ENVIRONMENT.md`、`EMBODIED.md`、`ACTION.md`</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card" id="naming">
+          <h2>2. 命名约定：先保持可预测，再谈个性化</h2>
+          <div class="grid-3">
+            <div class="mini-card">
+              <h3>Driver 名称</h3>
+              <p>推荐使用 snake_case 的短名，例如 `go2_edu`、`rekep_real`、`xlerobot_2wheels_remote`。这个名字会直接出现在 Watchdog 的 `--driver` 参数和注册表里。</p>
+            </div>
+            <div class="mini-card">
+              <h3>Python 类名</h3>
+              <p>Driver 类遵循 PascalCase，例如 `Go2Driver`、`RekepRealDriver`、`MyRobotDriver`。模块与类名的区分应尽量稳定、直观。</p>
+            </div>
+            <div class="mini-card">
+              <h3>profile 文件名</h3>
+              <p>建议与 driver 短名保持一致，例如 `go2_edu.md`、`rekep_real.md`。这样在排查 profile 安装问题时，路径关系更容易一眼看懂。</p>
+            </div>
+          </div>
+          <div class="callout">
+            一个很实用的原则是：让使用者在看到 `--driver my_robot`、`my_robot.md`、`my_plugin.driver.MyRobotDriver` 时，能够自然地推断出它们是同一组实现，而不需要额外记忆映射关系。
+          </div>
+        </section>
+
+        <section class="card" id="directory-boundaries">
+          <h2>3. 目录边界：哪些逻辑应放在哪一层</h2>
+          <p class="lead">命名问题通常不难，真正容易混乱的是职责边界。目录一旦失去边界，项目很快就会变得难以维护。</p>
+          <table>
+            <thead>
+              <tr>
+                <th>位置</th>
+                <th>更适合放什么</th>
+                <th>不建议放什么</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>PhyAgentOS/agent/tools/</code></td>
+                <td>高层能力封装、工具 schema、与 Agent 协作的执行入口</td>
+                <td>具体硬件 SDK 调用细节</td>
+              </tr>
+              <tr>
+                <td><code>hal/drivers/</code></td>
+                <td>内置 driver 的最小执行适配层</td>
+                <td>大段第三方 SDK 逻辑和复杂 runtime 流程</td>
+              </tr>
+              <tr>
+                <td><code>hal/profiles/</code></td>
+                <td>能力画像、支持动作、物理约束</td>
+                <td>运行态数据</td>
+              </tr>
+              <tr>
+                <td>插件仓库 <code>runtime/</code></td>
+                <td>真机 bridge、厂商 SDK、预检、dry-run、重依赖和长流程</td>
+                <td>主仓库级别的通用协议逻辑</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card" id="style-rules">
+          <h2>4. 代码风格：延续主仓库已有倾向</h2>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h3>函数和方法</h3>
+              <p>优先使用语义明确的动词命名，例如 `load_scene`、`execute_action`、`health_check`。方法名应反映对外行为，而不是内部实现细节。</p>
+            </div>
+            <div class="mini-card">
+              <h3>接口层与实现层分离</h3>
+              <p>如果某段逻辑已经明显偏向具体硬件、第三方 SDK 或 runtime 桥接，就不要继续留在 Driver 层。Driver 层越薄，协议边界越清楚。</p>
+            </div>
+          </div>
+          <pre><code>[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]
+ignore = ["E501"]</code></pre>
+          <p>从这些配置可以看出，仓库至少希望保持：</p>
+          <ul>
+            <li>导入顺序清晰（`I`）</li>
+            <li>命名风格有约束（`N`）</li>
+            <li>基础语法与常见错误及时暴露（`E/F/W`）</li>
+          </ul>
+        </section>
+
+        <section class="card" id="plugin-conventions">
+          <h2>5. 插件仓库的命名与组织建议</h2>
+          <p class="lead">如果你在开发外部插件，除了 Python 代码本身，还需要保持仓库级结构的可预测性。</p>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h3>推荐保留的顶层文件</h3>
+              <ul>
+                <li><code>PhyAgentOS_plugin.toml</code></li>
+                <li><code>README.md</code> / <code>README_zh.md</code></li>
+                <li><code>pyproject.toml</code></li>
+                <li><code>tests/</code></li>
+              </ul>
+            </div>
+            <div class="mini-card">
+              <h3>推荐的目录边界</h3>
+              <ul>
+                <li>Python 包目录：存放 `driver.py` 与 `profiles/`</li>
+                <li><code>runtime/</code>：存放桥接、厂商 SDK 和复杂流程</li>
+                <li><code>tests/</code>：测试 manifest、driver 动作路由和 runtime 预检</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="documentation-style">
+          <h2>6. 文档与样例也要遵循一致性</h2>
+          <p class="lead">代码风格不只是源文件本身，还包括你为新 driver 或插件补充的文档和样例。</p>
+          <table>
+            <thead>
+              <tr>
+                <th>内容</th>
+                <th>建议</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>命令样例</td><td>优先给可直接复制执行的完整命令，而不是省略式伪命令</td></tr>
+              <tr><td>配置样例</td><td>尽量给最小可用配置，再说明可选字段</td></tr>
+              <tr><td>动作样例</td><td>优先给标准 `ACTION.md` fenced JSON，而不是口头描述</td></tr>
+              <tr><td>profile 样例</td><td>说明“支持哪些动作”和“有哪些硬约束”，避免只写营销性描述</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card" id="quality-gate">
+          <h2>7. 最低质量门槛：新代码至少应满足什么</h2>
+          <p class="lead">不是每次都要把一切做得很完整，但至少应确保新增代码能达到可集成、可调试、可定位问题的基本门槛。</p>
+          <ul>
+            <li>Driver 或插件能被成功加载</li>
+            <li>有对应 profile，且运行时可安装为 `EMBODIED.md`</li>
+            <li>最少有一组动作或命令验证路径</li>
+            <li>至少有基础测试或冒烟验证</li>
+            <li>README 能解释安装、启动与调试方式</li>
+          </ul>
+          <div class="callout">
+            一个很简单的判断方式是：如果另一个维护者接手你的代码，是否可以只靠仓库内容本身完成安装、理解边界并做一次最小验证。如果不能，通常说明结构和文档还不够自解释。
+          </div>
+        </section>
+
+        <div class="footer">
+          这一页的目标不是额外发明一套规范，而是把主仓库已经隐含的风格信号整理出来，帮助新增代码保持一致性。
+        </div>
+      </div>
+
+      <aside class="toc">
+        <a href="../index.html" style="display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 13px; margin-bottom: 16px; padding: 0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          返回开发指南总览
+        </a>
+        <div class="toc-title">本页目录</div>
+        <a href="#existing-signals">现有风格信号</a>
+        <a href="#naming">命名约定</a>
+        <a href="#directory-boundaries">目录边界</a>
+        <a href="#style-rules">代码风格</a>
+        <a href="#plugin-conventions">插件仓库约定</a>
+        <a href="#documentation-style">文档与样例</a>
+        <a href="#quality-gate">最低质量门槛</a>
+        
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 15px; color: #fff;">同组页面</div>
+        <a href="../rekep-plugin-example/index.html">以 ReKep 为样例的插件开发</a>
+        <a href="../driver-integration/index.html">接入新 Driver 的完整流程</a>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0];
+      for (const section of sections) {
+        if (window.scrollY + 120 >= section.offsetTop) current = section;
+      }
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current.id));
+    };
+    window.addEventListener('scroll', activate, { passive: true });
+    window.addEventListener('load', activate);
+  </script>
+</body>
+</html>

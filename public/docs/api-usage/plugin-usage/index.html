@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhyAgentOS API 使用 - 插件使用说明</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    :root {
+      --bg: #0a0a0a;
+      --text: #ffffff;
+      --text-dim: #b9b9b9;
+      --text-muted: #737373;
+      --accent: #c44b3d;
+      --accent-light: #e05a4a;
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 18px 42px rgba(0,0,0,0.34);
+      --page-width: 1460px;
+      --prose-width: 980px;
+      --toc-width: 280px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(196, 75, 61, 0.10), transparent 22%),
+        radial-gradient(circle at top right, rgba(196, 75, 61, 0.06), transparent 18%),
+        linear-gradient(180deg, #0b0b0b 0%, #0a0a0a 100%);
+      line-height: 1.72;
+      padding-top: 72px;
+    }
+    a { color: inherit; text-decoration: none; }
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(10, 10, 10, 0.82); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-container {
+      max-width: 1680px; margin: 0 auto; height: 72px; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .nav-brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 600; color: #fff; }
+    .nav-brand img { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,0.06); padding: 4px; object-fit: contain; }
+    .nav-brand span { font-family: "Space Grotesk", Inter, sans-serif; }
+    .nav-categories {
+      display: flex; align-items: center; gap: 6px; margin-left: auto; padding-left: 28px;
+      border-left: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-category {
+      padding: 8px 14px; border-radius: 999px; color: rgba(255,255,255,0.7); font-size: 14px;
+      transition: all .25s ease;
+    }
+    .nav-category:hover { color: #fff; background: rgba(255,255,255,0.06); }
+    .nav-category.active { color: #fff; background: rgba(196, 75, 61, 0.16); box-shadow: 0 0 0 1px rgba(196, 75, 61, 0.22) inset; }
+    .nav-cta {
+      padding: 10px 16px; border-radius: 999px; background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: #fff; font-size: 14px; font-weight: 600; box-shadow: 0 0 20px rgba(196, 75, 61, 0.25);
+    }
+
+    .page { width: min(var(--page-width), calc(100vw - 32px)); margin: 0 auto 34px; padding: 20px; }
+    .hero, .card, .mini-card {
+      background: linear-gradient(180deg, rgba(19,19,19,0.96), rgba(14,14,14,0.96));
+      border: 1px solid var(--border); border-radius: 22px; box-shadow: var(--shadow);
+    }
+    .hero { position: relative; overflow: hidden; padding: 38px 40px 34px; margin-bottom: 26px; }
+    .hero::before {
+      content: ""; position: absolute; inset: auto auto -110px -70px; width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(196, 75, 61, 0.12), transparent 68%);
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px;
+      color: rgba(255,255,255,0.82); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      font-size: 13px; margin-bottom: 14px;
+    }
+    h1 { margin: 0 0 12px; font-family: "Space Grotesk", Inter, sans-serif; font-size: clamp(32px, 5vw, 52px); line-height: 1.06; }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent;
+    }
+    .subtitle { margin: 0; max-width: 860px; color: #c7c7c7; font-size: 16px; line-height: 1.92; }
+
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) var(--toc-width); gap: 28px; align-items: start; }
+    .content { min-width: 0; max-width: var(--prose-width); }
+    .toc {
+      position: sticky; top: 90px; padding: 18px; border-radius: 22px; background: rgba(17,17,17,0.92);
+      border: 1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow);
+    }
+    .toc-title { margin: 0 0 12px; font-family: "Space Grotesk", Inter, sans-serif; font-size: 15px; color: #fff; }
+    .toc a {
+      display: block; padding: 10px 12px; margin-bottom: 5px; border-radius: 12px; color: var(--text-muted);
+      font-size: 14px; line-height: 1.45; transition: all .2s ease;
+    }
+    .toc a:hover, .toc a.active { color: #fff; background: rgba(196, 75, 61, 0.14); box-shadow: 0 0 0 1px rgba(196,75,61,0.18) inset; }
+
+    .card { padding: 24px; margin-bottom: 22px; scroll-margin-top: 88px; }
+    .card h2, .mini-card h3 { margin: 0 0 10px; color: #fff; font-family: "Space Grotesk", Inter, sans-serif; }
+    .card h2 { font-size: 24px; line-height: 1.28; }
+    .lead, .card p, .card li, .mini-card p, .mini-card li { color: var(--text-dim); font-size: 14px; line-height: 1.9; }
+    .lead { margin-top: 0; margin-bottom: 16px; color: #c4c4c4; font-size: 15px; }
+    .grid-2, .grid-3 { display: grid; gap: 16px; margin-top: 14px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .mini-card { padding: 22px; }
+    .mini-card:hover, .hero:hover, .card:hover {
+      border-color: rgba(196, 75, 61, 0.16); box-shadow: 0 10px 22px rgba(0,0,0,0.26);
+      transform: translateY(-2px); transition: transform .28s cubic-bezier(.16,1,.3,1), box-shadow .28s ease, border-color .28s ease;
+    }
+    table {
+      width: 100%; border-collapse: collapse; margin-top: 14px; overflow: hidden; border-radius: 18px;
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    }
+    th, td {
+      text-align: left; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: top;
+      font-size: 14px; line-height: 1.7;
+    }
+    th { background: rgba(255,255,255,0.05); color: #fff; font-weight: 700; }
+    td { color: var(--text-dim); }
+    tr:last-child td { border-bottom: none; }
+    pre {
+      margin: 14px 0 0; padding: 16px; border-radius: 18px; background: #121212; border: 1px solid rgba(255,255,255,0.08);
+      color: #f5f5f5; overflow: auto; font-size: 13px; line-height: 1.72;
+    }
+    code { font-family: "JetBrains Mono", monospace; font-size: 0.95em; }
+    .callout {
+      margin: 14px 0; padding: 14px 16px; border-radius: 16px; background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08); border-left: 4px solid var(--accent); color: var(--text-dim);
+    }
+    .footer { margin-top: 12px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); color: var(--text-muted); font-size: 13px; }
+
+    @media (max-width: 1180px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc { position: relative; top: 0; order: -1; }
+    }
+    @media (max-width: 980px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .page { width: min(100vw - 14px, 1680px); padding: 10px; }
+    }
+    @media (max-width: 768px) {
+      .nav-categories { display: none; }
+      .nav-container { padding: 0 14px; }
+      .nav-brand span { font-size: 14px; }
+      .hero, .card, .mini-card { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  
+  <nav class='nav'>
+    <div class='nav-container'>
+      <a href='../../index.html' class='nav-brand'>
+        <img src='../../../../imgs/logo_en.png' alt='PhyAgentOS Logo' onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+        <span>PhyAgentOS Docs</span>
+      </a>
+      <div class='nav-categories'>
+        <a href='../../framework-design/index.html' class='nav-category '>框架设计</a>
+        <a href='../../api-usage/index.html' class='nav-category active'>API 使用</a>
+        <a href='../../development-guide/index.html' class='nav-category '>开发指南</a>
+      </div>
+      <a href='https://github.com/SYSU-HCP-EAI/PhyAgentOS' target='_blank' class='nav-cta'>GitHub</a>
+    </div>
+  </nav>
+
+
+  <main class="page">
+    <header class="hero">
+      <div class="eyebrow">API Usage / Plugins</div>
+      <h1><span class="gradient-text">插件使用</span>说明</h1>
+      <p class="subtitle">
+        本页聚焦插件在运行时的使用方式，而不是插件如何开发。重点包括：PhyAgentOS 如何发现插件、部署脚本实际做了什么、ReKep 插件怎样接入 HAL Watchdog、如何直接通过 `ACTION.md` 或 runtime 级命令调试插件，以及这些调用方式分别适合什么阶段使用。
+      </p>
+    </header>
+
+    <div class="layout">
+      <div class="content">
+        <section class="card" id="discovery">
+          <h2>1. 插件如何被系统发现</h2>
+          <p class="lead">在运行时，外部插件并不是“自动就能用”。主仓库需要先知道插件提供了哪个 driver、入口类在哪里、profile 在哪里，以及加载时要把哪些路径加入 Python 搜索路径。</p>
+          <table>
+            <thead>
+              <tr>
+                <th>步骤</th>
+                <th>发生位置</th>
+                <th>作用</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><code>PhyAgentOS_plugin.toml</code></td>
+                <td>插件仓库通过清单声明 `driver.name`、`driver.module`、`driver.class` 和 `profile_path`</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><code>scripts/deploy_rekep_real_plugin.py</code></td>
+                <td>把插件 clone 或复制到本地插件目录，并安装依赖</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><code>hal/plugins.py</code></td>
+                <td>读取清单并把解析后的驱动信息写入本地 registry</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td><code>hal/drivers/__init__.py</code></td>
+                <td>在内置驱动表中找不到同名 driver 时，从外部 registry 动态导入</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td><code>hal/hal_watchdog.py --driver <name></code></td>
+                <td>像使用内置 driver 一样启动该插件 driver</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="callout">
+            插件可以理解为“独立仓库中的 HAL driver + profile + runtime”。主仓库只关心统一接口，并不关心你插件内部的第三方 SDK 细节。
+          </div>
+        </section>
+
+        <section class="card" id="install">
+          <h2>2. ReKep 插件的安装方式</h2>
+          <p class="lead">ReKep 插件是目前最适合参考的外部插件样例。无论是线上安装还是本地联调，它的安装方式都很清晰。</p>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h3>在线安装</h3>
+              <pre><code>cd PhyAgentOS
+python scripts/deploy_rekep_real_plugin.py \
+  --repo-url https://github.com/baiyu858/PhyAgentOS-rekep-real-plugin.git</code></pre>
+            </div>
+            <div class="mini-card">
+              <h3>本地联调安装</h3>
+              <pre><code>cd PhyAgentOS
+python scripts/deploy_rekep_real_plugin.py \
+  --repo-url ../PhyAgentOS-rekep-real-plugin</code></pre>
+            </div>
+          </div>
+          <pre><code># 带 solver 依赖的安装
+python scripts/deploy_rekep_real_plugin.py \
+  --repo-url https://github.com/baiyu858/PhyAgentOS-rekep-real-plugin.git \
+  --with-solver
+
+# 只注册不安装依赖
+python scripts/deploy_rekep_real_plugin.py \
+  --repo-url ../PhyAgentOS-rekep-real-plugin \
+  --no-install-deps</code></pre>
+          <div class="callout">
+            如果你的目标是“先把插件跑起来”，在线安装通常最直接；如果你的目标是改插件代码并反复联调，本地路径安装会更高效。
+          </div>
+        </section>
+
+        <section class="card" id="watchdog">
+          <h2>3. 通过 HAL Watchdog 调用插件</h2>
+          <p class="lead">这是最接近完整运行链路的使用方式。Agent 负责生成动作，Watchdog 负责监听 `ACTION.md` 并调用插件 driver 执行。</p>
+          <pre><code>paos onboard
+
+# 终端 1
+python hal/hal_watchdog.py --driver rekep_real --workspace ~/.PhyAgentOS/workspace
+
+# 终端 2
+paos agent</code></pre>
+          <p>在这个模式下，Agent 生成的动作会先写入 `ACTION.md`，再由 `rekep_real` 驱动像内置 driver 一样处理。这是验证“感知—决策—执行”完整闭环时最推荐的方式。</p>
+        </section>
+
+        <section class="card" id="action-md">
+          <h2>4. 通过 ACTION.md 直接调用插件</h2>
+          <p class="lead">如果你不想先经过 Agent 推理，而是想直接验证某个动作是否能被插件接住，可以手动写入 `ACTION.md`。这适合排查动作映射问题。</p>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h3>插件原生动作</h3>
+              <pre><code>{
+  "action_type": "real_execute",
+  "parameters": {
+    "instruction": "pick up the chili pepper and place it in the plate",
+    "execute_motion": true
+  },
+  "status": "pending"
+}</code></pre>
+            </div>
+            <div class="mini-card">
+              <h3>通用高层动作</h3>
+              <pre><code>{
+  "action_type": "pick_up",
+  "parameters": {
+    "target": "red_apple"
+  },
+  "status": "pending"
+}</code></pre>
+            </div>
+          </div>
+          <p>前者使用插件自己的专用动作协议，后者使用主仓库通用动作协议。ReKep 同时兼容这两类方式，因此非常适合作为使用样例。</p>
+        </section>
+
+        <section class="card" id="runtime-debug">
+          <h2>5. 直接调 runtime 进行调试</h2>
+          <p class="lead">插件开发阶段，最常见的需求是“先绕开 Agent 和 Markdown 协议，单独验证 runtime 本身”。这时直接调用 runtime 会更高效。</p>
+          <pre><code># 预检
+python runtime/dobot_bridge.py preflight --pretty
+
+# dry-run
+python runtime/dobot_bridge.py execute \
+  --instruction "pick up the red block and place it on the tray" \
+  --pretty
+
+# 真机执行
+python runtime/dobot_bridge.py execute \
+  --instruction "pick up the red block and place it on the tray" \
+  --execute_motion \
+  --pretty</code></pre>
+          <pre><code># 切换 robot family 的示例
+python runtime/dobot_bridge.py preflight \
+  --robot_family cellbot \
+  --robot_driver your_driver</code></pre>
+          <div class="callout">
+            runtime 级调试最适合定位第三方 SDK、桥接脚本或机器人适配器的问题，因为它绕开了 Agent 和工作区协议，可以更快缩小故障范围。
+          </div>
+        </section>
+
+        <section class="card" id="rekep-structure">
+          <h2>6. ReKep 插件内部结构，为什么值得参考</h2>
+          <p class="lead">ReKep 的价值不只在于“它能用”，更在于它展示了一个比较成熟的外部插件应该怎样分层。</p>
+          <div class="grid-3">
+            <div class="mini-card">
+              <h3>Driver 层</h3>
+              <p>`phyagentos_rekep_real_plugin/driver.py` 负责对接 PhyAgentOS 的 `BaseDriver` 接口，是主仓库能看到的入口。</p>
+            </div>
+            <div class="mini-card">
+              <h3>runtime 层</h3>
+              <p>`runtime/dobot_bridge.py` 负责真机执行、预检、dry-run 和复杂长程能力，是插件内部更重的执行层。</p>
+            </div>
+            <div class="mini-card">
+              <h3>适配层</h3>
+              <p>`runtime/robot_factory.py`、`runtime/cellbot_adapter.py` 等文件负责不同机器人 family 的具体适配。</p>
+            </div>
+          </div>
+          <p>这种结构的好处是边界很清楚：主仓库只关心统一 Driver 接口，插件仓库则负责重依赖、桥接脚本和真机实现。</p>
+        </section>
+
+        <section class="card" id="when-to-use-what">
+          <h2>7. 几种调用方式分别适合什么阶段</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>方式</th>
+                <th>适合阶段</th>
+                <th>优点</th>
+                <th>注意点</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>通过 Watchdog + Agent 调用</td>
+                <td>完整链路验证、演示、系统联调</td>
+                <td>最接近真实使用场景</td>
+                <td>问题来源可能横跨 Agent、协议和 runtime 三层</td>
+              </tr>
+              <tr>
+                <td>直接写 `ACTION.md`</td>
+                <td>动作映射测试、Driver 排查</td>
+                <td>可以绕过 Agent，快速验证动作是否被接住</td>
+                <td>仍依赖 Watchdog 正常运行</td>
+              </tr>
+              <tr>
+                <td>直接调 runtime</td>
+                <td>插件开发、第三方 SDK 排查、桥接脚本验证</td>
+                <td>故障范围最小，定位最快</td>
+                <td>不能代表 Agent 全链路已经成立</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <div class="footer">
+          这一页的重点不是介绍“插件是什么”，而是帮助你判断在使用、联调和排查阶段，应该采用哪一种插件调用方式。
+        </div>
+      </div>
+
+      <aside class="toc">
+        <a href="../index.html" style="display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 13px; margin-bottom: 16px; padding: 0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          返回 API 使用总览
+        </a>
+        <div class="toc-title">本页目录</div>
+        <a href="#discovery">插件发现链路</a>
+        <a href="#install">安装方式</a>
+        <a href="#watchdog">通过 Watchdog 调用</a>
+        <a href="#action-md">通过 ACTION.md 调用</a>
+        <a href="#runtime-debug">runtime 级调试</a>
+        <a href="#rekep-structure">ReKep 结构参考</a>
+        <a href="#when-to-use-what">调用方式对比</a>
+        
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 15px; color: #fff;">同组页面</div>
+        <a href="../markdown-formats/index.html">Markdown 文件格式与样例</a>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0];
+      for (const section of sections) {
+        if (window.scrollY + 120 >= section.offsetTop) current = section;
+      }
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current.id));
+    };
+    window.addEventListener('scroll', activate, { passive: true });
+    window.addEventListener('load', activate);
+  </script>
+</body>
+</html>

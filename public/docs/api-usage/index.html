@@ -208,14 +208,14 @@
   
   <nav class='nav'>
     <div class='nav-container'>
-      <a href='./index.html' class='nav-brand'>
-        <img src='./../../imgs/logo_en.png' alt='PhyAgentOS Logo' onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+      <a href='../index.html' class='nav-brand'>
+        <img src='../../../imgs/logo_en.png' alt='PhyAgentOS Logo' onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
         <span>PhyAgentOS Docs</span>
       </a>
       <div class='nav-categories'>
-        <a href='./framework-design/index.html' class='nav-category '>框架设计</a>
-        <a href='./api-usage/index.html' class='nav-category '>API 使用</a>
-        <a href='./development-guide/index.html' class='nav-category '>开发指南</a>
+        <a href='../framework-design/index.html' class='nav-category '>框架设计</a>
+        <a href='../api-usage/index.html' class='nav-category active'>API 使用</a>
+        <a href='../development-guide/index.html' class='nav-category '>开发指南</a>
       </div>
       <a href='https://github.com/SYSU-HCP-EAI/PhyAgentOS' target='_blank' class='nav-cta'>GitHub</a>
     </div>
@@ -224,9 +224,11 @@
 
   <main class="page">
     <header class="hero">
-      <div class="eyebrow">Documentation / Home</div>
-      <h1>PhyAgentOS <span class="gradient-text">文档中心</span></h1>
-      <p class="subtitle">欢迎使用 PhyAgentOS 文档。在这里您可以找到关于框架设计、API 使用以及开发指南的详细信息。</p>
+      <div class="eyebrow">Documentation / API</div>
+      <h1><span class="gradient-text">PhyAgentOS</span> API 使用</h1>
+      <p class="subtitle">
+        这一部分不再把所有接口塞在同一页里，而是拆成更适合长期维护的文档结构。总览页只回答“从哪里开始看”，具体的插件调用、Markdown 文件格式、运行时样例与排查方式，分别放到子页面中展开。
+      </p>
       <section class="legend">
         <div class="tag"><span class="dot brain"></span>命令入口</div>
         <div class="tag"><span class="dot protocol"></span>文件协议</div>
@@ -241,25 +243,18 @@
           <p class="lead">
             如果你的目标是“先把系统用起来”，建议先看插件使用；如果你的目标是“弄清工作区里每个 Markdown 文件到底应该长什么样”，建议先看文件格式与样例页。两者分别服务于不同阶段：前者帮助你跑通执行链路，后者帮助你判断运行状态是否合理。
           </p>
-          
           <div class="subnav">
-            <a href="./framework-design/index.html">
-              <span class="label">Architecture</span>
-              <strong>框架设计</strong>
-              <span>深入了解 PhyAgentOS 的核心架构、消息总线以及感知-决策-执行循环。</span>
+            <a href="./plugin-usage/index.html">
+              <span class="label">API 子页面</span>
+              <strong>插件使用说明</strong>
+              <span>聚焦插件的安装、注册、调用路径、ReKep 的使用方式，以及调试 runtime 时的常见入口。</span>
             </a>
-            <a href="./api-usage/index.html">
-              <span class="label">Reference</span>
-              <strong>API 使用</strong>
-              <span>学习如何使用 PhyAgentOS 的 API，包括插件系统、Markdown 格式规范等。</span>
-            </a>
-            <a href="./development-guide/index.html" style="grid-column: span 2;">
-              <span class="label">Guide</span>
-              <strong>开发指南</strong>
-              <span>为开发者提供的实战指南，涵盖代码规范、驱动集成以及插件开发示例。</span>
+            <a href="./markdown-formats/index.html">
+              <span class="label">API 子页面</span>
+              <strong>Markdown 文件格式与样例</strong>
+              <span>逐个解释 `ENVIRONMENT.md`、`EMBODIED.md`、`ACTION.md`、`LESSONS.md`、`ROBOTS.md` 等文件的格式、字段与示例。</span>
             </a>
           </div>
-
         </section>
 
         <section class="card" id="scope">

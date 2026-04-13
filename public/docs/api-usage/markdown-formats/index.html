@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhyAgentOS API 使用 - Markdown 文件格式与样例</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    :root {
+      --bg: #0a0a0a;
+      --text: #ffffff;
+      --text-dim: #b9b9b9;
+      --text-muted: #737373;
+      --accent: #c44b3d;
+      --accent-light: #e05a4a;
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 18px 42px rgba(0,0,0,0.34);
+      --page-width: 1460px;
+      --prose-width: 980px;
+      --toc-width: 280px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(196, 75, 61, 0.10), transparent 22%),
+        radial-gradient(circle at top right, rgba(196, 75, 61, 0.06), transparent 18%),
+        linear-gradient(180deg, #0b0b0b 0%, #0a0a0a 100%);
+      line-height: 1.72;
+      padding-top: 72px;
+    }
+    a { color: inherit; text-decoration: none; }
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(10, 10, 10, 0.82); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-container {
+      max-width: 1680px; margin: 0 auto; height: 72px; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .nav-brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 600; color: #fff; }
+    .nav-brand img { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,0.06); padding: 4px; object-fit: contain; }
+    .nav-brand span { font-family: "Space Grotesk", Inter, sans-serif; }
+    .nav-categories {
+      display: flex; align-items: center; gap: 6px; margin-left: auto; padding-left: 28px;
+      border-left: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-category {
+      padding: 8px 14px; border-radius: 999px; color: rgba(255,255,255,0.7); font-size: 14px;
+      transition: all .25s ease;
+    }
+    .nav-category:hover { color: #fff; background: rgba(255,255,255,0.06); }
+    .nav-category.active { color: #fff; background: rgba(196, 75, 61, 0.16); box-shadow: 0 0 0 1px rgba(196,75,61,0.22) inset; }
+    .nav-cta {
+      padding: 10px 16px; border-radius: 999px; background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: #fff; font-size: 14px; font-weight: 600; box-shadow: 0 0 20px rgba(196, 75, 61, 0.25);
+    }
+
+    .page { width: min(var(--page-width), calc(100vw - 32px)); margin: 0 auto 34px; padding: 20px; }
+    .hero, .card {
+      background: linear-gradient(180deg, rgba(19,19,19,0.96), rgba(14,14,14,0.96));
+      border: 1px solid var(--border); border-radius: 22px; box-shadow: var(--shadow);
+    }
+    .hero { position: relative; overflow: hidden; padding: 38px 40px 34px; margin-bottom: 26px; }
+    .hero::before {
+      content: ""; position: absolute; inset: auto auto -110px -70px; width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(196, 75, 61, 0.12), transparent 68%);
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px;
+      color: rgba(255,255,255,0.82); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      font-size: 13px; margin-bottom: 14px;
+    }
+    h1 { margin: 0 0 12px; font-family: "Space Grotesk", Inter, sans-serif; font-size: clamp(32px, 5vw, 52px); line-height: 1.06; }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent;
+    }
+    .subtitle { margin: 0; max-width: 860px; color: #c7c7c7; font-size: 16px; line-height: 1.92; }
+
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) var(--toc-width); gap: 28px; align-items: start; }
+    .content { min-width: 0; max-width: var(--prose-width); }
+    .toc {
+      position: sticky; top: 90px; padding: 18px; border-radius: 22px; background: rgba(17,17,17,0.92);
+      border: 1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow);
+    }
+    .toc-title { margin: 0 0 12px; font-family: "Space Grotesk", Inter, sans-serif; font-size: 15px; color: #fff; }
+    .toc a {
+      display: block; padding: 10px 12px; margin-bottom: 5px; border-radius: 12px; color: var(--text-muted);
+      font-size: 14px; line-height: 1.45; transition: all .2s ease;
+    }
+    .toc a:hover, .toc a.active { color: #fff; background: rgba(196, 75, 61, 0.14); box-shadow: 0 0 0 1px rgba(196,75,61,0.18) inset; }
+
+    .card { padding: 24px; margin-bottom: 22px; scroll-margin-top: 88px; }
+    .card h2, .card h3 { margin: 0 0 10px; color: #fff; font-family: "Space Grotesk", Inter, sans-serif; }
+    .card h2 { font-size: 24px; line-height: 1.28; }
+    .lead, .card p, .card li { color: var(--text-dim); font-size: 14px; line-height: 1.9; }
+    .lead { margin-top: 0; margin-bottom: 16px; color: #c4c4c4; font-size: 15px; }
+    table {
+      width: 100%; border-collapse: collapse; margin-top: 14px; overflow: hidden; border-radius: 18px;
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    }
+    th, td {
+      text-align: left; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: top;
+      font-size: 14px; line-height: 1.7;
+    }
+    th { background: rgba(255,255,255,0.05); color: #fff; font-weight: 700; }
+    td { color: var(--text-dim); }
+    tr:last-child td { border-bottom: none; }
+    pre {
+      margin: 14px 0 0; padding: 16px; border-radius: 18px; background: #121212; border: 1px solid rgba(255,255,255,0.08);
+      color: #f5f5f5; overflow: auto; font-size: 13px; line-height: 1.72;
+    }
+    code { font-family: "JetBrains Mono", monospace; font-size: 0.95em; }
+    .callout {
+      margin: 14px 0; padding: 14px 16px; border-radius: 16px; background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08); border-left: 4px solid var(--accent); color: var(--text-dim);
+    }
+    .footer { margin-top: 12px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); color: var(--text-muted); font-size: 13px; }
+
+    @media (max-width: 1180px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc { position: relative; top: 0; order: -1; }
+    }
+    @media (max-width: 980px) {
+      .page { width: min(100vw - 14px, 1680px); padding: 10px; }
+    }
+    @media (max-width: 768px) {
+      .nav-categories { display: none; }
+      .nav-container { padding: 0 14px; }
+      .nav-brand span { font-size: 14px; }
+      .hero, .card { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  
+  <nav class='nav'>
+    <div class='nav-container'>
+      <a href='../../index.html' class='nav-brand'>
+        <img src='../../../../imgs/logo_en.png' alt='PhyAgentOS Logo' onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+        <span>PhyAgentOS Docs</span>
+      </a>
+      <div class='nav-categories'>
+        <a href='../../framework-design/index.html' class='nav-category '>框架设计</a>
+        <a href='../../api-usage/index.html' class='nav-category active'>API 使用</a>
+        <a href='../../development-guide/index.html' class='nav-category '>开发指南</a>
+      </div>
+      <a href='https://github.com/SYSU-HCP-EAI/PhyAgentOS' target='_blank' class='nav-cta'>GitHub</a>
+    </div>
+  </nav>
+
+
+  <main class="page">
+    <header class="hero">
+      <div class="eyebrow">API Usage / Markdown Protocol</div>
+      <h1><span class="gradient-text">Markdown</span> 文件格式与样例</h1>
+      <p class="subtitle">
+        这一页聚焦工作区中的协议文件本身：哪些文件属于 shared workspace，哪些属于 robot workspace；每类文件主要由谁写入、被谁读取；以及这些文件在运行时通常应当长成什么样。它更适合在排查状态异常、确认字段含义或编写兼容工具时参考。
+      </p>
+    </header>
+
+    <div class="layout">
+      <div class="content">
+        <section class="card" id="topology">
+          <h2>1. 先区分 shared workspace 和 robot workspace</h2>
+          <p class="lead">在阅读这些文件之前，先区分它们出现在哪个工作区非常重要。single 模式下所有文件可能都在同一个目录里；fleet 模式下，shared workspace 和每台机器人的 workspace 会分开。</p>
+          <table>
+            <thead>
+              <tr>
+                <th>位置</th>
+                <th>典型文件</th>
+                <th>主要用途</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>shared workspace</td>
+                <td><code>ENVIRONMENT.md</code>、<code>ROBOTS.md</code>、<code>LESSONS.md</code>、<code>TASK.md</code>、<code>ORCHESTRATOR.md</code></td>
+                <td>保存全局状态、共享环境、机器人摘要和任务协调信息</td>
+              </tr>
+              <tr>
+                <td>robot workspace</td>
+                <td><code>ACTION.md</code>、<code>EMBODIED.md</code></td>
+                <td>保存单个机器人实例自己的动作队列和运行时能力画像</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card" id="environment-md">
+          <h2>2. ENVIRONMENT.md：全局环境真相源</h2>
+          <p class="lead">这个文件是当前环境状态的主承载面。它通常由 HAL Watchdog 和感知 / 导航相关模块更新，Agent 和 Critic 会从这里读取场景图、机器人运行态和地图信息。</p>
+          <pre><code>{
+  "schema_version": "PhyAgentOS.environment.v1",
+  "updated_at": "2026-03-17T10:20:30Z",
+  "scene_graph": {
+    "nodes": [
+      {
+        "id": "obj_red_apple",
+        "class": "apple",
+        "object_key": "red_apple",
+        "center": {"x": 0.05, "y": 0.05, "z": 0.75},
+        "size": {"x": 0.06, "y": 0.06, "z": 0.06},
+        "confidence": 0.96,
+        "frame": "map",
+        "track_id": "track_apple_001",
+        "last_seen_at": "2026-03-17T10:20:29Z"
+      }
+    ],
+    "edges": [
+      {"source": "obj_red_apple", "relation": "ON", "target": "furniture_table", "confidence": 0.97}
+    ]
+  },
+  "robots": {
+    "go2_edu_001": {
+      "connection_state": {
+        "status": "connected",
+        "transport": "ssh",
+        "host": "192.168.1.23",
+        "port": 22,
+        "last_heartbeat": "2026-03-17T10:20:30Z"
+      },
+      "robot_pose": {
+        "frame": "map",
+        "x": 1.23,
+        "y": -0.45,
+        "z": 0.0,
+        "yaw": 1.57,
+        "stamp": "2026-03-17T10:20:30Z"
+      },
+      "nav_state": {
+        "mode": "navigating",
+        "status": "running",
+        "goal_id": "nav_goal_001"
+      }
+    }
+  },
+  "objects": {
+    "red_apple": {
+      "type": "fruit",
+      "color": "red",
+      "location": "table"
+    }
+  }
+}</code></pre>
+          <div class="callout">
+            这里最容易混淆的有两点：一是 `scene_graph` 和 `objects` 可以同时存在；二是运行时连接状态和导航状态应该写在 `robots.<robot_id>` 下，而不应该塞进 `EMBODIED.md`。
+          </div>
+        </section>
+
+        <section class="card" id="embodied-md">
+          <h2>3. EMBODIED.md：单个机器人实例的能力画像</h2>
+          <p class="lead">`EMBODIED.md` 不是实时状态文件，它更像一份给 Critic 和 Agent 阅读的能力说明书。运行时通常由 Watchdog 从 `hal/profiles/*.md` 复制到对应 robot workspace。</p>
+          <pre><code># EMBODIED.md Template
+
+## Identity
+- **Name**: Unitree Go2 EDU
+- **Type**: quadruped
+- **Driver/Profile**: go2_edu
+
+## Sensors
+- **Camera**: RGBD
+- **LiDAR**: yes
+- **Odometry**: yes
+
+## Supported Actions
+| Action | Parameters | Description |
+|--------|-----------|-------------|
+| `move_to` | `x, y` | Navigate to a target pose |
+| `target_navigation` | `target_label, timeout_s` | Move toward a visual target |
+
+## Physical Constraints
+- **Max speed**: 1.0 m/s
+- **Safety distance**: 0.4 m
+- **Collision policy**: stop when obstacle too close</code></pre>
+          <p>写这个文件时，重点不是把所有技术细节塞满，而是让 Agent 足够明确地知道：这台机器人是什么、它能做什么、什么不能做、哪些动作需要额外谨慎。</p>
+        </section>
+
+        <section class="card" id="action-md">
+          <h2>4. ACTION.md：单个机器人自己的动作队列</h2>
+          <p class="lead">`ACTION.md` 是执行链路中最直接的动作派发文件。对单个机器人来说，它只服务于该实例自己的 Watchdog。</p>
+          <pre><code>```json
+{
+  "schema_version": "PhyAgentOS.action_queue.v1",
+  "actions": [
+    {
+      "id": "2f18c6a912ab",
+      "action_type": "target_navigation",
+      "parameters": {
+        "robot_id": "go2_edu_001",
+        "target_label": "apple",
+        "timeout_s": 30
+      },
+      "status": "pending"
+    }
+  ]
+}
+```</code></pre>
+          <table>
+            <thead>
+              <tr>
+                <th>字段</th>
+                <th>说明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>schema_version</code></td><td>当前动作队列协议版本</td></tr>
+              <tr><td><code>actions</code></td><td>动作数组，Watchdog 会寻找第一个 pending 项</td></tr>
+              <tr><td><code>id</code></td><td>动作唯一 ID</td></tr>
+              <tr><td><code>action_type</code></td><td>动作类型，例如 `target_navigation`、`pick_up`、`real_execute`</td></tr>
+              <tr><td><code>parameters</code></td><td>动作参数对象</td></tr>
+              <tr><td><code>status</code></td><td>`pending` / `completed` / `failed` / `cancelled`</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card" id="lessons-robots">
+          <h2>5. LESSONS.md 与 ROBOTS.md：一个记录失败，一个提供摘要</h2>
+          <p class="lead">这两个文件经常被忽略，但对理解系统实际行为非常有帮助。</p>
+          <div class="grid-2">
+            <div>
+              <h3>LESSONS.md</h3>
+              <pre><code># Lessons Learned
+
+## Failed Action Attempt
+- **Action**: pick_up
+- **Parameters**: {"target": "red_apple"}
+- **Reasoning**: The apple is on the table and should be reachable.
+- **Critic Rejection**: target not confirmed in current environment state</code></pre>
+            </div>
+            <div>
+              <h3>ROBOTS.md</h3>
+              <pre><code># Robot Registry
+
+| Robot ID | Driver | Type | Capabilities | Workspace | Enabled | Profile | Connection | Navigation |
+|---|---|---|---|---|---|---|---|---|
+| go2_edu_001 | go2_edu | quadruped | move_to, target_navigation, ... | `~/.PhyAgentOS/workspaces/go2_edu_001` | yes | go2_edu.md | connected | running |</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="who-reads-what">
+          <h2>6. 谁读取什么：最实用的心智模型</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>角色</th>
+                <th>主要读取</th>
+                <th>主要写入</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>主 Agent</td>
+                <td><code>ENVIRONMENT.md</code>、<code>ROBOTS.md</code>、<code>LESSONS.md</code>、<code>TASK.md</code>、<code>ORCHESTRATOR.md</code></td>
+                <td>动作草案、任务拆解、消息输出</td>
+              </tr>
+              <tr>
+                <td>Critic / EmbodiedActionTool</td>
+                <td>shared `ENVIRONMENT.md`、目标机器人 `EMBODIED.md`、当前动作草案</td>
+                <td><code>ACTION.md</code> 或 <code>LESSONS.md</code></td>
+              </tr>
+              <tr>
+                <td>Watchdog</td>
+                <td>robot workspace `ACTION.md`、shared `ENVIRONMENT.md`</td>
+                <td>runtime `EMBODIED.md`、更新后的 `ENVIRONMENT.md`、`ROBOTS.md`</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="callout">
+            如果排查时不知道先看哪个文件，一个简单判断是：先看当前这个问题更像“规划问题”“能力约束问题”还是“执行回写问题”，再对应到上面的读取关系去定位文件。
+          </div>
+        </section>
+
+        <div class="footer">
+          这一页更适合作为运行时协议参考页使用：当你想确认某个 Markdown 文件应该长什么样、由谁维护、在什么阶段被读取时，可以优先回到这里。
+        </div>
+      </div>
+
+      <aside class="toc">
+        <a href="../index.html" style="display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 13px; margin-bottom: 16px; padding: 0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          返回 API 使用总览
+        </a>
+        <div class="toc-title">本页目录</div>
+        <a href="#topology">工作区拓扑</a>
+        <a href="#environment-md">ENVIRONMENT.md</a>
+        <a href="#embodied-md">EMBODIED.md</a>
+        <a href="#action-md">ACTION.md</a>
+        <a href="#lessons-robots">LESSONS.md / ROBOTS.md</a>
+        <a href="#who-reads-what">谁读取什么</a>
+        
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 15px; color: #fff;">同组页面</div>
+        <a href="../plugin-usage/index.html">插件使用说明</a>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0];
+      for (const section of sections) {
+        if (window.scrollY + 120 >= section.offsetTop) current = section;
+      }
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current.id));
+    };
+    window.addEventListener('scroll', activate, { passive: true });
+    window.addEventListener('load', activate);
+  </script>
+</body>
+</html>

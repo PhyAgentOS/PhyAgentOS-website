@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PhyAgentOS API 使用总览</title>
+  <title>PhyAgentOS 开发指南总览</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -163,7 +163,7 @@
     }
 
     .subnav {
-      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
     }
     .subnav a {
       display: block; padding: 20px 20px 18px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08);
@@ -208,14 +208,14 @@
   
   <nav class='nav'>
     <div class='nav-container'>
-      <a href='./index.html' class='nav-brand'>
-        <img src='./../../imgs/logo_en.png' alt='PhyAgentOS Logo' onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+      <a href='../index.html' class='nav-brand'>
+        <img src='../../../imgs/logo_en.png' alt='PhyAgentOS Logo' onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
         <span>PhyAgentOS Docs</span>
       </a>
       <div class='nav-categories'>
-        <a href='./framework-design/index.html' class='nav-category '>框架设计</a>
-        <a href='./api-usage/index.html' class='nav-category '>API 使用</a>
-        <a href='./development-guide/index.html' class='nav-category '>开发指南</a>
+        <a href='../framework-design/index.html' class='nav-category '>框架设计</a>
+        <a href='../api-usage/index.html' class='nav-category '>API 使用</a>
+        <a href='../development-guide/index.html' class='nav-category active'>开发指南</a>
       </div>
       <a href='https://github.com/SYSU-HCP-EAI/PhyAgentOS' target='_blank' class='nav-cta'>GitHub</a>
     </div>
@@ -224,78 +224,78 @@
 
   <main class="page">
     <header class="hero">
-      <div class="eyebrow">Documentation / Home</div>
-      <h1>PhyAgentOS <span class="gradient-text">文档中心</span></h1>
-      <p class="subtitle">欢迎使用 PhyAgentOS 文档。在这里您可以找到关于框架设计、API 使用以及开发指南的详细信息。</p>
+      <div class="eyebrow">Documentation / Developer Guide</div>
+      <h1><span class="gradient-text">PhyAgentOS</span> 开发指南</h1>
+      <p class="subtitle">
+        这一部分现在作为开发文档入口页使用，不再把所有开发主题堆叠在一个页面中。总览页只负责帮助读者判断“下一步应该看哪里”，而具体的插件开发样例、Driver 接入流程，以及代码风格和命名约定，会分别拆到独立子页面中维护。
+      </p>
       <section class="legend">
-        <div class="tag"><span class="dot brain"></span>命令入口</div>
-        <div class="tag"><span class="dot protocol"></span>文件协议</div>
-        <div class="tag"><span class="dot hal"></span>插件与执行层</div>
+        <div class="tag"><span class="dot brain"></span>插件开发</div>
+        <div class="tag"><span class="dot protocol"></span>Driver 接入</div>
+        <div class="tag"><span class="dot hal"></span>代码规范</div>
       </section>
     </header>
 
     <div class="layout">
       <div class="content">
         <section class="card" id="overview">
-          <h2>总览：建议的阅读顺序</h2>
+          <h2>总览：按开发目标选择子页面</h2>
           <p class="lead">
-            如果你的目标是“先把系统用起来”，建议先看插件使用；如果你的目标是“弄清工作区里每个 Markdown 文件到底应该长什么样”，建议先看文件格式与样例页。两者分别服务于不同阶段：前者帮助你跑通执行链路，后者帮助你判断运行状态是否合理。
+            如果你的目标是开发或维护一个真实机器人插件，建议先看 ReKep 样例插件页；如果你的目标是把某个硬件快速接到 HAL 中，建议先看 Driver 接入页；如果你已经在改代码并希望保持项目的一致性，则应先阅读代码风格与命名约定页。
           </p>
-          
           <div class="subnav">
-            <a href="./framework-design/index.html">
-              <span class="label">Architecture</span>
-              <strong>框架设计</strong>
-              <span>深入了解 PhyAgentOS 的核心架构、消息总线以及感知-决策-执行循环。</span>
+            <a href="./rekep-plugin-example/index.html">
+              <span class="label">开发子页面</span>
+              <strong>以 ReKep 为样例的插件开发指南</strong>
+              <span>解释插件目录、清单文件、runtime 分层、本地部署、预检与 dry-run，以及如何把 ReKep 的结构迁移到新插件。</span>
             </a>
-            <a href="./api-usage/index.html">
-              <span class="label">Reference</span>
-              <strong>API 使用</strong>
-              <span>学习如何使用 PhyAgentOS 的 API，包括插件系统、Markdown 格式规范等。</span>
+            <a href="./driver-integration/index.html">
+              <span class="label">开发子页面</span>
+              <strong>接入新 Driver 的完整流程</strong>
+              <span>从 `BaseDriver` 的最小接口开始，覆盖 profile、动作映射、运行态回写、Watchdog 验证与全链路联调。</span>
             </a>
-            <a href="./development-guide/index.html" style="grid-column: span 2;">
-              <span class="label">Guide</span>
-              <strong>开发指南</strong>
-              <span>为开发者提供的实战指南，涵盖代码规范、驱动集成以及插件开发示例。</span>
+            <a href="./code-style/index.html">
+              <span class="label">开发子页面</span>
+              <strong>代码风格、命名约定与目录约定</strong>
+              <span>整理主仓库与插件仓库中更适合沿用的代码组织方式，包括命名、目录边界、职责拆分与文档约定。</span>
             </a>
           </div>
-
         </section>
 
         <section class="card" id="scope">
-          <h2>这部分文档覆盖什么</h2>
+          <h2>这部分文档会解决什么问题</h2>
           <div class="grid-3">
             <div class="mini-card">
-              <h3>系统入口</h3>
-              <p>包括 [`paos onboard`](PhyAgentOS/cli/commands.py:171)、[`paos agent`](PhyAgentOS/cli/commands.py:513)、[`paos gateway`](PhyAgentOS/cli/commands.py:320) 等命令如何参与实际调用链路。</p>
+              <h3>如何开始</h3>
+              <p>帮助第一次进入项目的开发者确认：先装什么、先看什么、怎样跑通最小闭环，以及哪些现象可以作为系统正常运行的基线。</p>
             </div>
             <div class="mini-card">
-              <h3>运行时协议</h3>
-              <p>说明工作区中的 Markdown 文件如何承载共享状态，以及这些文件在 single / fleet 模式下分别被谁读取和写入。</p>
+              <h3>如何扩展</h3>
+              <p>覆盖插件开发、Driver 接入与 runtime 分层的基本做法，避免把主仓库、插件逻辑和第三方 SDK 混在一起。</p>
             </div>
             <div class="mini-card">
-              <h3>插件与 Driver</h3>
-              <p>说明外部插件如何被发现、注册和调用，以及插件驱动与主仓库内置驱动在使用方式上的共性与差异。</p>
+              <h3>如何维持一致性</h3>
+              <p>补充命名约定、目录边界、代码风格和测试建议，帮助新增代码更自然地融入现有仓库，而不是成为额外的分支风格。</p>
             </div>
           </div>
         </section>
 
         <section class="card" id="reading-path">
-          <h2>按目标选择阅读路径</h2>
+          <h2>推荐的阅读路径</h2>
           <div class="grid-2">
             <div class="mini-card">
-              <h3>如果你是使用者或演示操作者</h3>
-              <p>建议先看插件使用说明页，重点关注插件安装、Watchdog 启动方式、`ACTION.md` 直接调用和 runtime 调试命令。这样更容易先把执行链路跑起来。</p>
+              <h3>如果你要开发新插件</h3>
+              <p>先看 ReKep 样例插件页，再回到 Driver 接入页补齐统一执行接口的理解。这样更容易区分“插件内部 runtime 逻辑”和“PhyAgentOS 侧 Driver 适配”这两层职责。</p>
             </div>
             <div class="mini-card">
-              <h3>如果你是开发者或排查者</h3>
-              <p>建议先看 Markdown 文件格式与样例页。理解 `ENVIRONMENT.md`、`EMBODIED.md` 与 `ACTION.md` 的结构之后，再回到插件页看具体的调用方式，会更容易定位问题。</p>
+              <h3>如果你要接一个新本体</h3>
+              <p>先看 Driver 接入页，确认最小接口和联调路径；再看代码风格页，避免新代码在命名、目录结构和职责边界上偏离主仓库习惯。</p>
             </div>
           </div>
         </section>
 
         <div class="footer">
-          这一页现在作为 API 文档入口页使用，后续具体内容将分布到独立子页面中，以避免单页继续膨胀。
+          这一页现在作为开发文档入口页使用；后续更具体的开发主题会拆到独立子页面中，以保持内容结构清晰并便于维护。
         </div>
       </div>
 
@@ -306,8 +306,9 @@
         <a href="#reading-path">阅读路径</a>
         
         <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 15px; color: #fff;">子页面</div>
-        <a href="./plugin-usage/index.html">插件使用说明</a>
-        <a href="./markdown-formats/index.html">Markdown 文件格式与样例</a>
+        <a href="./rekep-plugin-example/index.html">以 ReKep 为样例的插件开发</a>
+        <a href="./driver-integration/index.html">接入新 Driver 的完整流程</a>
+        <a href="./code-style/index.html">代码风格与命名约定</a>
       </aside>
     </div>
   </main>
