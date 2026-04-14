@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhyAgentOS Developer Guide - ReKep Plugin Example</title>
+  <link rel="stylesheet" href="../../../docs-common.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../../index.html" class="nav-brand">
+        <img src="./../../../../LOGO.png" alt="PhyAgentOS Logo" onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+        <span>PhyAgentOS Docs</span>
+      </a>
+      <div class="nav-categories">
+        <a href="../../architecture.html" class="nav-category">Architecture</a>
+        <div class="nav-dropdown">
+          <a href="../../api-reference.html" class="nav-category">API Reference</a>
+          <div class="nav-dropdown-menu">
+            <a href="../../api-usage/plugin-usage/index.html">Plugin Usage</a>
+            <a href="../../api-usage/markdown-formats/index.html">Markdown Formats</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="../../developer-guide.html" class="nav-category active">Developer Guide</a>
+          <div class="nav-dropdown-menu">
+            <a href="../rekep-plugin-example/index.html" class="active">ReKep Plugin Example</a>
+            <a href="../driver-integration/index.html">New Driver Integration</a>
+            <a href="../code-style/index.html">Code Style</a>
+            <a href="../roadmap-todos/index.html">Roadmap</a>
+            <a href="../contribution-workflow/index.html">Contribution Workflow</a>
+          </div>
+        </div>
+      </div>
+      <a href="../../../development-guide/rekep-plugin-example/index.html" class="nav-lang">中文</a>
+      <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <header class="hero">
+      <div class="eyebrow">Developer Guide / ReKep Example</div>
+      <h1><span class="gradient-text">ReKep</span> Plugin Development Example</h1>
+      <p class="subtitle">
+        Rather than designing a plugin skeleton from scratch, follow ReKep's structure — it demonstrates what a complete external plugin should look like.
+      </p>
+    </header>
+
+    <div class="layout">
+      <div class="content">
+        <section class="card" id="why-rekep">
+          <h2>Why Follow ReKep's Lead</h2>
+          <div class="grid-3">
+            <div class="mini-card">
+              <div style="font-size:24px; margin-bottom:8px;">🧱</div>
+              <h3>Clear Boundaries</h3>
+              <p>The main repo only cares about the Driver interface; inside the plugin, you're free to use any SDK however you like.</p>
+            </div>
+            <div class="mini-card">
+              <div style="font-size:24px; margin-bottom:8px;">🏗️</div>
+              <h3>Complete Structure</h3>
+              <p>Manifest, Driver, runtime, deployment scripts, and tests — all included.</p>
+            </div>
+            <div class="mini-card">
+              <div style="font-size:24px; margin-bottom:8px;">🔄</div>
+              <h3>Directly Portable</h3>
+              <p>Swap out ReKep's name, action mappings, and runtime implementation, and you've got your new plugin.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="structure">
+          <h2>What a Minimal Plugin Looks Like</h2>
+          <p class="lead">
+            You don't need to implement every feature at once. Get the skeleton working so Watchdog can load it, then gradually add capabilities.
+          </p>
+          <div class="tree">
+my-phyagentos-plugin/<br/>
+├── PhyAgentOS_plugin.toml        ← Manifest: tells the main repo who you are<br/>
+├── README.md / README_zh.md<br/>
+├── pyproject.toml<br/>
+├── my_plugin/<br/>
+│   ├── __init__.py<br/>
+│   ├── driver.py                 ← BaseDriver implementation<br/>
+│   └── profiles/<br/>
+│       └── my_robot.md           ← Capability profile<br/>
+├── runtime/<br/>
+│   └── your_runtime_entry.py     ← Real robot bridge, heavy logic<br/>
+└── tests/<br/>
+    └── test_my_driver.py
+          </div>
+          <table style="margin-top:16px;">
+            <thead>
+              <tr><th>Path</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>PhyAgentOS_plugin.toml</code></td><td>Declares driver name, entry class, and profile location</td></tr>
+              <tr><td><code>my_plugin/driver.py</code></td><td>The BaseDriver subclass that Watchdog actually loads</td></tr>
+              <tr><td><code>my_plugin/profiles/*.md</code></td><td>Copied as EMBODIED.md at runtime</td></tr>
+              <tr><td><code>runtime/</code></td><td>Third-party SDKs, bridge scripts, long-running processes</td></tr>
+              <tr><td><code>tests/</code></td><td>Plugin-level smoke tests</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card" id="manifest">
+          <h2>How to Write the Manifest</h2>
+          <pre><code>[plugin]
+name = "my_robot"
+version = "0.1.0"
+description = "My robot plugin for PhyAgentOS"
+
+[driver]
+name = "my_robot"
+module = "my_plugin.driver"
+class = "MyRobotDriver"
+profile_path = "my_plugin/profiles/my_robot.md"
+
+[python]
+sys_paths = ["."]
+
+[[requirements]]
+path = "runtime/requirements.txt"
+optional = false</code></pre>
+          <div class="callout">
+            The two most critical fields: <code>driver.name</code> determines what name Watchdog uses with <code>--driver</code> to find you; <code>driver.module</code> + <code>driver.class</code> determines which Python class the main repo actually imports.
+          </div>
+        </section>
+
+        <section class="card" id="split">
+          <h2>How to Split Driver and Runtime</h2>
+          <div class="grid-2">
+            <div class="mini-card" style="border-left:4px solid var(--success);">
+              <h3>Driver Layer</h3>
+              <p>Implements the BaseDriver interface: receives actions, converts parameters, returns results, exposes profiles. Keep this layer as thin as possible.</p>
+            </div>
+            <div class="mini-card" style="border-left:4px solid var(--info);">
+              <h3>Runtime Layer</h3>
+              <p>Handles preflight checks, dry-runs, real robot execution, and long-running tasks. Put heavy dependencies and complex bridging logic here — don't stuff them into the Driver.</p>
+            </div>
+          </div>
+          <p>The direct benefit of this split: when something goes wrong, you can quickly determine whether it's a "main repo protocol adaptation" issue or a "real robot execution" issue.</p>
+        </section>
+
+        <section class="card" id="local-dev">
+          <h2>Local Development Setup</h2>
+          <p class="lead">
+            The most convenient approach: place the plugin repo alongside the main repo, and install it back via local path.
+          </p>
+          <pre><code>git clone https://github.com/SYSU-HCP-EAI/PhyAgentOS.git
+git clone https://github.com/baiyu858/PhyAgentOS-rekep-real-plugin.git
+
+cd PhyAgentOS
+pip install -e .
+
+python scripts/deploy_rekep_real_plugin.py \
+  --repo-url ../PhyAgentOS-rekep-real-plugin</code></pre>
+          <p>This way you can edit plugin code while running the full pipeline through the main repo's Watchdog and Agent for end-to-end verification.</p>
+        </section>
+
+        <section class="card" id="verify">
+          <h2>Verification Order: Preflight → Dry-Run → Full Pipeline</h2>
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:14px 0;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="step-num">1</div>
+              <span>preflight</span>
+            </div>
+            <span style="color:var(--muted);">→</span>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="step-num">2</div>
+              <span>dry-run</span>
+            </div>
+            <span style="color:var(--muted);">→</span>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="step-num">3</div>
+              <span>full pipeline</span>
+            </div>
+          </div>
+          <pre><code># 1. Preflight — verify runtime environment is healthy
+python runtime/dobot_bridge.py preflight --pretty
+
+# 2. Dry-run — don't touch the real robot, verify action parsing
+python runtime/dobot_bridge.py execute \
+  --instruction "pick up the red block and place it on the tray" \
+  --pretty
+
+# 3. Real robot execution
+python runtime/dobot_bridge.py execute \
+  --instruction "pick up the red block and place it on the tray" \
+  --execute_motion \
+  --pretty
+
+# 4. Full closed loop with Watchdog + Agent
+paos onboard
+python hal/hal_watchdog.py --driver rekep_real --workspace ~/.PhyAgentOS/workspace
+paos agent</code></pre>
+        </section>
+
+        <section class="card" id="actions">
+          <h2>ReKep Supports Two Action Protocols</h2>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h3>Plugin Native Actions</h3>
+              <p><code>real_preflight</code>, <code>real_execute</code>, <code>real_execute_background</code>, <code>real_scene_qa</code>, <code>real_longrun_start</code></p>
+              <p style="font-size:13px; color:var(--muted);">Directly mapped to runtime subcommands — ideal for invoking plugin-specific capabilities.</p>
+            </div>
+            <div class="mini-card">
+              <h3>Generic High-Level Actions</h3>
+              <p><code>move_to</code>, <code>pick_up</code>, <code>put_down</code>, <code>push</code>, <code>point_to</code>, <code>open_gripper</code>, <code>close_gripper</code></p>
+              <p style="font-size:13px; color:var(--muted);">Converted to natural language instructions and routed to the unified execution entry point.</p>
+            </div>
+          </div>
+          <p>When designing a new plugin, we recommend keeping both layers: one for the main repo's generic protocol, and one for the plugin's internal specialized interface.</p>
+        </section>
+
+        <section class="card" id="recommended-flow">
+          <h2>Recommended Community Development Flow</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>Write PhyAgentOS_plugin.toml</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">Make the plugin discoverable first</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>Write a minimal BaseDriver</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">Get Watchdog to load it successfully</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>Add the profile</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">Ensure EMBODIED.md installs correctly</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>Put complex capabilities in runtime/</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">Avoid stuffing all logic into the driver</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>Run preflight and dry-run</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">Narrow down failure scope early</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>Integrate with Watchdog and Agent</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">Run full end-to-end integration testing</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="footer">
+          ReKep isn't the "simplest" plugin, but it's the most "production-like" one. Using it as a template is much faster than building a skeleton from scratch.
+        </div>
+      </div>
+
+      <aside class="toc">
+        <a href="../../developer-guide.html" style="display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; margin-bottom: 16px; padding: 0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Back to Developer Guide
+        </a>
+        <div class="toc-title">On This Page</div>
+        <a href="#why-rekep">Why ReKep</a>
+        <a href="#structure">Minimal Plugin Structure</a>
+        <a href="#manifest">Manifest File</a>
+        <a href="#split">Driver / Runtime Split</a>
+        <a href="#local-dev">Local Development</a>
+        <a href="#verify">Verification Order</a>
+        <a href="#actions">Action Mapping</a>
+        <a href="#recommended-flow">Recommended Flow</a>
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">Related Pages</div>
+        <a href="../driver-integration/index.html">New Driver Integration Flow</a>
+        <a href="../code-style/index.html">Code Style & Naming Conventions</a>
+        <a href="../roadmap-todos/index.html">Roadmap & TODOs</a>
+        <a href="../contribution-workflow/index.html">Contribution Workflow & PR Guidelines</a>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0];
+      for (const section of sections) {
+        if (window.scrollY + 120 >= section.offsetTop) current = section;
+      }
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current.id));
+    };
+    window.addEventListener('scroll', activate, { passive: true });
+    window.addEventListener('load', activate);
+  </script>
+</body>
+</html>

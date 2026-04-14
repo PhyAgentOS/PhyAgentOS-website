@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhyAgentOS Framework Design</title>
+  <link rel="stylesheet" href="../docs-common.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <img src="./../../LOGO.png" alt="PhyAgentOS Logo" onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+        <span>PhyAgentOS Docs</span>
+      </a>
+      <div class="nav-categories">
+        <a href="./architecture.html" class="nav-category active">Architecture</a>
+        <div class="nav-dropdown">
+          <a href="./api-reference.html" class="nav-category">API Reference</a>
+          <div class="nav-dropdown-menu">
+            <a href="./api-usage/plugin-usage/index.html">Plugin Usage</a>
+            <a href="./api-usage/markdown-formats/index.html">Markdown Formats</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="./developer-guide.html" class="nav-category">Developer Guide</a>
+          <div class="nav-dropdown-menu">
+            <a href="./development-guide/rekep-plugin-example/index.html">ReKep Plugin Example</a>
+            <a href="./development-guide/driver-integration/index.html">New Driver Integration</a>
+            <a href="./development-guide/code-style/index.html">Code Style</a>
+            <a href="./development-guide/roadmap-todos/index.html">Roadmap</a>
+            <a href="./development-guide/contribution-workflow/index.html">Contribution Workflow</a>
+          </div>
+        </div>
+      </div>
+      <a href="../architecture.html" class="nav-lang">中文</a>
+      <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <header class="hero card-hover">
+      <div class="eyebrow">Documentation / Architecture</div>
+      <h1><span class="gradient-text">PhyAgentOS</span> Framework Design</h1>
+      <p class="subtitle">
+        Imagine telling a robot "put the apple on the table into the basket." That sentence doesn't become motor commands directly — it goes through six stages: understanding, planning, validation, formatting, execution, and state feedback. PhyAgentOS chains these six stages into a clear, observable pipeline instead of a black box.
+      </p>
+      <section class="legend">
+        <div class="tag"><span class="dot brain"></span>Cognitive Orchestration</div>
+        <div class="tag"><span class="dot protocol"></span>Workspace Protocol</div>
+        <div class="tag"><span class="dot safe"></span>Safety Validation</div>
+        <div class="tag"><span class="dot hal"></span>HAL Execution</div>
+        <div class="tag"><span class="dot return"></span>Feedback Loop</div>
+      </section>
+    </header>
+
+    <div class="layout">
+      <div class="content">
+        <section class="card card-hover" id="overview">
+          <h2>One-liner: How Data Flows</h2>
+          <p class="lead">
+            Don't rush into the source directory. Burn this main line into your brain first: a user's sentence → Agent's plan → written to file → Watchdog reads → drives execution → state written back to file. The entire loop revolves around a few Markdown files.
+          </p>
+          <div class="mermaid arch-diagram">
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fffaf3', 'primaryTextColor': '#1d2a30', 'primaryBorderColor': '#20323a', 'lineColor': '#66757d', 'secondaryColor': '#f5efe6', 'tertiaryColor': '#ffffff', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px', 'textColor': '#1d2a30', 'nodeBkg': '#fffaf3', 'nodeBorder': '#20323a', 'nodeTextColor': '#1d2a30', 'clusterBkg': '#f5efe6', 'clusterBorder': '#20323a', 'titleColor': '#1d2a30', 'edgeLabelBackground': '#ffffff', 'edgeLabelColor': '#66757d', 'arrowheadColor': '#66757d'}}}%%
+flowchart LR
+    classDef cognitive fill:#dff0e6,stroke:#5f9e77,stroke-width:2px,color:#2d5a3f
+    classDef safety fill:#f8e5b7,stroke:#cc951e,stroke-width:2px,color:#7a5a0a
+    classDef protocol fill:#f6d0c3,stroke:#ca6a49,stroke-width:2px,color:#7a3a28
+    classDef execute fill:#dbe8f7,stroke:#4b7eb4,stroke-width:2px,color:#2a4a6a
+    classDef file fill:#ffffff,stroke:#66757d,stroke-width:1.5px,color:#1d2a30
+
+    subgraph A["🧠 Cognitive Layer"]
+      USER([User Input]):::cognitive
+      AGENT[AgentLoop]:::cognitive
+      TOOL[Embodied Tools]:::cognitive
+    end
+
+    subgraph B["🛡️ Validation Layer"]
+      CRITIC{Critic}:::safety
+    end
+
+    subgraph C["📄 Protocol Layer"]
+      EMBODIED([EMBODIED.md]):::file
+      ACTION([ACTION.md]):::protocol
+      ENV([ENVIRONMENT.md]):::file
+    end
+
+    subgraph D["🔧 Execution Layer"]
+      WATCH[Watchdog]:::execute
+      DRIVER[Driver]:::execute
+      ROBOT([Robot]):::execute
+    end
+
+    USER --> AGENT --> TOOL --> CRITIC
+    EMBODIED -.-> CRITIC
+    CRITIC -->|Pass| ACTION
+    CRITIC -.->|Reject| ENV
+    ACTION --> WATCH --> DRIVER --> ROBOT
+    ROBOT -.->|Update| ENV
+          </div>
+        </section>
+
+        <section class="card card-hover" id="six-steps">
+          <h2>Six Steps: From Sentence to Robot Action</h2>
+          <p class="lead">
+            Below is the breakdown in actual execution order. If you get stuck debugging, check these six steps to locate the issue: is it in the understanding layer? The validation layer? Or did the execution layer fail to write back state?
+          </p>
+
+          <div class="flow-track">
+            <span class="flow-step" style="background:rgba(95,158,119,0.18);border-color:rgba(95,158,119,0.35);">1. User speaks</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step" style="background:rgba(95,158,119,0.18);border-color:rgba(95,158,119,0.35);">2. Agent assembles context</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step" style="background:rgba(95,158,119,0.18);border-color:rgba(95,158,119,0.35);">3. Decides action</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step" style="background:rgba(202,106,73,0.18);border-color:rgba(202,106,73,0.35);">4. Critic validates</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step" style="background:rgba(204,149,30,0.18);border-color:rgba(204,149,30,0.35);">5. Write ACTION.md</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step" style="background:rgba(75,126,180,0.18);border-color:rgba(75,126,180,0.35);">6. Watchdog executes</span>
+          </div>
+
+          <div class="grid-2" style="margin-top:18px;">
+            <div class="mini-card card-hover" style="border-left:4px solid var(--success);">
+              <h3>Steps 1–3: Cognitive Layer</h3>
+              <p>The user sends a task via CLI or gateway. AgentLoop assembles conversation history and workspace state into a prompt, letting the LLM decide which tool to call. When the physical world is involved, it typically hits <code>execute_robot_action</code> or <code>target_navigation</code>.</p>
+            </div>
+            <div class="mini-card card-hover" style="border-left:4px solid var(--danger);">
+              <h3>Step 4: Critic Validation</h3>
+              <p>The Critic examines <code>EMBODIED.md</code> and <code>ENVIRONMENT.md</code> to check whether the action is legal and reachable. If not, it rejects the action and writes the reason to <code>LESSONS.md</code>.</p>
+            </div>
+            <div class="mini-card card-hover" style="border-left:4px solid var(--warning);">
+              <h3>Step 5: Persist to File</h3>
+              <p>After validation, the action is not RPC'd directly to hardware. Instead, it's formatted as JSON and written to <code>ACTION.md</code>. This action queue is the only interface from the cognitive layer to the execution layer.</p>
+            </div>
+            <div class="mini-card card-hover" style="border-left:4px solid var(--info);">
+              <h3>Step 6: Execute & Write Back</h3>
+              <p>The HAL Watchdog polls <code>ACTION.md</code>, finds a pending action, and hands it to the Driver. After execution, the Driver writes the latest environment state back to <code>ENVIRONMENT.md</code>, closing the loop.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card card-hover" id="workspace">
+          <h2>Files Are Not Logs — They Are the Interface</h2>
+          <p class="lead">
+            Many systems use files for logging. PhyAgentOS uses files as protocol. Different processes don't call each other's functions directly — they read the same Markdown. This makes the entire system like a glass house: you can open any file at any time to see the current state.
+          </p>
+          <div class="mermaid arch-diagram">
+%%{init: {'theme': 'default', 'themeVariables': { 'primaryColor': '#fffaf3', 'primaryTextColor': '#1d2a30', 'primaryBorderColor': '#20323a', 'lineColor': '#66757d', 'secondaryColor': '#f5efe6', 'tertiaryColor': '#ffffff', 'fontFamily': 'Inter, system-ui, sans-serif', 'textColor': '#1d2a30', 'nodeBkg': '#ffffff', 'nodeBorder': '#20323a', 'nodeTextColor': '#1d2a30', 'clusterBkg': '#f5efe6', 'clusterBorder': '#20323a', 'titleColor': '#1d2a30', 'edgeLabelBackground': '#ffffff', 'edgeLabelColor': '#66757d', 'arrowheadColor': '#66757d'}}}%%
+flowchart TB
+    classDef sharedFile fill:#f6d0c3,stroke:#ca6a49,stroke-width:2.5px,color:#7a3a28,font-weight:500
+    classDef robotFile fill:#dff0e6,stroke:#5f9e77,stroke-width:2.5px,color:#2d5a3f,font-weight:500
+    classDef agentRole fill:#dbe8f7,stroke:#4b7eb4,stroke-width:2px,color:#2a4a6a
+    classDef criticRole fill:#f8e5b7,stroke:#cc951e,stroke-width:2px,color:#7a5a0a
+    classDef watchdogRole fill:#ece3f6,stroke:#7f62ac,stroke-width:2px,color:#5a3d7a
+    classDef wsBox fill:#fffaf3,stroke:#20323a,stroke-width:1.5px,color:#1d2a30
+
+    subgraph SHARED["📁 Shared Workspace"]
+        direction TB
+        E([ENVIRONMENT.md]):::sharedFile
+        R([ROBOTS.md]):::sharedFile
+        L([LESSONS.md]):::sharedFile
+        T([TASK.md]):::sharedFile
+        O([ORCHESTRATOR.md]):::sharedFile
+    end
+
+    subgraph ROBOT["🤖 Robot Workspace"]
+        direction TB
+        A([ACTION.md]):::robotFile
+        M([EMBODIED.md]):::robotFile
+    end
+
+    AG([Agent]):::agentRole
+    CR([Critic]):::criticRole
+    WD([Watchdog]):::watchdogRole
+
+    AG -."read environment".->E
+    AG -."read task".->T
+    AG ==>|"write action"| A
+    CR -."read constraints".->M
+    CR -."read state".->E
+    WD -."poll action".->A
+    WD ==>|"update environment"| E
+    WD -."install config".->M
+          </div>
+          <table style="margin-top:18px;">
+            <thead>
+              <tr><th>File</th><th>One-liner</th><th>Written by</th><th>Read by</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>ENVIRONMENT.md</code></td><td>Source of truth for current environment: scene graph, robot poses, navigation state</td><td>Watchdog / Perception</td><td>Agent / Critic</td></tr>
+              <tr><td><code>EMBODIED.md</code></td><td>What this robot can and cannot do</td><td>Watchdog (from profile)</td><td>Critic / Agent</td></tr>
+              <tr><td><code>ACTION.md</code></td><td>Action queue sent to the robot</td><td>EmbodiedActionTool</td><td>HAL Watchdog</td></tr>
+              <tr><td><code>LESSONS.md</code></td><td>Failure experience to avoid repeating mistakes</td><td>Critic rejection logic</td><td>Agent / You</td></tr>
+              <tr><td><code>ROBOTS.md</code></td><td>Multi-robot index with capability summaries</td><td>EmbodimentRegistry</td><td>Planner / Ops</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card card-hover" id="layers">
+          <h2>Three-Layer Structure</h2>
+          <p class="lead">
+            Memorizing the code directory is useless — building a layered mental model is more important. When you see a piece of code, ask yourself: is this "thinking" for the robot, or "running errands"?
+          </p>
+          <div class="layer-card">
+            <div class="mini-card card-hover" style="background:linear-gradient(180deg, rgba(95,158,119,0.12), rgba(95,158,119,0.04));">
+              <h3 style="color:#7ddba8;">Cognitive Layer</h3>
+              <p><code>PhyAgentOS/agent</code>, <code>providers</code>, <code>cli</code></p>
+              <p>Responsible for understanding tasks, planning actions, calling tools, and making safety judgments. Never touches robot SDKs directly.</p>
+            </div>
+            <div class="mini-card card-hover" style="background:linear-gradient(180deg, rgba(204,149,30,0.12), rgba(204,149,30,0.04));">
+              <h3 style="color:#f0c674;">Protocol Layer</h3>
+              <p>workspace / workspaces</p>
+              <p>Uses Markdown to carry shared state, allowing Agent, Watchdog, and Critic to read the same context.</p>
+            </div>
+            <div class="mini-card card-hover" style="background:linear-gradient(180deg, rgba(75,126,180,0.12), rgba(75,126,180,0.04));">
+              <h3 style="color:#7eb8f7;">Execution Layer</h3>
+              <p><code>hal/</code>, drivers, navigation, perception</p>
+              <p>Responsible for connecting hardware, executing actions, and refreshing environment state. No high-level planning.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card card-hover" id="single-vs-fleet">
+          <h2>Single vs Fleet: Same Codebase, Two Modes</h2>
+          <div class="grid-2" style="margin-top:14px;">
+            <div class="mini-card card-hover">
+              <h3>Single</h3>
+              <p>One robot, one workspace. The most comfortable debugging mode — running a local simulator also uses this pattern.</p>
+            </div>
+            <div class="mini-card card-hover">
+              <h3>Fleet</h3>
+              <p>Multiple robots share one <code>ENVIRONMENT.md</code>, but each has its own <code>ACTION.md</code> and <code>EMBODIED.md</code>.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card card-hover" id="why-markdown">
+          <h2>Why Markdown as Protocol?</h2>
+          <p class="lead">
+            Because humans need to read it, and models need to read it too. You can open an <code>ENVIRONMENT.md</code> and read it directly, and an LLM can stuff it into a prompt. If it were binary protobuf, you'd cry during debugging.
+          </p>
+          <ul>
+            <li><strong>Human-readable:</strong> When something goes wrong, just cat the file — no need to attach a debugger.</li>
+            <li><strong>Model-readable:</strong> Markdown naturally fits into LLM context.</li>
+            <li><strong>Loose coupling between processes:</strong> Agent and Watchdog don't need RPC — they just agree on file formats.</li>
+          </ul>
+        </section>
+
+        <div class="footer">
+          Remember this main line: the model only writes files, the Watchdog only reads files and executes. Between them lies Markdown — this is the core design of PhyAgentOS.
+        </div>
+      </div>
+
+      <aside class="toc">
+        <div class="toc-title">On This Page</div>
+        <a href="#overview">Data Flow</a>
+        <a href="#six-steps">Six Steps</a>
+        <a href="#workspace">Files as Interface</a>
+        <a href="#layers">Three Layers</a>
+        <a href="#single-vs-fleet">Single / Fleet</a>
+        <a href="#why-markdown">Markdown Protocol</a>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default', themeVariables: { primaryColor: '#fffaf3', primaryTextColor: '#1d2a30', primaryBorderColor: '#b65c34', lineColor: '#66757d', secondaryColor: '#f5efe6', tertiaryColor: '#ffffff', fontFamily: 'Inter, system-ui, sans-serif' }});
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0];
+      for (const section of sections) {
+        if (window.scrollY + 120 >= section.offsetTop) current = section;
+      }
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current.id));
+    };
+    window.addEventListener('scroll', activate, { passive: true });
+    window.addEventListener('load', activate);
+  </script>
+</body>
+</html>

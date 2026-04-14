@@ -1,40 +1,40 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PhyAgentOS API 使用 - Markdown 文件格式与样例</title>
-  <link rel="stylesheet" href="../../docs-common.css" />
+  <title>PhyAgentOS API Reference - Markdown File Formats</title>
+  <link rel="stylesheet" href="../../../docs-common.css" />
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
 <body>
   <nav class="nav">
     <div class="nav-container">
-      <a href="../../index.html" class="nav-brand">
-        <img src="./../../../LOGO.png" alt="PhyAgentOS Logo" onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+      <a href="../../../index.html" class="nav-brand">
+        <img src="./../../../../LOGO.png" alt="PhyAgentOS Logo" onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
         <span>PhyAgentOS Docs</span>
       </a>
       <div class="nav-categories">
-        <a href="../../architecture.html" class="nav-category">框架设计</a>
+        <a href="../../architecture.html" class="nav-category">Architecture</a>
         <div class="nav-dropdown">
-          <a href="../../api-reference.html" class="nav-category active">API 使用</a>
+          <a href="../../api-reference.html" class="nav-category active">API Reference</a>
           <div class="nav-dropdown-menu">
-            <a href="../plugin-usage/index.html">插件使用说明</a>
-            <a href="../markdown-formats/index.html">Markdown 文件格式</a>
+            <a href="../plugin-usage/index.html">Plugin Usage</a>
+            <a href="../markdown-formats/index.html">Markdown Formats</a>
           </div>
         </div>
         <div class="nav-dropdown">
-          <a href="../../developer-guide.html" class="nav-category">开发指南</a>
+          <a href="../../developer-guide.html" class="nav-category">Developer Guide</a>
           <div class="nav-dropdown-menu">
-            <a href="../../development-guide/rekep-plugin-example/index.html">ReKep 插件样例</a>
-            <a href="../../development-guide/driver-integration/index.html">新 Driver 接入</a>
-            <a href="../../development-guide/code-style/index.html">代码风格约定</a>
-            <a href="../../development-guide/roadmap-todos/index.html">演进路线</a>
-            <a href="../../development-guide/contribution-workflow/index.html">贡献流程</a>
+            <a href="../../development-guide/rekep-plugin-example/index.html">ReKep Plugin Example</a>
+            <a href="../../development-guide/driver-integration/index.html">New Driver Integration</a>
+            <a href="../../development-guide/code-style/index.html">Code Style</a>
+            <a href="../../development-guide/roadmap-todos/index.html">Roadmap</a>
+            <a href="../../development-guide/contribution-workflow/index.html">Contribution Workflow</a>
           </div>
         </div>
       </div>
-      <a href="../../en/api-usage/markdown-formats/index.html" class="nav-lang">EN</a>
+      <a href="../../../api-usage/markdown-formats/index.html" class="nav-lang">中文</a>
       <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
     </div>
   </nav>
@@ -42,18 +42,18 @@
   <main class="page">
     <header class="hero">
       <div class="eyebrow">API Usage / Markdown Protocol</div>
-      <h1><span class="gradient-text">Markdown</span> 文件格式与样例</h1>
+      <h1><span class="gradient-text">Markdown</span> File Formats & Examples</h1>
       <p class="subtitle">
-        PhyAgentOS 的运行时状态就写在协议层的 Markdown 文件里。因此，搞懂它们长什么样、谁写谁读，排查问题时会轻松很多。
+        PhyAgentOS runtime state lives in a few Markdown files. Understanding what they look like and who writes/reads them makes troubleshooting much easier.
       </p>
     </header>
 
     <div class="layout">
       <div class="content">
         <section class="card" id="topology">
-          <h2>文件位置</h2>
+          <h2>Where Files Live</h2>
           <p class="lead">
-            Single 模式下所有文件堆在一个目录；Fleet 模式下，shared 文件放全局，机器人私有的放各自 workspace。
+            In Single mode, all files are in one directory. In Fleet mode, shared files go global, and robot-private files go in their respective workspaces.
           </p>
           <div class="mermaid" style="background:rgba(255,255,255,0.5);border:1px solid rgba(29,42,48,0.10);border-radius:20px;padding:22px;margin:16px 0;">
 %%{init: {'theme': 'default', 'themeVariables': { 'primaryColor': '#fffaf3', 'primaryTextColor': '#1d2a30', 'primaryBorderColor': '#20323a', 'lineColor': '#66757d', 'secondaryColor': '#f5efe6', 'tertiaryColor': '#ffffff', 'fontFamily': 'Inter, system-ui, sans-serif', 'textColor': '#1d2a30', 'nodeBkg': '#ffffff', 'nodeBorder': '#20323a', 'nodeTextColor': '#1d2a30', 'clusterBkg': '#f5efe6', 'clusterBorder': '#20323a', 'titleColor': '#1d2a30', 'edgeLabelBackground': '#ffffff', 'edgeLabelColor': '#66757d', 'arrowheadColor': '#66757d'}}}%%
@@ -64,47 +64,48 @@ flowchart TB
 
     subgraph SHARED["📁 Shared Workspace"]
         direction TB
-        E([ENVIRONMENT.md ]):::shared
-        R([ROBOTS.md ']):::shared
-        L([LESSONS.md '']):::shared
-        T([TASK.md ']):::shared
+        E([ENVIRONMENT.md]):::shared
+        R([ROBOTS.md]):::shared
+        L([LESSONS.md]):::shared
+        T([TASK.md]):::shared
+        O([ORCHESTRATOR.md]):::shared
     end
 
     subgraph R1["🤖 Robot A Workspace"]
         direction TB
-        A1([ACTION.md ']):::robot
-        M1([EMBODIED.md ']):::robot
+        A1([ACTION.md]):::robot
+        M1([EMBODIED.md]):::robot
     end
 
     subgraph R2["🤖 Robot B Workspace"]
         direction TB
-        A2([ACTION.md ']):::robot
-        M2([EMBODIED.md ']):::robot
+        A2([ACTION.md]):::robot
+        M2([EMBODIED.md]):::robot
     end
           </div>
           <table style="margin-top:14px;">
             <thead>
-              <tr><th>位置</th><th>文件</th><th>作用</th></tr>
+              <tr><th>Location</th><th>Files</th><th>Purpose</th></tr>
             </thead>
             <tbody>
               <tr>
                 <td>Shared workspace</td>
-                <td><code>ENVIRONMENT.md</code>、<code>ROBOTS.md</code>、<code>LESSONS.md</code>、<code>TASK.md</code></td>
-                <td>全局状态、任务协调、失败记录</td>
+                <td><code>ENVIRONMENT.md</code>, <code>ROBOTS.md</code>, <code>LESSONS.md</code>, <code>TASK.md</code>, <code>ORCHESTRATOR.md</code></td>
+                <td>Global state, task coordination, failure records</td>
               </tr>
               <tr>
                 <td>Robot workspace</td>
-                <td><code>ACTION.md</code>、<code>EMBODIED.md</code></td>
-                <td>单个机器人的动作队列和能力画像</td>
+                <td><code>ACTION.md</code>, <code>EMBODIED.md</code></td>
+                <td>Individual robot action queue and capability profile</td>
               </tr>
             </tbody>
           </table>
         </section>
 
         <section class="card" id="environment-md">
-          <h2>ENVIRONMENT.md · 环境真相源</h2>
+          <h2>ENVIRONMENT.md · Source of Truth</h2>
           <p class="lead">
-            这是系统当前环境状态的"唯一真相"。场景图、机器人位姿、导航状态全在这里。Watchdog 和感知模块负责更新，Agent 和 Critic 负责读取。
+            This is the "single source of truth" for the system's current environment state. Scene graph, robot poses, and navigation state all live here. Watchdog and perception modules update it; Agent and Critic read it.
           </p>
           <pre><code>{
   "schema_version": "PhyAgentOS.environment.v1",
@@ -157,14 +158,14 @@ flowchart TB
   }
 }</code></pre>
           <div class="callout">
-            两个容易搞混的点：<code>scene_graph</code> 和 <code>objects</code> 可以共存；实时连接状态要写在 <code>robots.<id></code> 下，别塞到 EMBODIED.md 里。
+            Two common confusions: <code>scene_graph</code> and <code>objects</code> can coexist; real-time connection state should be under <code>robots.<id></code>, not in EMBODIED.md.
           </div>
         </section>
 
         <section class="card" id="embodied-md">
-          <h2>EMBODIED.md · 能力画像</h2>
+          <h2>EMBODIED.md · Capability Profile</h2>
           <p class="lead">
-            这不是实时状态，而是给 Agent 看的能力说明书。Watchdog 启动时从 <code>hal/profiles/*.md</code> 复制过来。
+            This is not real-time state — it's a capability manual for the Agent. Watchdog copies it from <code>hal/profiles/*.md</code> at startup.
           </p>
           <pre><code># EMBODIED.md Template
 
@@ -188,15 +189,15 @@ flowchart TB
 - **Max speed**: 1.0 m/s
 - **Safety distance**: 0.4 m
 - **Collision policy**: stop when obstacle too close</code></pre>
-          <p>写这个文件的诀窍是：别塞技术细节，让 Agent 快速知道"这是什么、能做什么、边界在哪"。</p>
+          <p>The trick to writing this file: don't stuff technical details — let the Agent quickly know "what is this, what can it do, where are the boundaries."</p>
         </section>
 
         <section class="card" id="action-md">
-          <h2>ACTION.md · 动作队列</h2>
+          <h2>ACTION.md · Action Queue</h2>
           <p class="lead">
-            执行链路的直接派发文件。Agent 把动作写进去，Watchdog 读出来交给 Driver。
+            The direct dispatch file for the execution pipeline. The Agent writes actions here, and the Watchdog reads them and hands them to the Driver.
           </p>
-          <pre><code class="language-json">{
+          <pre><code>{
   "schema_version": "PhyAgentOS.action_queue.v1",
   "actions": [
     {
@@ -213,23 +214,23 @@ flowchart TB
 }</code></pre>
           <table>
             <thead>
-              <tr><th>字段</th><th>含义</th></tr>
+              <tr><th>Field</th><th>Meaning</th></tr>
             </thead>
             <tbody>
-              <tr><td><code>schema_version</code></td><td>协议版本</td></tr>
-              <tr><td><code>actions</code></td><td>动作数组，Watchdog 找第一个 pending</td></tr>
-              <tr><td><code>id</code></td><td>动作唯一 ID</td></tr>
-              <tr><td><code>action_type</code></td><td>动作类型，如 target_navigation / pick_up / real_execute</td></tr>
-              <tr><td><code>parameters</code></td><td>参数对象</td></tr>
+              <tr><td><code>schema_version</code></td><td>Protocol version</td></tr>
+              <tr><td><code>actions</code></td><td>Action array — Watchdog finds the first pending one</td></tr>
+              <tr><td><code>id</code></td><td>Unique action ID</td></tr>
+              <tr><td><code>action_type</code></td><td>Action type, e.g. target_navigation / pick_up / real_execute</td></tr>
+              <tr><td><code>parameters</code></td><td>Parameter object</td></tr>
               <tr><td><code>status</code></td><td>pending / completed / failed / cancelled</td></tr>
             </tbody>
           </table>
         </section>
 
         <section class="card" id="task-md">
-          <h2>TASK.md · 长程任务拆解</h2>
+          <h2>TASK.md · Long-Horizon Task Decomposition</h2>
           <p class="lead">
-            把一句自然语言拆成多个子任务，分配给不同机器人。编排器看的就是这个文件。
+            Breaks a natural language instruction into multiple sub-tasks and assigns them to different robots. This is what the orchestrator reads.
           </p>
           <pre><code># Active Task
 
@@ -246,23 +247,23 @@ Pick up the red apple from the table and place it into the blue basket in the ki
 | T5 | place_in | franka_001 | pending | T4 | — |</code></pre>
           <table>
             <thead>
-              <tr><th>字段</th><th>说明</th></tr>
+              <tr><th>Field</th><th>Description</th></tr>
             </thead>
             <tbody>
-              <tr><td><code>ID</code></td><td>子任务唯一标识</td></tr>
-              <tr><td><code>Action</code></td><td>动作类型，应对应 EMBODIED.md 里的能力</td></tr>
-              <tr><td><code>Target Device</code></td><td>执行该子任务的机器人实例</td></tr>
+              <tr><td><code>ID</code></td><td>Unique sub-task identifier</td></tr>
+              <tr><td><code>Action</code></td><td>Action type — should correspond to capabilities in EMBODIED.md</td></tr>
+              <tr><td><code>Target Device</code></td><td>Robot instance to execute this sub-task</td></tr>
               <tr><td><code>Status</code></td><td>pending / running / completed / failed</td></tr>
-              <tr><td><code>Depends On</code></td><td>前置任务 ID，决定调度顺序</td></tr>
-              <tr><td><code>Result</code></td><td>完成后的人类可读摘要</td></tr>
+              <tr><td><code>Depends On</code></td><td>Predecessor task IDs — determines scheduling order</td></tr>
+              <tr><td><code>Result</code></td><td>Human-readable summary after completion</td></tr>
             </tbody>
           </table>
         </section>
 
         <section class="card" id="orchestrator-md">
-          <h2>ORCHESTRATOR.md · 全局仪表盘 <code>下一个版本更新</code></h2>
+          <h2>ORCHESTRATOR.md · Global Dashboard</h2>
           <p class="lead">
-            多机协同时的"总控台"。不存动作细节，只汇总总体进度、活跃设备和关键决策。
+            The "control tower" for multi-robot coordination. It doesn't store action details — only aggregates overall progress, active devices, and key decisions.
           </p>
           <pre><code># Orchestrator Status
 
@@ -285,55 +286,54 @@ Pick up the red apple from the table and place it into the blue basket.
           <div class="grid-3">
             <div class="mini-card">
               <h3>Current Mission</h3>
-              <p>全局任务一句话，方便人和模型快速定位上下文。</p>
+              <p>One-sentence global task for quick context by humans and models.</p>
             </div>
             <div class="mini-card">
               <h3>Progress</h3>
-              <p>"已完成/总数"的直观进度，汇报时直接引用。</p>
+              <p>Intuitive "completed/total" progress — reference directly in reports.</p>
             </div>
             <div class="mini-card">
               <h3>Decision Log</h3>
-              <p>记录调度决策的原因，方便审计和 debug。</p>
+              <p>Records reasons for scheduling decisions — useful for auditing and debugging.</p>
             </div>
           </div>
         </section>
 
         <section class="card" id="readers">
-          <h2>谁读谁写 · 一张表搞定</h2>
+          <h2>Who Reads, Who Writes · One Table</h2>
           <table>
             <thead>
-              <tr><th>角色</th><th>主要读</th><th>主要写</th></tr>
+              <tr><th>Role</th><th>Primarily Reads</th><th>Primarily Writes</th></tr>
             </thead>
             <tbody>
-              <tr><td>主 Agent</td><td>ENVIRONMENT.md / ROBOTS.md / LESSONS.md / TASK.md / ORCHESTRATOR.md</td><td>动作草案、任务拆解</td></tr>
-              <tr><td>Critic</td><td>shared ENVIRONMENT.md + 目标机器人 EMBODIED.md</td><td>ACTION.md 或 LESSONS.md</td></tr>
+              <tr><td>Main Agent</td><td>ENVIRONMENT.md / ROBOTS.md / LESSONS.md / TASK.md / ORCHESTRATOR.md</td><td>Action drafts, task decomposition</td></tr>
+              <tr><td>Critic</td><td>shared ENVIRONMENT.md + target robot EMBODIED.md</td><td>ACTION.md or LESSONS.md</td></tr>
               <tr><td>Watchdog</td><td>robot workspace ACTION.md + shared ENVIRONMENT.md</td><td>EMBODIED.md / ENVIRONMENT.md / ROBOTS.md</td></tr>
-              <tr><td>Orchestrator</td><td>TASK.md / ENVIRONMENT.md / 各机器人 ACTION.md 状态</td><td>ORCHESTRATOR.md / 更新 TASK.md 状态</td></tr>
+              <tr><td>Orchestrator</td><td>TASK.md / ENVIRONMENT.md / per-robot ACTION.md status</td><td>ORCHESTRATOR.md / update TASK.md status</td></tr>
             </tbody>
           </table>
         </section>
 
         <div class="footer">
-          排查故障时先看角色：规划问题看 TASK/ORCHESTRATOR，能力问题看 EMBODIED，执行问题看 ACTION，状态问题看 ENVIRONMENT。
+          When troubleshooting, first identify the role: planning issues → check TASK/ORCHESTRATOR, capability issues → check EMBODIED, execution issues → check ACTION, state issues → check ENVIRONMENT.
         </div>
       </div>
 
       <aside class="toc">
         <a href="../../api-reference.html" style="display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; margin-bottom: 16px; padding: 0;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-          返回 API 使用总览
+          Back to API Reference
         </a>
-        <div class="toc-title">本页目录</div>
-        <a href="#topology">文件位置</a>
+        <div class="toc-title">On This Page</div>
+        <a href="#topology">File Locations</a>
         <a href="#environment-md">ENVIRONMENT.md</a>
         <a href="#embodied-md">EMBODIED.md</a>
         <a href="#action-md">ACTION.md</a>
         <a href="#task-md">TASK.md</a>
         <a href="#orchestrator-md">ORCHESTRATOR.md</a>
-        <a href="#readers">谁读谁写</a>
-
-        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">同组页面</div>
-        <a href="../plugin-usage/index.html">插件使用说明</a>
+        <a href="#readers">Who Reads, Who Writes</a>
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">Related Pages</div>
+        <a href="../plugin-usage/index.html">Plugin Usage Guide</a>
       </aside>
     </div>
   </main>

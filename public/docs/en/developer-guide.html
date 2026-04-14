@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhyAgentOS Developer Guide</title>
+  <link rel="stylesheet" href="../docs-common.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../index.html" class="nav-brand">
+        <img src="./../../LOGO.png" alt="PhyAgentOS Logo" onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+        <span>PhyAgentOS Docs</span>
+      </a>
+      <div class="nav-categories">
+        <a href="./architecture.html" class="nav-category">Architecture</a>
+        <div class="nav-dropdown">
+          <a href="./api-reference.html" class="nav-category">API Reference</a>
+          <div class="nav-dropdown-menu">
+            <a href="./api-usage/plugin-usage/index.html">Plugin Usage</a>
+            <a href="./api-usage/markdown-formats/index.html">Markdown Formats</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="./developer-guide.html" class="nav-category active">Developer Guide</a>
+          <div class="nav-dropdown-menu">
+            <a href="./development-guide/rekep-plugin-example/index.html">ReKep Plugin Example</a>
+            <a href="./development-guide/driver-integration/index.html">New Driver Integration</a>
+            <a href="./development-guide/code-style/index.html">Code Style</a>
+            <a href="./development-guide/roadmap-todos/index.html">Roadmap</a>
+            <a href="./development-guide/contribution-workflow/index.html">Contribution Workflow</a>
+          </div>
+        </div>
+      </div>
+      <a href="../developer-guide.html" class="nav-lang">中文</a>
+      <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <header class="hero">
+      <div class="eyebrow">Documentation / Developer Guide</div>
+      <h1><span class="gradient-text">PhyAgentOS</span> Developer Guide</h1>
+      <p class="subtitle">
+        Ready to modify code? Here's a complete path from getting started to connecting hardware.
+      </p>
+    </header>
+
+    <div class="layout">
+      <div class="content">
+        <section class="card" id="overview">
+          <h2>Pick an Entry Point</h2>
+          <p class="lead">
+            Not sure which page to read? There are roughly three categories: if you want to build new plugins, check the ReKep example; if you want to connect new hardware, check the Driver flow; if you're preparing to submit a PR, start with the contribution workflow and roadmap.
+          </p>
+          <div class="card-grid-3">
+            <a href="./development-guide/rekep-plugin-example/index.html" class="mini-card card-hover" style="text-decoration:none; display:block;">
+              <div style="font-size:28px; margin-bottom:10px;">🔌</div>
+              <h3 style="margin:0 0 8px; color:var(--ink);">ReKep Plugin Example</h3>
+              <p style="margin:0; color:var(--muted); font-size:14px;">Complete plugin development guide from manifest to runtime layering</p>
+            </a>
+            <a href="./development-guide/driver-integration/index.html" class="mini-card card-hover" style="text-decoration:none; display:block;">
+              <div style="font-size:28px; margin-bottom:10px;">🤖</div>
+              <h3 style="margin:0 0 8px; color:var(--ink);">New Driver Integration</h3>
+              <p style="margin:0; color:var(--muted); font-size:14px;">BaseDriver interface, profiles, and full Watchdog verification flow</p>
+            </a>
+            <a href="./development-guide/code-style/index.html" class="mini-card card-hover" style="text-decoration:none; display:block;">
+              <div style="font-size:28px; margin-bottom:10px;">📝</div>
+              <h3 style="margin:0 0 8px; color:var(--ink);">Code Style Conventions</h3>
+              <p style="margin:0; color:var(--muted); font-size:14px;">Naming, directory boundaries, Ruff config, minimum quality standards</p>
+            </a>
+            <a href="./development-guide/roadmap-todos/index.html" class="mini-card card-hover" style="text-decoration:none; display:block;">
+              <div style="font-size:28px; margin-bottom:10px;">🗺️</div>
+              <h3 style="margin:0 0 8px; color:var(--ink);">Roadmap</h3>
+              <p style="margin:0; color:var(--muted); font-size:14px;">Completed, in-progress, and to-be-developed topics and hardware list</p>
+            </a>
+            <a href="./development-guide/contribution-workflow/index.html" class="mini-card card-hover" style="text-decoration:none; display:block;">
+              <div style="font-size:28px; margin-bottom:10px;">🤝</div>
+              <h3 style="margin:0 0 8px; color:var(--ink);">Contribution Workflow</h3>
+              <p style="margin:0; color:var(--muted); font-size:14px;">Fork, branch naming, pre-commit checks, PR template, review standards</p>
+            </a>
+          </div>
+        </section>
+
+        <section class="card" id="where-to-start">
+          <h2>Choose Your Starting Point</h2>
+          <table>
+            <thead>
+              <tr><th>Your Situation</th><th>Start Here</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>First time hearing about this project, want to run it first</td><td><a href="./architecture.html">Architecture</a> → <a href="./api-usage/plugin-usage/index.html">Plugin Usage</a></td></tr>
+              <tr><td>Want to write a driver for a new robot</td><td><a href="./development-guide/driver-integration/index.html">Driver Integration</a> → <a href="./development-guide/code-style/index.html">Code Style</a></td></tr>
+              <tr><td>Want to build an external plugin instead of modifying the main repo</td><td><a href="./development-guide/rekep-plugin-example/index.html">ReKep Example</a> → <a href="./development-guide/contribution-workflow/index.html">Contribution Workflow</a></td></tr>
+              <tr><td>Not sure what to do, want to see where the gaps are</td><td><a href="./development-guide/roadmap-todos/index.html">Roadmap</a></td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <div class="footer">
+          When you get stuck, GitHub Issues are the most efficient way to get help. Search for similar issues first, then open a new one if needed.
+        </div>
+      </div>
+
+      <aside class="toc">
+        <div class="toc-title">On This Page</div>
+        <a href="#overview">Entry Points</a>
+        <a href="#where-to-start">Choose Your Starting Point</a>
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">Sub-pages</div>
+        <a href="./development-guide/rekep-plugin-example/index.html">ReKep Plugin Example</a>
+        <a href="./development-guide/driver-integration/index.html">New Driver Integration</a>
+        <a href="./development-guide/code-style/index.html">Code Style Conventions</a>
+        <a href="./development-guide/roadmap-todos/index.html">Roadmap</a>
+        <a href="./development-guide/contribution-workflow/index.html">Contribution Workflow</a>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0];
+      for (const section of sections) {
+        if (window.scrollY + 120 >= section.offsetTop) current = section;
+      }
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current.id));
+    };
+    window.addEventListener('scroll', activate, { passive: true });
+    window.addEventListener('load', activate);
+  </script>
+</body>
+</html>

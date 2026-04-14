@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhyAgentOS API Reference - Plugin Usage</title>
+  <link rel="stylesheet" href="../../../docs-common.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../../index.html" class="nav-brand">
+        <img src="./../../../../LOGO.png" alt="PhyAgentOS Logo" onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+        <span>PhyAgentOS Docs</span>
+      </a>
+      <div class="nav-categories">
+        <a href="../../architecture.html" class="nav-category">Architecture</a>
+        <div class="nav-dropdown">
+          <a href="../../api-reference.html" class="nav-category active">API Reference</a>
+          <div class="nav-dropdown-menu">
+            <a href="../plugin-usage/index.html">Plugin Usage</a>
+            <a href="../markdown-formats/index.html">Markdown Formats</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="../../developer-guide.html" class="nav-category">Developer Guide</a>
+          <div class="nav-dropdown-menu">
+            <a href="../../development-guide/rekep-plugin-example/index.html">ReKep Plugin Example</a>
+            <a href="../../development-guide/driver-integration/index.html">New Driver Integration</a>
+            <a href="../../development-guide/code-style/index.html">Code Style</a>
+            <a href="../../development-guide/roadmap-todos/index.html">Roadmap</a>
+            <a href="../../development-guide/contribution-workflow/index.html">Contribution Workflow</a>
+          </div>
+        </div>
+      </div>
+      <a href="../../../api-usage/plugin-usage/index.html" class="nav-lang">中文</a>
+      <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <header class="hero">
+      <div class="eyebrow">API Usage / Plugins</div>
+      <h1><span class="gradient-text">Plugin Usage</span> Guide</h1>
+      <p class="subtitle">
+        How to use plugins, how to install them, and how to debug when things go wrong — all here.
+      </p>
+    </header>
+
+    <div class="layout">
+      <div class="content">
+        <section class="card" id="discovery">
+          <h2>How Plugins Are Discovered</h2>
+          <p class="lead">
+            External plugins don't take effect automatically. The main repository needs to know what driver you provide, where the entry class is, and where the profile is through a manifest file. The entire discovery chain:
+          </p>
+          <div class="grid-3">
+            <div class="mini-card">
+              <div style="font-size:22px; margin-bottom:8px;">1</div>
+              <h3 style="margin:0 0 6px;">Manifest</h3>
+              <p style="margin:0; font-size:13px;"><code>PhyAgentOS_plugin.toml</code> declares driver name, module, class, and profile path</p>
+            </div>
+            <div class="mini-card">
+              <div style="font-size:22px; margin-bottom:8px;">2</div>
+              <h3 style="margin:0 0 6px;">Deploy</h3>
+              <p style="margin:0; font-size:13px;">Deploy script clones/copies the plugin to the local plugin directory</p>
+            </div>
+            <div class="mini-card">
+              <div style="font-size:22px; margin-bottom:8px;">3</div>
+              <h3 style="margin:0 0 6px;">Register</h3>
+              <p style="margin:0; font-size:13px;"><code>hal/plugins.py</code> parses the manifest and writes to the local registry</p>
+            </div>
+            <div class="mini-card">
+              <div style="font-size:22px; margin-bottom:8px;">4</div>
+              <h3 style="margin:0 0 6px;">Load</h3>
+              <p style="margin:0; font-size:13px;">When not found in the built-in driver table, dynamically import from external registry</p>
+            </div>
+            <div class="mini-card">
+              <div style="font-size:22px; margin-bottom:8px;">5</div>
+              <h3 style="margin:0 0 6px;">Launch</h3>
+              <p style="margin:0; font-size:13px;">Watchdog starts with <code>--driver <name></code> just like a built-in driver</p>
+            </div>
+          </div>
+          <div class="callout" style="margin-top:16px;">
+            The main repository only recognizes the unified interface — it doesn't care which SDK your plugin uses internally. This is the core boundary of the plugin mechanism.
+          </div>
+        </section>
+
+        <section class="card" id="install">
+          <h2>ReKep Plugin Installation</h2>
+          <p class="lead">
+            ReKep is currently the most complete external plugin reference. You can install it online or debug locally.
+          </p>
+          <div class="grid-2">
+            <div class="install-card">
+              <h3 style="margin:0 0 8px;">Online Install</h3>
+              <div class="cmd-block"><code>python scripts/deploy_rekep_real_plugin.py \
+  --repo-url https://github.com/baiyu858/PhyAgentOS-rekep-real-plugin.git</code></div>
+            </div>
+            <div class="install-card">
+              <h3 style="margin:0 0 8px;">Local Debug</h3>
+              <div class="cmd-block"><code>python scripts/deploy_rekep_real_plugin.py \
+  --repo-url ../PhyAgentOS-rekep-real-plugin</code></div>
+            </div>
+          </div>
+          <div class="cmd-block" style="margin-top:14px;"><code># With solver dependencies
+python scripts/deploy_rekep_real_plugin.py \
+  --repo-url https://github.com/baiyu858/PhyAgentOS-rekep-real-plugin.git \
+  --with-solver
+
+# Register only, skip dependency install
+python scripts/deploy_rekep_real_plugin.py \
+  --repo-url ../PhyAgentOS-rekep-real-plugin \
+  --no-install-deps</code></div>
+        </section>
+
+        <section class="card" id="watchdog">
+          <h2>Invoking via Watchdog</h2>
+          <p class="lead">
+            This is the closest to real-world usage. The Agent generates actions, and the Watchdog monitors ACTION.md and invokes the plugin to execute.
+          </p>
+          <div class="cmd-block"><code># Terminal 1
+paos onboard
+python hal/hal_watchdog.py --driver rekep_real --workspace ~/.PhyAgentOS/workspace
+
+# Terminal 2
+paos agent</code></div>
+          <p>Recommended for demonstrating the complete "perception → decision → execution" closed loop.</p>
+        </section>
+
+        <section class="card" id="action-md">
+          <h2>Debugging by Writing ACTION.md Directly</h2>
+          <p class="lead">
+            Want to bypass the Agent and directly verify whether a specific action can be handled by the plugin? Manually editing ACTION.md is the fastest approach.
+          </p>
+          <div class="grid-2">
+            <div class="install-card">
+              <h3 style="margin:0 0 8px;">Plugin Native Action</h3>
+              <div class="cmd-block"><code>{
+  "action_type": "real_execute",
+  "parameters": {
+    "instruction": "pick up the chili pepper and place it in the plate",
+    "execute_motion": true
+  },
+  "status": "pending"
+}</code></div>
+            </div>
+            <div class="install-card">
+              <h3 style="margin:0 0 8px;">Generic High-Level Action</h3>
+              <div class="cmd-block"><code>{
+  "action_type": "pick_up",
+  "parameters": {
+    "target": "red_apple"
+  },
+  "status": "pending"
+}</code></div>
+            </div>
+          </div>
+          <p>ReKep supports both protocols. The former uses plugin-specific capabilities, while the latter is converted to a natural language instruction before execution.</p>
+        </section>
+
+        <section class="card" id="runtime-debug">
+          <h2>Debugging Runtime Directly</h2>
+          <p class="lead">
+            The most common need during development: bypass the Agent and Markdown first, and independently verify whether the runtime itself has issues.
+          </p>
+          <div class="cmd-block"><code># Preflight
+python runtime/dobot_bridge.py preflight --pretty
+
+# Dry-run
+python runtime/dobot_bridge.py execute \
+  --instruction "pick up the red block and place it on the tray" \
+  --pretty
+
+# Real execution
+python runtime/dobot_bridge.py execute \
+  --instruction "pick up the red block and place it on the tray" \
+  --execute_motion \
+  --pretty
+
+# Switch robot family
+python runtime/dobot_bridge.py preflight \
+  --robot_family cellbot \
+  --robot_driver your_driver</code></div>
+          <div class="callout">
+            Runtime-level debugging is best for isolating issues with third-party SDKs, bridge scripts, or real-robot adapters, because it narrows the failure scope to the minimum.
+          </div>
+        </section>
+
+        <section class="card" id="rekep-structure">
+          <h2>Why ReKep Is Worth Studying</h2>
+          <div class="grid-3">
+            <div class="mini-card">
+              <div style="font-size:24px; margin-bottom:8px;">🚪</div>
+              <h3>Driver Layer</h3>
+              <p><code>driver.py</code> interfaces with BaseDriver — the only entry point the main repository can see. Keep it thin.</p>
+            </div>
+            <div class="mini-card">
+              <div style="font-size:24px; margin-bottom:8px;">⚙️</div>
+              <h3>Runtime Layer</h3>
+              <p><code>dobot_bridge.py</code> handles preflight, dry-run, and real execution. Carries the heavy logic and third-party dependencies.</p>
+            </div>
+            <div class="mini-card">
+              <div style="font-size:24px; margin-bottom:8px;">🔌</div>
+              <h3>Adapter Layer</h3>
+              <p><code>robot_factory.py</code> and others handle specific adaptations for different robot families. Clear boundaries.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="when-to-use">
+          <h2>Choosing Between Three Debugging Methods</h2>
+          <table>
+            <thead>
+              <tr><th>Method</th><th>Best For</th><th>Pros</th><th>Note</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Watchdog + Agent</td>
+                <td>Full pipeline verification, demos</td>
+                <td>Closest to real scenarios</td>
+                <td>Issues may span multiple layers</td>
+              </tr>
+              <tr>
+                <td>Write ACTION.md directly</td>
+                <td>Action mapping tests</td>
+                <td>Bypass Agent, quickly verify Driver</td>
+                <td>Still depends on Watchdog</td>
+              </tr>
+              <tr>
+                <td>Call runtime directly</td>
+                <td>Plugin development, SDK debugging</td>
+                <td>Smallest failure scope</td>
+                <td>Doesn't prove full pipeline works</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <div class="footer">
+          The key takeaway of this page is not "what is a plugin" but helping you decide: at different stages of usage, which invocation and debugging method should you use.
+        </div>
+      </div>
+
+      <aside class="toc">
+        <a href="../../api-reference.html" style="display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; margin-bottom: 16px; padding: 0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Back to API Reference
+        </a>
+        <div class="toc-title">On This Page</div>
+        <a href="#discovery">Plugin Discovery Chain</a>
+        <a href="#install">ReKep Installation</a>
+        <a href="#watchdog">Watchdog Invocation</a>
+        <a href="#action-md">ACTION.md Debugging</a>
+        <a href="#runtime-debug">Runtime Debugging</a>
+        <a href="#rekep-structure">ReKep Structure</a>
+        <a href="#when-to-use">Method Comparison</a>
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">Related Pages</div>
+        <a href="../markdown-formats/index.html">Markdown File Formats</a>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0];
+      for (const section of sections) {
+        if (window.scrollY + 120 >= section.offsetTop) current = section;
+      }
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current.id));
+    };
+    window.addEventListener('scroll', activate, { passive: true });
+    window.addEventListener('load', activate);
+  </script>
+</body>
+</html>

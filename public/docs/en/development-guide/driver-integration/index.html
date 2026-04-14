@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhyAgentOS Developer Guide - New Driver Integration</title>
+  <link rel="stylesheet" href="../../../docs-common.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../../index.html" class="nav-brand">
+        <img src="./../../../../LOGO.png" alt="PhyAgentOS Logo" onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+        <span>PhyAgentOS Docs</span>
+      </a>
+      <div class="nav-categories">
+        <a href="../../architecture.html" class="nav-category">Architecture</a>
+        <div class="nav-dropdown">
+          <a href="../../api-reference.html" class="nav-category">API Reference</a>
+          <div class="nav-dropdown-menu">
+            <a href="../../api-usage/plugin-usage/index.html">Plugin Usage</a>
+            <a href="../../api-usage/markdown-formats/index.html">Markdown Formats</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="../../developer-guide.html" class="nav-category active">Developer Guide</a>
+          <div class="nav-dropdown-menu">
+            <a href="../rekep-plugin-example/index.html">ReKep Plugin Example</a>
+            <a href="../driver-integration/index.html" class="active">New Driver Integration</a>
+            <a href="../code-style/index.html">Code Style</a>
+            <a href="../roadmap-todos/index.html">Roadmap</a>
+            <a href="../contribution-workflow/index.html">Contribution Workflow</a>
+          </div>
+        </div>
+      </div>
+      <a href="../../../development-guide/driver-integration/index.html" class="nav-lang">中文</a>
+      <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <header class="hero">
+      <div class="eyebrow">Developer Guide / Driver Integration</div>
+      <h1><span class="gradient-text">New Driver</span> Integration Flow</h1>
+      <p class="subtitle">
+        Want to connect a new robot? Start from the minimal BaseDriver implementation and work your way up to Watchdog loading, execution, and state writeback.
+      </p>
+    </header>
+
+    <div class="layout">
+      <div class="content">
+        <section class="card" id="contract">
+          <h2>What the BaseDriver Interface Looks Like</h2>
+          <p class="lead">
+            Implement these methods and the Watchdog can use your driver just like a built-in one. No need to write everything at once — get the Watchdog to load it first.
+          </p>
+          <pre><code>class BaseDriver(ABC):
+    def get_profile_path(self) -> Path: ...
+    def load_scene(self, scene: dict[str, dict]) -> None: ...
+    def execute_action(self, action_type: str, params: dict) -> str: ...
+    def get_scene(self) -> dict[str, dict]: ...
+
+    # Common optional methods
+    def connect(self) -> bool: ...
+    def disconnect(self) -> None: ...
+    def is_connected(self) -> bool: ...
+    def health_check(self) -> bool: ...
+    def get_runtime_state(self) -> dict[str, Any]: ...</code></pre>
+          <div class="iface-grid" style="margin-top:16px;">
+            <div class="mini-card">
+              <strong style="color:#7ddba8;">get_profile_path()</strong>
+              <p style="margin:6px 0 0; font-size:13px;">Returns the path to the EMBODIED.md profile</p>
+            </div>
+            <div class="mini-card">
+              <strong style="color:#7ddba8;">load_scene()</strong>
+              <p style="margin:6px 0 0; font-size:13px;">Initialize internal state from ENVIRONMENT.md</p>
+            </div>
+            <div class="mini-card">
+              <strong style="color:#7ddba8;">execute_action()</strong>
+              <p style="margin:6px 0 0; font-size:13px;">Execute an action and return a human-readable result</p>
+            </div>
+            <div class="mini-card">
+              <strong style="color:#7ddba8;">get_scene()</strong>
+              <p style="margin:6px 0 0; font-size:13px;">Return current environment state for writeback to ENVIRONMENT.md</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="minimal">
+          <h2>Write a Minimal Loadable Version First</h2>
+          <p class="lead">
+            Don't try to implement all capabilities at once. Getting the Watchdog to import, instantiate, and complete one action consumption cycle is more important than writing a bunch of non-runnable methods.
+          </p>
+          <pre><code>from pathlib import Path
+from hal.base_driver import BaseDriver
+
+class MyRobotDriver(BaseDriver):
+    def __init__(self, gui: bool = False, **kwargs):
+        self._scene = {}
+
+    def get_profile_path(self) -> Path:
+        return Path(__file__).resolve().parent / "profiles" / "my_robot.md"
+
+    def load_scene(self, scene: dict[str, dict]) -> None:
+        self._scene = dict(scene)
+
+    def execute_action(self, action_type: str, params: dict) -> str:
+        return f"executed {action_type}"
+
+    def get_scene(self) -> dict[str, dict]:
+        return dict(self._scene)</code></pre>
+          <div class="callout">
+            The goal of this minimal implementation: confirm that the main repository can stably import the driver, install the profile, and successfully complete action consumption and state writeback. Add action mapping and real-robot logic later.
+          </div>
+        </section>
+
+        <section class="card" id="profile">
+          <h2>Add a Profile — Don't Hardcode in Code</h2>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h3>What Goes in the Profile</h3>
+              <ul style="margin:8px 0 0; padding-left:18px; font-size:14px;">
+                <li>Identity: name, type, driver/profile</li>
+                <li>Sensors / Degrees of Freedom</li>
+                <li>Supported Actions</li>
+                <li>Physical Constraints</li>
+                <li>Connection & Runtime Protocol</li>
+              </ul>
+            </div>
+            <div class="mini-card">
+              <h3>What Happens Without It</h3>
+              <p>The Critic has no basis for action constraints, and ROBOTS.md can't provide reliable capability summaries. The Agent won't know what to assign to this robot.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="register">
+          <h2>How to Register a Built-in Driver</h2>
+          <p class="lead">
+            For built-in drivers (not external plugins), you also need to add a short-name mapping in the registry.
+          </p>
+          <pre><code>DRIVER_REGISTRY: dict[str, str] = {
+    "simulation": "hal.drivers.simulation_driver.SimulationDriver",
+    "go2_edu": "hal.drivers.go2_driver.Go2Driver",
+    "my_robot": "hal.drivers.my_robot_driver.MyRobotDriver",
+}</code></pre>
+          <p>External plugins are discovered through their plugin manifest and registry — no need to modify this line.</p>
+        </section>
+
+        <section class="card" id="watchdog">
+          <h2>Watchdog Actual Invocation Sequence</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>Load driver</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">Can import and instantiate</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>Install profile to EMBODIED.md</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">get_profile_path() returns a valid path</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>Establish connection, refresh health status</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">connect() / health_check() working</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>Read ACTION.md, call execute_action()</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">Action type and parameters can be handled</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>Write state back to ENVIRONMENT.md</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">get_scene() / get_runtime_state() serialize correctly</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="debug">
+          <h2>Debugging Sequence</h2>
+          <div class="check-item">
+            <div class="check-box"></div>
+            <div>
+              <strong>First, make sure the driver can be imported and instantiated</strong>
+              <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">In a Python shell: <code>from hal.drivers.my_robot_driver import MyRobotDriver; d = MyRobotDriver()</code> — no errors</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-box"></div>
+            <div>
+              <strong>Confirm profile can be installed as EMBODIED.md</strong>
+              <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">Check startup logs or verify the correct EMBODIED.md was generated in the workspace</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-box"></div>
+            <div>
+              <strong>Confirm actions reach execute_action()</strong>
+              <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">Add a print statement inside to see if it gets called</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-box"></div>
+            <div>
+              <strong>Confirm state can be written back to ENVIRONMENT.md</strong>
+              <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">After executing an action, cat ENVIRONMENT.md to check if robot state was updated</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-box"></div>
+            <div>
+              <strong>Finally, use paos agent for natural language end-to-end testing</strong>
+              <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">Trigger with a simple, clear instruction and observe ACTION.md generation and execution results</p>
+            </div>
+          </div>
+          <div class="callout" style="margin-top:16px;">
+            The core debugging approach is layered: first confirm "can load", then "can execute", then "can write back". Don't chase the full pipeline right from the start.
+          </div>
+        </section>
+
+        <div class="footer">
+          Connecting new hardware boils down to these steps: satisfy the minimal interface → add profile → register → debug layer by layer. Don't be intimidated by the directory structure — the main line is clear.
+        </div>
+      </div>
+
+      <aside class="toc">
+        <a href="../../developer-guide.html" style="display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; margin-bottom: 16px; padding: 0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Back to Developer Guide
+        </a>
+        <div class="toc-title">On This Page</div>
+        <a href="#contract">BaseDriver Interface</a>
+        <a href="#minimal">Minimal Implementation</a>
+        <a href="#profile">Profile</a>
+        <a href="#register">Registration</a>
+        <a href="#watchdog">Watchdog Invocation Order</a>
+        <a href="#debug">Debugging Sequence</a>
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">Related Pages</div>
+        <a href="../rekep-plugin-example/index.html">ReKep Plugin Example</a>
+        <a href="../code-style/index.html">Code Style</a>
+        <a href="../roadmap-todos/index.html">Roadmap</a>
+        <a href="../contribution-workflow/index.html">Contribution Workflow</a>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0];
+      for (const section of sections) {
+        if (window.scrollY + 120 >= section.offsetTop) current = section;
+      }
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current.id));
+    };
+    window.addEventListener('scroll', activate, { passive: true });
+    window.addEventListener('load', activate);
+  </script>
+</body>
+</html>

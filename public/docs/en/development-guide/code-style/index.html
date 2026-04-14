@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhyAgentOS Developer Guide - Code Style & Naming Conventions</title>
+  <link rel="stylesheet" href="../../../docs-common.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../../index.html" class="nav-brand">
+        <img src="./../../../../LOGO.png" alt="PhyAgentOS Logo" onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+        <span>PhyAgentOS Docs</span>
+      </a>
+      <div class="nav-categories">
+        <a href="../../architecture.html" class="nav-category">Architecture</a>
+        <div class="nav-dropdown">
+          <a href="../../api-reference.html" class="nav-category">API Reference</a>
+          <div class="nav-dropdown-menu">
+            <a href="../../api-usage/plugin-usage/index.html">Plugin Usage</a>
+            <a href="../../api-usage/markdown-formats/index.html">Markdown Formats</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="../../developer-guide.html" class="nav-category active">Developer Guide</a>
+          <div class="nav-dropdown-menu">
+            <a href="../rekep-plugin-example/index.html">ReKep Plugin Example</a>
+            <a href="../driver-integration/index.html">New Driver Integration</a>
+            <a href="../code-style/index.html" class="active">Code Style</a>
+            <a href="../roadmap-todos/index.html">Roadmap</a>
+            <a href="../contribution-workflow/index.html">Contribution Workflow</a>
+          </div>
+        </div>
+      </div>
+      <a href="../../../development-guide/code-style/index.html" class="nav-lang">中文</a>
+      <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <header class="hero">
+      <div class="eyebrow">Developer Guide / Code Style</div>
+      <h1><span class="gradient-text">Code Style</span> & Naming Conventions</h1>
+      <p class="subtitle">
+        No need to invent new rules — the existing style signals in the repository are already clear. Just follow them.
+      </p>
+    </header>
+
+    <div class="layout">
+      <div class="content">
+        <section class="card" id="signals">
+          <h2>Existing Style Signals in the Repository</h2>
+          <p class="lead">
+            Rather than inventing a new spec, respect the conventions already in the repo. These signals are scattered across config files and are very intuitive.
+          </p>
+          <div class="signal-card" style="margin-bottom:12px;">
+            <strong style="color:#7eb8f7;">pyproject.toml</strong>
+            <p style="margin:6px 0 0;">Ruff as linter/formatter, line-length = 100, target = py311</p>
+          </div>
+          <div class="signal-card" style="margin-bottom:12px;">
+            <strong style="color:#7eb8f7;">hal/base_driver.py</strong>
+            <p style="margin:6px 0 0;">Driver interface uses clear verbs: load_scene, execute_action, get_scene</p>
+          </div>
+          <div class="signal-card" style="margin-bottom:12px;">
+            <strong style="color:#7eb8f7;">hal/drivers/__init__.py</strong>
+            <p style="margin:6px 0 0;">Built-in driver short names use snake_case: go2_edu, xlerobot_2wheels_remote</p>
+          </div>
+          <div class="signal-card">
+            <strong style="color:#7eb8f7;">Templates & profiles</strong>
+            <p style="margin:6px 0 0;">Runtime protocol files are ALL_CAPS: ENVIRONMENT.md, EMBODIED.md, ACTION.md</p>
+          </div>
+        </section>
+
+        <section class="card" id="naming">
+          <h2>Naming Conventions</h2>
+          <div class="rule-grid">
+            <div class="mini-card">
+              <h3>Driver Short Names</h3>
+              <p>snake_case, e.g. <code>go2_edu</code>, <code>rekep_real</code>. Used directly in <code>--driver</code> arguments and the registry.</p>
+            </div>
+            <div class="mini-card">
+              <h3>Python Class Names</h3>
+              <p>PascalCase, e.g. <code>Go2Driver</code>, <code>RekepRealDriver</code>. Keep module and class names stable and intuitive.</p>
+            </div>
+            <div class="mini-card">
+              <h3>Profile Filenames</h3>
+              <p>Recommended to match driver short name: go2_edu.md, rekep_real.md. One-glance correspondence when debugging.</p>
+            </div>
+            <div class="mini-card">
+              <h3>Predictability Principle</h3>
+              <p>Seeing <code>--driver my_robot</code>, <code>my_robot.md</code>, <code>MyRobotDriver</code> should naturally imply they're the same thing.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="directory">
+          <h2>Directory Boundaries: What Goes Where</h2>
+          <p class="lead">
+            Wrong naming is easy to fix; muddled responsibility boundaries are hard to clean up.
+          </p>
+          <table>
+            <thead>
+              <tr><th>Location</th><th>Good For</th><th>Don't Put Here</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>PhyAgentOS/agent/tools/</code></td>
+                <td>High-level tool wrappers, schemas, Agent collaboration entry points</td>
+                <td>Specific hardware SDK calls</td>
+              </tr>
+              <tr>
+                <td><code>hal/drivers/</code></td>
+                <td>Minimal execution adapters for built-in drivers</td>
+                <td>Large third-party SDKs and complex runtime</td>
+              </tr>
+              <tr>
+                <td><code>hal/profiles/</code></td>
+                <td>Capability profiles, supported actions, physical constraints</td>
+                <td>Runtime data</td>
+              </tr>
+              <tr>
+                <td>Plugin repo <code>runtime/</code></td>
+                <td>Real-robot bridging, vendor SDKs, preflight, dry-run</td>
+                <td>Main-repo-level generic protocol logic</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card" id="ruff">
+          <h2>Ruff Configuration</h2>
+          <pre><code>[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]
+ignore = ["E501"]</code></pre>
+          <div class="grid-3" style="margin-top:16px;">
+            <div class="mini-card" style="text-align:center;">
+              <div style="font-size:22px; margin-bottom:6px;">I</div>
+              <p style="margin:0; font-size:13px;">Import order</p>
+            </div>
+            <div class="mini-card" style="text-align:center;">
+              <div style="font-size:22px; margin-bottom:6px;">N</div>
+              <p style="margin:0; font-size:13px;">Naming style</p>
+            </div>
+            <div class="mini-card" style="text-align:center;">
+              <div style="font-size:22px; margin-bottom:6px;">E/F/W</div>
+              <p style="margin:0; font-size:13px;">Syntax & common errors</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="plugin-convention">
+          <h2>Plugin Repository Structure Recommendations</h2>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h3>Top-Level Files</h3>
+              <ul style="margin:8px 0 0; padding-left:18px;">
+                <li><code>PhyAgentOS_plugin.toml</code></li>
+                <li><code>README.md</code> / <code>README_zh.md</code></li>
+                <li><code>pyproject.toml</code></li>
+                <li><code>tests/</code></li>
+              </ul>
+            </div>
+            <div class="mini-card">
+              <h3>Directory Responsibilities</h3>
+              <ul style="margin:8px 0 0; padding-left:18px;">
+                <li>Python package directory: driver.py + profiles/</li>
+                <li><code>runtime/</code>: bridging, vendor SDKs</li>
+                <li><code>tests/</code>: manifest, driver routing, preflight</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="docs">
+          <h2>Documentation & Examples</h2>
+          <table>
+            <thead>
+              <tr><th>Content</th><th>Recommendation</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Command examples</td><td>Provide complete, copy-pasteable commands — not abbreviated pseudocode</td></tr>
+              <tr><td>Config examples</td><td>Provide minimal working configs, then explain optional fields</td></tr>
+              <tr><td>Action examples</td><td>Provide standard ACTION.md JSON — not just verbal descriptions</td></tr>
+              <tr><td>Profile examples</td><td>Explain supported actions and hard constraints</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card" id="quality">
+          <h2>Minimum Quality Bar</h2>
+          <p class="lead">
+            Not every piece of code needs to be perfect, but it should at least be runnable and understandable for the next person.
+          </p>
+          <ul>
+            <li>Driver / plugin can be successfully loaded</li>
+            <li>Has a corresponding profile that can be installed as EMBODIED.md at runtime</li>
+            <li>Has at least one action or command verification path</li>
+            <li>Has basic tests or smoke verification</li>
+            <li>README explains installation, startup, and debugging methods</li>
+          </ul>
+          <div class="callout">
+            Judgment criterion: can another maintainer complete installation, understand boundaries, and do a minimal verification using only the repository contents?
+          </div>
+        </section>
+
+        <div class="footer">
+          Staying consistent with existing code is more important than inventing new styles.
+        </div>
+      </div>
+
+      <aside class="toc">
+        <a href="../../developer-guide.html" style="display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; margin-bottom: 16px; padding: 0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Back to Developer Guide
+        </a>
+        <div class="toc-title">On This Page</div>
+        <a href="#signals">Existing Style Signals</a>
+        <a href="#naming">Naming Conventions</a>
+        <a href="#directory">Directory Boundaries</a>
+        <a href="#ruff">Ruff Config</a>
+        <a href="#plugin-convention">Plugin Repo Conventions</a>
+        <a href="#docs">Documentation & Examples</a>
+        <a href="#quality">Minimum Quality Bar</a>
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">Related Pages</div>
+        <a href="../rekep-plugin-example/index.html">ReKep Plugin Example</a>
+        <a href="../driver-integration/index.html">New Driver Integration</a>
+        <a href="../roadmap-todos/index.html">Roadmap</a>
+        <a href="../contribution-workflow/index.html">Contribution Workflow</a>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0];
+      for (const section of sections) {
+        if (window.scrollY + 120 >= section.offsetTop) current = section;
+      }
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current.id));
+    };
+    window.addEventListener('scroll', activate, { passive: true });
+    window.addEventListener('load', activate);
+  </script>
+</body>
+</html>

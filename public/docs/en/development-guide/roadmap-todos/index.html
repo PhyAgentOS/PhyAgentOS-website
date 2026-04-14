@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhyAgentOS Developer Guide - Roadmap & TODOs</title>
+  <link rel="stylesheet" href="../../../docs-common.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../../index.html" class="nav-brand">
+        <img src="./../../../../LOGO.png" alt="PhyAgentOS Logo" onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+        <span>PhyAgentOS Docs</span>
+      </a>
+      <div class="nav-categories">
+        <a href="../../architecture.html" class="nav-category">Architecture</a>
+        <div class="nav-dropdown">
+          <a href="../../api-reference.html" class="nav-category">API Reference</a>
+          <div class="nav-dropdown-menu">
+            <a href="../../api-usage/plugin-usage/index.html">Plugin Usage</a>
+            <a href="../../api-usage/markdown-formats/index.html">Markdown Formats</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="../../developer-guide.html" class="nav-category active">Developer Guide</a>
+          <div class="nav-dropdown-menu">
+            <a href="../rekep-plugin-example/index.html">ReKep Plugin Example</a>
+            <a href="../driver-integration/index.html">New Driver Integration</a>
+            <a href="../code-style/index.html">Code Style</a>
+            <a href="../roadmap-todos/index.html" class="active">Roadmap</a>
+            <a href="../contribution-workflow/index.html">Contribution Workflow</a>
+          </div>
+        </div>
+      </div>
+      <a href="../../../development-guide/roadmap-todos/index.html" class="nav-lang">中文</a>
+      <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <header class="hero">
+      <div class="eyebrow">Developer Guide / Roadmap</div>
+      <h1><span class="gradient-text">Roadmap</span> & TODOs</h1>
+      <p class="subtitle">
+        Not sure where to start contributing? Check where the project stands — what's working, what's in progress, and what's completely open for your first PR.
+      </p>
+    </header>
+
+    <div class="layout">
+      <div class="content">
+        <section class="card" id="overview">
+          <h2>Three Colors, Three Statuses</h2>
+          <p class="lead">
+            Green = someone has already verified it, you can use it as a reference; Yellow = prototype or design doc exists, needs more testing and polish; Gray = completely empty — the perfect opportunity for your first PR.
+          </p>
+          <div class="phase-card">
+            <div class="mini-card" style="border-left:4px solid var(--success);">
+              <div style="font-size:24px;margin-bottom:8px;">✓</div>
+              <h3>Completed</h3>
+              <p>Core framework, simulator, ReKep/VLN/Franka real-robot pipelines verified. These are stable reference baselines.</p>
+            </div>
+            <div class="mini-card" style="border-left:4px solid var(--warning);">
+              <div style="font-size:24px;margin-bottom:8px;">⋯</div>
+              <h3>In Progress</h3>
+              <p>Long-horizon orchestration, IoT integration, and Fleet multi-robot protocols have prototypes but aren't stable enough — need more scenario testing.</p>
+            </div>
+            <div class="mini-card" style="border-left:4px solid var(--muted);">
+              <div style="font-size:24px;margin-bottom:8px;">○</div>
+              <h3>Planned</h3>
+              <p>Hiwonder driver, ROS2 deep guide, perception deployment pipeline. Clear entry points with minimal friction.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="phases">
+          <h2>Three-Phase Roadmap</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                  <h3 style="margin:0;">Phase 1 · Desktop Closed Loop</h3>
+                  <span class="status-pill done">✓ Verified</span>
+                </div>
+                <p>Get a single robot running end-to-end: perception → decision → action → state writeback. Proving that the Markdown protocol approach works.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                  <h3 style="margin:0;">Phase 2 · Multi-Robot Collaboration</h3>
+                  <span class="status-pill wip">⋯ In Progress</span>
+                </div>
+                <p>Multiple heterogeneous robots sharing an environment, task decomposition, and collaborative execution. Adding long-horizon memory and experience reuse.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                  <h3 style="margin:0;">Phase 3 · Advanced Coordination</h3>
+                  <span class="status-pill todo">○ Planned</span>
+                </div>
+                <p>Complex spatiotemporal constraints, resource scheduling, cross-scenario industrial-grade tasks. This is the longer-term vision.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="devices">
+          <h2>8 Robot Integration Progress</h2>
+          <p class="lead">
+            Below is the current hardware support list. Want to connect a new device? See if there's a similar reference implementation.
+          </p>
+          <div class="grid-2">
+            <div class="hw-card">
+              <div class="hw-header">
+                <strong>AgileX PIPER</strong>
+                <span class="status-pill done">✓ Supported</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">Desktop robotic arm · ReKep + SAM3 full pipeline verified</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>Completion</span><span>100%</span></div>
+                <div class="progress-bar"><div style="width:100%;"></div></div>
+              </div>
+            </div>
+            <div class="hw-card">
+              <div class="hw-header">
+                <strong>Dobot Nova 2</strong>
+                <span class="status-pill done">✓ Supported</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">Desktop robotic arm · ReKep deployment verified</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>Completion</span><span>100%</span></div>
+                <div class="progress-bar"><div style="width:100%;"></div></div>
+              </div>
+            </div>
+            <div class="hw-card">
+              <div class="hw-header">
+                <strong>XLeRobot</strong>
+                <span class="status-pill done">✓ Supported</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">Dual-arm robot · One-click deployment implemented</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>Completion</span><span>100%</span></div>
+                <div class="progress-bar"><div style="width:100%;"></div></div>
+              </div>
+            </div>
+            <div class="hw-card">
+              <div class="hw-header">
+                <strong>Franka Research 3</strong>
+                <span class="status-pill done">✓ Supported</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">Industrial-grade · Visual Q&A + grasping implemented</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>Completion</span><span>100%</span></div>
+                <div class="progress-bar"><div style="width:100%;"></div></div>
+              </div>
+            </div>
+            <div class="hw-card">
+              <div class="hw-header">
+                <strong>Unitree Go2</strong>
+                <span class="status-pill wip">⋯ Partial</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">Quadruped · Mobility + semantic navigation working, complex actions pending</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>Completion</span><span>60%</span></div>
+                <div class="progress-bar"><div style="width:60%;"></div></div>
+              </div>
+            </div>
+            <div class="hw-card">
+              <div class="hw-header">
+                <strong>PIPER + Go2 Combo</strong>
+                <span class="status-pill wip">⋯ Partial</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">Mobile manipulation · Locomotion adaptation in progress</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>Completion</span><span>40%</span></div>
+                <div class="progress-bar"><div style="width:40%;"></div></div>
+              </div>
+            </div>
+            <div class="hw-card">
+              <div class="hw-header">
+                <strong>XiaoZhi (ESP32)</strong>
+                <span class="status-pill wip">⋯ Partial</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">IoT · Voice conversation working, action control protocol pending design</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>Completion</span><span>30%</span></div>
+                <div class="progress-bar"><div style="width:30%;"></div></div>
+              </div>
+            </div>
+            <div class="hw-card" style="border:1px dashed var(--accent); background:rgba(182,92,52,0.05);">
+              <div class="hw-header">
+                <strong>Hiwonder Series</strong>
+                <span class="status-pill todo">○ Not Yet</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">Educational robots · Perfect beginner-friendly project</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>Completion</span><span>0% · Waiting for you</span></div>
+                <div class="progress-bar"><div style="width:5%; background:var(--muted);"></div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="topics">
+          <h2>Topic Gaps · High Priority</h2>
+          <div class="grid-2">
+            <div class="mini-card">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                <span style="font-size:20px;">🚢</span>
+                <h3 style="margin:0;">Fleet Orchestration & Multi-Robot Coordination</h3>
+              </div>
+              <p>TASK.md and ORCHESTRATOR.md protocols exist, but scheduling strategies, conflict resolution, and robot selection logic need more scenario validation.</p>
+            </div>
+            <div class="mini-card">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                <span style="font-size:20px;">👁</span>
+                <h3 style="margin:0;">Perception Deployment Pipeline Guide</h3>
+              </div>
+              <p>Camera/LiDAR integration, segmentation model installation, scene graph construction — scattered across the codebase, not yet organized into actionable deployment docs.</p>
+            </div>
+            <div class="mini-card">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                <span style="font-size:20px;">📡</span>
+                <h3 style="margin:0;">ROS2 Integration Developer Guide</h3>
+              </div>
+              <p>cmd_vel/lidar/odom/rgbd adapter code exists, but lacks a comprehensive onboarding guide for developers.</p>
+            </div>
+            <div class="mini-card">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                <span style="font-size:20px;">🌐</span>
+                <h3 style="margin:0;">Channel & Service Deployment</h3>
+              </div>
+              <p>paos gateway, bridge, and channel configuration — source code is all there, but missing an ops-oriented deployment manual.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="start">
+          <h2>Find Your Entry Point</h2>
+          <table>
+            <thead>
+              <tr><th>Your Background</th><th>Where to Start</th><th>What You Can Deliver</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Have a robot, played with its Python SDK</td>
+                <td>Write a Driver + Profile + minimal test</td>
+                <td>A new driver that Watchdog can load directly</td>
+              </tr>
+              <tr>
+                <td>Experience with ROS2 / navigation / perception</td>
+                <td>Fill in ROS2 integration docs, extend existing adapters</td>
+                <td>A complete guide that lowers the barrier for ROS2 users</td>
+              </tr>
+              <tr>
+                <td>Frontend / DevOps / cloud-native background</td>
+                <td>Gateway deployment docs, Dockerization plan</td>
+                <td>A production-ready deployment manual</td>
+              </tr>
+              <tr>
+                <td>No hardware, pure software contributions</td>
+                <td>Simulator scenarios, test cases, docs site improvements</td>
+                <td>PRs that can be merged without real hardware</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <div class="footer">
+          The core of this roadmap is transparency: showing you where the project is stuck and how you can help. Not sure? Open a GitHub Issue and let's chat first.
+        </div>
+      </div>
+
+      <aside class="toc">
+        <a href="../../developer-guide.html" style="display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; margin-bottom: 16px; padding: 0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Back to Developer Guide
+        </a>
+        <div class="toc-title">On This Page</div>
+        <a href="#overview">Three Statuses</a>
+        <a href="#phases">Three Phases</a>
+        <a href="#devices">8 Robots</a>
+        <a href="#topics">Topic Gaps</a>
+        <a href="#start">Find Your Entry Point</a>
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">Related Pages</div>
+        <a href="../rekep-plugin-example/index.html">ReKep Plugin Development Example</a>
+        <a href="../driver-integration/index.html">New Driver Integration Flow</a>
+        <a href="../code-style/index.html">Code Style & Naming Conventions</a>
+        <a href="../contribution-workflow/index.html">Contribution Workflow & PR Guidelines</a>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0];
+      for (const section of sections) {
+        if (window.scrollY + 120 >= section.offsetTop) current = section;
+      }
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current.id));
+    };
+    window.addEventListener('scroll', activate, { passive: true });
+    window.addEventListener('load', activate);
+  </script>
+</body>
+</html>

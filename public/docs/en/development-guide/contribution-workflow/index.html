@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhyAgentOS Developer Guide - Contribution Workflow & PR Standards</title>
+  <link rel="stylesheet" href="../../../docs-common.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../../index.html" class="nav-brand">
+        <img src="./../../../../LOGO.png" alt="PhyAgentOS Logo" onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+        <span>PhyAgentOS Docs</span>
+      </a>
+      <div class="nav-categories">
+        <a href="../../architecture.html" class="nav-category">Architecture</a>
+        <div class="nav-dropdown">
+          <a href="../../api-reference.html" class="nav-category">API Reference</a>
+          <div class="nav-dropdown-menu">
+            <a href="../../api-usage/plugin-usage/index.html">Plugin Usage</a>
+            <a href="../../api-usage/markdown-formats/index.html">Markdown Formats</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="../../developer-guide.html" class="nav-category active">Developer Guide</a>
+          <div class="nav-dropdown-menu">
+            <a href="../rekep-plugin-example/index.html">ReKep Plugin Example</a>
+            <a href="../driver-integration/index.html">New Driver Integration</a>
+            <a href="../code-style/index.html">Code Style</a>
+            <a href="../roadmap-todos/index.html">Roadmap</a>
+            <a href="../contribution-workflow/index.html" class="active">Contribution Workflow</a>
+          </div>
+        </div>
+      </div>
+      <a href="../../../development-guide/contribution-workflow/index.html" class="nav-lang">中文</a>
+      <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <header class="hero">
+      <div class="eyebrow">Developer Guide / Contribution</div>
+      <h1><span class="gradient-text">Contribution Workflow</span> & PR Standards</h1>
+      <p class="subtitle">
+        Want to submit a PR? The process is straightforward: standard Fork → modify code → run checks → open PR. Below we break down each step to avoid getting stuck on small things.
+      </p>
+    </header>
+
+    <div class="layout">
+      <div class="content">
+        <section class="card" id="workflow">
+          <h2>From Fork to Merge: Complete Flow</h2>
+          <div class="mermaid" style="background:rgba(255,255,255,0.5);border:1px solid rgba(29,42,48,0.10);border-radius:20px;padding:22px;margin:16px 0;">
+%%{init: {'theme': 'default', 'themeVariables': { 'primaryColor': '#fffaf3', 'primaryTextColor': '#1d2a30', 'primaryBorderColor': '#20323a', 'lineColor': '#66757d', 'secondaryColor': '#f5efe6', 'tertiaryColor': '#ffffff', 'fontFamily': 'Inter, system-ui, sans-serif', 'textColor': '#1d2a30', 'nodeBkg': '#ffffff', 'nodeBorder': '#20323a', 'nodeTextColor': '#1d2a30', 'clusterBkg': '#f5efe6', 'clusterBorder': '#20323a', 'titleColor': '#1d2a30', 'edgeLabelBackground': '#ffffff', 'edgeLabelColor': '#66757d', 'arrowheadColor': '#66757d'}}}%%
+flowchart LR
+    classDef localBox fill:#dbe8f7,stroke:#4b7eb4,stroke-width:2px,color:#2a4a6a,font-weight:500
+    classDef checkNode fill:#f8e5b7,stroke:#cc951e,stroke-width:2.5px,color:#7a5a0a,font-weight:500
+    classDef remoteBox fill:#f6d0c3,stroke:#ca6a49,stroke-width:2px,color:#7a3a28,font-weight:500
+    classDef successBox fill:#dff0e6,stroke:#5f9e77,stroke-width:2.5px,color:#2d5a3f,font-weight:600
+    classDef step fill:#ffffff,stroke:#66757d,stroke-width:1.5px,color:#1d2a30
+
+    subgraph LOCAL["💻 Your Local"]
+        direction LR
+        A([Fork repo]):::step --> B([Create branch]):::step
+        B --> C([Modify code]):::step
+        C --> D{{Run ruff + pytest}}:::checkNode
+        D --> E([Push to Fork]):::step
+    end
+
+    E --> F([Open PR on GitHub]):::remoteBox
+    F --> G([Review]):::remoteBox
+    G --> H([Merge to main]):::successBox
+          </div>
+          <pre><code># 1. Clone after forking
+git clone https://github.com/<your-username>/PhyAgentOS.git
+cd PhyAgentOS
+
+# 2. Add upstream for syncing
+git remote add upstream https://github.com/SYSU-HCP-EAI/PhyAgentOS.git
+
+# 3. Create branch (see naming suggestions below)
+git checkout -b feat/my-robot-driver
+
+# 4. Push to your Fork after development
+git push origin feat/my-robot-driver
+
+# 5. Go to GitHub and click "Open Pull Request"</code></pre>
+          <div class="callout">
+            <strong>Branch naming reference:</strong>
+            <ul style="margin:8px 0 0;">
+              <li><code>feat/xxx</code> — New feature / new driver</li>
+              <li><code>fix/xxx</code> — Bug fix</li>
+              <li><code>docs/xxx</code> — Documentation changes</li>
+              <li><code>refactor/xxx</code> — Refactoring without behavior changes</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="card" id="checks">
+          <h2>Three Mandatory Pre-Commit Checks</h2>
+          <p class="lead">
+            It's embarrassing when CI goes red — run locally first to save time. All three checks are configured in pyproject.toml.
+          </p>
+          <div class="grid-2">
+            <div class="check-card">
+              <div class="check-icon">🎨</div>
+              <div>
+                <h3 style="margin:0 0 6px;">Code Formatting</h3>
+                <pre style="margin:0;"><code>ruff check .
+ruff format .</code></pre>
+              </div>
+            </div>
+            <div class="check-card">
+              <div class="check-icon">🧪</div>
+              <div>
+                <h3 style="margin:0 0 6px;">Unit Tests</h3>
+                <pre style="margin:0;"><code>pytest tests/
+# Or run only related tests
+pytest tests/test_hal_base_driver.py</code></pre>
+              </div>
+            </div>
+            <div class="check-card">
+              <div class="check-icon">📦</div>
+              <div>
+                <h3 style="margin:0 0 6px;">Install Dev Dependencies</h3>
+                <pre style="margin:0;"><code>pip install -e ".[dev]"</code></pre>
+              </div>
+            </div>
+            <div class="check-card">
+              <div class="check-icon">🔍</div>
+              <div>
+                <h3 style="margin:0 0 6px;">Type Checking (Recommended)</h3>
+                <pre style="margin:0;"><code># Read through the method call sites you changed,
+# confirm no obvious type mismatches</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="pr-template">
+          <h2>Write Clear PR Descriptions for Faster Reviews</h2>
+          <p class="lead">
+            Maintainers aren't your teachers — they have no obligation to guess what you changed. Follow this template and your PR will usually pass in one review.
+          </p>
+          <pre><code>## What Changed
+One-sentence summary + list key files and logic changes.
+
+## How Verified
+- What commands did you run locally? Results?
+- Real/simulator verification logs or screenshots (required for driver/plugin)
+- Does documentation render correctly (required for docs)
+
+## Related Issue
+Closes #123</code></pre>
+          <div class="grid-3" style="margin-top:18px;">
+            <div class="mini-card">
+              <h3>Driver / Plugin PR</h3>
+              <p>Must include: profile path, startup command, and at least one action execution record.</p>
+            </div>
+            <div class="mini-card">
+              <h3>Bug Fix PR</h3>
+              <p>Must explain: how to reproduce, root cause, and post-fix verification results. Reference the Issue if applicable.</p>
+            </div>
+            <div class="mini-card">
+              <h3>Docs PR</h3>
+              <p>Must explain: which pages changed, why, and what needs special attention.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="issues">
+          <h2>Issue Categories: Align Before You Start</h2>
+          <p class="lead">
+            Not sure how to make a change? Open an Issue to discuss first. Below are our commonly used labels — applying the right one helps the right person see it faster.
+          </p>
+          <table>
+            <thead>
+              <tr><th>Label</th><th>When to Use</th><th>Best to Include</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="issue-badge" style="background:rgba(202,106,73,0.18);color:#ff9e7d;">bug</span></td>
+                <td>Malfunction, crash, or behavior inconsistent with docs</td>
+                <td>Reproduction steps, environment info, error logs</td>
+              </tr>
+              <tr>
+                <td><span class="issue-badge" style="background:rgba(75,126,180,0.18);color:#7eb8f7;">feature</span></td>
+                <td>Want new capability, tool, or protocol field</td>
+                <td>Use case, expected interface, willingness to implement</td>
+              </tr>
+              <tr>
+                <td><span class="issue-badge" style="background:rgba(127,98,172,0.18);color:#c4a8f0;">driver-request</span></td>
+                <td>Want support for a new robot or hardware</td>
+                <td>Device model, SDK availability, progress status</td>
+              </tr>
+              <tr>
+                <td><span class="issue-badge" style="background:rgba(95,158,119,0.18);color:#7ddba8;">documentation</span></td>
+                <td>Docs missing, wrong, or unclear</td>
+                <td>Specific page, current content, suggested fix</td>
+              </tr>
+              <tr>
+                <td><span class="issue-badge" style="background:rgba(204,149,30,0.18);color:#f0c674;">good first issue</span></td>
+                <td>Simple tasks suitable for newcomers</td>
+                <td>Clear scope, reference to existing code</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card" id="review">
+          <h2>Merge Requirements</h2>
+          <p class="lead">
+            The purpose of review is to ensure the next person can understand and maintain the code. All four must be green before merging:
+          </p>
+          <ul>
+            <li><strong>CI all green</strong> — Lint and tests must pass.</li>
+            <li><strong>At least 1 Approve</strong> — Core architecture or protocol changes should wait for 2 Maintainers.</li>
+            <li><strong>Self-explanatory</strong> — Complex logic should have comments or documentation.</li>
+            <li><strong>No breaking changes to existing interfaces</strong> — Unless a migration plan is explained in the Issue/PR.</li>
+          </ul>
+          <div class="callout">
+            Large PRs may be asked to split. This isn't being difficult — it's for faster review and safer rollbacks. Splitting into smaller PRs actually makes them easier to approve in one pass.
+          </div>
+        </section>
+
+        <section class="card" id="first-pr">
+          <h2>First Contribution? Start Here</h2>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h3>No Hardware Needed</h3>
+              <ul>
+                <li>Fix documentation typos or dead links</li>
+                <li>Add test cases for existing drivers</li>
+                <li>Improve docs site styling or navigation</li>
+              </ul>
+            </div>
+            <div class="mini-card">
+              <h3>With Hardware, Even Better</h3>
+              <ul>
+                <li>Write a minimal driver + profile for a new robot</li>
+                <li>Contribute a ROS2 adapter template</li>
+                <li>Write a real-device deployment README</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <div class="footer">
+          The core message: Fork it, run checks after changes, write clear PRs, and wait patiently for review. Welcome aboard.
+        </div>
+      </div>
+
+      <aside class="toc">
+        <a href="../../developer-guide.html" style="display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; margin-bottom: 16px; padding: 0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Back to Developer Guide
+        </a>
+        <div class="toc-title">On This Page</div>
+        <a href="#workflow">Fork → PR Flow</a>
+        <a href="#checks">Pre-Commit Checks</a>
+        <a href="#pr-template">PR Description Template</a>
+        <a href="#issues">Issue Categories</a>
+        <a href="#review">Merge Requirements</a>
+        <a href="#first-pr">First Contribution</a>
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">Related Pages</div>
+        <a href="../rekep-plugin-example/index.html">ReKep Plugin Example</a>
+        <a href="../driver-integration/index.html">New Driver Integration</a>
+        <a href="../code-style/index.html">Code Style</a>
+        <a href="../roadmap-todos/index.html">Roadmap</a>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default', themeVariables: { primaryColor: '#fffaf3', primaryTextColor: '#1d2a30', primaryBorderColor: '#b65c34', lineColor: '#66757d', secondaryColor: '#f5efe6', tertiaryColor: '#ffffff', fontFamily: 'Inter, system-ui, sans-serif' }});
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0];
+      for (const section of sections) {
+        if (window.scrollY + 120 >= section.offsetTop) current = section;
+      }
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current.id));
+    };
+    window.addEventListener('scroll', activate, { passive: true });
+    window.addEventListener('load', activate);
+  </script>
+</body>
+</html>
