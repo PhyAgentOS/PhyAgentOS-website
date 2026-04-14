@@ -43,7 +43,7 @@
       <div class="eyebrow">Documentation / Architecture</div>
       <h1><span class="gradient-text">PhyAgentOS</span> 框架设计</h1>
       <p class="subtitle">
-        想象你对着一台机器人说"把桌上的苹果放到篮子里"。这句话不会直接变成电机指令——中间要经过理解、规划、校验、格式化、执行、回传状态六个环节。PhyAgentOS 就是要把这六个环节串成一条清晰可观测的流水线，而不是黑盒。
+      这是一个基于 Agentic 工作流的自进化具身智能框架，通过引入“认知-物理解耦”的架构范式，实现了从强推理云端模型到边缘物理执行层的标准化映射。PhyAgentOS 不再追求端到端神经网络的单体优化，而是通过构建语言-动作接口（Language-Action Interface），将动作表示与本体形态彻底解耦。
       </p>
       <section class="legend">
         <div class="tag"><span class="dot brain"></span>认知编排层</div>
@@ -57,12 +57,43 @@
     <div class="layout">
       <div class="content">
         <section class="card card-hover" id="overview">
-          <h2>一句话看懂：数据怎么流</h2>
+          <h2>一句话看懂<span class="highlight"> 数据流</span>
+              <style>
+              .highlight {
+                  color: #bc3121;  /* 红色 */
+                  font-weight: bold;
+              }
+          </style></h2>
           <p class="lead">
-            别急着看源码目录。先把这条主线印在脑子里：用户的一句话 → Agent 的规划 → 写进文件 → Watchdog 读取 → 驱动执行 → 状态再写回文件。整个循环围绕着几个 Markdown 文件转。
+            用户指令 → Agent 的规划 → 写进文件 → Watchdog 读取 → 驱动执行 → 状态再写回文件。而框架运行的整个生命周期都围绕着协议中指定的Markdown文件，它们是框架运行的核心。
           </p>
           <div class="mermaid arch-diagram">
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fffaf3', 'primaryTextColor': '#1d2a30', 'primaryBorderColor': '#20323a', 'lineColor': '#66757d', 'secondaryColor': '#f5efe6', 'tertiaryColor': '#ffffff', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px', 'textColor': '#1d2a30', 'nodeBkg': '#fffaf3', 'nodeBorder': '#20323a', 'nodeTextColor': '#1d2a30', 'clusterBkg': '#f5efe6', 'clusterBorder': '#20323a', 'titleColor': '#1d2a30', 'edgeLabelBackground': '#ffffff', 'edgeLabelColor': '#66757d', 'arrowheadColor': '#66757d'}}}%%
+%%{init: {
+  'theme': 'base', 
+  'themeVariables': 
+    { 
+      'primaryColor': '#fffaf3', 
+      'primaryTextColor': '#1d2a30', 
+      'primaryBorderColor': '#20323a', 
+      'lineColor': '#66757d', 
+      'secondaryColor': '#f5efe6', 
+      'tertiaryColor': '#ffffff', 
+      'fontFamily': 'Inter, system-ui, sans-serif', 
+      'fontSize': '15px', 
+      'textColor': '#1d2a30', 
+      'nodeBkg': '#fffaf3', 
+      'nodeBorder': '#20323a', 
+      'nodeTextColor': '#1d2a30', 
+      'clusterBkg': '#f5efe6', 
+      'clusterBorder': '#20323a', 
+      'titleColor': '#1d2a30', 
+      'edgeLabelBackground': '#ffffff', 
+      'edgeLabelColor': '#66757d', 
+      'arrowheadColor': '#66757d'
+    }
+  }
+}%%
+
 flowchart LR
     classDef cognitive fill:#dff0e6,stroke:#5f9e77,stroke-width:2px,color:#2d5a3f
     classDef safety fill:#f8e5b7,stroke:#cc951e,stroke-width:2px,color:#7a5a0a
@@ -72,7 +103,7 @@ flowchart LR
 
     subgraph A["🧠 认知层"]
       USER([用户输入]):::cognitive
-      AGENT[AgentLoop]:::cognitive
+      AGENT[AgentLoop ']:::cognitive
       TOOL[具身工具]:::cognitive
     end
 
@@ -81,13 +112,13 @@ flowchart LR
     end
 
     subgraph C["📄 协议层"]
-      EMBODIED([EMBODIED.md]):::file
+      EMBODIED([EMBODIED.md ']):::file
       ACTION([ACTION.md]):::protocol
-      ENV([ENVIRONMENT.md]):::file
+      ENV([ENVIRONMENT.md ']):::file
     end
 
     subgraph D["🔧 执行层"]
-      WATCH[Watchdog]:::execute
+      WATCH[Watchdog ']:::execute
       DRIVER[Driver]:::execute
       ROBOT([机器人]):::execute
     end
@@ -108,13 +139,13 @@ flowchart LR
           </p>
 
           <div class="flow-track">
-            <span class="flow-step" style="background:rgba(95,158,119,0.18);border-color:rgba(95,158,119,0.35);">1. 用户说话</span>
+            <span class="flow-step" style="background:rgba(95,158,119,0.18);border-color:rgba(95,158,119,0.35);">1. 用户指令</span>
             <span class="flow-arrow">→</span>
-            <span class="flow-step" style="background:rgba(95,158,119,0.18);border-color:rgba(95,158,119,0.35);">2. Agent 想上下文</span>
+            <span class="flow-step" style="background:rgba(95,158,119,0.18);border-color:rgba(95,158,119,0.35);">2. Agent 包装上下文</span>
             <span class="flow-arrow">→</span>
             <span class="flow-step" style="background:rgba(95,158,119,0.18);border-color:rgba(95,158,119,0.35);">3. 决定要做什么动作</span>
             <span class="flow-arrow">→</span>
-            <span class="flow-step" style="background:rgba(202,106,73,0.18);border-color:rgba(202,106,73,0.35);">4. Critic 拦一下</span>
+            <span class="flow-step" style="background:rgba(202,106,73,0.18);border-color:rgba(202,106,73,0.35);">4. Critic 检验</span>
             <span class="flow-arrow">→</span>
             <span class="flow-step" style="background:rgba(204,149,30,0.18);border-color:rgba(204,149,30,0.35);">5. 写成 ACTION.md</span>
             <span class="flow-arrow">→</span>
@@ -142,39 +173,72 @@ flowchart LR
         </section>
 
         <section class="card card-hover" id="workspace">
-          <h2>文件不是日志，是正式接口</h2>
+          <h2>动态协同与认知状态空间</h2>
           <p class="lead">
-            很多系统用文件做日志，PhyAgentOS 用文件做协议。不同进程之间不直接调函数，而是读同一份 Markdown。这让整个系统变得像玻璃房一样——你随时能打开文件看当前状态。
+            PhyAgentOS 在运行时维护一组结构化的文本文件，用于表征全局状态。
+            Agent 仅对这些降维后的符号表示进行处理，避免了多模态底层特征的直接干扰。
+            不同进程之间不直接调函数，而是读同一份 Markdown。
+            这让整个系统变得清晰可观察，你随时能打开文件看当前状态。
           </p>
           <div class="mermaid arch-diagram">
-%%{init: {'theme': 'default', 'themeVariables': { 'primaryColor': '#fffaf3', 'primaryTextColor': '#1d2a30', 'primaryBorderColor': '#20323a', 'lineColor': '#66757d', 'secondaryColor': '#f5efe6', 'tertiaryColor': '#ffffff', 'fontFamily': 'Inter, system-ui, sans-serif', 'textColor': '#1d2a30', 'nodeBkg': '#ffffff', 'nodeBorder': '#20323a', 'nodeTextColor': '#1d2a30', 'clusterBkg': '#f5efe6', 'clusterBorder': '#20323a', 'titleColor': '#1d2a30', 'edgeLabelBackground': '#ffffff', 'edgeLabelColor': '#66757d', 'arrowheadColor': '#66757d'}}}%%
+%%{init: {
+  'theme': 'default', 
+  'themeVariables': { 
+    'primaryColor': '#fffaf3', 
+    'primaryTextColor': '#1d2a30', 
+    'primaryBorderColor': '#20323a', 
+    'lineColor': '#66757d', 
+    'secondaryColor': '#f5efe6', 
+    'tertiaryColor': '#ffffff', 
+    'fontFamily': 'Inter, system-ui, sans-serif', 
+    'textColor': '#1d2a30', 
+    'nodeBkg': '#ffffff', 
+    'nodeBorder': '#20323a', 
+    'nodeTextColor': '#1d2a30', 
+    'clusterBkg': '#f5efe6', 
+    'clusterBorder': '#20323a', 
+    'titleColor': '#1d2a30', 
+    'edgeLabelBackground': '#ffffff', 
+    'edgeLabelColor': '#66757d', 
+    'arrowheadColor': '#66757d'
+  },
+  'flowchart': {
+    'htmlLabels': true,
+    'curve': 'basis',
+    'padding': 20,
+    'nodeSpacing': 50,
+    'rankSpacing': 100,      // 关键：大幅增加层间距，防止标题被上层节点遮挡
+    'useMaxWidth': false
+  }
+}%%
 flowchart TB
     classDef sharedFile fill:#f6d0c3,stroke:#ca6a49,stroke-width:2.5px,color:#7a3a28,font-weight:500
     classDef robotFile fill:#dff0e6,stroke:#5f9e77,stroke-width:2.5px,color:#2d5a3f,font-weight:500
     classDef agentRole fill:#dbe8f7,stroke:#4b7eb4,stroke-width:2px,color:#2a4a6a
     classDef criticRole fill:#f8e5b7,stroke:#cc951e,stroke-width:2px,color:#7a5a0a
     classDef watchdogRole fill:#ece3f6,stroke:#7f62ac,stroke-width:2px,color:#5a3d7a
-    classDef wsBox fill:#fffaf3,stroke:#20323a,stroke-width:1.5px,color:#1d2a30
 
-    subgraph SHARED["📁 Shared Workspace"]
-        direction TB
-        E([ENVIRONMENT.md]):::sharedFile
-        R([ROBOTS.md]):::sharedFile
-        L([LESSONS.md]):::sharedFile
-        T([TASK.md]):::sharedFile
-        O([ORCHESTRATOR.md]):::sharedFile
-    end
-
-    subgraph ROBOT["🤖 Robot Workspace"]
-        direction TB
-        A([ACTION.md]):::robotFile
-        M([EMBODIED.md]):::robotFile
-    end
-
+    %% 上层控制节点（去掉了单引号，用 padding 撑开宽度）
     AG([Agent]):::agentRole
     CR([Critic]):::criticRole
     WD([Watchdog]):::watchdogRole
 
+    %% 下层工作区：改为 LR 横向排列，线从侧面走
+    subgraph SHARED["📁 Shared Workspace"]
+        direction LR
+        E([ENVIRONMENT.md]):::sharedFile
+        R([ROBOTS.md]):::sharedFile
+        L([LESSONS.md ]):::sharedFile
+        T([TASK.md ]):::sharedFile
+    end
+
+    subgraph ROBOT["🤖 Robot Workspace"]
+        direction LR
+        A([ACTION.md]):::robotFile
+        M([EMBODIED.md]):::robotFile
+    end
+
+    %% 连线
     AG -."读取环境".->E
     AG -."读取任务".->T
     AG ==>|"写入动作"| A
@@ -201,7 +265,9 @@ flowchart TB
         <section class="card card-hover" id="layers">
           <h2>三层结构</h2>
           <p class="lead">
-            把代码目录硬背下来没用，建立分层视角更重要。看到一段代码时，先问自己：这是在替机器人"动脑"，还是在"跑腿"？
+          在 PhyAgent 框架中，认知层（云端大模型）与物理执行层（硬件本体）被严格物理隔离。
+          这种隔离不仅体现在代码结构上，更体现在运行时的进程边界上。
+          连接这两个异构世界的唯一桥梁，是基于文件系统的状态协议空间（Workspace API）以及负责轮询该空间的硬件看门狗守护进程 (HAL Watchdog Daemon)。
           </p>
           <div class="layer-card">
             <div class="mini-card card-hover" style="background:linear-gradient(180deg, rgba(95,158,119,0.12), rgba(95,158,119,0.04));">
@@ -223,11 +289,11 @@ flowchart TB
         </section>
 
         <section class="card card-hover" id="single-vs-fleet">
-          <h2>Single 与 Fleet：同一套代码，两种跑法</h2>
+          <h2>Single 与 Fleet：最简模式与进阶模式</h2>
           <div class="grid-2" style="margin-top:14px;">
             <div class="mini-card card-hover">
               <h3>Single</h3>
-              <p>一台机器人，一个工作区。调试最爽的方式，本地跑仿真器也是这个模式。</p>
+              <p>最简模式下，系统只负责一台机器人和一个工作区。此外，本地运行仿真环境也属于这个模式。</p>
             </div>
             <div class="mini-card card-hover">
               <h3>Fleet</h3>
@@ -239,7 +305,7 @@ flowchart TB
         <section class="card card-hover" id="why-markdown">
           <h2>为什么要用 Markdown 做协议？</h2>
           <p class="lead">
-            因为人要看，模型也要看。一个 <code>ENVIRONMENT.md</code> 打开就能读，LLM 也能直接塞进提示词。如果换成二进制 protobuf，调试时你会想哭。
+            这可以构建层次化的提示，并且可以渐进式披露与大模型。这样可以极高地增加了系统的灵活性与节省token调度。同样的，这种方式也可以给层次化管理相关信息，以便于人类调式与理解。
           </p>
           <ul>
             <li><strong>人类可读：</strong>出问题先 cat 文件，不用attach debugger。</li>
@@ -249,7 +315,7 @@ flowchart TB
         </section>
 
         <div class="footer">
-          记住这条主线：模型只写文件，Watchdog 只读文件执行。中间隔着 Markdown，这就是 PhyAgentOS 最核心的设计。
+          核心链路：agent（认知层）只写文件，Watchdog（硬件层）只读文件执行。中间由 Markdown （协议层）管理与维护整个框架的状态，这就是 PhyAgentOS 核心设计。
         </div>
       </div>
 
