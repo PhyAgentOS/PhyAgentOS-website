@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhyAgentOS 开发指南 - 演进路线与待开发项</title>
+  <link rel="stylesheet" href="../../docs-common.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-brand">
+        <img src="./../../../LOGO.png" alt="PhyAgentOS Logo" onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+        <span>PhyAgentOS Docs</span>
+      </a>
+      <div class="nav-categories">
+        <a href="../../architecture.html" class="nav-category">框架设计</a>
+        <div class="nav-dropdown">
+          <a href="../../api-reference.html" class="nav-category">API 使用</a>
+          <div class="nav-dropdown-menu">
+            <a href="../../api-usage/plugin-usage/index.html">插件使用说明</a>
+            <a href="../../api-usage/markdown-formats/index.html">Markdown 文件格式</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="../../developer-guide.html" class="nav-category active">开发指南</a>
+          <div class="nav-dropdown-menu">
+            <a href="../rekep-plugin-example/index.html">ReKep 插件样例</a>
+            <a href="../driver-integration/index.html">新 Driver 接入</a>
+            <a href="../code-style/index.html">代码风格约定</a>
+            <a href="../roadmap-todos/index.html">演进路线</a>
+            <a href="../contribution-workflow/index.html">贡献流程</a>
+          </div>
+        </div>
+      </div>
+      <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <header class="hero">
+      <div class="eyebrow">Developer Guide / Roadmap</div>
+      <h1><span class="gradient-text">演进路线</span>与待开发项</h1>
+      <p class="subtitle">
+        不知道从哪里开始贡献？先看看项目走到了哪一步，哪些已经跑通，哪些还在半路上，哪些完全空白等你填。
+      </p>
+    </header>
+
+    <div class="layout">
+      <div class="content">
+        <section class="card" id="overview">
+          <h2>三种颜色代表三种状态</h2>
+          <p class="lead">
+            绿色 = 已经有人跑通，你可以直接参考；黄色 = 有原型或设计文档，需要更多测试和打磨；灰色 = 完全空白，正是你提第一个 PR 的好机会。
+          </p>
+          <div class="phase-card">
+            <div class="mini-card" style="border-left:4px solid var(--success);">
+              <div style="font-size:24px;margin-bottom:8px;">✓</div>
+              <h3>已完成</h3>
+              <p>核心框架、仿真器、ReKep/VLN/Franka 等真机链路已验证。这些是稳定的参考基线。</p>
+            </div>
+            <div class="mini-card" style="border-left:4px solid var(--warning);">
+              <div style="font-size:24px;margin-bottom:8px;">⋯</div>
+              <h3>进行中</h3>
+              <p>长程编排、IoT 接入、Fleet 多机协议已有雏形，但还不够稳定，需要更多场景测试。</p>
+            </div>
+            <div class="mini-card" style="border-left:4px solid var(--muted);">
+              <div style="font-size:24px;margin-bottom:8px;">○</div>
+              <h3>待开发</h3>
+              <p>幻尔驱动、ROS2 深度手册、感知部署流水线。切入点明确，阻力最小。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="phases">
+          <h2>三阶段路线图</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                  <h3 style="margin:0;">Phase 1 · 桌面闭环</h3>
+                  <span class="status-pill done">✓ 已验证</span>
+                </div>
+                <p>让单机器人端到端跑通：感知 → 决策 → 动作 → 状态回写。证明 Markdown 协议这条路走得通。</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                  <h3 style="margin:0;">Phase 2 · 多机协同</h3>
+                  <span class="status-pill wip">⋯ 进行中</span>
+                </div>
+                <p>多台异构机器人共享环境、任务拆解、协同执行。加入长程记忆和经验教训复用。</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                  <h3 style="margin:0;">Phase 3 · 高阶协同</h3>
+                  <span class="status-pill todo">○ 规划中</span>
+                </div>
+                <p>复杂时空约束、资源调度、跨场景工业级任务。这是更远的未来。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="devices">
+          <h2>8 款机器人适配进度</h2>
+          <p class="lead">
+            下面是目前支持的硬件清单。想接新设备？看看有没有和你手上那台接近的参考实现。
+          </p>
+          <div class="grid-2">
+            <div class="hw-card">
+              <div class="hw-header">
+                <strong>松灵 PIPER</strong>
+                <span class="status-pill done">✓ 已支持</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">桌面机械臂 · ReKep + SAM3 全链路已验证</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>完成度</span><span>100%</span></div>
+                <div class="progress-bar"><div style="width:100%;"></div></div>
+              </div>
+            </div>
+            <div class="hw-card">
+              <div class="hw-header">
+                <strong>越疆 DoBot Nova 2</strong>
+                <span class="status-pill done">✓ 已支持</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">桌面机械臂 · ReKep 部署已验证</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>完成度</span><span>100%</span></div>
+                <div class="progress-bar"><div style="width:100%;"></div></div>
+              </div>
+            </div>
+            <div class="hw-card">
+              <div class="hw-header">
+                <strong>XLeRobot</strong>
+                <span class="status-pill done">✓ 已支持</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">双臂机器人 · 一键部署已实现</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>完成度</span><span>100%</span></div>
+                <div class="progress-bar"><div style="width:100%;"></div></div>
+              </div>
+            </div>
+            <div class="hw-card">
+              <div class="hw-header">
+                <strong>Franka Research 3</strong>
+                <span class="status-pill done">✓ 已支持</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">工业级 · 视觉问答 + 抓取已实现</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>完成度</span><span>100%</span></div>
+                <div class="progress-bar"><div style="width:100%;"></div></div>
+              </div>
+            </div>
+            <div class="hw-card">
+              <div class="hw-header">
+                <strong>Unitree Go2</strong>
+                <span class="status-pill wip">⋯ 部分支持</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">四足 · 移动 + 语义导航可用，复杂动作待补齐</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>完成度</span><span>60%</span></div>
+                <div class="progress-bar"><div style="width:60%;"></div></div>
+              </div>
+            </div>
+            <div class="hw-card">
+              <div class="hw-header">
+                <strong>PIPER + Go2 复合</strong>
+                <span class="status-pill wip">⋯ 部分支持</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">移动操作 · locomotion 适配中</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>完成度</span><span>40%</span></div>
+                <div class="progress-bar"><div style="width:40%;"></div></div>
+              </div>
+            </div>
+            <div class="hw-card">
+              <div class="hw-header">
+                <strong>小智 (ESP32)</strong>
+                <span class="status-pill wip">⋯ 部分支持</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">IoT · 语音对话可用，动作控制协议待设计</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>完成度</span><span>30%</span></div>
+                <div class="progress-bar"><div style="width:30%;"></div></div>
+              </div>
+            </div>
+            <div class="hw-card" style="border:1px dashed var(--accent); background:rgba(182,92,52,0.05);">
+              <div class="hw-header">
+                <strong>幻尔系列</strong>
+                <span class="status-pill todo">○ 未适配</span>
+              </div>
+              <p style="margin:0 0 10px; font-size:13px; color:var(--muted);">教育机器人 · 完美的新手练手项目</p>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>完成度</span><span>0% · 等你开始</span></div>
+                <div class="progress-bar"><div style="width:5%; background:var(--muted);"></div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="topics">
+          <h2>专题缺口 · 高优先级</h2>
+          <div class="grid-2">
+            <div class="mini-card">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                <span style="font-size:20px;">🚢</span>
+                <h3 style="margin:0;">Fleet 编排与多机协同</h3>
+              </div>
+              <p>TASK.md 和 ORCHESTRATOR.md 协议已有，但调度策略、冲突处理、机器人选择逻辑还需要更多场景验证。</p>
+            </div>
+            <div class="mini-card">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                <span style="font-size:20px;">👁</span>
+                <h3 style="margin:0;">感知部署流水线手册</h3>
+              </div>
+              <p>相机/LiDAR 接入、分割模型安装、场景图构建——这些散落在代码里，还没形成可执行的部署文档。</p>
+            </div>
+            <div class="mini-card">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                <span style="font-size:20px;">📡</span>
+                <h3 style="margin:0;">ROS2 适配开发手册</h3>
+              </div>
+              <p>已有 cmd_vel/lidar/odom/rgbd 等 adapter 代码，但缺少面向开发者的完整接入指南。</p>
+            </div>
+            <div class="mini-card">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                <span style="font-size:20px;">🌐</span>
+                <h3 style="margin:0;">渠道与服务化部署</h3>
+              </div>
+              <p>paos gateway、bridge、channel 配置——源码都有，缺一份面向运维的部署手册。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="start">
+          <h2>对号入座 · 找到你的切入点</h2>
+          <table>
+            <thead>
+              <tr><th>你的情况</th><th>建议从哪开始</th><th>能产出什么</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>手上有机器人，玩过它的 Python SDK</td>
+                <td>写个 Driver + Profile + 最小测试</td>
+                <td>一个 Watchdog 能直接加载的新 driver</td>
+              </tr>
+              <tr>
+                <td>搞过 ROS2 / 导航 / 感知</td>
+                <td>补 ROS2 适配文档、扩展现有 adapter</td>
+                <td>降低 ROS2 用户接入门槛的完整指南</td>
+              </tr>
+              <tr>
+                <td>前端 / 运维 / 云原生背景</td>
+                <td>gateway 部署文档、Docker 化方案</td>
+                <td>一份可上生产的部署手册</td>
+              </tr>
+              <tr>
+                <td>没有硬件，纯软件贡献</td>
+                <td>仿真器场景、测试用例、文档站改进</td>
+                <td>不依赖真机也能合并的 PR</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <div class="footer">
+          路线图的核心是透明：告诉你项目在哪卡住了，你可以从哪里帮忙。不确定的话，先在 GitHub 开个 Issue 聊聊。
+        </div>
+      </div>
+
+      <aside class="toc">
+        <a href="../../developer-guide.html" style="display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; margin-bottom: 16px; padding: 0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          返回开发指南总览
+        </a>
+        <div class="toc-title">本页目录</div>
+        <a href="#overview">三种状态</a>
+        <a href="#phases">三阶段路线</a>
+        <a href="#devices">8 款机器人</a>
+        <a href="#topics">专题缺口</a>
+        <a href="#start">找到切入点</a>
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">同组页面</div>
+        <a href="../rekep-plugin-example/index.html">以 ReKep 为样例的插件开发</a>
+        <a href="../driver-integration/index.html">接入新 Driver 的完整流程</a>
+        <a href="../code-style/index.html">代码风格与命名约定</a>
+        <a href="../contribution-workflow/index.html">贡献流程与 PR 规范</a>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0];
+      for (const section of sections) {
+        if (window.scrollY + 120 >= section.offsetTop) current = section;
+      }
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current.id));
+    };
+    window.addEventListener('scroll', activate, { passive: true });
+    window.addEventListener('load', activate);
+  </script>
+</body>
+</html>

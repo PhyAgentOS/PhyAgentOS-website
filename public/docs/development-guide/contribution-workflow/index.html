@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhyAgentOS 开发指南 - 贡献流程与 PR 规范</title>
+  <link rel="stylesheet" href="../../docs-common.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-brand">
+        <img src="./../../../LOGO.png" alt="PhyAgentOS Logo" onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+        <span>PhyAgentOS Docs</span>
+      </a>
+      <div class="nav-categories">
+        <a href="../../architecture.html" class="nav-category">框架设计</a>
+        <div class="nav-dropdown">
+          <a href="../../api-reference.html" class="nav-category">API 使用</a>
+          <div class="nav-dropdown-menu">
+            <a href="../../api-usage/plugin-usage/index.html">插件使用说明</a>
+            <a href="../../api-usage/markdown-formats/index.html">Markdown 文件格式</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="../../developer-guide.html" class="nav-category active">开发指南</a>
+          <div class="nav-dropdown-menu">
+            <a href="../rekep-plugin-example/index.html">ReKep 插件样例</a>
+            <a href="../driver-integration/index.html">新 Driver 接入</a>
+            <a href="../code-style/index.html">代码风格约定</a>
+            <a href="../roadmap-todos/index.html">演进路线</a>
+            <a href="../contribution-workflow/index.html">贡献流程</a>
+          </div>
+        </div>
+      </div>
+      <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <header class="hero">
+      <div class="eyebrow">Developer Guide / Contribution</div>
+      <h1><span class="gradient-text">贡献流程</span>与 PR 规范</h1>
+      <p class="subtitle">
+        想给项目提 PR？流程不复杂，就是标准的 Fork → 改代码 → 跑检查 → 发 PR。下面把每一步拆开，避免你在小地方卡壳。
+      </p>
+    </header>
+
+    <div class="layout">
+      <div class="content">
+        <section class="card" id="workflow">
+          <h2>从 Fork 到合并：完整流程</h2>
+          <div class="mermaid" style="background:rgba(255,255,255,0.5);border:1px solid rgba(29,42,48,0.10);border-radius:20px;padding:22px;margin:16px 0;">
+%%{init: {'theme': 'default', 'themeVariables': { 'primaryColor': '#fffaf3', 'primaryTextColor': '#1d2a30', 'primaryBorderColor': '#20323a', 'lineColor': '#66757d', 'secondaryColor': '#f5efe6', 'tertiaryColor': '#ffffff', 'fontFamily': 'Inter, system-ui, sans-serif', 'textColor': '#1d2a30', 'nodeBkg': '#ffffff', 'nodeBorder': '#20323a', 'nodeTextColor': '#1d2a30', 'clusterBkg': '#f5efe6', 'clusterBorder': '#20323a', 'titleColor': '#1d2a30', 'edgeLabelBackground': '#ffffff', 'edgeLabelColor': '#66757d', 'arrowheadColor': '#66757d'}}}%%
+flowchart LR
+    classDef localBox fill:#dbe8f7,stroke:#4b7eb4,stroke-width:2px,color:#2a4a6a,font-weight:500
+    classDef checkNode fill:#f8e5b7,stroke:#cc951e,stroke-width:2.5px,color:#7a5a0a,font-weight:500
+    classDef remoteBox fill:#f6d0c3,stroke:#ca6a49,stroke-width:2px,color:#7a3a28,font-weight:500
+    classDef successBox fill:#dff0e6,stroke:#5f9e77,stroke-width:2.5px,color:#2d5a3f,font-weight:600
+    classDef step fill:#ffffff,stroke:#66757d,stroke-width:1.5px,color:#1d2a30
+
+    subgraph LOCAL["💻 你的本地"]
+        direction LR
+        A([Fork 仓库]):::step --> B([切分支]):::step
+        B --> C([改代码]):::step
+        C --> D{{跑 ruff + pytest}}:::checkNode
+        D --> E([push 到 Fork]):::step
+    end
+
+    E --> F([在 GitHub 开 PR]):::remoteBox
+    F --> G([Review]):::remoteBox
+    G --> H([合并到 main]):::successBox
+          </div>
+          <pre><code># 1. Fork 后 clone 下来
+git clone https://github.com/<你的用户名>/PhyAgentOS.git
+cd PhyAgentOS
+
+# 2. 加 upstream 方便同步
+git remote add upstream https://github.com/SYSU-HCP-EAI/PhyAgentOS.git
+
+# 3. 切分支（命名见下方建议）
+git checkout -b feat/my-robot-driver
+
+# 4. 开发完 push 到自己的 Fork
+git push origin feat/my-robot-driver
+
+# 5. 去 GitHub 页面点 "Open Pull Request"</code></pre>
+          <div class="callout">
+            <strong>分支命名参考：</strong>
+            <ul style="margin:8px 0 0;">
+              <li><code>feat/xxx</code> — 新功能 / 新 driver</li>
+              <li><code>fix/xxx</code> — 修 bug</li>
+              <li><code>docs/xxx</code> — 改文档</li>
+              <li><code>refactor/xxx</code> — 重构，不改行为</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="card" id="checks">
+          <h2>提交前必须跑的三项检查</h2>
+          <p class="lead">
+            CI 红了再修很丢人，本地先跑一遍更省时间。这三项检查都配在 pyproject.toml 里，直接执行即可。
+          </p>
+          <div class="grid-2">
+            <div class="check-card">
+              <div class="check-icon">🎨</div>
+              <div>
+                <h3 style="margin:0 0 6px;">代码格式</h3>
+                <pre style="margin:0;"><code>ruff check .
+ruff format .</code></pre>
+              </div>
+            </div>
+            <div class="check-card">
+              <div class="check-icon">🧪</div>
+              <div>
+                <h3 style="margin:0 0 6px;">单元测试</h3>
+                <pre style="margin:0;"><code>pytest tests/
+# 或只跑相关测试
+pytest tests/test_hal_base_driver.py</code></pre>
+              </div>
+            </div>
+            <div class="check-card">
+              <div class="check-icon">📦</div>
+              <div>
+                <h3 style="margin:0 0 6px;">安装 dev 依赖</h3>
+                <pre style="margin:0;"><code>pip install -e ".[dev]"</code></pre>
+              </div>
+            </div>
+            <div class="check-card">
+              <div class="check-icon">🔍</div>
+              <div>
+                <h3 style="margin:0 0 6px;">类型检查（建议）</h3>
+                <pre style="margin:0;"><code># 读一下你改的方法调用处，
+# 确认参数类型没有明显错配</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="pr-template">
+          <h2>PR 描述写清楚，Review 会快很多</h2>
+          <p class="lead">
+             Maintainer 不是你的老师，没义务猜你改了什么。按这个模板写，通常一次 Review 就能过。
+          </p>
+          <pre><code>## 改了什么
+一句话总结 + 逐条列出关键文件和逻辑变更。
+
+## 怎么验证的
+- 本地跑过什么命令？结果如何？
+- 真机/仿真器验证的日志或截图（driver/plugin 必填）
+- 文档渲染是否正常（docs 必填）
+
+## 关联 Issue
+Closes #123</code></pre>
+          <div class="grid-3" style="margin-top:18px;">
+            <div class="mini-card">
+              <h3>Driver / 插件 PR</h3>
+              <p>必须附带：profile 路径、启动命令、至少一条动作的执行记录。</p>
+            </div>
+            <div class="mini-card">
+              <h3>Bug Fix PR</h3>
+              <p>必须说明：怎么复现、根因、修复后验证结果。有 Issue 请引用。</p>
+            </div>
+            <div class="mini-card">
+              <h3>Docs PR</h3>
+              <p>必须说明：改了哪几页、为什么改、哪里需要重点看。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="issues">
+          <h2>Issue 分类：先对齐再动手</h2>
+          <p class="lead">
+            不确定怎么改的时候，先开 Issue 聊聊。下面是我们常用的标签，贴对标签能让对的人更快看到。
+          </p>
+          <table>
+            <thead>
+              <tr><th>标签</th><th>什么时候用</th><th>最好带上什么</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="issue-badge" style="background:rgba(202,106,73,0.18);color:#ff9e7d;">bug</span></td>
+                <td>功能异常、崩溃、行为和文档对不上</td>
+                <td>复现步骤、环境信息、错误日志</td>
+              </tr>
+              <tr>
+                <td><span class="issue-badge" style="background:rgba(75,126,180,0.18);color:#7eb8f7;">feature</span></td>
+                <td>想要新能力、新工具、新协议字段</td>
+                <td>使用场景、期望接口、是否愿意自己做</td>
+              </tr>
+              <tr>
+                <td><span class="issue-badge" style="background:rgba(127,98,172,0.18);color:#c4a8f0;">driver-request</span></td>
+                <td>希望支持新机器人或硬件</td>
+                <td>设备型号、是否有 SDK、进度状态</td>
+              </tr>
+              <tr>
+                <td><span class="issue-badge" style="background:rgba(95,158,119,0.18);color:#7ddba8;">documentation</span></td>
+                <td>文档缺了、错了、看不懂</td>
+                <td>具体页面、当前内容、建议怎么改</td>
+              </tr>
+              <tr>
+                <td><span class="issue-badge" style="background:rgba(204,149,30,0.18);color:#f0c674;">good first issue</span></td>
+                <td>适合新手的简单任务</td>
+                <td>明确范围、可参照的现有代码</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card" id="review">
+          <h2>合并门槛</h2>
+          <p class="lead">
+            Review 的目的是确保这段代码下一个人能看懂、能维护。以下四条全绿才能合并：
+          </p>
+          <ul>
+            <li><strong>CI 全绿</strong> — Lint 和测试不能挂。</li>
+            <li><strong>至少 1 个 Approve</strong> — 核心架构或协议变更建议等 2 个 Maintainer。</li>
+            <li><strong>够自解释</strong> — 复杂逻辑要有注释或文档。</li>
+            <li><strong>不破坏现有接口</strong> — 除非提前在 Issue/PR 里说明了迁移方案。</li>
+          </ul>
+          <div class="callout">
+            大 PR 可能被要求拆分。这不是刁难，是为了 Review 更快、回滚更安全。拆成几个小 PR 反而更容易一次过。
+          </div>
+        </section>
+
+        <section class="card" id="first-pr">
+          <h2>第一次贡献？从这些开始</h2>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h3>没硬件也能做</h3>
+              <ul>
+                <li>修文档错别字或死链</li>
+                <li>给已有 driver 补测试用例</li>
+                <li>优化文档站样式或导航</li>
+              </ul>
+            </div>
+            <div class="mini-card">
+              <h3>有硬件更好做</h3>
+              <ul>
+                <li>给新机器人写最小 driver + profile</li>
+                <li>补充一个 ROS2 adapter 的模板</li>
+                <li>写一个真机部署的 README</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <div class="footer">
+          核心就一句话：Fork 出来、改完跑检查、PR 写清楚、耐心等待 Review。欢迎你加入。
+        </div>
+      </div>
+
+      <aside class="toc">
+        <a href="../../developer-guide.html" style="display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; margin-bottom: 16px; padding: 0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          返回开发指南总览
+        </a>
+        <div class="toc-title">本页目录</div>
+        <a href="#workflow">Fork → PR 流程</a>
+        <a href="#checks">提交前检查</a>
+        <a href="#pr-template">PR 描述模板</a>
+        <a href="#issues">Issue 分类</a>
+        <a href="#review">合并门槛</a>
+        <a href="#first-pr">第一次贡献</a>
+
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">同组页面</div>
+        <a href="../rekep-plugin-example/index.html">以 ReKep 为样例的插件开发</a>
+        <a href="../driver-integration/index.html">接入新 Driver 的完整流程</a>
+        <a href="../code-style/index.html">代码风格与命名约定</a>
+        <a href="../roadmap-todos/index.html">演进路线与待开发项</a>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default', themeVariables: { primaryColor: '#fffaf3', primaryTextColor: '#1d2a30', primaryBorderColor: '#b65c34', lineColor: '#66757d', secondaryColor: '#f5efe6', tertiaryColor: '#ffffff', fontFamily: 'Inter, system-ui, sans-serif' }});
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0];
+      for (const section of sections) {
+        if (window.scrollY + 120 >= section.offsetTop) current = section;
+      }
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current.id));
+    };
+    window.addEventListener('scroll', activate, { passive: true });
+    window.addEventListener('load', activate);
+  </script>
+</body>
+</html>

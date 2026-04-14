@@ -4,201 +4,92 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PhyAgentOS 开发指南 - 接入新 Driver 的完整流程</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-    :root {
-      --bg: #0a0a0a;
-      --text: #ffffff;
-      --text-dim: #b9b9b9;
-      --text-muted: #737373;
-      --accent: #c44b3d;
-      --accent-light: #e05a4a;
-      --border: rgba(255,255,255,0.08);
-      --shadow: 0 18px 42px rgba(0,0,0,0.34);
-      --page-width: 1460px;
-      --prose-width: 980px;
-      --toc-width: 280px;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0; color: var(--text); font-family: Inter, system-ui, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(196, 75, 61, 0.10), transparent 22%),
-        radial-gradient(circle at top right, rgba(196, 75, 61, 0.06), transparent 18%),
-        linear-gradient(180deg, #0b0b0b 0%, #0a0a0a 100%);
-      line-height: 1.72; padding-top: 72px;
-    }
-    a { color: inherit; text-decoration: none; }
-    .nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      background: rgba(10,10,10,0.82); backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .nav-container {
-      max-width: 1680px; margin: 0 auto; height: 72px; padding: 0 24px;
-      display: flex; align-items: center; justify-content: space-between; gap: 20px;
-    }
-    .nav-brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 600; color: #fff; }
-    .nav-brand img { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,0.06); padding: 4px; object-fit: contain; }
-    .nav-brand span { font-family: "Space Grotesk", Inter, sans-serif; }
-    .nav-categories {
-      display: flex; align-items: center; gap: 6px; margin-left: auto; padding-left: 28px;
-      border-left: 1px solid rgba(255,255,255,0.08);
-    }
-    .nav-category {
-      padding: 8px 14px; border-radius: 999px; color: rgba(255,255,255,0.7); font-size: 14px; transition: all .25s ease;
-    }
-    .nav-category:hover { color: #fff; background: rgba(255,255,255,0.06); }
-    .nav-category.active { color: #fff; background: rgba(196,75,61,0.16); box-shadow: 0 0 0 1px rgba(196,75,61,0.22) inset; }
-    .nav-cta {
-      padding: 10px 16px; border-radius: 999px; background: linear-gradient(135deg, var(--accent), var(--accent-light));
-      color: #fff; font-size: 14px; font-weight: 600; box-shadow: 0 0 20px rgba(196, 75, 61, 0.25);
-    }
-    .page { width: min(var(--page-width), calc(100vw - 32px)); margin: 0 auto 34px; padding: 20px; }
-    .hero, .card, .mini-card {
-      background: linear-gradient(180deg, rgba(19,19,19,0.96), rgba(14,14,14,0.96));
-      border: 1px solid var(--border); border-radius: 22px; box-shadow: var(--shadow);
-    }
-    .hero { position: relative; overflow: hidden; padding: 38px 40px 34px; margin-bottom: 26px; }
-    .hero::before {
-      content: ""; position: absolute; inset: auto auto -110px -70px; width: 240px; height: 240px;
-      background: radial-gradient(circle, rgba(196, 75, 61, 0.12), transparent 68%);
-    }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px;
-      color: rgba(255,255,255,0.82); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-      font-size: 13px; margin-bottom: 14px;
-    }
-    h1 { margin: 0 0 12px; font-family: "Space Grotesk", Inter, sans-serif; font-size: clamp(32px, 5vw, 52px); line-height: 1.06; }
-    .gradient-text {
-      background: linear-gradient(135deg, var(--accent), var(--accent-light));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent;
-    }
-    .subtitle { margin: 0; max-width: 860px; color: #c7c7c7; font-size: 16px; line-height: 1.92; }
-    .layout { display: grid; grid-template-columns: minmax(0, 1fr) var(--toc-width); gap: 28px; align-items: start; }
-    .content { min-width: 0; max-width: var(--prose-width); }
-    .toc {
-      position: sticky; top: 90px; padding: 18px; border-radius: 22px; background: rgba(17,17,17,0.92);
-      border: 1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow);
-    }
-    .toc-title { margin: 0 0 12px; font-family: "Space Grotesk", Inter, sans-serif; font-size: 15px; color: #fff; }
-    .toc a {
-      display: block; padding: 10px 12px; margin-bottom: 5px; border-radius: 12px; color: var(--text-muted);
-      font-size: 14px; line-height: 1.45; transition: all .2s ease;
-    }
-    .toc a:hover, .toc a.active { color: #fff; background: rgba(196,75,61,0.14); box-shadow: 0 0 0 1px rgba(196,75,61,0.18) inset; }
-    .card { padding: 24px; margin-bottom: 22px; scroll-margin-top: 88px; }
-    .card h2, .mini-card h3 { margin: 0 0 10px; color: #fff; font-family: "Space Grotesk", Inter, sans-serif; }
-    .card h2 { font-size: 24px; line-height: 1.28; }
-    .lead, .card p, .card li, .mini-card p, .mini-card li { color: var(--text-dim); font-size: 14px; line-height: 1.9; }
-    .lead { margin-top: 0; margin-bottom: 16px; color: #c4c4c4; font-size: 15px; }
-    .grid-2, .grid-3 { display: grid; gap: 16px; margin-top: 14px; }
-    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .mini-card { padding: 22px; }
-    table {
-      width: 100%; border-collapse: collapse; margin-top: 14px; overflow: hidden; border-radius: 18px;
-      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-    }
-    th, td {
-      text-align: left; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: top;
-      font-size: 14px; line-height: 1.7;
-    }
-    th { background: rgba(255,255,255,0.05); color: #fff; font-weight: 700; }
-    td { color: var(--text-dim); }
-    tr:last-child td { border-bottom: none; }
-    pre {
-      margin: 14px 0 0; padding: 16px; border-radius: 18px; background: #121212; border: 1px solid rgba(255,255,255,0.08);
-      color: #f5f5f5; overflow: auto; font-size: 13px; line-height: 1.72;
-    }
-    code { font-family: "JetBrains Mono", monospace; font-size: 0.95em; }
-    .callout {
-      margin: 14px 0; padding: 14px 16px; border-radius: 16px; background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08); border-left: 4px solid var(--accent); color: var(--text-dim);
-    }
-    .footer { margin-top: 12px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); color: var(--text-muted); font-size: 13px; }
-
-    @media (max-width: 1180px) {
-      .layout { grid-template-columns: 1fr; }
-      .toc { position: relative; top: 0; order: -1; }
-    }
-    @media (max-width: 980px) {
-      .grid-2, .grid-3 { grid-template-columns: 1fr; }
-      .page { width: min(100vw - 14px, 1680px); padding: 10px; }
-    }
-    @media (max-width: 768px) {
-      .nav-categories { display: none; }
-      .nav-container { padding: 0 14px; }
-      .nav-brand span { font-size: 14px; }
-      .hero, .card, .mini-card { padding: 18px; }
-    }
-  </style>
+  <link rel="stylesheet" href="../../docs-common.css" />
 </head>
 <body>
-  
-  <nav class='nav'>
-    <div class='nav-container'>
-      <a href='../../index.html' class='nav-brand'>
-        <img src='../../../../imgs/logo_en.png' alt='PhyAgentOS Logo' onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../index.html" class="nav-brand">
+        <img src="./../../../LOGO.png" alt="PhyAgentOS Logo" onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
         <span>PhyAgentOS Docs</span>
       </a>
-      <div class='nav-categories'>
-        <a href='../../framework-design/index.html' class='nav-category '>框架设计</a>
-        <a href='../../api-usage/index.html' class='nav-category '>API 使用</a>
-        <a href='../../development-guide/index.html' class='nav-category active'>开发指南</a>
+      <div class="nav-categories">
+        <a href="../../architecture.html" class="nav-category">框架设计</a>
+        <div class="nav-dropdown">
+          <a href="../../api-reference.html" class="nav-category">API 使用</a>
+          <div class="nav-dropdown-menu">
+            <a href="../../api-usage/plugin-usage/index.html">插件使用说明</a>
+            <a href="../../api-usage/markdown-formats/index.html">Markdown 文件格式</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="../../developer-guide.html" class="nav-category active">开发指南</a>
+          <div class="nav-dropdown-menu">
+            <a href="../rekep-plugin-example/index.html">ReKep 插件样例</a>
+            <a href="../driver-integration/index.html">新 Driver 接入</a>
+            <a href="../code-style/index.html">代码风格约定</a>
+            <a href="../roadmap-todos/index.html">演进路线</a>
+            <a href="../contribution-workflow/index.html">贡献流程</a>
+          </div>
+        </div>
       </div>
-      <a href='https://github.com/SYSU-HCP-EAI/PhyAgentOS' target='_blank' class='nav-cta'>GitHub</a>
+      <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
     </div>
   </nav>
-
 
   <main class="page">
     <header class="hero">
       <div class="eyebrow">Developer Guide / Driver Integration</div>
       <h1><span class="gradient-text">新 Driver</span> 接入流程</h1>
       <p class="subtitle">
-        这一页聚焦“如何把一个新的本体接入 HAL”。它的目标不是讲概念，而是给出一条足够明确的落地路径：从 `BaseDriver` 的最小接口开始，补 profile、注册 driver、验证 Watchdog 能否加载，再到如何做全链路联调和最小测试。
+        想接一台新机器人？从 BaseDriver 的最小实现开始，一步步跑到 Watchdog 能加载、能执行、能回写状态。
       </p>
     </header>
 
     <div class="layout">
       <div class="content">
         <section class="card" id="contract">
-          <h2>1. 先理解 Driver 契约</h2>
-          <p class="lead">所有新 Driver 的起点都是统一的 `BaseDriver` 接口。只要你的实现遵守这个契约，Watchdog 就可以像使用内置 driver 一样加载它。</p>
+          <h2>BaseDriver 接口长什么样</h2>
+          <p class="lead">
+            只要实现这几个方法，Watchdog 就能像用内置 driver 一样用你的 driver。不必一次写全，先让 Watchdog 能加载起来。
+          </p>
           <pre><code>class BaseDriver(ABC):
     def get_profile_path(self) -> Path: ...
     def load_scene(self, scene: dict[str, dict]) -> None: ...
     def execute_action(self, action_type: str, params: dict) -> str: ...
     def get_scene(self) -> dict[str, dict]: ...
 
+    # 常用可选
     def connect(self) -> bool: ...
     def disconnect(self) -> None: ...
     def is_connected(self) -> bool: ...
     def health_check(self) -> bool: ...
     def get_runtime_state(self) -> dict[str, Any]: ...</code></pre>
-          <table>
-            <thead>
-              <tr>
-                <th>方法</th>
-                <th>是否必须</th>
-                <th>职责</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td><code>get_profile_path()</code></td><td>必须</td><td>告诉系统当前 driver 使用哪份 `EMBODIED.md` profile</td></tr>
-              <tr><td><code>load_scene()</code></td><td>必须</td><td>用 `ENVIRONMENT.md` 解析出的 scene 初始化内部状态</td></tr>
-              <tr><td><code>execute_action()</code></td><td>必须</td><td>执行原子动作并返回人类可读字符串</td></tr>
-              <tr><td><code>get_scene()</code></td><td>必须</td><td>返回当前环境状态，用于回写 `ENVIRONMENT.md`</td></tr>
-              <tr><td><code>get_runtime_state()</code></td><td>可选但常用</td><td>暴露连接状态、导航状态、地图或运行时扩展信息</td></tr>
-            </tbody>
-          </table>
+          <div class="iface-grid" style="margin-top:16px;">
+            <div class="mini-card">
+              <strong style="color:#7ddba8;">get_profile_path()</strong>
+              <p style="margin:6px 0 0; font-size:13px;">返回 EMBODIED.md profile 的路径</p>
+            </div>
+            <div class="mini-card">
+              <strong style="color:#7ddba8;">load_scene()</strong>
+              <p style="margin:6px 0 0; font-size:13px;">用 ENVIRONMENT.md 初始化内部状态</p>
+            </div>
+            <div class="mini-card">
+              <strong style="color:#7ddba8;">execute_action()</strong>
+              <p style="margin:6px 0 0; font-size:13px;">执行动作，返回人类可读结果</p>
+            </div>
+            <div class="mini-card">
+              <strong style="color:#7ddba8;">get_scene()</strong>
+              <p style="margin:6px 0 0; font-size:13px;">返回当前环境状态，回写 ENVIRONMENT.md</p>
+            </div>
+          </div>
         </section>
 
-        <section class="card" id="minimal-driver">
-          <h2>2. 先写最小可加载 Driver</h2>
-          <p class="lead">接入新本体时，不要一开始就把所有能力写完。更稳妥的做法是先让 Watchdog 能够成功加载这台 driver，再逐步补动作和运行态。</p>
+        <section class="card" id="minimal">
+          <h2>先写最小可加载版本</h2>
+          <p class="lead">
+            不要一上来就写全所有能力。先让 Watchdog 能 import、能实例化、能走完一轮动作消费，比写一堆没法跑的方法更重要。
+          </p>
           <pre><code>from pathlib import Path
 from hal.base_driver import BaseDriver
 
@@ -218,112 +109,143 @@ class MyRobotDriver(BaseDriver):
     def get_scene(self) -> dict[str, dict]:
         return dict(self._scene)</code></pre>
           <div class="callout">
-            这个最小实现的目标不是“能做很多事”，而是先确认主仓库能够稳定导入 driver、安装 profile，并顺利完成一轮动作消费与状态回写。
+            这个最小实现的目标是：确认主仓库能稳定导入 driver、安装 profile，顺利完成动作消费与状态回写。后续再逐步补动作映射和真机逻辑。
           </div>
         </section>
 
         <section class="card" id="profile">
-          <h2>3. 补上 profile，而不是把能力说明塞进代码里</h2>
-          <p class="lead">Driver 只是执行适配层，机器人的能力说明应当放进 profile。这样 Critic 才能在动作派发前判断这台机器人的能力边界。</p>
+          <h2>补上 profile，别塞代码里</h2>
           <div class="grid-2">
             <div class="mini-card">
-              <h3>profile 里通常要写什么</h3>
-              <ul>
-                <li>Identity：机器人名称、类型、driver/profile</li>
-                <li>Sensors 或 Degrees of Freedom</li>
+              <h3>profile 里写什么</h3>
+              <ul style="margin:8px 0 0; padding-left:18px; font-size:14px;">
+                <li>Identity：名称、类型、driver/profile</li>
+                <li>Sensors / Degrees of Freedom</li>
                 <li>Supported Actions</li>
                 <li>Physical Constraints</li>
-                <li>Connection 与 Runtime Protocol 说明</li>
+                <li>Connection 与 Runtime Protocol</li>
               </ul>
             </div>
             <div class="mini-card">
-              <h3>为什么不能缺</h3>
-              <p>没有 profile，主仓库仍然可能导入 driver，但 Critic 会失去动作约束依据，`ROBOTS.md` 也无法给出可靠能力摘要。</p>
+              <h3>缺了会怎样</h3>
+              <p>Critic 没有动作约束依据，ROBOTS.md 无法给出可靠能力摘要。Agent 会不知道该让这台机器人干什么。</p>
             </div>
           </div>
         </section>
 
         <section class="card" id="register">
-          <h2>4. 内置 driver 如何注册</h2>
-          <p class="lead">如果你要做的是主仓库内置 driver，而不是外部插件，那么除了创建 driver 文件，还需要在内置注册表里登记短名。</p>
+          <h2>内置 driver 怎么注册</h2>
+          <p class="lead">
+            做内置 driver（不是外部插件）还需要在注册表里加一行短名映射。
+          </p>
           <pre><code>DRIVER_REGISTRY: dict[str, str] = {
     "simulation": "hal.drivers.simulation_driver.SimulationDriver",
     "go2_edu": "hal.drivers.go2_driver.Go2Driver",
-    "xlerobot_2wheels_remote": "hal.drivers.xlerobot_2wheels_remote_driver.XLerobot2WheelsRemoteDriver",
     "my_robot": "hal.drivers.my_robot_driver.MyRobotDriver",
 }</code></pre>
-          <p>如果是外部插件，则由插件清单和本地 registry 负责发现，不需要修改主仓库内置的 `DRIVER_REGISTRY`。</p>
+          <p>外部插件由插件清单和 registry 负责发现，不需要改这行。</p>
         </section>
 
-        <section class="card" id="watchdog-flow">
-          <h2>5. Watchdog 实际上会怎样使用你的 Driver</h2>
-          <p class="lead">理解 `hal_watchdog.py` 的启动顺序，有助于你判断问题到底出在导入、profile 安装、动作消费还是环境回写阶段。</p>
-          <table>
-            <thead>
-              <tr>
-                <th>顺序</th>
-                <th>Watchdog 行为</th>
-                <th>对 Driver 的要求</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>1</td><td>加载 driver</td><td>driver 可以被正确 import 并实例化</td></tr>
-              <tr><td>2</td><td>安装 profile 到运行时 `EMBODIED.md`</td><td>`get_profile_path()` 返回有效路径</td></tr>
-              <tr><td>3</td><td>尝试建立连接并刷新健康状态</td><td>`connect()` / `health_check()` 行为合理</td></tr>
-              <tr><td>4</td><td>读取 `ACTION.md` 并调用 `execute_action()`</td><td>动作类型和参数能够被接住</td></tr>
-              <tr><td>5</td><td>调用 `get_scene()` / `get_runtime_state()` 回写</td><td>运行态可被序列化进 `ENVIRONMENT.md`</td></tr>
-            </tbody>
-          </table>
-        </section>
-
-        <section class="card" id="debugging">
-          <h2>6. 新 Driver 最实用的调试顺序</h2>
-          <pre><code>1. 先让 driver 能被 import 和实例化
-2. 再确认 profile 可以被安装到 EMBODIED.md
-3. 再确认 ACTION.md 中的动作能进入 execute_action()
-4. 再确认 get_scene() / get_runtime_state() 能回写 ENVIRONMENT.md
-5. 最后再用 paos agent 做完整自然语言链路联调</code></pre>
-          <div class="callout">
-            调试顺序的核心思路是：先确认“能加载”，再确认“能执行”，最后确认“能回写”。如果一开始就上完整链路，问题来源会变得很难切分。
+        <section class="card" id="watchdog">
+          <h2>Watchdog 实际调用顺序</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>加载 driver</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">能 import 并实例化</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>安装 profile 到 EMBODIED.md</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">get_profile_path() 返回有效路径</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>建立连接，刷新健康状态</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">connect() / health_check() 正常</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>读取 ACTION.md，调用 execute_action()</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">动作类型和参数能被接住</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <strong>回写状态到 ENVIRONMENT.md</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">get_scene() / get_runtime_state() 序列化正常</p>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section class="card" id="full-loop">
-          <h2>7. 最后一层验证：回到完整闭环</h2>
-          <p class="lead">最小 Driver 跑通之后，最终仍然要回到完整闭环去验证它是否真的能和 Agent、Critic 与工作区协议协同。</p>
-          <pre><code>paos onboard
-python hal/hal_watchdog.py --driver my_robot --workspace ~/.PhyAgentOS/workspace
-paos agent</code></pre>
-          <p>然后用一条最简单、最明确的自然语言任务去触发动作，例如“向前移动一点”或“连接机器人并汇报当前状态”。观察重点是：</p>
-          <ul>
-            <li>`ACTION.md` 是否按预期生成和更新</li>
-            <li>`ENVIRONMENT.md` 是否出现你这台机器人的运行态</li>
-            <li>`LESSONS.md` 是否记录了动作拒绝原因（如果被拒绝）</li>
-          </ul>
+        <section class="card" id="debug">
+          <h2>调试顺序</h2>
+          <div class="check-item">
+            <div class="check-box"></div>
+            <div>
+              <strong>先让 driver 能被 import 和实例化</strong>
+              <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">在 Python shell 里 <code>from hal.drivers.my_robot_driver import MyRobotDriver; d = MyRobotDriver()</code> 不报错</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-box"></div>
+            <div>
+              <strong>确认 profile 能安装到 EMBODIED.md</strong>
+              <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">看启动日志或检查 workspace 下是否生成了正确的 EMBODIED.md</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-box"></div>
+            <div>
+              <strong>确认动作能进入 execute_action()</strong>
+              <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">在里面加一行 print，看调没调进来</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-box"></div>
+            <div>
+              <strong>确认状态能回写 ENVIRONMENT.md</strong>
+              <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">执行完动作后 cat ENVIRONMENT.md，看机器人状态是否更新</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-box"></div>
+            <div>
+              <strong>最后再用 paos agent 做自然语言链路联调</strong>
+              <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">用简单明确的指令触发，观察 ACTION.md 生成和执行结果</p>
+            </div>
+          </div>
+          <div class="callout" style="margin-top:16px;">
+            调试的核心思路是分层：先确认"能加载"，再确认"能执行"，最后确认"能回写"。别一上来就追完整链路。
+          </div>
         </section>
 
         <div class="footer">
-          这一页更适合作为新本体接入 HAL 时的实操清单使用：先满足最小契约，再补能力，再做全链路联调。
+          接新硬件其实就这几步：满足最小接口 → 补 profile → 注册 → 分层调试。别被目录结构吓到，主线很清晰。
         </div>
       </div>
 
       <aside class="toc">
-        <a href="../index.html" style="display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 13px; margin-bottom: 16px; padding: 0;">
+        <a href="../../developer-guide.html" style="display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; margin-bottom: 16px; padding: 0;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           返回开发指南总览
         </a>
         <div class="toc-title">本页目录</div>
-        <a href="#contract">Driver 契约</a>
-        <a href="#minimal-driver">最小 Driver</a>
+        <a href="#contract">BaseDriver 接口</a>
+        <a href="#minimal">最小实现</a>
         <a href="#profile">profile</a>
-        <a href="#register">注册方式</a>
-        <a href="#watchdog-flow">Watchdog 使用顺序</a>
-        <a href="#debugging">调试顺序</a>
-        <a href="#full-loop">完整闭环验证</a>
-        
-        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 15px; color: #fff;">同组页面</div>
-        <a href="../rekep-plugin-example/index.html">以 ReKep 为样例的插件开发</a>
+        <a href="#register">注册</a>
+        <a href="#watchdog">Watchdog 调用顺序</a>
+        <a href="#debug">调试顺序</a>
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">同组页面</div>
+        <a href="../rekep-plugin-example/index.html">ReKep 插件样例</a>
         <a href="../code-style/index.html">代码风格与命名约定</a>
+        <a href="../roadmap-todos/index.html">演进路线与待开发项</a>
+        <a href="../contribution-workflow/index.html">贡献流程与 PR 规范</a>
       </aside>
     </div>
   </main>

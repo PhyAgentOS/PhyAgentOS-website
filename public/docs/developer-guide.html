@@ -1,274 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Developer Guide - PhyAgentOS Documentation</title>
-  <style>
-    :root {
-      --bg: #0a0a0a;
-      --surface: #141414;
-      --surface-hover: #1a1a1a;
-      --border: rgba(255, 255, 255, 0.08);
-      --text: #ffffff;
-      --text-muted: rgba(255, 255, 255, 0.6);
-      --accent: #b65c34;
-      --accent-light: #d4744a;
-      --radius: 12px;
-      --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.6;
-    }
-
-    /* Navigation */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background: rgba(10, 10, 10, 0.8);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text);
-    }
-
-    .nav-brand img {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-    }
-
-    .nav-brand span {
-      font-weight: 600;
-      font-size: 18px;
-    }
-
-    .nav-categories {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      margin-left: 32px;
-      padding-left: 32px;
-      border-left: 1px solid var(--border);
-    }
-
-    .nav-category {
-      padding: 6px 14px;
-      border-radius: var(--radius);
-      text-decoration: none;
-      color: var(--text-muted);
-      font-size: 13px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-
-    .nav-category:hover {
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .nav-category.active {
-      color: var(--accent);
-      background: rgba(182, 92, 52, 0.1);
-    }
-
-    .nav-cta {
-      padding: 8px 16px;
-      background: var(--accent);
-      color: white;
-      border-radius: var(--radius);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-
-    .nav-cta:hover {
-      background: var(--accent-light);
-    }
-
-    @media (max-width: 768px) {
-      .nav-categories {
-        display: none;
-      }
-    }
-
-    /* Main Content */
-    .main {
-      padding-top: 64px;
-      min-height: 100vh;
-    }
-
-    .hero {
-      padding: 80px 24px 60px;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .hero h1 {
-      font-size: 48px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      letter-spacing: -0.02em;
-    }
-
-    .hero p {
-      font-size: 18px;
-      color: var(--text-muted);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* Coming Soon */
-    .coming-soon {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 120px 24px;
-      text-align: center;
-    }
-
-    .coming-soon-icon {
-      width: 80px;
-      height: 80px;
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(249, 115, 22, 0.2));
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 32px;
-      font-size: 40px;
-    }
-
-    .coming-soon h2 {
-      font-size: 32px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-
-    .coming-soon p {
-      font-size: 16px;
-      color: var(--text-muted);
-      max-width: 500px;
-      margin-bottom: 32px;
-    }
-
-    .coming-soon .btn {
-      padding: 12px 24px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      text-decoration: none;
-      border-radius: var(--radius);
-      font-size: 14px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-
-    .coming-soon .btn:hover {
-      background: var(--surface-hover);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Footer */
-    .footer {
-      border-top: 1px solid var(--border);
-      padding: 40px 24px;
-      text-align: center;
-    }
-
-    .footer p {
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    .footer a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-  </style>
+  <title>PhyAgentOS 开发指南总览</title>
+  <link rel="stylesheet" href="./docs-common.css" />
 </head>
 <body>
-  <!-- Navigation -->
-  
-  
-  
-  <nav class='nav'>
-    <div class='nav-container'>
-      <a href='./index.html' class='nav-brand'>
-        <img src='./../../imgs/logo_en.png' alt='PhyAgentOS Logo' onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="./index.html" class="nav-brand">
+        <img src="./../LOGO.png" alt="PhyAgentOS Logo" onerror='this.src="https://raw.githubusercontent.com/SYSU-HCP-EAI/PhyAgentOS/main/imgs/logo_en.png"' />
         <span>PhyAgentOS Docs</span>
       </a>
-      <div class='nav-categories'>
-        <a href='./framework-design/index.html' class='nav-category '>框架设计</a>
-        <a href='./api-usage/index.html' class='nav-category '>API 使用</a>
-        <a href='./development-guide/index.html' class='nav-category '>开发指南</a>
+      <div class="nav-categories">
+        <a href="./architecture.html" class="nav-category">框架设计</a>
+        <div class="nav-dropdown">
+          <a href="./api-reference.html" class="nav-category">API 使用</a>
+          <div class="nav-dropdown-menu">
+            <a href="./api-usage/plugin-usage/index.html">插件使用说明</a>
+            <a href="./api-usage/markdown-formats/index.html">Markdown 文件格式</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="./developer-guide.html" class="nav-category active">开发指南</a>
+          <div class="nav-dropdown-menu">
+            <a href="./development-guide/rekep-plugin-example/index.html">ReKep 插件样例</a>
+            <a href="./development-guide/driver-integration/index.html">新 Driver 接入</a>
+            <a href="./development-guide/code-style/index.html">代码风格约定</a>
+            <a href="./development-guide/roadmap-todos/index.html">演进路线</a>
+            <a href="./development-guide/contribution-workflow/index.html">贡献流程</a>
+          </div>
+        </div>
       </div>
-      <a href='https://github.com/SYSU-HCP-EAI/PhyAgentOS' target='_blank' class='nav-cta'>GitHub</a>
+      <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS" target="_blank" class="nav-cta">GitHub</a>
     </div>
   </nav>
 
-
-
-
-  <!-- Main Content -->
-  <main class="main">
-    <!-- Hero -->
-    <section class="hero">
-      <h1>Developer Guide</h1>
-      <p>Learn how to extend PhyAgentOS, create custom drivers and plugins, and follow best practices.</p>
-    </section>
-
-    <!-- Coming Soon -->
-    <section class="coming-soon">
-      <div class="coming-soon-icon">🛠️</div>
-      <h2>Coming Soon</h2>
-      <p>
-        The Developer Guide is currently under development. 
-        Stay tuned for comprehensive guides on extending PhyAgentOS.
+  <main class="page">
+    <header class="hero">
+      <div class="eyebrow">Documentation / Developer Guide</div>
+      <h1><span class="gradient-text">PhyAgentOS</span> 开发指南</h1>
+      <p class="subtitle">
+        想动手改代码？这里有一份从入门到接硬件的完整路径。
       </p>
-      <a href="./" class="btn">Back to Documentation Home</a>
-    </section>
+    </header>
 
-    <!-- Footer -->
-    <footer class="footer">
-      <p>
-        PhyAgentOS Documentation &copy; 2024 
-        &middot; <a href="https://github.com/SYSU-HCP-EAI/PhyAgentOS">GitHub</a>
-        &middot; <a href="../">Back to Home</a>
-      </p>
-    </footer>
+    <div class="layout">
+      <div class="content">
+        <section class="card" id="overview">
+          <h2>挑一个入口开始</h2>
+          <p class="lead">
+            不知道自己该看哪一页？大致分三类：想做新插件的看 ReKep 样例；要接新硬件的看 Driver 流程；准备提 PR 的先看贡献流程和路线图。
+          </p>
+          <div class="card-grid-3">
+            <a href="./development-guide/rekep-plugin-example/index.html" class="mini-card card-hover" style="text-decoration:none; display:block;">
+              <div style="font-size:28px; margin-bottom:10px;">🔌</div>
+              <h3 style="margin:0 0 8px; color:var(--ink);">ReKep 插件样例</h3>
+              <p style="margin:0; color:var(--muted); font-size:14px;">从清单文件到 runtime 分层的完整插件开发指南</p>
+            </a>
+            <a href="./development-guide/driver-integration/index.html" class="mini-card card-hover" style="text-decoration:none; display:block;">
+              <div style="font-size:28px; margin-bottom:10px;">🤖</div>
+              <h3 style="margin:0 0 8px; color:var(--ink);">新 Driver 接入</h3>
+              <p style="margin:0; color:var(--muted); font-size:14px;">BaseDriver 接口、profile、Watchdog 验证全流程</p>
+            </a>
+            <a href="./development-guide/code-style/index.html" class="mini-card card-hover" style="text-decoration:none; display:block;">
+              <div style="font-size:28px; margin-bottom:10px;">📝</div>
+              <h3 style="margin:0 0 8px; color:var(--ink);">代码风格约定</h3>
+              <p style="margin:0; color:var(--muted); font-size:14px;">命名、目录边界、Ruff 配置、最低质量标准</p>
+            </a>
+            <a href="./development-guide/roadmap-todos/index.html" class="mini-card card-hover" style="text-decoration:none; display:block;">
+              <div style="font-size:28px; margin-bottom:10px;">🗺️</div>
+              <h3 style="margin:0 0 8px; color:var(--ink);">演进路线</h3>
+              <p style="margin:0; color:var(--muted); font-size:14px;">已完成、进行中、待开发的专题与硬件清单</p>
+            </a>
+            <a href="./development-guide/contribution-workflow/index.html" class="mini-card card-hover" style="text-decoration:none; display:block;">
+              <div style="font-size:28px; margin-bottom:10px;">🤝</div>
+              <h3 style="margin:0 0 8px; color:var(--ink);">贡献流程</h3>
+              <p style="margin:0; color:var(--muted); font-size:14px;">Fork、分支命名、提交前检查、PR 模板、Review 标准</p>
+            </a>
+          </div>
+        </section>
+
+        <section class="card" id="where-to-start">
+          <h2>根据你的情况选起点</h2>
+          <table>
+            <thead>
+              <tr><th>你的情况</th><th>先看哪页</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>第一次听说这个项目，想先跑起来</td><td><a href="./architecture.html">框架设计</a> → <a href="./api-usage/plugin-usage/index.html">插件使用</a></td></tr>
+              <tr><td>想给新机器人写驱动</td><td><a href="./development-guide/driver-integration/index.html">Driver 接入</a> → <a href="./development-guide/code-style/index.html">代码风格</a></td></tr>
+              <tr><td>想做外置插件而不是改主仓库</td><td><a href="./development-guide/rekep-plugin-example/index.html">ReKep 样例</a> → <a href="./development-guide/contribution-workflow/index.html">贡献流程</a></td></tr>
+              <tr><td>不确定想做什么，先看看缺口在哪</td><td><a href="./development-guide/roadmap-todos/index.html">演进路线</a></td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <div class="footer">
+          遇到卡住的地方，GitHub Issue 是最高效的求助方式。先搜一下有没有类似的，没有再开新的。
+        </div>
+      </div>
+
+      <aside class="toc">
+        <div class="toc-title">本页目录</div>
+        <a href="#overview">入口选择</a>
+        <a href="#where-to-start">根据情况选起点</a>
+        <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">子页面</div>
+        <a href="./development-guide/rekep-plugin-example/index.html">ReKep 插件样例</a>
+        <a href="./development-guide/driver-integration/index.html">新 Driver 接入</a>
+        <a href="./development-guide/code-style/index.html">代码风格约定</a>
+        <a href="./development-guide/roadmap-todos/index.html">演进路线</a>
+        <a href="./development-guide/contribution-workflow/index.html">贡献流程</a>
+      </aside>
+    </div>
   </main>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0];
+      for (const section of sections) {
+        if (window.scrollY + 120 >= section.offsetTop) current = section;
+      }
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current.id));
+    };
+    window.addEventListener('scroll', activate, { passive: true });
+    window.addEventListener('load', activate);
+  </script>
 </body>
 </html>
