@@ -19,24 +19,22 @@ const docItems = [
   {
     title: 'API Reference',
     subtitle: 'API Documentation',
-    description: 'Complete API documentation covering core modules, driver interfaces, protocol surfaces, and toolchain usage.',
+    description: 'Plugin installation, Watchdog invocation, ACTION.md debugging, and Markdown file format specifications.',
     icon: Code,
     href: `${import.meta.env.BASE_URL}docs/api-reference.html`,
     color: 'from-blue-500/20 to-indigo-500/20',
     iconColor: 'text-blue-400',
     borderColor: 'border-blue-500/30',
-    comingSoon: true,
   },
   {
     title: 'Developer Guide',
     subtitle: 'Development Guide',
-    description: 'Learn how to extend PhyAgentOS, create custom drivers and plugins, and follow best practices.',
+    description: 'ReKep plugin example, new Driver integration, code style conventions, contribution workflow, and roadmap.',
     icon: FileCode,
     href: `${import.meta.env.BASE_URL}docs/developer-guide.html`,
     color: 'from-amber-500/20 to-orange-500/20',
     iconColor: 'text-amber-400',
     borderColor: 'border-amber-500/30',
-    comingSoon: true,
   },
 ];
 
@@ -100,9 +98,7 @@ export default function Docs() {
                     href={item.href}
                     target={item.href.startsWith('http') || item.href.includes('.html') ? '_blank' : undefined}
                     rel={item.href.startsWith('http') || item.href.includes('.html') ? 'noopener noreferrer' : undefined}
-                    className={`group relative rounded-2xl border ${item.borderColor} bg-gradient-to-br ${item.color} backdrop-blur-sm p-8 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${
-                      item.comingSoon ? 'pointer-events-none opacity-70' : ''
-                    }`}
+                    className={`group relative rounded-2xl border ${item.borderColor} bg-gradient-to-br ${item.color} backdrop-blur-sm p-8 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl`}
                   >
                     {/* Icon */}
                     <div
@@ -126,28 +122,18 @@ export default function Docs() {
 
                     {/* Footer */}
                     <div className="flex items-center justify-between mt-6 pt-6 border-t border-white/10">
-                      {item.comingSoon ? (
-                        <span className="text-sm text-white/40">Coming Soon</span>
-                      ) : (
-                        <span className={`text-sm ${item.iconColor} font-medium`}>
-                          View Documentation
-                        </span>
-                      )}
-                      {item.comingSoon ? (
-                        <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center">
-                          <span className="text-white/30 text-xs">-</span>
-                        </div>
-                      ) : (
-                        <div
-                          className={`w-8 h-8 rounded-lg ${item.iconColor} bg-black/30 flex items-center justify-center transition-all duration-300 group-hover:translate-x-1`}
-                        >
-                          {item.href.includes('.html') ? (
-                            <ExternalLink className="w-4 h-4" />
-                          ) : (
-                            <ArrowRight className="w-4 h-4" />
-                          )}
-                        </div>
-                      )}
+                      <span className={`text-sm ${item.iconColor} font-medium`}>
+                        View Documentation
+                      </span>
+                      <div
+                        className={`w-8 h-8 rounded-lg ${item.iconColor} bg-black/30 flex items-center justify-center transition-all duration-300 group-hover:translate-x-1`}
+                      >
+                        {item.href.includes('.html') ? (
+                          <ExternalLink className="w-4 h-4" />
+                        ) : (
+                          <ArrowRight className="w-4 h-4" />
+                        )}
+                      </div>
                     </div>
 
                     {/* Hover glow effect */}
