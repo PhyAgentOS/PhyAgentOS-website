@@ -42,16 +42,17 @@
       <div class="eyebrow">API Usage / Plugins</div>
       <h1><span class="gradient-text">插件使用</span>说明</h1>
       <p class="subtitle">
-        插件怎么用、怎么装、出了问题怎么调——都在这里。
+        关于插件(SKILL)安装、部署、通过 Watchdog 或 ACTION.md 调用，ReKep 的使用方式与调试入口的说明文档。
+        <code>后续会开放plugin (skill) hub</code>
       </p>
     </header>
 
     <div class="layout">
       <div class="content">
         <section class="card" id="discovery">
-          <h2>插件是怎么被发现的</h2>
+          <h2>插件的注册</h2>
           <p class="lead">
-            外部插件不会自动生效。主仓库需要通过清单文件知道你提供了什么 driver、入口类在哪、profile 在哪。整个发现链路如下：
+            插件不会自动生效，这需要通过清单文件知道用户提供了什么 driver、入口类在哪、profile 在哪等信息。而整个发现链路如下：
           </p>
           <div class="grid-3">
             <div class="mini-card">
@@ -81,7 +82,7 @@
             </div>
           </div>
           <div class="callout" style="margin-top:16px;">
-            主仓库只认统一接口，不关心你插件内部用了哪家 SDK。这是插件机制的核心边界。
+            框架只认统一接口，不关心插件内部用了什么SDK，这是插件机制的核心边界。
           </div>
         </section>
 
@@ -116,7 +117,7 @@ python scripts/deploy_rekep_real_plugin.py \
         <section class="card" id="watchdog">
           <h2>通过 Watchdog 调用</h2>
           <p class="lead">
-            这是最接近真实使用场景的方式。Agent 生成动作，Watchdog 监听 ACTION.md 并调用插件执行。
+            这是可直接用于真实场景的方式，由Agent 生成动作，Watchdog 监听 ACTION.md 并调用插件执行。
           </p>
           <div class="cmd-block"><code># 终端 1
 paos onboard
@@ -130,7 +131,7 @@ paos agent</code></div>
         <section class="card" id="action-md">
           <h2>直接写 ACTION.md 调试</h2>
           <p class="lead">
-            想绕过 Agent，直接验证某个动作能不能被插件接住？手动改 ACTION.md 是最快的办法。
+            如果想绕过 Agent，直接验证某个动作能不能被插件接受？手动改 ACTION.md 是最快的办法。
           </p>
           <div class="grid-2">
             <div class="install-card">
@@ -192,17 +193,17 @@ python runtime/dobot_bridge.py preflight \
             <div class="mini-card">
               <div style="font-size:24px; margin-bottom:8px;">🚪</div>
               <h3>Driver 层</h3>
-              <p><code>driver.py</code> 对接 BaseDriver 接口，是主仓库能看到的唯一入口。保持薄。</p>
+              <p><code>driver.py</code> 对接 BaseDriver 接口，是框架能看到的唯一入口。</p>
             </div>
             <div class="mini-card">
               <div style="font-size:24px; margin-bottom:8px;">⚙️</div>
               <h3>runtime 层</h3>
-              <p><code>dobot_bridge.py</code> 负责预检、dry-run、真机执行。承载重逻辑和第三方依赖。</p>
+              <p><code>dobot_bridge.py</code> 负责预检、dry-run、真机执行，承载重逻辑和第三方依赖。</p>
             </div>
             <div class="mini-card">
               <div style="font-size:24px; margin-bottom:8px;">🔌</div>
               <h3>适配层</h3>
-              <p><code>robot_factory.py</code> 等负责不同机器人 family 的具体适配。边界清晰。</p>
+              <p><code>robot_factory.py</code> 等负责不同机器人 family 的具体适配，边界清晰。</p>
             </div>
           </div>
         </section>
@@ -237,7 +238,7 @@ python runtime/dobot_bridge.py preflight \
         </section>
 
         <div class="footer">
-          这一页的重点不是"插件是什么"，而是帮你判断：在使用的不同阶段，该用哪种调用和调试方式。
+          本文档重点在于帮助用户理解在使用的不同阶段，该用哪种调用和调试方式。
         </div>
       </div>
 

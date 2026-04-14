@@ -43,14 +43,14 @@
       <div class="eyebrow">API Usage / Markdown Protocol</div>
       <h1><span class="gradient-text">Markdown</span> 文件格式与样例</h1>
       <p class="subtitle">
-        PhyAgentOS 的运行时状态就写在几个 Markdown 文件里。搞懂它们长什么样、谁写谁读，排查问题时会轻松很多。
+        PhyAgentOS 的运行时状态就写在协议层的 Markdown 文件里。因此，搞懂它们长什么样、谁写谁读，排查问题时会轻松很多。
       </p>
     </header>
 
     <div class="layout">
       <div class="content">
         <section class="card" id="topology">
-          <h2>文件在哪儿</h2>
+          <h2>文件位置</h2>
           <p class="lead">
             Single 模式下所有文件堆在一个目录；Fleet 模式下，shared 文件放全局，机器人私有的放各自 workspace。
           </p>
@@ -63,23 +63,22 @@ flowchart TB
 
     subgraph SHARED["📁 Shared Workspace"]
         direction TB
-        E([ENVIRONMENT.md]):::shared
-        R([ROBOTS.md]):::shared
-        L([LESSONS.md]):::shared
-        T([TASK.md]):::shared
-        O([ORCHESTRATOR.md]):::shared
+        E([ENVIRONMENT.md ]):::shared
+        R([ROBOTS.md ']):::shared
+        L([LESSONS.md '']):::shared
+        T([TASK.md ']):::shared
     end
 
     subgraph R1["🤖 Robot A Workspace"]
         direction TB
-        A1([ACTION.md]):::robot
-        M1([EMBODIED.md]):::robot
+        A1([ACTION.md ']):::robot
+        M1([EMBODIED.md ']):::robot
     end
 
     subgraph R2["🤖 Robot B Workspace"]
         direction TB
-        A2([ACTION.md]):::robot
-        M2([EMBODIED.md]):::robot
+        A2([ACTION.md ']):::robot
+        M2([EMBODIED.md ']):::robot
     end
           </div>
           <table style="margin-top:14px;">
@@ -89,7 +88,7 @@ flowchart TB
             <tbody>
               <tr>
                 <td>Shared workspace</td>
-                <td><code>ENVIRONMENT.md</code>、<code>ROBOTS.md</code>、<code>LESSONS.md</code>、<code>TASK.md</code>、<code>ORCHESTRATOR.md</code></td>
+                <td><code>ENVIRONMENT.md</code>、<code>ROBOTS.md</code>、<code>LESSONS.md</code>、<code>TASK.md</code></td>
                 <td>全局状态、任务协调、失败记录</td>
               </tr>
               <tr>
@@ -260,7 +259,7 @@ Pick up the red apple from the table and place it into the blue basket in the ki
         </section>
 
         <section class="card" id="orchestrator-md">
-          <h2>ORCHESTRATOR.md · 全局仪表盘</h2>
+          <h2>ORCHESTRATOR.md · 全局仪表盘 <code>下一个版本更新</code></h2>
           <p class="lead">
             多机协同时的"总控台"。不存动作细节，只汇总总体进度、活跃设备和关键决策。
           </p>
