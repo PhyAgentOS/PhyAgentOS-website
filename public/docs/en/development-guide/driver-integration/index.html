@@ -43,16 +43,16 @@
       <div class="eyebrow">Developer Guide / Driver Integration</div>
       <h1><span class="gradient-text">New Driver</span> Integration Flow</h1>
       <p class="subtitle">
-        Want to connect a new robot? Start from the minimal BaseDriver implementation and work your way up to Watchdog loading, execution, and state writeback.
+        To integrate a new robot, it is recommended to start with a minimal BaseDriver implementation and progressively complete Watchdog loading, action execution, and state writeback.
       </p>
     </header>
 
     <div class="layout">
       <div class="content">
         <section class="card" id="contract">
-          <h2>What the BaseDriver Interface Looks Like</h2>
+          <h2>BaseDriver Interface Overview</h2>
           <p class="lead">
-            Implement these methods and the Watchdog can use your driver just like a built-in one. No need to write everything at once — get the Watchdog to load it first.
+            After implementing the following methods, Watchdog can use your driver just like a built-in one. It is recommended to implement the minimal interface first and ensure Watchdog can load it properly.
           </p>
           <pre><code>class BaseDriver(ABC):
     def get_profile_path(self) -> Path: ...
@@ -87,9 +87,9 @@
         </section>
 
         <section class="card" id="minimal">
-          <h2>Write a Minimal Loadable Version First</h2>
+          <h2>Implement a Minimal Loadable Version First</h2>
           <p class="lead">
-            Don't try to implement all capabilities at once. Getting the Watchdog to import, instantiate, and complete one action consumption cycle is more important than writing a bunch of non-runnable methods.
+            It is recommended to first ensure that Watchdog can properly import and instantiate the Driver, and complete a full action consumption cycle, before gradually extending functionality.
           </p>
           <pre><code>from pathlib import Path
 from hal.base_driver import BaseDriver
@@ -115,7 +115,7 @@ class MyRobotDriver(BaseDriver):
         </section>
 
         <section class="card" id="profile">
-          <h2>Add a Profile — Don't Hardcode in Code</h2>
+          <h2>Supplement the Profile File</h2>
           <div class="grid-2">
             <div class="mini-card">
               <h3>What Goes in the Profile</h3>
@@ -128,14 +128,14 @@ class MyRobotDriver(BaseDriver):
               </ul>
             </div>
             <div class="mini-card">
-              <h3>What Happens Without It</h3>
+              <h3>Impact of Missing Profile</h3>
               <p>The Critic has no basis for action constraints, and ROBOTS.md can't provide reliable capability summaries. The Agent won't know what to assign to this robot.</p>
             </div>
           </div>
         </section>
 
         <section class="card" id="register">
-          <h2>How to Register a Built-in Driver</h2>
+          <h2>Built-in Driver Registration Method</h2>
           <p class="lead">
             For built-in drivers (not external plugins), you also need to add a short-name mapping in the registry.
           </p>
@@ -203,7 +203,7 @@ class MyRobotDriver(BaseDriver):
             <div class="check-box"></div>
             <div>
               <strong>Confirm actions reach execute_action()</strong>
-              <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">Add a print statement inside to see if it gets called</p>
+              <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">Add logging output to the method to confirm it is being called correctly</p>
             </div>
           </div>
           <div class="check-item">
@@ -221,12 +221,12 @@ class MyRobotDriver(BaseDriver):
             </div>
           </div>
           <div class="callout" style="margin-top:16px;">
-            The core debugging approach is layered: first confirm "can load", then "can execute", then "can write back". Don't chase the full pipeline right from the start.
+            The core debugging approach is layered verification: first confirm "can load", then "can execute", then "can write back". It is recommended to avoid pursuing the full pipeline immediately.
           </div>
         </section>
 
         <div class="footer">
-          Connecting new hardware boils down to these steps: satisfy the minimal interface → add profile → register → debug layer by layer. Don't be intimidated by the directory structure — the main line is clear.
+          The core steps for integrating new hardware are: implement the minimal interface → supplement the profile → register → debug layer by layer. The overall process is clear and well-defined.
         </div>
       </div>
 

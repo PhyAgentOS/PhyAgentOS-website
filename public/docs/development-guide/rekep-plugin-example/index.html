@@ -43,19 +43,19 @@
       <div class="eyebrow">Developer Guide / ReKep Example</div>
       <h1><span class="gradient-text">ReKep</span> 插件开发样例</h1>
       <p class="subtitle">
-        与其从零设计插件骨架，不如直接照着 ReKep 的结构改，它展示了一个完整外部插件该有的样子。
+        建议参考 ReKep 的结构进行插件开发，它展示了一个完整外部插件应有的标准结构。
       </p>
     </header>
 
     <div class="layout">
       <div class="content">
         <section class="card" id="why-rekep">
-          <h2>为什么要抄 ReKep 的作业</h2>
+          <h2>为什么推荐参考 ReKep</h2>
           <div class="grid-3">
             <div class="mini-card">
               <div style="font-size:24px; margin-bottom:8px;">🧱</div>
               <h3>边界清楚</h3>
-              <p>主仓库只看 Driver 接口；插件内部爱怎么折腾 SDK 都行。</p>
+              <p>主仓库仅关注 Driver 接口；插件内部可自由使用任意 SDK。</p>
             </div>
             <div class="mini-card">
               <div style="font-size:24px; margin-bottom:8px;">🏗️</div>
@@ -71,9 +71,9 @@
         </section>
 
         <section class="card" id="structure">
-          <h2>最小插件长什么样</h2>
+          <h2>最小插件结构</h2>
           <p class="lead">
-            你不需要一次写满所有功能。先把骨架搭好，让 Watchdog 能加载起来，再逐步补复杂能力。
+            无需一次性实现所有功能。建议先搭建基础骨架，确保 Watchdog 能正常加载，再逐步补充复杂能力。
           </p>
           <div class="tree">
 my-phyagentos-plugin/<br/>
@@ -92,20 +92,20 @@ my-phyagentos-plugin/<br/>
           </div>
           <table style="margin-top:16px;">
             <thead>
-              <tr><th>路径</th><th>干嘛用的</th></tr>
+              <tr><th>路径</th><th>用途说明</th></tr>
             </thead>
             <tbody>
               <tr><td><code>PhyAgentOS_plugin.toml</code></td><td>声明 driver 名、入口类、profile 位置</td></tr>
               <tr><td><code>my_plugin/driver.py</code></td><td>Watchdog 实际加载的 BaseDriver 子类</td></tr>
               <tr><td><code>my_plugin/profiles/*.md</code></td><td>运行时会被复制为 EMBODIED.md</td></tr>
-              <tr><td><code>runtime/</code></td><td>放第三方 SDK、桥接脚本、长流程</td></tr>
-              <tr><td><code>tests/</code></td><td>插件自己的冒烟测试</td></tr>
+              <tr><td><code>runtime/</code></td><td>存放第三方 SDK、桥接脚本、长流程逻辑</td></tr>
+              <tr><td><code>tests/</code></td><td>插件级别的冒烟测试</td></tr>
             </tbody>
           </table>
         </section>
 
         <section class="card" id="manifest">
-          <h2>清单文件怎么写</h2>
+          <h2>清单文件编写指南</h2>
           <pre><code>[plugin]
 name = "my_robot"
 version = "0.1.0"
@@ -129,24 +129,24 @@ optional = false</code></pre>
         </section>
 
         <section class="card" id="split">
-          <h2>Driver 和 runtime 怎么拆</h2>
+          <h2>Driver 与 runtime 的职责划分</h2>
           <div class="grid-2">
             <div class="mini-card" style="border-left:4px solid var(--success);">
               <h3>Driver 层</h3>
-              <p>负责对接 BaseDriver 接口：接动作、转参数、返回结果、暴露 profile。这一层越薄越好。</p>
+              <p>负责对接 BaseDriver 接口：接收动作、转换参数、返回结果、暴露 profile。建议保持此层尽量精简。</p>
             </div>
             <div class="mini-card" style="border-left:4px solid var(--info);">
               <h3>runtime 层</h3>
-              <p>负责预检、dry-run、真机执行、长程任务。重依赖和复杂桥接放在这里，不要往 Driver 里塞。</p>
+              <p>负责预检、dry-run、真机执行、长程任务。重依赖和复杂桥接逻辑应放置于此，不应放入 Driver 层。</p>
             </div>
           </div>
-          <p>拆开的直接好处是：出问题的时候，你能快速判断是"主仓库协议适配"坏了，还是"真机执行"坏了。</p>
+          <p>职责分离的直接优势：出现问题时，可快速定位是"主仓库协议适配"故障还是"真机执行"故障。</p>
         </section>
 
         <section class="card" id="local-dev">
           <h2>本地联调结构</h2>
           <p class="lead">
-            最顺手的开发方式：插件仓库和主仓库放在同级目录，通过本地路径安装回主仓库。
+            推荐的本地开发方式：将插件仓库与主仓库放置于同级目录，通过本地路径完成安装。
           </p>
           <pre><code>git clone https://github.com/SYSU-HCP-EAI/PhyAgentOS.git
 git clone https://github.com/baiyu858/PhyAgentOS-rekep-real-plugin.git
@@ -257,7 +257,7 @@ paos agent</code></pre>
         </section>
 
         <div class="footer">
-          ReKep 不是"最简单"的插件，但它是"最像 production"的插件。把它当作模板来改，比自己从零搭骨架要快得多。
+          ReKep 并非最简单的插件，但其结构最接近生产级标准。将其作为模板进行修改，远比从零搭建更为高效。
         </div>
       </div>
 
@@ -267,7 +267,7 @@ paos agent</code></pre>
           返回开发指南总览
         </a>
         <div class="toc-title">本页目录</div>
-        <a href="#why-rekep">为什么抄 ReKep</a>
+        <a href="#why-rekep">为什么参考 ReKep</a>
         <a href="#structure">最小插件结构</a>
         <a href="#manifest">清单文件</a>
         <a href="#split">Driver / runtime 拆分</a>

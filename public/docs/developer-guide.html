@@ -43,7 +43,7 @@
       <div class="eyebrow">Documentation / Developer Guide</div>
       <h1><span class="gradient-text">PhyAgentOS</span> 开发指南</h1>
       <p class="subtitle">
-        这里是一份面向核心开发者的贡献流程和路线图，无论你是想写插件还是想接入新机器人。重要的是，这里还包含了我们的开发路线，欢迎大家根据路线图选择感兴趣的功能进行开发，或者提出新的功能建议。
+        本文档面向核心开发者，涵盖贡献流程与项目路线图。无论您计划开发插件还是接入新机器人，均可在此找到对应的指引。同时，文档包含项目开发路线，欢迎根据路线图选择感兴趣的功能参与开发，或提出新的功能建议。
       </p>
     </header>
 
@@ -52,7 +52,7 @@
         <section class="card" id="overview">
           <h2>快速开始</h2>
           <p class="lead">
-            大致分三类：想做新插件的看 ReKep 样例；要接新硬件的看 Driver 流程；准备提 PR 的先看贡献流程和路线图。
+            开发方向大致分为三类：开发新插件请参考 ReKep 样例；接入新硬件请参考 Driver 接入流程；准备提交 PR 请先阅读贡献流程与路线图。
           </p>
           <div class="card-grid-3">
             <a href="./development-guide/rekep-plugin-example/index.html" class="mini-card card-hover" style="text-decoration:none; display:block;">
@@ -84,29 +84,29 @@
         </section>
 
         <section class="card" id="where-to-start">
-          <h2>根据你的情况选起点</h2>
+          <h2>根据您的背景选择起点</h2>
           <table>
             <thead>
-              <tr><th>你的情况</th><th>先看哪页</th></tr>
+              <tr><th>您的背景</th><th>建议阅读顺序</th></tr>
             </thead>
             <tbody>
-              <tr><td>第一次听说这个项目，想先跑起来</td><td><a href="./architecture.html">框架设计</a> → <a href="./api-usage/plugin-usage/index.html">插件使用</a></td></tr>
-              <tr><td>想给新机器人写驱动</td><td><a href="./development-guide/driver-integration/index.html">Driver 接入</a> → <a href="./development-guide/code-style/index.html">代码风格</a></td></tr>
-              <tr><td>想做外置插件而不是改主仓库</td><td><a href="./development-guide/rekep-plugin-example/index.html">ReKep 样例</a> → <a href="./development-guide/contribution-workflow/index.html">贡献流程</a></td></tr>
-              <tr><td>不确定想做什么，先看看缺口在哪</td><td><a href="./development-guide/roadmap-todos/index.html">演进路线</a></td></tr>
+              <tr><td>初次接触项目，希望快速上手</td><td><a href="./architecture.html">框架设计</a> → <a href="./api-usage/plugin-usage/index.html">插件使用</a></td></tr>
+              <tr><td>计划为新机器人编写驱动</td><td><a href="./development-guide/driver-integration/index.html">Driver 接入</a> → <a href="./development-guide/code-style/index.html">代码风格</a></td></tr>
+              <tr><td>计划开发外部插件而非修改主仓库</td><td><a href="./development-guide/rekep-plugin-example/index.html">ReKep 样例</a> → <a href="./development-guide/contribution-workflow/index.html">贡献流程</a></td></tr>
+              <tr><td>尚未确定方向，希望了解待开发项</td><td><a href="./development-guide/roadmap-todos/index.html">演进路线</a></td></tr>
             </tbody>
           </table>
         </section>
 
         <div class="footer">
-          遇到卡住的地方，GitHub Issue 是最高效的求助方式。先搜一下有没有类似的，没有再开新的。
+          如遇到问题，建议通过 GitHub Issue 寻求帮助。请先检索是否已有类似 Issue，若无再创建新的。
         </div>
       </div>
 
       <aside class="toc">
         <div class="toc-title">本页目录</div>
         <a href="#overview">入口选择</a>
-        <a href="#where-to-start">根据情况选起点</a>
+        <a href="#where-to-start">根据背景选择起点</a>
         <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">子页面</div>
         <a href="./development-guide/rekep-plugin-example/index.html">ReKep 插件样例</a>
         <a href="./development-guide/driver-integration/index.html">新 Driver 接入</a>

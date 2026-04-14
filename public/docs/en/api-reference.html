@@ -99,6 +99,68 @@ paos agent</code></pre>
           </div>
         </section>
 
+        <section class="card" id="sim-runtime">
+          <h2>Simulation Runtime Guide</h2>
+          <p class="lead">
+            This section focuses on how to run the complete demo pipeline in the Isaac Sim simulation environment — ideal if you don't have real hardware or want to verify in simulation first.
+          </p>
+
+          <h3 style="margin-top:24px;">① Install Isaac Sim 5.1</h3>
+          <p>Download and install Isaac Sim 5.1.0 from the NVIDIA official pages:</p>
+          <ul style="margin:8px 0 16px 20px; line-height:2;">
+            <li><a href="https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/download.html" target="_blank" style="color:var(--accent);">Download Page (5.1.0)</a></li>
+            <li><a href="https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/quick-install.html" target="_blank" style="color:var(--accent);">Quick Install Guide (5.1.0)</a></li>
+          </ul>
+
+          <h3>② Prepare Python Environment</h3>
+          <pre><code>conda activate paos</code></pre>
+
+          <h3 style="margin-top:20px;">③ Install Dependencies</h3>
+          <p>Install PhyAgentOS in editable mode into the <code>paos</code> environment:</p>
+          <pre><code>cd /home/zyserver/work/PhyAgentOS
+pip install -e .</code></pre>
+
+          <h3 style="margin-top:20px;">④ Start HAL Watchdog (GUI Mode)</h3>
+          <pre><code>cd /home/zyserver/work/PhyAgentOS
+conda activate paos
+python hal/hal_watchdog.py --gui --interval 0.05 \
+  --driver pipergo2_manipulation \
+  --driver-config examples/pipergo2_manipulation_driver.json</code></pre>
+          <div class="callout">
+            <code>--gui</code> opens the simulation visualization window; <code>--interval 0.05</code> sets the control loop period to 50ms, which effectively reduces simulation lag.
+          </div>
+
+          <h3 style="margin-top:20px;">⑤ Send Agent Commands</h3>
+          <p>Open <strong>another terminal</strong> and run:</p>
+          <pre><code>cd /home/zyserver/work/PhyAgentOS
+conda activate paos</code></pre>
+          <p>Then execute in order:</p>
+          <pre><code># Launch the simulation scene
+paos agent -m "open simulation"
+
+# Move to target location
+paos agent -m "go to desk"
+
+# Execute grasping task
+paos agent -m "pick up the red cube and move next to the rear pedestal"</code></pre>
+
+          <h3 style="margin-top:20px;">⑥ Notes</h3>
+          <div class="grid-2">
+            <div class="mini-card" style="border-left:4px solid var(--warning);">
+              <h3>Single Process</h3>
+              <p>Keep only one Watchdog process running at a time to avoid port conflicts.</p>
+            </div>
+            <div class="mini-card" style="border-left:4px solid var(--info);">
+              <h3>Restart After Changes</h3>
+              <p>If you modify driver or skill files, restart the Watchdog for changes to take effect.</p>
+            </div>
+            <div class="mini-card" style="border-left:4px solid var(--accent);">
+              <h3>Lag Troubleshooting</h3>
+              <p>If the simulation is laggy, make sure you launched with <code>--interval 0.05</code>.</p>
+            </div>
+          </div>
+        </section>
+
         <div class="footer">
           Documentation is continuously improving. If you find commands that don't match actual behavior, please open an Issue.
         </div>
@@ -109,6 +171,7 @@ paos agent</code></pre>
         <a href="#overview">Two Pages</a>
         <a href="#cli-quick">Three Commands</a>
         <a href="#scope">Coverage</a>
+        <a href="#sim-runtime">Simulation Runtime</a>
         <div style="margin-top: 24px; margin-bottom: 12px; font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: 15px; color: var(--ink);">Sub-pages</div>
         <a href="./api-usage/plugin-usage/index.html">Plugin Usage Guide</a>
         <a href="./api-usage/markdown-formats/index.html">Markdown File Formats</a>

@@ -44,7 +44,7 @@
       <div class="eyebrow">Developer Guide / Contribution</div>
       <h1><span class="gradient-text">贡献流程</span>与 PR 规范</h1>
       <p class="subtitle">
-        想给项目提 PR？流程不复杂，就是标准的 Fork → 改代码 → 跑检查 → 发 PR。下面把每一步拆开，避免你在小地方卡壳。
+        提交 PR 的流程遵循标准的 Fork → 修改 → 检查 → 提交模式。以下逐步说明，帮助您顺利完成贡献。
       </p>
     </header>
 
@@ -101,7 +101,7 @@ git push origin feat/my-robot-driver
         <section class="card" id="checks">
           <h2>提交前必须跑的三项检查</h2>
           <p class="lead">
-            CI 红了再修很丢人，本地先跑一遍更省时间。这三项检查都配在 pyproject.toml 里，直接执行即可。
+            建议在本地先完成检查，避免 CI 构建失败后再行修复。这三项检查均配置在 pyproject.toml 中，直接执行即可。
           </p>
           <div class="grid-2">
             <div class="check-card">
@@ -140,9 +140,9 @@ pytest tests/test_hal_base_driver.py</code></pre>
         </section>
 
         <section class="card" id="pr-template">
-          <h2>PR 描述写清楚，Review 会快很多</h2>
+          <h2>PR 描述规范</h2>
           <p class="lead">
-             Maintainer 不是你的老师，没义务猜你改了什么。按这个模板写，通常一次 Review 就能过。
+            请按照以下模板撰写 PR 描述，清晰的说明有助于加快 Review 进度。
           </p>
           <pre><code>## 改了什么
 一句话总结 + 逐条列出关键文件和逻辑变更。
@@ -173,7 +173,7 @@ Closes #123</code></pre>
         <section class="card" id="issues">
           <h2>Issue 分类：先对齐再动手</h2>
           <p class="lead">
-            不确定怎么改的时候，先开 Issue 聊聊。下面是我们常用的标签，贴对标签能让对的人更快看到。
+            如不确定具体实现方案，建议先通过 Issue 进行讨论。以下为常用标签，正确标注有助于维护者快速响应。
           </p>
           <table>
             <thead>
@@ -221,7 +221,7 @@ Closes #123</code></pre>
             <li><strong>不破坏现有接口</strong> — 除非提前在 Issue/PR 里说明了迁移方案。</li>
           </ul>
           <div class="callout">
-            大 PR 可能被要求拆分。这不是刁难，是为了 Review 更快、回滚更安全。拆成几个小 PR 反而更容易一次过。
+            大型 PR 可能会被要求拆分为多个小 PR，以便加快 Review 进度并降低回滚风险。
           </div>
         </section>
 
@@ -248,7 +248,7 @@ Closes #123</code></pre>
         </section>
 
         <div class="footer">
-          核心就一句话：Fork 出来、改完跑检查、PR 写清楚、耐心等待 Review。欢迎你加入。
+          贡献流程的核心步骤：Fork 仓库 → 完成修改并运行检查 → 撰写清晰的 PR 描述 → 耐心等待 Review。欢迎参与贡献。
         </div>
       </div>
 

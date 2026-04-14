@@ -43,19 +43,19 @@
       <div class="eyebrow">Developer Guide / ReKep Example</div>
       <h1><span class="gradient-text">ReKep</span> Plugin Development Example</h1>
       <p class="subtitle">
-        Rather than designing a plugin skeleton from scratch, follow ReKep's structure — it demonstrates what a complete external plugin should look like.
+        It is recommended to reference ReKep's structure when developing plugins — it demonstrates the standard architecture of a complete external plugin.
       </p>
     </header>
 
     <div class="layout">
       <div class="content">
         <section class="card" id="why-rekep">
-          <h2>Why Follow ReKep's Lead</h2>
+          <h2>Why We Recommend Referencing ReKep</h2>
           <div class="grid-3">
             <div class="mini-card">
               <div style="font-size:24px; margin-bottom:8px;">🧱</div>
               <h3>Clear Boundaries</h3>
-              <p>The main repo only cares about the Driver interface; inside the plugin, you're free to use any SDK however you like.</p>
+              <p>The main repository only concerns itself with the Driver interface; within the plugin, any SDK may be used freely.</p>
             </div>
             <div class="mini-card">
               <div style="font-size:24px; margin-bottom:8px;">🏗️</div>
@@ -71,9 +71,9 @@
         </section>
 
         <section class="card" id="structure">
-          <h2>What a Minimal Plugin Looks Like</h2>
+          <h2>Minimal Plugin Structure</h2>
           <p class="lead">
-            You don't need to implement every feature at once. Get the skeleton working so Watchdog can load it, then gradually add capabilities.
+            There is no need to implement all features at once. It is recommended to first build the basic skeleton, ensure Watchdog can load it properly, then gradually add complex capabilities.
           </p>
           <div class="tree">
 my-phyagentos-plugin/<br/>
@@ -129,24 +129,24 @@ optional = false</code></pre>
         </section>
 
         <section class="card" id="split">
-          <h2>How to Split Driver and Runtime</h2>
+          <h2>Driver and Runtime Responsibility Separation</h2>
           <div class="grid-2">
             <div class="mini-card" style="border-left:4px solid var(--success);">
               <h3>Driver Layer</h3>
-              <p>Implements the BaseDriver interface: receives actions, converts parameters, returns results, exposes profiles. Keep this layer as thin as possible.</p>
+              <p>Responsible for implementing the BaseDriver interface: receiving actions, converting parameters, returning results, and exposing profiles. This layer should be kept as thin as possible.</p>
             </div>
             <div class="mini-card" style="border-left:4px solid var(--info);">
               <h3>Runtime Layer</h3>
-              <p>Handles preflight checks, dry-runs, real robot execution, and long-running tasks. Put heavy dependencies and complex bridging logic here — don't stuff them into the Driver.</p>
+              <p>Responsible for preflight checks, dry-runs, real robot execution, and long-running tasks. Heavy dependencies and complex bridging logic should be placed here, not in the Driver layer.</p>
             </div>
           </div>
-          <p>The direct benefit of this split: when something goes wrong, you can quickly determine whether it's a "main repo protocol adaptation" issue or a "real robot execution" issue.</p>
+          <p>The direct advantage of this separation: when issues arise, you can quickly determine whether the fault lies in "main repo protocol adaptation" or "real robot execution".</p>
         </section>
 
         <section class="card" id="local-dev">
           <h2>Local Development Setup</h2>
           <p class="lead">
-            The most convenient approach: place the plugin repo alongside the main repo, and install it back via local path.
+            The recommended local development approach: place the plugin repository alongside the main repository, and install it via local path.
           </p>
           <pre><code>git clone https://github.com/SYSU-HCP-EAI/PhyAgentOS.git
 git clone https://github.com/baiyu858/PhyAgentOS-rekep-real-plugin.git
@@ -257,7 +257,7 @@ paos agent</code></pre>
         </section>
 
         <div class="footer">
-          ReKep isn't the "simplest" plugin, but it's the most "production-like" one. Using it as a template is much faster than building a skeleton from scratch.
+          ReKep is not the simplest plugin, but its structure most closely resembles production-grade standards. Using it as a template is significantly more efficient than building from scratch.
         </div>
       </div>
 

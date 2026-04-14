@@ -444,12 +444,14 @@ pre code { background: none; padding: 0; color: inherit; }
 /* ── Progress ── */
 .progress-wrap {
   margin-top: 10px;
+}
+.progress-bar {
   background: rgba(29, 42, 48, 0.06);
   border-radius: 999px;
   height: 10px;
   overflow: hidden;
 }
-.progress-bar {
+.progress-bar > div {
   height: 100%;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--success), #4caf7c);

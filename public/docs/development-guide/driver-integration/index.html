@@ -43,16 +43,16 @@
       <div class="eyebrow">Developer Guide / Driver Integration</div>
       <h1><span class="gradient-text">新 Driver</span> 接入流程</h1>
       <p class="subtitle">
-        想接一台新机器人？从 BaseDriver 的最小实现开始，一步步跑到 Watchdog 能加载、能执行、能回写状态。
+        如需接入新机器人，建议从 BaseDriver 的最小实现开始，逐步完成 Watchdog 加载、动作执行与状态回写。
       </p>
     </header>
 
     <div class="layout">
       <div class="content">
         <section class="card" id="contract">
-          <h2>BaseDriver 接口长什么样</h2>
+          <h2>BaseDriver 接口概览</h2>
           <p class="lead">
-            只要实现这几个方法，Watchdog 就能像用内置 driver 一样用你的 driver。不必一次写全，先让 Watchdog 能加载起来。
+            实现以下方法后，Watchdog 即可像使用内置 Driver 一样使用您的 Driver。建议先实现最小接口，确保 Watchdog 能正常加载。
           </p>
           <pre><code>class BaseDriver(ABC):
     def get_profile_path(self) -> Path: ...
@@ -87,9 +87,9 @@
         </section>
 
         <section class="card" id="minimal">
-          <h2>先写最小可加载版本</h2>
+          <h2>先实现最小可加载版本</h2>
           <p class="lead">
-            不要一上来就写全所有能力。先让 Watchdog 能 import、能实例化、能走完一轮动作消费，比写一堆没法跑的方法更重要。
+            建议先确保 Watchdog 能正常导入和实例化 Driver，并完成一轮完整的动作消费流程，再逐步扩展功能。
           </p>
           <pre><code>from pathlib import Path
 from hal.base_driver import BaseDriver
@@ -115,7 +115,7 @@ class MyRobotDriver(BaseDriver):
         </section>
 
         <section class="card" id="profile">
-          <h2>补上 profile，别塞代码里</h2>
+          <h2>补充 profile 文件</h2>
           <div class="grid-2">
             <div class="mini-card">
               <h3>profile 里写什么</h3>
@@ -128,14 +128,14 @@ class MyRobotDriver(BaseDriver):
               </ul>
             </div>
             <div class="mini-card">
-              <h3>缺了会怎样</h3>
+              <h3>缺失的影响</h3>
               <p>Critic 没有动作约束依据，ROBOTS.md 无法给出可靠能力摘要。Agent 会不知道该让这台机器人干什么。</p>
             </div>
           </div>
         </section>
 
         <section class="card" id="register">
-          <h2>内置 driver 怎么注册</h2>
+          <h2>内置 Driver 注册方式</h2>
           <p class="lead">
             做内置 driver（不是外部插件）还需要在注册表里加一行短名映射。
           </p>
@@ -203,7 +203,7 @@ class MyRobotDriver(BaseDriver):
             <div class="check-box"></div>
             <div>
               <strong>确认动作能进入 execute_action()</strong>
-              <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">在里面加一行 print，看调没调进来</p>
+              <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">在方法中添加日志输出，确认是否被正确调用</p>
             </div>
           </div>
           <div class="check-item">
@@ -221,12 +221,12 @@ class MyRobotDriver(BaseDriver):
             </div>
           </div>
           <div class="callout" style="margin-top:16px;">
-            调试的核心思路是分层：先确认"能加载"，再确认"能执行"，最后确认"能回写"。别一上来就追完整链路。
+            调试的核心思路是分层验证：先确认"能加载"，再确认"能执行"，最后确认"能回写"。建议避免直接追求完整链路。
           </div>
         </section>
 
         <div class="footer">
-          接新硬件其实就这几步：满足最小接口 → 补 profile → 注册 → 分层调试。别被目录结构吓到，主线很清晰。
+          接入新硬件的核心步骤为：实现最小接口 → 补充 profile → 注册 → 分层调试。整体流程清晰明确。
         </div>
       </div>
 

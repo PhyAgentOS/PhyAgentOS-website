@@ -43,16 +43,16 @@
       <div class="eyebrow">Developer Guide / Code Style</div>
       <h1><span class="gradient-text">Code Style</span> & Naming Conventions</h1>
       <p class="subtitle">
-        No need to invent new rules — the existing style signals in the repository are already clear. Just follow them.
+        There is no need to establish new rules — the existing style conventions in the repository are sufficiently clear. Simply follow the established patterns.
       </p>
     </header>
 
     <div class="layout">
       <div class="content">
         <section class="card" id="signals">
-          <h2>Existing Style Signals in the Repository</h2>
+          <h2>Existing Style Conventions in the Repository</h2>
           <p class="lead">
-            Rather than inventing a new spec, respect the conventions already in the repo. These signals are scattered across config files and are very intuitive.
+            It is recommended to follow the existing conventions in the repository. These standards are reflected in configuration files and are clear and intuitive.
           </p>
           <div class="signal-card" style="margin-bottom:12px;">
             <strong style="color:#7eb8f7;">pyproject.toml</strong>
@@ -95,13 +95,13 @@
         </section>
 
         <section class="card" id="directory">
-          <h2>Directory Boundaries: What Goes Where</h2>
+          <h2>Directory Boundaries & Responsibility Separation</h2>
           <p class="lead">
-            Wrong naming is easy to fix; muddled responsibility boundaries are hard to clean up.
+            Naming errors are easy to correct, but unclear responsibility boundaries are difficult to recover from.
           </p>
           <table>
             <thead>
-              <tr><th>Location</th><th>Good For</th><th>Don't Put Here</th></tr>
+              <tr><th>Location</th><th>Suitable For</th><th>Not Suitable For</th></tr>
             </thead>
             <tbody>
               <tr>
@@ -183,9 +183,9 @@ ignore = ["E501"]</code></pre>
               <tr><th>Content</th><th>Recommendation</th></tr>
             </thead>
             <tbody>
-              <tr><td>Command examples</td><td>Provide complete, copy-pasteable commands — not abbreviated pseudocode</td></tr>
+              <tr><td>Command examples</td><td>Provide complete, copy-pasteable commands — avoid abbreviated pseudocode</td></tr>
               <tr><td>Config examples</td><td>Provide minimal working configs, then explain optional fields</td></tr>
-              <tr><td>Action examples</td><td>Provide standard ACTION.md JSON — not just verbal descriptions</td></tr>
+              <tr><td>Action examples</td><td>Provide standard ACTION.md JSON — avoid verbal descriptions only</td></tr>
               <tr><td>Profile examples</td><td>Explain supported actions and hard constraints</td></tr>
             </tbody>
           </table>
@@ -194,7 +194,7 @@ ignore = ["E501"]</code></pre>
         <section class="card" id="quality">
           <h2>Minimum Quality Bar</h2>
           <p class="lead">
-            Not every piece of code needs to be perfect, but it should at least be runnable and understandable for the next person.
+            Code does not need to be perfect, but it should ensure that other maintainers can run and understand it.
           </p>
           <ul>
             <li>Driver / plugin can be successfully loaded</li>
@@ -204,7 +204,7 @@ ignore = ["E501"]</code></pre>
             <li>README explains installation, startup, and debugging methods</li>
           </ul>
           <div class="callout">
-            Judgment criterion: can another maintainer complete installation, understand boundaries, and do a minimal verification using only the repository contents?
+            Judgment criterion: can other maintainers complete installation, understand responsibility boundaries, and perform minimal verification using only the repository contents?
           </div>
         </section>
 

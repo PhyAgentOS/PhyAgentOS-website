@@ -44,7 +44,7 @@
       <div class="eyebrow">Developer Guide / Contribution</div>
       <h1><span class="gradient-text">Contribution Workflow</span> & PR Standards</h1>
       <p class="subtitle">
-        Want to submit a PR? The process is straightforward: standard Fork → modify code → run checks → open PR. Below we break down each step to avoid getting stuck on small things.
+        The PR submission process follows the standard Fork → modify → check → submit pattern. Each step is detailed below to help you complete your contribution smoothly.
       </p>
     </header>
 
@@ -101,7 +101,7 @@ git push origin feat/my-robot-driver
         <section class="card" id="checks">
           <h2>Three Mandatory Pre-Commit Checks</h2>
           <p class="lead">
-            It's embarrassing when CI goes red — run locally first to save time. All three checks are configured in pyproject.toml.
+            It is recommended to complete checks locally first to avoid fixing CI failures after submission. All three checks are configured in pyproject.toml and can be executed directly.
           </p>
           <div class="grid-2">
             <div class="check-card">
@@ -140,9 +140,9 @@ pytest tests/test_hal_base_driver.py</code></pre>
         </section>
 
         <section class="card" id="pr-template">
-          <h2>Write Clear PR Descriptions for Faster Reviews</h2>
+          <h2>PR Description Standards</h2>
           <p class="lead">
-            Maintainers aren't your teachers — they have no obligation to guess what you changed. Follow this template and your PR will usually pass in one review.
+            Please follow the template below when writing PR descriptions. Clear documentation helps accelerate the review process.
           </p>
           <pre><code>## What Changed
 One-sentence summary + list key files and logic changes.
@@ -173,7 +173,7 @@ Closes #123</code></pre>
         <section class="card" id="issues">
           <h2>Issue Categories: Align Before You Start</h2>
           <p class="lead">
-            Not sure how to make a change? Open an Issue to discuss first. Below are our commonly used labels — applying the right one helps the right person see it faster.
+            If you are unsure about the implementation approach, it is recommended to open an Issue for discussion first. Below are commonly used labels — correct labeling helps maintainers respond more quickly.
           </p>
           <table>
             <thead>
@@ -221,7 +221,7 @@ Closes #123</code></pre>
             <li><strong>No breaking changes to existing interfaces</strong> — Unless a migration plan is explained in the Issue/PR.</li>
           </ul>
           <div class="callout">
-            Large PRs may be asked to split. This isn't being difficult — it's for faster review and safer rollbacks. Splitting into smaller PRs actually makes them easier to approve in one pass.
+            Large PRs may be requested to be split into smaller ones, to facilitate faster review and reduce rollback risk.
           </div>
         </section>
 
@@ -248,7 +248,7 @@ Closes #123</code></pre>
         </section>
 
         <div class="footer">
-          The core message: Fork it, run checks after changes, write clear PRs, and wait patiently for review. Welcome aboard.
+          The core steps of the contribution process: Fork the repository → complete modifications and run checks → write clear PR descriptions → wait patiently for review. Contributions are welcome.
         </div>
       </div>
 

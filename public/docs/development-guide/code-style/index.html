@@ -43,16 +43,16 @@
       <div class="eyebrow">Developer Guide / Code Style</div>
       <h1><span class="gradient-text">代码风格</span>与命名约定</h1>
       <p class="subtitle">
-        不用发明新规则，仓库里已有的风格信号已经很明确。照着抄就行。
+        无需制定新规则，仓库中已有的风格约定已足够明确，遵循现有规范即可。
       </p>
     </header>
 
     <div class="layout">
       <div class="content">
         <section class="card" id="signals">
-          <h2>仓库里现有的风格信号</h2>
+          <h2>仓库中现有的风格约定</h2>
           <p class="lead">
-            与其 invent 一套新规范，不如直接尊重仓库已有的约定。这些信号散布在配置文件里，很直观。
+            建议直接遵循仓库已有的约定，这些规范体现在配置文件中，清晰直观。
           </p>
           <div class="signal-card" style="margin-bottom:12px;">
             <strong style="color:#7eb8f7;">pyproject.toml</strong>
@@ -95,13 +95,13 @@
         </section>
 
         <section class="card" id="directory">
-          <h2>目录边界：什么放哪</h2>
+          <h2>目录边界与职责划分</h2>
           <p class="lead">
-            命名错了好改，职责边界乱了难收拾。
+            命名错误易于修正，但职责边界混乱则难以恢复。
           </p>
           <table>
             <thead>
-              <tr><th>位置</th><th>适合放</th><th>别放</th></tr>
+              <tr><th>位置</th><th>适合放置</th><th>不应放置</th></tr>
             </thead>
             <tbody>
               <tr>
@@ -183,9 +183,9 @@ ignore = ["E501"]</code></pre>
               <tr><th>内容</th><th>建议</th></tr>
             </thead>
             <tbody>
-              <tr><td>命令样例</td><td>给可直接复制的完整命令，别给省略式伪代码</td></tr>
-              <tr><td>配置样例</td><td>给最小可用配置，再说明可选字段</td></tr>
-              <tr><td>动作样例</td><td>给标准 ACTION.md JSON，别只口头描述</td></tr>
+              <tr><td>命令样例</td><td>提供可直接复制的完整命令，避免省略式伪代码</td></tr>
+              <tr><td>配置样例</td><td>提供最小可用配置，再说明可选字段</td></tr>
+              <tr><td>动作样例</td><td>提供标准 ACTION.md JSON，避免仅作口头描述</td></tr>
               <tr><td>profile 样例</td><td>说明支持哪些动作、有哪些硬约束</td></tr>
             </tbody>
           </table>
@@ -194,7 +194,7 @@ ignore = ["E501"]</code></pre>
         <section class="card" id="quality">
           <h2>最低质量门槛</h2>
           <p class="lead">
-            不是每段代码都要完美，但至少得让人接手时能跑通、能看懂。
+            代码无需追求完美，但应确保其他维护者能够正常运行并理解。
           </p>
           <ul>
             <li>Driver / 插件能被成功加载</li>
@@ -204,7 +204,7 @@ ignore = ["E501"]</code></pre>
             <li>README 能解释安装、启动、调试方式</li>
           </ul>
           <div class="callout">
-            判断标准：另一个维护者能不能只靠仓库内容完成安装、理解边界、做一次最小验证？
+            判断标准：其他维护者能否仅凭仓库内容完成安装、理解职责边界并进行最小验证？
           </div>
         </section>
 
