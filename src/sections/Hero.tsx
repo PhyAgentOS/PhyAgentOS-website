@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Zap } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 
 type HeroAgent = {
@@ -341,15 +342,19 @@ export default function Hero() {
       <div className="relative z-10 w-full px-6 sm:px-8 lg:px-16 xl:px-24 pt-32 pb-16">
         <div className="max-w-4xl mx-auto text-center">
           {/* Announcement Badge */}
-          <a
-            href="#video-demo"
+          <Link
+            to="/hackathon"
             ref={badgeRef}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 backdrop-blur-sm rounded-full border border-white/20 mb-8 cursor-pointer hover:bg-black/70 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-brand-accent/15 backdrop-blur-sm rounded-full border border-brand-accent/30 mb-8 cursor-pointer hover:bg-brand-accent/25 transition-all duration-300 group"
           >
-            <Sparkles className="w-4 h-4 text-brand-accent" />
-            <span className="text-sm text-white/90">{content.announcement}</span>
-            <ArrowRight className="w-4 h-4 text-white/60" />
-          </a>
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-accent" />
+            </span>
+            <Zap className="w-4 h-4 text-brand-accent-light" />
+            <span className="text-sm text-white/90 font-medium">2026 BETA Hackathon is open — Register now!</span>
+            <ArrowRight className="w-4 h-4 text-brand-accent-light group-hover:translate-x-0.5 transition-transform" />
+          </Link>
           
           {/* Title */}
           <h1 
