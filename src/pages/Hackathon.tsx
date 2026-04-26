@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
@@ -122,9 +122,16 @@ const submissions = [
   { num: '04', title: 'Presentation', desc: '5-minute showcase + 3-minute Q&A, focusing on how you leveraged PhyAgentOS\'s decoupled architecture' },
 ];
 
+/* ───────── Google Form Submission Config ───────── */
+const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/REPLACE_WITH_YOUR_FORM_ID/viewform';
+
 export default function Hackathon() {
   const heroRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  const handleUpload = useCallback(() => {
+    window.open(GOOGLE_FORM_URL, '_blank', 'noopener,noreferrer');
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -546,6 +553,78 @@ export default function Hackathon() {
                     </p>
                   </div>
                 ))}
+              </div>
+
+              {/* ───────── Upload Zone ───────── */}
+              <div className="gsap-item mt-12">
+                <div className="relative p-8 sm:p-10 rounded-2xl border border-brand-accent/20 bg-gradient-to-br from-brand-accent/[0.06] to-transparent overflow-hidden">
+                  {/* Decorative glow */}
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-brand-accent/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
+
+                  <div className="relative z-10 flex flex-col lg:flex-row items-center gap-8">
+                    {/* Left: Info */}
+                    <div className="flex-1 text-center lg:text-left">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-accent/10 border border-brand-accent/20 rounded-full text-xs text-brand-accent-light mb-4">
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        Ready to Submit?
+                      </div>
+                      <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mb-3">
+                        Upload Your Submission
+                      </h3>
+                      <p className="text-white/50 text-sm sm:text-base leading-relaxed max-w-lg">
+                        Package your code, demo video, protocol files, and presentation into a single ZIP file and upload it to our Google Drive folder. Make sure your filename includes your team name.
+                      </p>
+                    </div>
+
+                    {/* Right: Drop zone */}
+                    <div className="w-full max-w-md flex-shrink-0">
+                      {/* Form preview card */}
+                      <div className="relative p-6 rounded-xl border border-white/10 bg-white/[0.02]">
+                        <div className="text-center mb-5">
+                          <div className="w-14 h-14 rounded-2xl bg-brand-accent/10 flex items-center justify-center mx-auto mb-4">
+                            <FileText className="w-7 h-7 text-brand-accent" />
+                          </div>
+                          <p className="text-white font-medium mb-1">
+                            Submit via Google Form
+                          </p>
+                          <p className="text-white/40 text-sm">
+                            Fill in team info and upload your ZIP
+                          </p>
+                        </div>
+
+                        <div className="space-y-3 mb-5">
+                          <div className="flex items-center gap-3 p-3 rounded-lg bg-black/20 border border-white/5">
+                            <div className="w-6 h-6 rounded-full bg-brand-accent/20 flex items-center justify-center text-xs text-brand-accent font-bold">1</div>
+                            <span className="text-sm text-white/60">Team name & contact</span>
+                          </div>
+                          <div className="flex items-center gap-3 p-3 rounded-lg bg-black/20 border border-white/5">
+                            <div className="w-6 h-6 rounded-full bg-brand-accent/20 flex items-center justify-center text-xs text-brand-accent font-bold">2</div>
+                            <span className="text-sm text-white/60">Project description</span>
+                          </div>
+                          <div className="flex items-center gap-3 p-3 rounded-lg bg-black/20 border border-white/5">
+                            <div className="w-6 h-6 rounded-full bg-brand-accent/20 flex items-center justify-center text-xs text-brand-accent font-bold">3</div>
+                            <span className="text-sm text-white/60">Upload ZIP submission</span>
+                          </div>
+                        </div>
+
+                        {/* Open Google Form button */}
+                        <button
+                          type="button"
+                          onClick={handleUpload}
+                          className="w-full px-6 py-3.5 bg-brand-accent hover:bg-brand-accent-light text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-glow hover:shadow-glow-lg"
+                        >
+                          <ExternalLink className="w-5 h-5" />
+                          Open Submission Form
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                        </button>
+
+                        <p className="text-center text-xs text-white/30 mt-3">
+                          You'll be redirected to Google Forms to complete your submission.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
