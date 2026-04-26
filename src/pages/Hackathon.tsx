@@ -123,7 +123,7 @@ const submissions = [
 ];
 
 /* ───────── Google Form Submission Config ───────── */
-const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/REPLACE_WITH_YOUR_FORM_ID/viewform';
+const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdPuJ5YvOuI2AUOGPun0VIAa0g6P6rcmyo8Nw46gNkSOE4Zxw/viewform';
 
 export default function Hackathon() {
   const heroRef = useRef<HTMLDivElement>(null);
