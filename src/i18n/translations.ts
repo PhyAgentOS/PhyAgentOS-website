@@ -340,7 +340,7 @@ export const translations: Record<Lang, TranslationShape> = {
       label: 'Scenarios',
       title: 'One runtime,',
       highlight: 'four target kinds',
-      description: 'Each target kind validates a different layer of the embodied stack. The same Session protocol spans all four, from Minecraft games to real robots.',
+      description: 'Each target kind validates a different layer of the embodied stack. The same Session protocol spans all four, from game testbeds to real robots.',
       learnMore: 'Learn more',
       items: [
         {
@@ -351,9 +351,9 @@ export const translations: Record<Lang, TranslationShape> = {
         },
         {
           title: 'Game',
-          subtitle: 'Local · Minecraft',
-          description: 'Minecraft as an embodied intelligence testbed: complex interactions, long-term memory, and open-world exploration. Validate Agent behavior at zero hardware cost, then transfer to real robots.',
-          features: ['Minecraft bot control', '16 action types', 'paos minecraft CLI', '3-tier memory validation'],
+          subtitle: 'Local · Minecraft / Stardew Valley / Don\'t Starve',
+          description: 'Minecraft, Stardew Valley, and Don\'t Starve as embodied intelligence testbeds: complex interactions, long-term planning, resource management, and open-world exploration. Validate Agent behavior at zero hardware cost, then transfer to real robots.',
+          features: ['Minecraft bot control', 'Stardew Valley farming & social tasks', 'Don\'t Starve survival & crafting', 'Cross-game memory & planning validation'],
         },
         {
           title: 'Simulation',
@@ -368,7 +368,7 @@ export const translations: Record<Lang, TranslationShape> = {
           features: ['Franka, Go2, XLeRobot, PIPER', 'ReKep / SAM3 grasping', 'Fleet multi-robot coordination', 'Semantic verification'],
         },
       ],
-      note: 'Debug validates contracts with zero hardware. Game explores Agent behavior in open worlds at minimal cost. Simulation benchmarks policies at scale. Real Robot closes the loop with physical data. Each new target = register one target_adapter:// entry in TARGETS.md.',
+      note: 'Debug validates contracts with zero hardware. Game explores Agent behavior in open-world and life-simulation games at minimal cost. Simulation benchmarks policies at scale. Real Robot closes the loop with physical data. Each new target = register one target_adapter:// entry in TARGETS.md.',
     },
     hardware: {
       label: 'Hardware',
@@ -534,7 +534,7 @@ export const translations: Record<Lang, TranslationShape> = {
       highlights: [
         { label: 'Research Lab', value: 'HCP @ SYSU' },
         { label: 'Partner', value: 'Peng Cheng Lab' },
-        { label: 'X-Era Lab', value: 'Collaborator' },
+        { label: 'Collaborator', value: 'X-Era Lab' },
         { label: 'License', value: 'MIT Open Source' },
       ],
     },
@@ -720,7 +720,7 @@ export const translations: Record<Lang, TranslationShape> = {
       label: '应用场景',
       title: '一个运行时，',
       highlight: '四类目标',
-      description: '每类目标验证具身栈的不同层面。同一 Session 协议贯穿四者，从 Minecraft 游戏到真实机器人。',
+      description: '每类目标验证具身栈的不同层面。同一 Session 协议贯穿四者，从游戏试验场到真实机器人。',
       learnMore: '了解更多',
       items: [
         {
@@ -731,9 +731,9 @@ export const translations: Record<Lang, TranslationShape> = {
         },
         {
           title: '游戏',
-          subtitle: '本地 · Minecraft',
-          description: '以 Minecraft 为具身智能试验场：复杂交互、长期记忆与开放世界探索。零硬件成本验证 Agent 行为，再迁移至真机。',
-          features: ['Minecraft bot 控制', '16 种动作类型', 'paos minecraft CLI', '三层记忆验证'],
+          subtitle: '本地 · Minecraft / 星露谷 / 饥荒',
+          description: '以 Minecraft、星露谷与饥荒为具身智能试验场：复杂交互、长期规划、资源管理与开放世界探索。零硬件成本验证 Agent 行为，再迁移至真机。',
+          features: ['Minecraft bot 控制', '星露谷耕作与社交任务', '饥荒生存与制作', '跨游戏记忆与规划验证'],
         },
         {
           title: '仿真',
@@ -748,7 +748,7 @@ export const translations: Record<Lang, TranslationShape> = {
           features: ['Franka、Go2、XLeRobot、PIPER', 'ReKep / SAM3 抓取', '编队多机协同', '语义验证'],
         },
       ],
-      note: '调试以零硬件验证契约；仿真大规模评测策略；真机以物理数据闭环。每个新目标 = 在 TARGETS.md 中注册一个 target_adapter:// 条目。',
+      note: '调试以零硬件验证契约；游戏以极低硬件成本在开放世界与生存模拟游戏中探索 Agent 行为；仿真大规模评测策略；真机以物理数据闭环。每个新目标 = 在 TARGETS.md 中注册一个 target_adapter:// 条目。',
     },
     hardware: {
       label: '硬件设备',
@@ -914,7 +914,7 @@ export const translations: Record<Lang, TranslationShape> = {
       highlights: [
         { label: '研究实验室', value: 'HCP @ 中山大学' },
         { label: '合作伙伴', value: '鹏城实验室' },
-        { label: 'X-Era Lab', value: '合作单位' },
+        { label: '合作单位', value: 'X-Era Lab' },
         { label: '开源协议', value: 'MIT 开源' },
       ],
     },
