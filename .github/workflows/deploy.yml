@@ -22,26 +22,33 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-      
+
       - name: Setup Node
         uses: actions/setup-node@v5
         with:
           node-version: '22'
-      
-      - name: Install dependencies
+          cache: 'npm'
+
+      - name: Install site dependencies
         run: npm ci
-      
-      - name: Build
+
+      - name: Install docs dependencies
+        run: npm --prefix docs ci
+
+      - name: Build docs (VitePress -> public/docs)
+        run: npm --prefix docs run docs:build
+
+      - name: Build site
         run: npm run build
-      
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
-      
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
