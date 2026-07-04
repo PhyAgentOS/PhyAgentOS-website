@@ -236,7 +236,7 @@ export default function Hackathon() {
 
           {/* Subtitle */}
           <p className="hero-animate text-xl sm:text-2xl text-brand-text max-w-3xl mx-auto mb-4 leading-relaxed">
-            Physical Agent Operating System
+            Self-Evolving Physical Agent Operating System
           </p>
           <p className="hero-animate text-base sm:text-lg text-brand-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed">
             You focus on the creativity, we handle making the agent

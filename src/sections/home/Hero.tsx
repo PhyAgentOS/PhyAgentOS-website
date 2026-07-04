@@ -124,7 +124,7 @@ export default function Hero() {
           </div>
 
           {/* Stats preview */}
-          <div className="hero-animate mt-16 flex flex-wrap justify-center gap-6 sm:gap-10">
+          <div className="hero-animate mt-16 grid w-full max-w-4xl grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6 mx-auto">
             {[
               { value: '6+', label: t.hero.statTargets },
               { value: 'MIT', label: t.hero.statOpenSource },
@@ -132,12 +132,12 @@ export default function Hero() {
             ].map((stat) => (
               <div
                 key={stat.label}
-                className="px-6 py-4 rounded-2xl bg-brand-bg-secondary/60 border border-brand-border/50 backdrop-blur-sm hover:border-brand-accent/20 transition-all duration-300"
+                className="flex min-h-[112px] flex-col items-center justify-center rounded-lg border border-brand-border/50 bg-brand-bg-secondary/70 px-6 py-6 text-center backdrop-blur-sm transition-all duration-300 hover:border-brand-accent/25 hover:bg-brand-bg-secondary/85 sm:min-h-[128px] sm:px-7 lg:min-h-[140px] lg:px-8"
               >
-                <div className="text-2xl sm:text-3xl font-display font-bold text-brand-text">
+                <div className="font-display text-4xl font-bold leading-none text-brand-text sm:text-5xl lg:text-6xl">
                   {stat.value}
                 </div>
-                <div className="text-xs sm:text-sm text-brand-text-tertiary mt-1">
+                <div className="mt-3 text-sm font-medium leading-tight text-brand-text-tertiary sm:text-base">
                   {stat.label}
                 </div>
               </div>
@@ -146,15 +146,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3">
-        <span className="text-xs text-brand-text-tertiary tracking-wider uppercase">
-          {t.hero.scrollExplore}
-        </span>
-        <div className="w-px h-10 bg-gradient-to-b from-brand-text-tertiary to-transparent relative">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-brand-accent animate-ping" />
-        </div>
-      </div>
     </section>
   );
 }

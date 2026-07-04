@@ -5,9 +5,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        sans: ['Manrope', 'Noto Sans SC', 'system-ui', 'sans-serif'],
+        display: ['Space Grotesk', 'Noto Serif SC', 'Noto Sans SC', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Noto Sans SC', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",

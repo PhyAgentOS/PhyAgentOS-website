@@ -58,7 +58,7 @@ const nodes: ArchNode[] = [
               label={t.architecture.label}
               title={t.architecture.title}
               highlight={t.architecture.highlight}
-              description="Cognition and execution decoupled through a shared file-protocol surface. Click any component to explore."
+              description="Cognition and execution decoupled through a shared file-protocol layer. Click any component to explore."
             />
           </ScrollReveal>
 
@@ -66,7 +66,7 @@ const nodes: ArchNode[] = [
           <ScrollReveal delay={0.2}>
             <div className="mt-20 relative">
               <div className="flex flex-col lg:flex-row items-stretch justify-center gap-6 lg:gap-8">
-                {/* Track A: Agent Plane */}
+                {/* Track A: Agent Layer */}
                 <div className="flex-1 max-w-sm">
                   <div className="h-full rounded-3xl bg-brand-bg-secondary border border-emerald-500/25 p-6 shadow-card hover:shadow-card-hover transition-shadow duration-500">
                     <div className="flex items-center gap-3 mb-6 pb-4 border-b border-brand-border">
@@ -110,7 +110,7 @@ const nodes: ArchNode[] = [
                   {/* Read arrow */}
                   <div className="hidden lg:flex items-center gap-2">
                     <ArrowRight className="w-5 h-5 text-brand-accent" />
-                    <span className="text-xs font-mono text-brand-text-tertiary">{t.architecture.read}</span>
+                    <span className="text-sm lg:text-base font-mono font-semibold tracking-wide text-brand-text-secondary">{t.architecture.read}</span>
                   </div>
 
                   {/* Protocol hub */}
@@ -128,12 +128,12 @@ const nodes: ArchNode[] = [
 
                   {/* Write arrow */}
                   <div className="hidden lg:flex items-center gap-2">
-                    <span className="text-xs font-mono text-brand-text-tertiary">{t.architecture.write}</span>
+                    <span className="text-sm lg:text-base font-mono font-semibold tracking-wide text-brand-text-secondary">{t.architecture.write}</span>
                     <ArrowRight className="w-5 h-5 text-brand-accent rotate-180" />
                   </div>
                 </div>
 
-                {/* Track B: Execution Plane */}
+                {/* Track B: Execution Layer */}
                 <div className="flex-1 max-w-sm">
                   <div className="h-full rounded-3xl bg-brand-bg-secondary border border-sky-500/25 p-6 shadow-card hover:shadow-card-hover transition-shadow duration-500">
                     <div className="flex items-center gap-3 mb-6 pb-4 border-b border-brand-border">

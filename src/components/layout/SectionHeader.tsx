@@ -31,12 +31,12 @@ export default function SectionHeader({
         </div>
       )}
 
-      <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-display font-bold tracking-tight leading-[1.1] text-brand-text">
+      <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-display font-bold tracking-tight leading-[1.22] text-brand-text">
         {title}
         {highlight && (
           <>
             {' '}
-            <span className="text-gradient">{highlight}</span>
+            <span className="inline-block text-gradient">{highlight}</span>
           </>
         )}
       </h2>
