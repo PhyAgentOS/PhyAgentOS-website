@@ -1,6 +1,7 @@
 import { Github, Mail, MapPin, ExternalLink } from 'lucide-react';
 import ScrollReveal from '../components/animations/ScrollReveal';
 import SectionHeader from '../components/layout/SectionHeader';
+import { useLang } from '../i18n/LanguageContext';
 
 const coreTeam = [
   {
@@ -39,6 +40,8 @@ const coreTeam = [
 ];
 
 export default function Team() {
+  const { lang } = useLang();
+  const docsBase = lang === 'zh' ? '/docs' : '/docs/en';
   return (
     <div className="min-h-screen pt-24 lg:pt-32">
       <div className="px-6 sm:px-8 lg:px-16 xl:px-24">
@@ -147,7 +150,7 @@ export default function Team() {
                     View Contributors
                   </a>
                   <a
-                    href="https://phy-agent-os.net/docs/en/developer-guide.html"
+                    href={`${docsBase}/developer-guide/`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-brand-text/[0.03] border border-brand-border text-brand-text text-sm hover:border-brand-accent/30 hover:shadow-soft transition-all"

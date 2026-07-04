@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@600;700;900&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  --vp-c-brand-1: #5c7385;
+  --vp-c-brand-2: #6f879a;
+  --vp-c-brand-3: #3f5666;
+  --vp-c-brand-soft: rgba(92, 115, 133, 0.14);
+
+  --vp-font-family-base: 'Manrope', 'Noto Sans SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --vp-font-family-mono: 'JetBrains Mono', 'Noto Sans SC', monospace;
+
+  --vp-layout-max-width: 1440px;
+}
+
+.VPHero .title,
+.VPDoc h1,
+.VPDoc h2,
+.VPDoc h3,
+.VPDoc h4 {
+  font-family: 'Space Grotesk', 'Noto Serif SC', 'Noto Sans SC', system-ui, sans-serif;
+}
+
+.VPNav {
+  backdrop-filter: blur(20px) saturate(1.2);
+}
+
+.VPNavBar .title {
+  font-weight: 700;
+}
+
+.VPButton.brand {
+  border-radius: 0.75rem;
+}
+
+.VPDoc .custom-block {
+  border-radius: 0.75rem;
+}
+
+.vp-doc pre {
+  border-radius: 0.75rem;
+}
+
+.vp-doc img {
+  border-radius: 0.75rem;
+}
+
+.vp-doc a {
+  font-weight: 500;
+}
+
+.vp-doc table {
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.vp-doc tr:nth-child(2n) {
+  background-color: rgba(92, 115, 133, 0.04);
+}
+
+.VPSidebar .link-text {
+  font-weight: 500;
+}
+
+.VPFooter {
+  border-top: 1px solid var(--vp-c-divider);
+}
+
+html.dark {
+  --vp-c-brand-1: #7d94a3;
+  --vp-c-brand-2: #92a8b7;
+  --vp-c-brand-3: #5f7786;
+  --vp-c-brand-soft: rgba(125, 148, 163, 0.14);
+}

@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhyAgentOS SessionVerifier Architecture</title>
+  <style>
+    :root {
+      --ink: #17202a;
+      --muted: #607080;
+      --line: #cbd4dc;
+      --paper: #f5f7f8;
+      --white: #fff;
+      --green: #17735c;
+      --green-soft: #e7f5ef;
+      --blue: #2463a9;
+      --blue-soft: #eaf2fb;
+      --amber: #9b5b08;
+      --amber-soft: #fff3dc;
+      --red: #a63c3c;
+      --red-soft: #faeaea;
+      --violet: #674a9b;
+      --violet-soft: #f0ebf8;
+      --gray: #65737f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+      letter-spacing: 0;
+    }
+    header { padding: 30px clamp(18px, 4vw, 54px) 24px; color: var(--white); background: #20252b; border-bottom: 5px solid #d18b2c; }
+    header h1 { margin: 0; font-size: clamp(28px, 4vw, 44px); }
+    header p { max-width: 980px; margin: 8px 0 0; color: #ccd4db; font-size: 15px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 18px; color: #acb8c2; font-size: 12px; }
+    main { width: min(1500px, 100%); margin: 0 auto; padding: 24px clamp(14px, 3vw, 40px) 40px; }
+    .diagram { background: var(--white); border: 1px solid var(--line); }
+    .band { padding: 18px; border-bottom: 1px solid var(--line); }
+    .band:last-child { border-bottom: 0; }
+    .band-head { display: flex; justify-content: space-between; align-items: baseline; gap: 15px; margin-bottom: 14px; }
+    .band-head h2 { margin: 0; color: #344454; font-size: 15px; text-transform: uppercase; }
+    .band-head small { color: var(--muted); font-size: 11px; }
+    .pipeline { display: grid; grid-template-columns: 1fr 40px 1.25fr 40px 1fr 40px 1fr; align-items: stretch; gap: 6px; }
+    .node { min-width: 0; padding: 13px; border: 1px solid var(--line); border-top: 4px solid var(--blue); background: var(--white); }
+    .node h3 { margin: 0 0 5px; font-size: 13px; }
+    .node p { margin: 0; color: var(--muted); font-size: 10px; }
+    .node code { font-family: "SFMono-Regular", Consolas, monospace; font-size: 10px; overflow-wrap: anywhere; }
+    .node.green { border-top-color: var(--green); background: var(--green-soft); }
+    .node.amber { border-top-color: var(--amber); background: var(--amber-soft); }
+    .node.red { border-top-color: var(--red); background: var(--red-soft); }
+    .node.violet { border-top-color: var(--violet); background: var(--violet-soft); }
+    .arrow { position: relative; min-height: 74px; }
+    .arrow::before { content: ""; position: absolute; top: 50%; left: 3px; right: 9px; border-top: 2px solid #7d8b96; }
+    .arrow::after { content: ""; position: absolute; top: calc(50% - 5px); right: 4px; width: 8px; height: 8px; border-top: 2px solid #7d8b96; border-right: 2px solid #7d8b96; transform: rotate(45deg); }
+    .arrow label { position: absolute; top: calc(50% - 24px); left: 50%; transform: translateX(-50%); white-space: nowrap; color: var(--muted); background: var(--white); padding: 0 3px; font-size: 9px; }
+    .artifact-tree { margin: 9px 0 0; padding: 9px; border: 1px dashed #aeb9c1; background: #f9fafb; color: #3c4b57; font-family: "SFMono-Regular", Consolas, monospace; font-size: 9px; white-space: pre-line; }
+    .triggers { display: grid; grid-template-columns: 1fr 70px 1fr; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .trigger { padding: 13px; border: 1px solid var(--line); background: var(--white); }
+    .trigger strong { display: block; font-size: 13px; }
+    .trigger p { margin: 4px 0 0; color: var(--muted); font-size: 10px; }
+    .merge { text-align: center; color: var(--green); font-weight: 800; font-size: 28px; }
+    .service { border: 2px solid var(--green); background: #fbfefd; }
+    .service-head { display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px; background: var(--green-soft); border-bottom: 1px solid #b8d9cd; }
+    .service-head strong { font-size: 14px; }
+    .service-head code { color: var(--green); font-size: 10px; }
+    .route-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
+    .route { border: 1px solid var(--line); background: var(--white); }
+    .route h3 { margin: 0; padding: 10px 12px; font-size: 13px; border-bottom: 1px solid var(--line); }
+    .route.apply h3 { color: var(--green); background: var(--green-soft); }
+    .route.review h3 { color: var(--violet); background: var(--violet-soft); }
+    .route ol { margin: 0; padding: 12px 12px 12px 32px; }
+    .route li { margin: 0 0 7px; color: var(--muted); font-size: 10px; }
+    .route li:last-child { margin-bottom: 0; }
+    .route li::marker { color: var(--ink); font-weight: 700; }
+    .state-row { display: grid; grid-template-columns: repeat(7, minmax(116px, 1fr)); gap: 20px; overflow-x: auto; padding: 4px 2px 12px; }
+    .state { position: relative; min-height: 76px; padding: 12px 10px; border: 2px solid var(--gray); background: var(--white); text-align: center; }
+    .state:not(:last-child)::before { content: ""; position: absolute; top: 50%; left: calc(100% + 2px); width: 18px; border-top: 2px solid #7d8b96; }
+    .state:not(:last-child)::after { content: ""; position: absolute; top: calc(50% - 4px); left: calc(100% + 14px); width: 7px; height: 7px; border-top: 2px solid #7d8b96; border-right: 2px solid #7d8b96; transform: rotate(45deg); }
+    .state strong { display: block; font-family: "SFMono-Regular", Consolas, monospace; font-size: 10px; }
+    .state small { display: block; margin-top: 5px; color: var(--muted); font-size: 9px; }
+    .state.wait { border-color: var(--amber); background: var(--amber-soft); }
+    .state.active { border-color: var(--blue); background: var(--blue-soft); }
+    .state.ok { border-color: var(--green); background: var(--green-soft); }
+    .state.fail { border-color: var(--red); background: var(--red-soft); }
+    .state.replan { border-color: var(--violet); background: var(--violet-soft); }
+    .fork { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 13px; }
+    .outcome { padding: 12px; border: 1px solid var(--line); background: #fafbfc; }
+    .outcome b { display: block; font-size: 11px; }
+    .outcome p { margin: 4px 0 0; color: var(--muted); font-size: 9px; }
+    .matrix { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .matrix th, .matrix td { padding: 11px 10px; border: 1px solid var(--line); text-align: left; vertical-align: top; font-size: 10px; }
+    .matrix th { color: #344454; background: #eef2f4; font-size: 10px; }
+    .matrix td:first-child { font-family: "SFMono-Regular", Consolas, monospace; font-weight: 700; }
+    .keep { color: var(--green); font-weight: 700; }
+    .delete { color: var(--red); font-weight: 700; }
+    .attempt-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 14px; }
+    .schema { padding: 14px; color: #d8e2ea; background: #202a33; font-family: "SFMono-Regular", Consolas, monospace; font-size: 10px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .rules { display: grid; gap: 8px; }
+    .rule { padding: 11px; border-left: 4px solid var(--blue); background: var(--blue-soft); font-size: 10px; color: #3f5365; }
+    .rule strong { display: block; margin-bottom: 2px; color: var(--ink); font-size: 11px; }
+    .config { display: grid; grid-template-columns: .8fr 1.2fr; gap: 14px; }
+    .config pre { margin: 0; padding: 14px; color: #d8e2ea; background: #202a33; font-size: 10px; overflow: auto; }
+    .config-notes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .config-note { padding: 10px; border: 1px solid var(--line); background: var(--white); }
+    .config-note b { display: block; font-size: 11px; }
+    .config-note span { color: var(--muted); font-size: 9px; }
+    footer { margin-top: 14px; color: var(--muted); font-size: 10px; text-align: right; }
+    @media (max-width: 980px) {
+      .pipeline { grid-template-columns: 1fr; }
+      .arrow { min-height: 34px; }
+      .arrow::before { top: 4px; bottom: 9px; left: 50%; right: auto; border-top: 0; border-left: 2px solid #7d8b96; }
+      .arrow::after { top: auto; bottom: 4px; right: calc(50% - 4px); transform: rotate(135deg); }
+      .arrow label { top: 9px; left: calc(50% + 38px); }
+      .state-row { grid-template-columns: repeat(7, 140px); }
+    }
+    @media (max-width: 700px) {
+      .triggers, .route-grid, .fork, .attempt-grid, .config, .config-notes { grid-template-columns: 1fr; }
+      .merge { transform: rotate(90deg); }
+      .matrix { min-width: 680px; }
+      .table-wrap { overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SessionVerifier Architecture</h1>
+    <p>执行完成不等于任务完成。SessionVerifier 位于 Agent 控制面，以最终 RGB、任务定义、环境快照和历史记录为证据，执行语义验收，并将结果应用为 succeeded、failed 或 replanned。</p>
+    <div class="meta"><span>自动路径：后台 poll + apply</span><span>主动路径：verify_session Tool + apply/review</span><span>默认 RGB 策略：failed</span></div>
+  </header>
+  <main>
+    <section class="diagram">
+      <div class="band">
+        <div class="band-head"><h2>1 · Evidence Production</h2><small>Track B 只负责生成事实，不做语义裁决</small></div>
+        <div class="pipeline">
+          <div class="node"><h3>Target Runtime</h3><p><code>action_chunk()</code> 返回 status，其中最终原始观测位于 <code>status["obs"]</code>。</p></div>
+          <div class="arrow"><label>last status</label></div>
+          <div class="node"><h3>SessionRunner</h3><p><code>SessionState.last_status</code> 保存最后状态；<code>final_observation</code> 暴露最终 observation。</p></div>
+          <div class="arrow"><label>extract</label></div>
+          <div class="node amber"><h3>ResultWriter</h3><p>递归查找 uint8 HWC/CHW 三通道数组，编码为 PNG，并组合任务与历史上下文。</p></div>
+          <div class="arrow"><label>persist</label></div>
+          <div class="node green"><h3>Verification Bundle</h3><p>runtime 成功后写入 artifact，并将 session 标记为 <code>awaiting_verification</code>。</p><div class="artifact-tree">artifacts/runtime/&lt;session_id&gt;/
+├── episode.json
+├── verification_bundle.json
+└── rgb/final_*.png</div></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="band-head"><h2>2 · Two Entry Paths, One Service</h2><small>Tool 不复制业务逻辑，只调用 SessionVerifier.verify_session()</small></div>
+        <div class="triggers">
+          <div class="trigger"><strong>Background Worker · source=auto</strong><p>轮询第一个 awaiting_verification session，自动发起语义校验。</p></div>
+          <div class="merge">→</div>
+          <div class="trigger"><strong>VerifySessionTool · source=tool</strong><p>主 Agent 指定 session_id；等待状态执行 apply，终态且证据存在时执行 review。</p></div>
+        </div>
+        <div class="service">
+          <div class="service-head"><strong>SessionVerifier</strong><code>verify_session(session_id, source)</code></div>
+          <div class="route-grid">
+            <div class="route apply">
+              <h3>Apply Route · awaiting_verification</h3>
+              <ol>
+                <li>SessionRegistry 原子 claim：awaiting_verification → verifying。</li>
+                <li>读取 bundle 和所有 RGB；构造 text + image_url 多模态消息。</li>
+                <li>LLM 返回严格 JSON verdict：success / failure / replan。</li>
+                <li>追加 mode=apply attempt，写 lesson，并提交最终状态或子 session。</li>
+                <li>按 rgbRetention 清理证据并同步 bundle 与 result metadata。</li>
+              </ol>
+            </div>
+            <div class="route review">
+              <h3>Review Route · succeeded / failed / replanned</h3>
+              <ol>
+                <li>要求原 bundle 与 RGB 仍存在；不重新采集现场观测。</li>
+                <li>使用相同多模态 prompt 重新生成 verdict。</li>
+                <li>追加 mode=review attempt，并记录 agent_reverification lesson。</li>
+                <li>不覆盖历史终态，不创建新的 replan，不再次执行 retention。</li>
+                <li>证据已清理时返回 evidence_unavailable，不调用模型。</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="band-head"><h2>3 · Session State Machine</h2><small>Runtime completion 与 Agent semantic completion 分离</small></div>
+        <div class="state-row">
+          <div class="state"><strong>pending</strong><small>等待 runtime 调度</small></div>
+          <div class="state"><strong>claimed</strong><small>watchdog 独占</small></div>
+          <div class="state active"><strong>running</strong><small>target / policy 执行</small></div>
+          <div class="state"><strong>finalizing</strong><small>写 episode 与 history</small></div>
+          <div class="state wait"><strong>awaiting_verification</strong><small>证据已准备</small></div>
+          <div class="state active"><strong>verifying</strong><small>Agent claim + LLM</small></div>
+          <div class="state ok"><strong>terminal</strong><small>succeeded / failed / replanned</small></div>
+        </div>
+        <div class="fork">
+          <div class="outcome"><b style="color:var(--green)">success → succeeded</b><p>语义任务完成；默认 failed retention 会删除最终 RGB。</p></div>
+          <div class="outcome"><b style="color:var(--red)">failure → failed</b><p>无法通过再次执行修正，或达到 replan 上限；记录失败 lesson。</p></div>
+          <div class="outcome"><b style="color:var(--violet)">replan → replanned + pending child</b><p>原 session 成为终态；复制执行约束并以新 task_description 插入子 session。</p></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="band-head"><h2>4 · RGB Retention Matrix</h2><small>只在有效 apply verdict 提交后执行；模型或状态错误时不删除</small></div>
+        <div class="table-wrap">
+          <table class="matrix">
+            <thead><tr><th>rgbRetention</th><th>succeeded</th><th>failed</th><th>replanned</th><th>verification error</th><th>终态 review 能力</th></tr></thead>
+            <tbody>
+              <tr><td>all</td><td class="keep">保留</td><td class="keep">保留</td><td class="keep">保留</td><td class="keep">保留</td><td>所有有 bundle 的终态均可复核</td></tr>
+              <tr><td>failed · default</td><td class="delete">删除</td><td class="keep">保留</td><td class="keep">保留</td><td class="keep">保留</td><td>成功不可复核；失败与 replan 可复核</td></tr>
+              <tr><td>none</td><td class="delete">删除</td><td class="delete">删除</td><td class="delete">删除</td><td class="keep">保留</td><td>有效 verdict 后不可复核</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="band-head"><h2>5 · Audit Record</h2><small>状态只表达当前结论；attempts 保留每次推理过程</small></div>
+        <div class="attempt-grid">
+          <div class="schema">result.metadata.verification = {
+  "applied_attempt_id": "verification_…",
+  "latest_review_attempt_id": "verification_…",
+  "attempts": [{
+    "attempt_id": "verification_…",
+    "created_at": "ISO-8601",
+    "source": "auto | tool",
+    "mode": "apply | review",
+    "verdict": "success | failure | replan | null",
+    "evidence": ["…"],
+    "lesson": "…",
+    "details": { "failure_reason": "…" },
+    "error": null
+  }],
+  "rgb_retention": {
+    "policy": "failed",
+    "status": "retained | deleted | partial | error"
+  }
+}</div>
+          <div class="rules">
+            <div class="rule"><strong>Claim Safety</strong>后台和 Tool 竞争同一个 waiting session 时，只有一个进程能完成 awaiting → verifying。</div>
+            <div class="rule" style="border-left-color:var(--violet);background:var(--violet-soft)"><strong>Review Immutability</strong>review 只更新 result metadata 与 lesson；session.status 和 replan 拓扑保持不变。</div>
+            <div class="rule" style="border-left-color:var(--amber);background:var(--amber-soft)"><strong>Retention Consistency</strong>删除文件后将 bundle.rgb_paths 更新为剩余路径，并记录 deleted_at、deleted_paths 与 errors。</div>
+            <div class="rule" style="border-left-color:var(--red);background:var(--red-soft)"><strong>Error Boundary</strong>语义 verdict 已提交后，retention 错误不会反向覆盖 session 终态。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="band-head"><h2>6 · Agent Configuration</h2><small>仅在 runtime.enabled 与 verification.enabled 同时为 true 时启动服务并注册 Tool</small></div>
+        <div class="config">
+          <pre>{
+  "agents": {
+    "verification": {
+      "enabled": true,
+      "model": null,
+      "maxReplans": 1,
+      "rgbRetention": "failed"
+    }
+  }
+}</pre>
+          <div class="config-notes">
+            <div class="config-note"><b>enabled</b><span>控制 runtime 是否进入 awaiting_verification，以及 Agent 是否启动后台 verifier。</span></div>
+            <div class="config-note"><b>model</b><span>null 时复用主 Agent 模型；指定其他模型时按该模型重新选择 provider。</span></div>
+            <div class="config-note"><b>maxReplans</b><span>语义 replan 的最大链路深度；达到上限后将原 session 标记为 failed。</span></div>
+            <div class="config-note"><b>rgbRetention</b><span>控制有效 apply 后的视觉证据生命周期，不影响 episode、bundle、attempts 和 lessons。</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer>Generated from current SessionVerifier, SessionRegistry, ResultWriter and VerifySessionTool implementation</footer>
+  </main>
+</body>
+</html>

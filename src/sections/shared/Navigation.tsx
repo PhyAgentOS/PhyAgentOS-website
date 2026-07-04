@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react';
 import { Github, Menu, X, Star, Sun, Moon } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useT } from '../../i18n/LanguageContext';
+import { useLang } from '../../i18n/LanguageContext';
 import { useTheme } from '../../themes/ThemeContext';
 
 export default function Navigation() {
   const t = useT();
+  const { lang } = useLang();
+  const docsBase = lang === 'zh' ? '/docs' : '/docs/en';
   const { currentTheme, setTheme } = useTheme();
   const isLight = currentTheme.category === 'light';
 
@@ -143,7 +146,7 @@ export default function Navigation() {
                 )}
               </a>
               <a
-                href="https://phy-agent-os.net/docs/en/api-reference.html"
+                href={`${docsBase}/api-reference/`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-5 py-2.5 bg-brand-accent hover:bg-brand-accent-light text-brand-text-on-accent text-sm font-medium rounded-xl transition-all duration-300 shadow-glow-soft hover:shadow-glow"
@@ -220,7 +223,7 @@ export default function Navigation() {
               )}
             </a>
             <a
-              href="https://phy-agent-os.net/docs/en/api-reference.html"
+              href={`${docsBase}/api-reference/`}
               target="_blank"
               rel="noopener noreferrer"
               className="block w-full px-4 py-3 bg-brand-accent hover:bg-brand-accent-light text-brand-text-on-accent font-medium rounded-xl transition-all text-center shadow-glow-soft"

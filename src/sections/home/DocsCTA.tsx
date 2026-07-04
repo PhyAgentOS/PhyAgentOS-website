@@ -2,14 +2,17 @@ import { BookOpen, Code, FileCode, ExternalLink, Github, MessageCircle } from 'l
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useT } from '../../i18n/LanguageContext';
+import { useLang } from '../../i18n/LanguageContext';
 
 export default function DocsCTA() {
   const t = useT();
-const docItems = [
-  { title: t.docsCTA.items[0].title, subtitle: t.docsCTA.items[0].subtitle, description: t.docsCTA.items[0].description, icon: BookOpen, href: 'https://phy-agent-os.net/docs/en/architecture.html', color: 'from-emerald-400/15 to-teal-400/15', iconColor: 'text-emerald-700', borderColor: 'border-emerald-500/25' },
-  { title: t.docsCTA.items[1].title, subtitle: t.docsCTA.items[1].subtitle, description: t.docsCTA.items[1].description, icon: Code, href: 'https://phy-agent-os.net/docs/en/api-reference.html', color: 'from-sky-400/15 to-indigo-400/15', iconColor: 'text-sky-700', borderColor: 'border-sky-500/25' },
-  { title: t.docsCTA.items[2].title, subtitle: t.docsCTA.items[2].subtitle, description: t.docsCTA.items[2].description, icon: FileCode, href: 'https://phy-agent-os.net/docs/en/developer-guide.html', color: 'from-amber-400/15 to-orange-400/15', iconColor: 'text-amber-700', borderColor: 'border-amber-500/25' },
-];
+  const { lang } = useLang();
+  const docsBase = lang === 'zh' ? '/docs' : '/docs/en';
+  const docItems = [
+    { title: t.docsCTA.items[0].title, subtitle: t.docsCTA.items[0].subtitle, description: t.docsCTA.items[0].description, icon: BookOpen, href: `${docsBase}/architecture/`, color: 'from-emerald-400/15 to-teal-400/15', iconColor: 'text-emerald-700', borderColor: 'border-emerald-500/25' },
+    { title: t.docsCTA.items[1].title, subtitle: t.docsCTA.items[1].subtitle, description: t.docsCTA.items[1].description, icon: Code, href: `${docsBase}/api-reference/`, color: 'from-sky-400/15 to-indigo-400/15', iconColor: 'text-sky-700', borderColor: 'border-sky-500/25' },
+    { title: t.docsCTA.items[2].title, subtitle: t.docsCTA.items[2].subtitle, description: t.docsCTA.items[2].description, icon: FileCode, href: `${docsBase}/developer-guide/`, color: 'from-amber-400/15 to-orange-400/15', iconColor: 'text-amber-700', borderColor: 'border-amber-500/25' },
+  ];
   return (
     <section id="docs" className="relative py-24 lg:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-accent/[0.02] to-transparent" />

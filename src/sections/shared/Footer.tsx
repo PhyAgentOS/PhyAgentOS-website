@@ -1,28 +1,31 @@
 import { Github, BookOpen, Mail, ExternalLink, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useT } from '../../i18n/LanguageContext';
+import { useLang } from '../../i18n/LanguageContext';
 
 export default function Footer() {
   const t = useT();
-const footerLinks = {
-  product: [
-    { label: t.nav.features, href: '/#features' },
-    { label: t.nav.architecture, href: '/#architecture' },
-    { label: t.nav.hardware, href: '/#hardware' },
-    { label: t.nav.roadmap, href: '/#roadmap' },
-  ],
-  resources: [
-    { label: t.footer.documentation, href: 'https://phy-agent-os.net/docs/en/architecture.html', external: true },
-    { label: t.footer.apiReference, href: 'https://phy-agent-os.net/docs/en/api-reference.html', external: true },
-    { label: t.nav.github, href: 'https://github.com/PhyAgentOS/PhyAgentOS', external: true },
-    { label: t.footer.issues, href: 'https://github.com/PhyAgentOS/PhyAgentOS/issues', external: true },
-  ],
-  community: [
-    { label: t.footer.team, href: '/team' },
-    { label: t.footer.hackathon, href: '/hackathon' },
-    { label: t.footer.contribute, href: 'https://phy-agent-os.net/docs/en/developer-guide.html', external: true },
-  ],
-};
+  const { lang } = useLang();
+  const docsBase = lang === 'zh' ? '/docs' : '/docs/en';
+  const footerLinks = {
+    product: [
+      { label: t.nav.features, href: '/#features' },
+      { label: t.nav.architecture, href: '/#architecture' },
+      { label: t.nav.hardware, href: '/#hardware' },
+      { label: t.nav.roadmap, href: '/#roadmap' },
+    ],
+    resources: [
+      { label: t.footer.documentation, href: `${docsBase}/architecture/`, external: true },
+      { label: t.footer.apiReference, href: `${docsBase}/api-reference/`, external: true },
+      { label: t.nav.github, href: 'https://github.com/PhyAgentOS/PhyAgentOS', external: true },
+      { label: t.footer.issues, href: 'https://github.com/PhyAgentOS/PhyAgentOS/issues', external: true },
+    ],
+    community: [
+      { label: t.footer.team, href: '/team' },
+      { label: t.footer.hackathon, href: '/hackathon' },
+      { label: t.footer.contribute, href: `${docsBase}/developer-guide/`, external: true },
+    ],
+  };
   const logoSrc = `${import.meta.env.BASE_URL}LOGO.png`;
   const currentYear = new Date().getFullYear();
 
@@ -194,7 +197,7 @@ const footerLinks = {
                   <Github className="w-4 h-4" />
                 </a>
                 <a
-                  href="https://phy-agent-os.net/docs/en/api-reference.html"
+                  href={`${docsBase}/`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 rounded-lg text-brand-text-tertiary hover:text-brand-text hover:bg-brand-text/[0.04] transition-colors"

@@ -16,7 +16,7 @@ interface StatItem {
 export default function Stats() {
   const t = useT();
 const staticStats: StatItem[] = [
-  { value: 6, suffix: '+', label: t.stats.targetAdapters, description: t.stats.targetAdaptersDesc },
+  { value: 19, suffix: '+', label: t.stats.targetAdapters, description: t.stats.targetAdaptersDesc },
   { value: 100, suffix: '%', label: t.stats.auditable, description: t.stats.auditableDesc },
   { value: 100, suffix: '%', label: t.stats.openSource, description: t.stats.openSourceDesc },
 ];
@@ -64,7 +64,7 @@ const staticStats: StatItem[] = [
 
         const dynamicStats: StatItem[] = [
           { value: stars, suffix: '', label: t.stats.githubStars, description: t.stats.githubStarsDesc },
-          { value: 6, suffix: '+', label: t.stats.targetAdapters, description: t.stats.targetAdaptersDesc },
+          { value: 19, suffix: '+', label: t.stats.targetAdapters, description: t.stats.targetAdaptersDesc },
           { value: contributors, suffix: '', label: t.stats.contributors, description: t.stats.contributorsDesc },
         ];
 

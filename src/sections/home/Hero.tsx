@@ -126,7 +126,7 @@ export default function Hero() {
           {/* Stats preview */}
           <div className="hero-animate mt-16 grid w-full max-w-4xl grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6 mx-auto">
             {[
-              { value: '6+', label: t.hero.statTargets },
+              { value: '19+', label: t.hero.statTargets },
               { value: 'MIT', label: t.hero.statOpenSource },
               { value: 'v0.1.6', label: t.hero.statRelease },
             ].map((stat) => (

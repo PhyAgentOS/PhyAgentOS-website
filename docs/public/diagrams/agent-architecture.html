@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhyAgentOS Agent Architecture</title>
+  <style>
+    :root {
+      --ink: #17202a;
+      --muted: #607080;
+      --line: #cbd4dc;
+      --paper: #f5f7f8;
+      --white: #ffffff;
+      --blue: #2463a9;
+      --blue-soft: #eaf2fb;
+      --green: #17735c;
+      --green-soft: #e6f4ef;
+      --amber: #9b5b08;
+      --amber-soft: #fff3dc;
+      --red: #a63c3c;
+      --red-soft: #faeaea;
+      --violet: #6b4fa1;
+      --violet-soft: #f0ebf8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+      letter-spacing: 0;
+    }
+    header {
+      padding: 30px clamp(18px, 4vw, 54px) 24px;
+      color: var(--white);
+      background: #18232d;
+      border-bottom: 5px solid #39a078;
+    }
+    header h1 { margin: 0; font-size: clamp(28px, 4vw, 44px); font-weight: 760; }
+    header p { margin: 8px 0 0; max-width: 900px; color: #cbd6df; font-size: 15px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 18px; font-size: 12px; color: #aebdc9; }
+    main { width: min(1500px, 100%); margin: 0 auto; padding: 24px clamp(14px, 3vw, 40px) 40px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 14px 22px; margin-bottom: 18px; font-size: 12px; color: var(--muted); }
+    .legend span { display: inline-flex; align-items: center; gap: 7px; }
+    .dot { width: 10px; height: 10px; border: 2px solid currentColor; background: var(--white); }
+    .diagram { background: var(--white); border: 1px solid var(--line); }
+    .band { padding: 18px; border-bottom: 1px solid var(--line); }
+    .band:last-child { border-bottom: 0; }
+    .band-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+    .band-head h2 { margin: 0; font-size: 15px; text-transform: uppercase; color: #344454; }
+    .band-head small { color: var(--muted); font-size: 11px; }
+    .flow { display: grid; grid-template-columns: minmax(150px, 1fr) 42px minmax(150px, 1fr) 42px minmax(260px, 1.6fr); gap: 8px; align-items: stretch; }
+    .node { min-width: 0; padding: 13px 14px; border: 1px solid var(--line); border-left: 4px solid var(--blue); background: var(--white); }
+    .node h3 { margin: 0 0 5px; font-size: 14px; }
+    .node p { margin: 0; color: var(--muted); font-size: 12px; }
+    .node code, .file { font-family: "SFMono-Regular", Consolas, monospace; font-size: 11px; }
+    .blue { border-left-color: var(--blue); background: var(--blue-soft); }
+    .green { border-left-color: var(--green); background: var(--green-soft); }
+    .amber { border-left-color: var(--amber); background: var(--amber-soft); }
+    .red { border-left-color: var(--red); background: var(--red-soft); }
+    .violet { border-left-color: var(--violet); background: var(--violet-soft); }
+    .arrow { position: relative; min-height: 58px; }
+    .arrow::before { content: ""; position: absolute; top: 50%; left: 4px; right: 9px; border-top: 2px solid #7f8d98; }
+    .arrow::after { content: ""; position: absolute; top: calc(50% - 5px); right: 4px; width: 8px; height: 8px; border-top: 2px solid #7f8d98; border-right: 2px solid #7f8d98; transform: rotate(45deg); }
+    .arrow label { position: absolute; left: 50%; top: calc(50% - 23px); transform: translateX(-50%); white-space: nowrap; color: var(--muted); font-size: 10px; background: var(--white); padding: 0 4px; }
+    .core-grid { display: grid; grid-template-columns: minmax(220px, .9fr) minmax(330px, 1.35fr) minmax(250px, 1fr); gap: 14px; }
+    .panel { border: 1px solid var(--line); background: #fbfcfd; padding: 14px; }
+    .panel > h3 { margin: 0 0 12px; font-size: 15px; }
+    .stack { display: grid; gap: 8px; }
+    .source { padding: 10px 11px; border-left: 3px solid var(--blue); background: var(--white); border-top: 1px solid #e3e8ec; border-right: 1px solid #e3e8ec; border-bottom: 1px solid #e3e8ec; }
+    .source strong { display: block; font-size: 12px; }
+    .source span { display: block; margin-top: 3px; color: var(--muted); font-size: 10px; overflow-wrap: anywhere; }
+    .loop-box { border: 2px solid var(--green); background: var(--white); }
+    .loop-title { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--green-soft); border-bottom: 1px solid #b8d9cd; }
+    .loop-title strong { font-size: 15px; }
+    .counter { font-family: "SFMono-Regular", Consolas, monospace; font-size: 10px; color: var(--green); }
+    .loop-steps { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 8px; padding: 14px; align-items: center; }
+    .step { padding: 11px; border: 1px solid var(--line); min-height: 78px; }
+    .step b { display: block; font-size: 12px; }
+    .step small { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; }
+    .mini-arrow { text-align: center; color: #7f8d98; font-size: 24px; }
+    .return { grid-column: 1 / -1; padding: 9px 11px; color: var(--green); background: var(--green-soft); border: 1px dashed var(--green); font-size: 11px; text-align: center; }
+    .tool-list { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+    .tool { min-height: 54px; padding: 9px; background: var(--white); border: 1px solid var(--line); }
+    .tool b { display: block; font-size: 11px; }
+    .tool small { display: block; color: var(--muted); font-size: 9px; margin-top: 2px; }
+    .context-shape { margin-top: 12px; padding: 11px; border: 1px dashed var(--blue); background: var(--blue-soft); font-family: "SFMono-Regular", Consolas, monospace; font-size: 10px; color: #244c76; }
+    .service-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .service { padding: 13px; min-height: 108px; border: 1px solid var(--line); border-top: 4px solid var(--violet); background: var(--white); }
+    .service h3 { margin: 0 0 5px; font-size: 13px; }
+    .service p { margin: 0; color: var(--muted); font-size: 11px; }
+    .boundary { position: relative; border-top: 2px dashed #748493; margin: 4px 0 18px; text-align: center; }
+    .boundary span { position: relative; top: -10px; padding: 2px 10px; background: var(--white); color: var(--muted); font-size: 10px; }
+    .runtime-grid { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 12px; }
+    .runtime-file { padding: 12px; border: 1px solid var(--line); background: #f8fafb; }
+    .runtime-file strong { display: block; font-size: 12px; }
+    .runtime-file p { margin: 4px 0 0; color: var(--muted); font-size: 10px; }
+    .sequence { display: grid; grid-template-columns: repeat(6, 1fr); border: 1px solid var(--line); }
+    .seq { position: relative; min-height: 102px; padding: 12px 12px 12px 36px; border-right: 1px solid var(--line); background: var(--white); }
+    .seq:last-child { border-right: 0; }
+    .seq i { position: absolute; left: 10px; top: 11px; width: 18px; height: 18px; color: var(--white); background: #344454; font-style: normal; font-size: 10px; text-align: center; line-height: 18px; }
+    .seq b { font-size: 11px; }
+    .seq p { margin: 4px 0 0; color: var(--muted); font-size: 9px; }
+    footer { margin-top: 14px; color: var(--muted); font-size: 10px; text-align: right; }
+    @media (max-width: 980px) {
+      .core-grid { grid-template-columns: 1fr; }
+      .service-grid { grid-template-columns: 1fr 1fr; }
+      .sequence { grid-template-columns: 1fr 1fr 1fr; }
+      .seq:nth-child(3) { border-right: 0; }
+      .seq:nth-child(-n+3) { border-bottom: 1px solid var(--line); }
+    }
+    @media (max-width: 700px) {
+      .flow { grid-template-columns: 1fr; }
+      .arrow { min-height: 34px; }
+      .arrow::before { top: 4px; bottom: 9px; left: 50%; right: auto; border-top: 0; border-left: 2px solid #7f8d98; }
+      .arrow::after { top: auto; bottom: 4px; right: calc(50% - 4px); transform: rotate(135deg); }
+      .arrow label { top: 9px; left: calc(50% + 38px); }
+      .service-grid, .runtime-grid, .sequence { grid-template-columns: 1fr; }
+      .seq, .seq:nth-child(3) { border-right: 0; border-bottom: 1px solid var(--line); }
+      .seq:last-child { border-bottom: 0; }
+      .loop-steps { grid-template-columns: 1fr; }
+      .mini-arrow { transform: rotate(90deg); }
+      .tool-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>PhyAgentOS Agent Architecture</h1>
+    <p>Track A 的消息驱动 Agent：上下文在文件、会话历史与运行时状态之间汇聚；模型通过结构化 Tool Call 形成闭环；长期任务通过 Runtime Session 下沉到 Track B。</p>
+    <div class="meta"><span>代码基线：AgentLoop / ContextBuilder / ToolRegistry</span><span>图示范围：主 Agent、并行服务、Runtime 边界</span></div>
+  </header>
+  <main>
+    <div class="legend">
+      <span style="color:var(--blue)"><i class="dot"></i>上下文与消息</span>
+      <span style="color:var(--green)"><i class="dot"></i>推理闭环</span>
+      <span style="color:var(--amber)"><i class="dot"></i>运行时协议</span>
+      <span style="color:var(--violet)"><i class="dot"></i>后台服务</span>
+      <span style="color:var(--red)"><i class="dot"></i>状态裁决</span>
+    </div>
+
+    <section class="diagram">
+      <div class="band">
+        <div class="band-head"><h2>1 · Ingress / Egress</h2><small>所有入口统一进入 MessageBus 或 process_direct</small></div>
+        <div class="flow">
+          <div class="node blue"><h3>Channels & Triggers</h3><p>CLI · Telegram · Feishu · Slack · Cron · Heartbeat</p></div>
+          <div class="arrow"><label>InboundMessage</label></div>
+          <div class="node blue"><h3>MessageBus</h3><p>解耦 channel I/O 与 Agent 处理；OutboundMessage 返回目标通道。</p></div>
+          <div class="arrow"><label>dispatch</label></div>
+          <div class="node green"><h3>AgentLoop</h3><p>按 session key 串联消息处理、上下文构建、模型调用、工具执行与结果持久化。</p></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="band-head"><h2>2 · Core Agent Loop</h2><small>Context → LLM → Tool → Context，最多 maxToolIterations</small></div>
+        <div class="core-grid">
+          <div class="panel">
+            <h3>ContextBuilder</h3>
+            <div class="stack">
+              <div class="source"><strong>Identity / Bootstrap</strong><span>AGENTS.md · SOUL.md · USER.md · TOOLS.md · SKILLS.md</span></div>
+              <div class="source"><strong>Embodied / Runtime State</strong><span>EMBODIED.md · ENVIRONMENT.md · TASK.md · RUNTIME.md · TARGETS.md · SESSIONS.md</span></div>
+              <div class="source"><strong>Conversation History</strong><span>SessionManager JSONL：历史 user / assistant / tool messages</span></div>
+              <div class="source"><strong>Memory & Skills</strong><span>MEMORY.md · HISTORY.md · 按需加载的 SKILL.md</span></div>
+              <div class="source"><strong>Current Request</strong><span>channel、chat、runtime metadata、文本与 base64 图片</span></div>
+            </div>
+            <div class="context-shape">[ system_prompt, history..., user(runtime_metadata + current_input) ]</div>
+          </div>
+
+          <div class="panel">
+            <h3>AgentLoop._run_agent_loop()</h3>
+            <div class="loop-box">
+              <div class="loop-title"><strong>LLM Provider</strong><span class="counter">iteration 1…N</span></div>
+              <div class="loop-steps">
+                <div class="step"><b>chat_with_retry()</b><small>messages + tool schemas + model；Provider 统一 LiteLLM、OpenAI-compatible 与 OAuth 路由。</small></div>
+                <div class="mini-arrow">→</div>
+                <div class="step"><b>LLMResponse</b><small>content · reasoning · tool_calls · finish_reason · usage</small></div>
+                <div class="step"><b>Assistant Tool Call</b><small>将 tool_call 写回 messages，保留调用 ID 和结构化 arguments。</small></div>
+                <div class="mini-arrow">→</div>
+                <div class="step"><b>Tool Result</b><small>顺序执行工具，将结果作为 role=tool 消息追加到同一上下文。</small></div>
+                <div class="return">↺ 有 tool_calls：携带新增消息继续推理　｜　无 tool_calls：产出 final content</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>ToolRegistry</h3>
+            <div class="tool-list">
+              <div class="tool"><b>Filesystem</b><small>read / write / edit / list</small></div>
+              <div class="tool"><b>Exec</b><small>shell command boundary</small></div>
+              <div class="tool"><b>Web</b><small>search / fetch</small></div>
+              <div class="tool"><b>Message</b><small>cross-channel delivery</small></div>
+              <div class="tool"><b>Spawn</b><small>background subagent</small></div>
+              <div class="tool"><b>Cron</b><small>scheduled task</small></div>
+              <div class="tool"><b>Scene Graph</b><small>ENVIRONMENT query</small></div>
+              <div class="tool"><b>verify_session</b><small>apply waiting / review terminal</small></div>
+              <div class="tool"><b>Mode / Image</b><small>ProvidersManager only</small></div>
+              <div class="tool"><b>MCP</b><small>dynamic external tools</small></div>
+            </div>
+            <div class="context-shape">schema → cast params → validate → execute → string result</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="band-head"><h2>3 · Agent-Owned Services</h2><small>与主对话循环并列，共享 provider 或 workspace</small></div>
+        <div class="service-grid">
+          <div class="service"><h3>SessionManager</h3><p>按 channel:chat 保存 JSONL 对话；为 ContextBuilder 提供短期历史和 consolidation offset。</p></div>
+          <div class="service"><h3>MemoryConsolidator</h3><p>上下文接近窗口上限时，调用模型压缩历史并写入 MEMORY.md / HISTORY.md。</p></div>
+          <div class="service"><h3>SubagentManager</h3><p>为独立任务创建受限工具集的后台 Agent，完成后通过 MessageBus 报告主 Agent。</p></div>
+          <div class="service" style="border-top-color:var(--red)"><h3>SessionVerifier</h3><p>消费 runtime 完成证据，进行语义验收、replan、lesson 与 RGB retention；同时被 verify_session Tool 复用。</p></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="band-head"><h2>4 · Track A / Track B Boundary</h2><small>文件协议是规划与执行之间的稳定接口</small></div>
+        <div class="boundary"><span>Track A · Agent Control Plane ↑　　Track B · Execution Plane ↓</span></div>
+        <div class="runtime-grid">
+          <div class="runtime-file"><strong>Planning Contract</strong><p><span class="file">TARGETS.md</span> + <span class="file">SKILLRUNTIME.md</span> 描述可用 target、policy、adapter 与能力约束。</p></div>
+          <div class="runtime-file" style="border-top:4px solid var(--amber)"><strong>Session Queue / State</strong><p>Agent 向 <span class="file">SESSIONS.md</span> 插入 pending session；Watchdog 原子 claim、执行并回写结果与状态。</p></div>
+          <div class="runtime-file"><strong>Evidence & Feedback</strong><p><span class="file">LOG.md</span> · <span class="file">LESSONS.md</span> · <span class="file">ENVIRONMENT.md</span> · <span class="file">artifacts/runtime/*</span></p></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="band-head"><h2>5 · One Turn, End to End</h2><small>主数据流</small></div>
+        <div class="sequence">
+          <div class="seq"><i>1</i><b>Receive</b><p>Channel 或 direct request 进入 Agent。</p></div>
+          <div class="seq"><i>2</i><b>Load Context</b><p>组合 system、history、runtime state 与当前输入。</p></div>
+          <div class="seq"><i>3</i><b>Reason</b><p>Provider 返回文本或结构化 tool_calls。</p></div>
+          <div class="seq"><i>4</i><b>Act</b><p>ToolRegistry 校验并执行；结果返回上下文。</p></div>
+          <div class="seq"><i>5</i><b>Persist</b><p>保存 turn；必要时 consolidation 或创建 runtime session。</p></div>
+          <div class="seq"><i>6</i><b>Deliver</b><p>最终 content 通过 MessageBus 回到目标 channel。</p></div>
+        </div>
+      </div>
+    </section>
+    <footer>Generated from current PhyAgentOS source architecture · standalone HTML</footer>
+  </main>
+</body>
+</html>
