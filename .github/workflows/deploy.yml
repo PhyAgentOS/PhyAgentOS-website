@@ -46,3 +46,8 @@ jobs:
           publish_dir: ./dist
           force_orphan: true
           cname: phy-agent-os.net
+
+      - name: Trigger GitHub Pages build
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/builds"
