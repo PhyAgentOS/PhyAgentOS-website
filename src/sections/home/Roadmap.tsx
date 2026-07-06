@@ -68,7 +68,7 @@ const phases = [
               label={t.roadmap.label}
               title={t.roadmap.title}
               highlight={t.roadmap.highlight}
-              description="From the session-runtime MVP to semantic verification and fleet coordination: a clear, versioned trajectory."
+              description={t.roadmap.description}
             />
           </ScrollReveal>
 

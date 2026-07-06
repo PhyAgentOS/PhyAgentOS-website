@@ -22,7 +22,7 @@ const testimonials = [
               label={t.testimonials.label}
               title={t.testimonials.title}
               highlight={t.testimonials.highlight}
-              description="Feedback from researchers, developers, and the open-source community building on PhyAgentOS."
+              description={t.testimonials.description}
             />
           </ScrollReveal>
 

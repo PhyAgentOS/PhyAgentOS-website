@@ -262,7 +262,7 @@ export const translations: Record<Lang, TranslationShape> = {
           pain: 'Sim-to-real migration friction',
           detail: 'The same task behaves differently across simulation and real hardware.',
           solution: 'Zero-Friction Migration',
-          solutionDetail: 'One Session protocol runs identically across debug, simulation (LIBERO, RoboCasa), and real_robot targets, declared via target_adapter:// URI.',
+          solutionDetail: 'One Session protocol runs identically across simulation and real-world targets, declared via target_adapter:// URI.',
         },
       ],    },
     coreConcepts: {
@@ -331,7 +331,7 @@ export const translations: Record<Lang, TranslationShape> = {
         { label: 'WatchdogSupervisor', sublabel: 'Supervisor', description: 'The execution-plane supervisor that watches the session queue, launches SessionRunners, and enforces lifecycle (pending→running→succeeded/failed).' },
         { label: 'SessionRunner', sublabel: 'Sessions', description: 'Runs one session end-to-end: acquires a TargetSessionHandle, drives the SkillRuntime, and records results + artifacts.' },
         { label: 'SkillRuntime', sublabel: 'Skills', description: 'PolicySkillRuntime (closed-loop policy) and BuiltinSkillRuntime (agent interactive loop) execute skills against their declared contracts in SKILLRUNTIME.md.' },
-        { label: 'Adapters & Bridge', sublabel: 'Targets', description: 'TargetAdapter + PolicyAdapter + ActionBridge decouple contracts. Targets register in TARGETS.md via target_adapter:// URI: debug, simulation, real_robot.' },
+        { label: 'Adapters & Bridge', sublabel: 'Targets', description: 'TargetAdapter + PolicyAdapter + ActionBridge decouple contracts. Simulation and real-world targets register in TARGETS.md via target_adapter:// URI.' },
       ],
     },
     scenarios: {
@@ -356,8 +356,8 @@ export const translations: Record<Lang, TranslationShape> = {
         {
           title: 'Simulation',
           subtitle: 'Remote · benchmark',
-          description: 'Physics-accurate simulation at scale with LIBERO and RoboCasa. Batch-mine execution experience and benchmark policies with reproducible target sessions.',
-          features: ['LIBERO benchmark suite', 'RoboCasa scenes', 'Batch experience mining', 'Reproducible evaluation'],
+          description: 'Physics-accurate simulation at scale with LIBERO and BEHAVIOR-1K. Batch-mine execution experience and benchmark policies with reproducible target sessions.',
+          features: ['LIBERO benchmark suite', 'BEHAVIOR-1K tasks', 'Batch experience mining', 'Reproducible evaluation'],
         },
         {
           title: 'Real Robot',
@@ -426,7 +426,7 @@ export const translations: Record<Lang, TranslationShape> = {
       description: 'Target-session results on the LIBERO benchmark, with every run traceable through SESSIONS.md and LESSONS.md.',
       stats: [
         { label: 'LIBERO Success', description: 'Policy skill benchmark' },
-        { label: 'Target Adapters', description: 'debug · sim · real' },
+        { label: 'Target Adapters', description: 'sim · real-world' },
         { label: 'Reproducible', description: 'File-protocol auditable' },
         { label: 'Open Source', description: 'MIT Licensed' },
       ],
@@ -510,7 +510,7 @@ export const translations: Record<Lang, TranslationShape> = {
       githubStars: 'GitHub Stars',
       githubStarsDesc: 'Community support',
       targetAdapters: 'Target Adapters',
-      targetAdaptersDesc: 'debug · sim · real_robot',
+      targetAdaptersDesc: 'sim · real-world',
       auditable: 'Auditable',
       auditableDesc: 'Markdown + YAML protocols',
       openSource: 'Open Source',
@@ -640,7 +640,7 @@ export const translations: Record<Lang, TranslationShape> = {
           pain: '仿真到真机的迁移摩擦',
           detail: '同一任务在仿真与真实硬件上行为不一致。',
           solution: '零摩擦迁移',
-          solutionDetail: '同一 Session 协议在 debug、simulation（LIBERO、RoboCasa）与 real_robot 目标上行为完全一致，通过 target_adapter:// URI 声明。',
+          solutionDetail: '同一 Session 协议在仿真和真实世界目标上行为完全一致，通过 target_adapter:// URI 声明。',
         },
       ],
     },
@@ -710,7 +710,7 @@ export const translations: Record<Lang, TranslationShape> = {
         { label: 'WatchdogSupervisor', sublabel: '监督者', description: '执行层监督者，监视会话队列、启动 SessionRunner 并强制执行生命周期（pending→running→succeeded/failed）。' },
         { label: 'SessionRunner', sublabel: '会话', description: '端到端运行单个会话：获取 TargetSessionHandle、驱动 SkillRuntime 并记录结果与产物。' },
         { label: 'SkillRuntime', sublabel: '技能', description: 'PolicySkillRuntime（闭环策略）与 BuiltinSkillRuntime（智能体交互闭环）依据 SKILLRUNTIME.md 中声明的契约执行技能。' },
-        { label: 'Adapters & Bridge', sublabel: '目标', description: 'TargetAdapter + PolicyAdapter + ActionBridge 解耦契约。目标通过 target_adapter:// URI 注册于 TARGETS.md：debug、simulation、real_robot。' },
+        { label: 'Adapters & Bridge', sublabel: '目标', description: 'TargetAdapter + PolicyAdapter + ActionBridge 解耦契约。仿真和真实世界目标通过 target_adapter:// URI 注册于 TARGETS.md。' },
       ],
     },
     scenarios: {
@@ -735,8 +735,8 @@ export const translations: Record<Lang, TranslationShape> = {
         {
           title: '仿真',
           subtitle: '远程 · 基准评测',
-          description: '基于 LIBERO 与 RoboCasa 的大规模物理精确仿真。批量挖掘执行经验，通过可复现的目标会话对策略进行基准评测。',
-          features: ['LIBERO 基准套件', 'RoboCasa 场景', '批量经验挖掘', '可复现评估'],
+          description: '基于 LIBERO 与 BEHAVIOR-1K 的大规模物理精确仿真。批量挖掘执行经验，通过可复现的目标会话对策略进行基准评测。',
+          features: ['LIBERO 基准套件', 'BEHAVIOR-1K 任务', '批量经验挖掘', '可复现评估'],
         },
         {
           title: '真机',
@@ -805,7 +805,7 @@ export const translations: Record<Lang, TranslationShape> = {
       description: 'LIBERO 基准上的目标会话结果，每一次运行都可通过 SESSIONS.md 与 LESSONS.md 追溯。',
       stats: [
         { label: 'LIBERO 成功率', description: '策略技能基准' },
-        { label: '目标适配器', description: 'debug · sim · real' },
+        { label: '目标适配器', description: '仿真 · 真实世界' },
         { label: '可复现', description: '文件协议可审计' },
         { label: '完全开源', description: 'MIT 许可证' },
       ],
@@ -889,7 +889,7 @@ export const translations: Record<Lang, TranslationShape> = {
       githubStars: 'GitHub Stars',
       githubStarsDesc: '社区支持',
       targetAdapters: '目标适配器',
-      targetAdaptersDesc: 'debug · sim · real_robot',
+      targetAdaptersDesc: '仿真 · 真实世界',
       auditable: '可审计',
       auditableDesc: 'Markdown + YAML 协议',
       openSource: '完全开源',

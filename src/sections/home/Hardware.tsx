@@ -13,7 +13,7 @@ const devices = [
   { name: 'Unitree Go2', typeKey: 'Quadruped', image: '/go2.png', status: 'verified' as const, specs: ['12 Motors', 'LiDAR', 'Navigation'] },
   { name: 'Franka Research 3', typeKey: 'Industrial Arm', image: '/franka.png', status: 'verified' as const, specs: ['7-DoF', 'Torque Sensing', 'Industrial'] },
   { name: 'XLeRobot', typeKey: 'Dual Arm', image: '/XLeRobot.png', status: 'verified' as const, specs: ['Dual Arm', 'Bimanual', 'ROS2'] },
-  { name: 'LIBERO / RoboCasa', typeKey: 'Simulation', image: '/scene.png', status: 'partial' as const, specs: ['MuJoCo', 'Benchmark', 'Batch Eval'] },
+  { name: 'LIBERO / BEHAVIOR-1K', typeKey: 'Simulation', image: '/scene.png', status: 'partial' as const, specs: ['MuJoCo', 'Benchmark', 'Batch Eval'] },
 ];
 const statusConfig = {
   verified: { icon: Check, color: 'text-emerald-600', bgColor: 'bg-emerald-500/10', borderColor: 'border-emerald-500/25', label: t.hardware.statusVerified },
@@ -64,7 +64,7 @@ const devicesWithType = devices.map((d, idx) => ({
               label={t.hardware.label}
               title={t.hardware.title}
               highlight={t.hardware.highlight}
-              description="Through Target Adapters, PhyAgentOS spans debug, simulation, and real-robot targets, from desktop arms to quadrupeds to dual-arm systems."
+              description={t.hardware.description}
             />
           </ScrollReveal>
 

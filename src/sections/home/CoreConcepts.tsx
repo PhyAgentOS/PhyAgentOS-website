@@ -32,7 +32,7 @@ const concepts = [
               label={t.coreConcepts.label}
               title={t.coreConcepts.title}
               highlight={t.coreConcepts.highlight}
-              description="Not just features; fundamental design decisions behind a session-centered embodied AI runtime."
+              description={t.coreConcepts.description}
             />
           </ScrollReveal>
 

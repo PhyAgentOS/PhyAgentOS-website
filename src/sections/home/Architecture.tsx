@@ -58,7 +58,7 @@ const nodes: ArchNode[] = [
               label={t.architecture.label}
               title={t.architecture.title}
               highlight={t.architecture.highlight}
-              description="Cognition and execution decoupled through a shared file-protocol layer. Click any component to explore."
+              description={t.architecture.description}
             />
           </ScrollReveal>
 

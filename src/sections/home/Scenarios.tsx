@@ -25,7 +25,7 @@ const scenarios = [
               labelIcon={<Sparkles className="w-3.5 h-3.5" />}
               title={t.scenarios.title}
               highlight={t.scenarios.highlight}
-              description="Each target kind validates a different layer of the embodied stack. The same Session protocol spans all three."
+              description={t.scenarios.description}
             />
           </ScrollReveal>
 

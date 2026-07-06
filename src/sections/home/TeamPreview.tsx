@@ -29,7 +29,7 @@ const teamHighlights = [
               label={t.teamPreview.label}
               title={t.teamPreview.title}
               highlight={t.teamPreview.highlight}
-              description="PhyAgentOS is jointly developed by the HCP Laboratory at Sun Yat-sen University, Peng Cheng Laboratory, and X-Era Lab."
+              description={t.teamPreview.description}
             />
           </ScrollReveal>
 

@@ -32,7 +32,7 @@ const stats = [
               label={t.benchmark.label}
               title={t.benchmark.title}
               highlight={t.benchmark.highlight}
-              description="Target-session results on the LIBERO benchmark, with every run traceable through SESSIONS.md and LESSONS.md."
+              description={t.benchmark.description}
             />
           </ScrollReveal>
 
@@ -63,7 +63,7 @@ const stats = [
               {/* Success Rate Chart */}
               <div className="p-6 sm:p-8 rounded-3xl bg-brand-bg-secondary border border-brand-border shadow-card hover:shadow-card-hover transition-shadow duration-500">
                 <h3 className="text-lg font-semibold text-brand-text mb-2">{t.benchmark.chart1Title}</h3>
-                <p className="text-sm text-brand-text-tertiary mb-8">Real-target session completion on LIBERO benchmark suite</p>
+                <p className="text-sm text-brand-text-tertiary mb-8">{t.benchmark.chart1Subtitle}</p>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={benchmarkData} layout="vertical" margin={{ left: 0, right: 20 }}>
@@ -92,7 +92,7 @@ const stats = [
               {/* Code Lines Chart */}
               <div className="p-6 sm:p-8 rounded-3xl bg-brand-bg-secondary border border-brand-border shadow-card hover:shadow-card-hover transition-shadow duration-500">
                 <h3 className="text-lg font-semibold text-brand-text mb-2">{t.benchmark.chart2Title}</h3>
-                <p className="text-sm text-brand-text-tertiary mb-8">Lines to add a new robot target (relative scale, one Target Adapter)</p>
+                <p className="text-sm text-brand-text-tertiary mb-8">{t.benchmark.chart2Subtitle}</p>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={benchmarkData} layout="vertical" margin={{ left: 0, right: 20 }}>
@@ -123,9 +123,9 @@ const stats = [
           {/* Note */}
           <ScrollReveal delay={0.3}>
             <p className="mt-8 text-center text-xs text-brand-text-tertiary">
-              * Benchmarks evaluated on the LIBERO target suite. Full methodology and SESSIONS.md traces are available in our{' '}
+              {t.benchmark.note}{' '}
               <a href="https://github.com/PhyAgentOS/PhyAgentOS" target="_blank" rel="noopener noreferrer" className="text-brand-accent hover:underline">
-                documentation
+                {t.benchmark.documentation}
               </a>.
             </p>
           </ScrollReveal>
