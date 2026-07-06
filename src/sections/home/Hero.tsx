@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { ArrowRight, Play } from 'lucide-react';
 import gsap from 'gsap';
 import { useT } from '../../i18n/LanguageContext';
@@ -11,6 +11,11 @@ export default function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const mousePosition = useMousePosition();
+
+  const handleWatchDemoClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   useEffect(() => {
     // Small delay to ensure DOM is ready
@@ -28,9 +33,8 @@ export default function Hero() {
       if (children) {
         tl.fromTo(
           children,
-          { opacity: 0, y: 40 },
+          { y: 40 },
           {
-            opacity: 1,
             y: 0,
             duration: 1,
             stagger: 0.12,
@@ -114,6 +118,7 @@ export default function Hero() {
             </a>
             <a
               href="#demo"
+              onClick={handleWatchDemoClick}
               className="group px-8 py-4 glass text-brand-text font-semibold rounded-2xl transition-all duration-300 flex items-center gap-2 hover:bg-brand-bg-secondary hover:shadow-soft"
             >
               <span className="flex items-center justify-center w-6 h-6 rounded-full bg-brand-accent/10 mr-1">

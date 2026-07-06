@@ -42,13 +42,11 @@ export default function ScrollReveal({
       gsap.fromTo(
         targets,
         {
-          opacity: 0,
           y,
           x,
           scale: scale !== 1 ? scale : undefined,
         },
         {
-          opacity: 1,
           y: 0,
           x: 0,
           scale: 1,

@@ -24,9 +24,8 @@ const problems = [
       cards?.forEach((card, i) => {
         gsap.fromTo(
           card,
-          { opacity: 0, x: i % 2 === 0 ? -50 : 50 },
+          { x: i % 2 === 0 ? -50 : 50 },
           {
-            opacity: 1,
             x: 0,
             duration: 0.8,
             ease: 'power3.out',

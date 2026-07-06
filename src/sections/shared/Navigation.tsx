@@ -16,6 +16,7 @@ export default function Navigation() {
     { label: t.nav.features, href: '/#features' },
     { label: t.nav.architecture, href: '/#architecture' },
     { label: t.nav.scenarios, href: '/#scenarios' },
+    { label: lang === 'zh' ? '实时演示' : 'Live Demo', href: '/#demo' },
     { label: t.nav.hardware, href: '/#hardware' },
     { label: t.nav.roadmap, href: '/#roadmap' },
     { label: t.nav.team, href: '/team' },
@@ -112,7 +113,7 @@ export default function Navigation() {
                   key={item.href}
                   to={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className="px-4 py-2 rounded-xl text-sm text-brand-text-secondary hover:text-brand-text hover:bg-brand-text/[0.04] transition-all duration-200"
+                  className="px-3 py-2 rounded-xl text-sm text-brand-text-secondary hover:text-brand-text hover:bg-brand-text/[0.04] transition-all duration-200 xl:px-4"
                 >
                   {item.label}
                 </Link>
