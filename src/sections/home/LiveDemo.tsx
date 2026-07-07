@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Bot, Gamepad2, Rocket, Sparkles, TerminalSquare } from 'lucide-react';
+import { BarChart3, Bot, FlaskConical, Gamepad2, Rocket, Sparkles, TerminalSquare } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useLang } from '../../i18n/LanguageContext';
@@ -19,6 +19,16 @@ export default function LiveDemo() {
             title: '概念短片',
             eyebrow: 'Session-Centered Runtime',
             description: '从“AI 能思考，如何行动”切入，展示 Session 文件协议、可审计闭环，以及跨游戏、仿真、真机的一体化运行时。',
+          },
+          {
+            title: 'LIBERO 评测 Demo',
+            eyebrow: 'Benchmark · LIBERO',
+            description: '展示 OpenVLA Agent 在 LIBERO 基准中的 Session 化评测流程：启动 TargetWS 与 OpenPI Policy，生成任务会话、调度执行并记录结果。',
+          },
+          {
+            title: 'BEHAVIOR-1K 评测 Demo',
+            eyebrow: 'Benchmark · BEHAVIOR-1K',
+            description: '展示 BEHAVIOR-1K 仿真评测链路：TargetWS9004 渲染场景，Policy8000 接收观测并返回动作，实时查看推理步骤和任务完成状态。',
           },
           {
             title: '真机任务链',
@@ -56,6 +66,16 @@ export default function LiveDemo() {
             description: 'Introduces the question “AI can think, but can it act?” through Session files, auditable verification, and one runtime across games, simulation, and robots.',
           },
           {
+            title: 'LIBERO benchmark demo',
+            eyebrow: 'Benchmark · LIBERO',
+            description: 'Shows the Session-based LIBERO evaluation flow for OpenVLA Agent: TargetWS and OpenPI policy startup, task session generation, scheduling, and result logging.',
+          },
+          {
+            title: 'BEHAVIOR-1K benchmark demo',
+            eyebrow: 'Benchmark · BEHAVIOR-1K',
+            description: 'Shows the BEHAVIOR-1K simulation evaluation path: TargetWS9004 renders scenes, Policy8000 returns actions from observations, and reasoning plus completion status are tracked live.',
+          },
+          {
             title: 'Real-robot task chain',
             eyebrow: 'Real Robot Execution',
             description: 'A humanoid/mobile robot completes shopping, sorting, pick-and-place, bag opening, and storage tasks in a real room, showing stable plan-to-action execution.',
@@ -78,13 +98,26 @@ export default function LiveDemo() {
         ],
       };
 
+  const copyIds = [
+    'overview',
+    'libero-benchmark',
+    'b1k-benchmark',
+    'real-robot',
+    'deployment',
+    'dont-starve',
+    'stardew',
+  ];
+  const copyById = Object.fromEntries(copyIds.map((id, index) => [id, copy.videos[index]]));
+
   const demos = [
     { id: 'overview', icon: Sparkles, src: '/media/demos/overview.mp4', poster: '/media/demos/overview.jpg', duration: '01:09' },
     { id: 'real-robot', icon: Bot, src: '/media/demos/real-robot.mp4', poster: '/media/demos/real-robot.jpg', duration: '03:14' },
     { id: 'deployment', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '03:27' },
     { id: 'dont-starve', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.jpg', duration: '03:03' },
     { id: 'stardew', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.jpg', duration: '02:09' },
-  ].map((demo, index) => ({ ...demo, ...copy.videos[index] }));
+    { id: 'libero-benchmark', icon: BarChart3, src: '/media/demos/libero-benchmark.mp4', poster: '/media/demos/libero-benchmark.jpg', duration: '02:29' },
+    { id: 'b1k-benchmark', icon: FlaskConical, src: '/media/demos/b1k-benchmark.mp4', poster: '/media/demos/b1k-benchmark.jpg', duration: '01:11' },
+  ].map((demo) => ({ ...demo, ...copyById[demo.id] }));
 
   const [activeId, setActiveId] = useState(demos[0].id);
   const activeDemo = demos.find((demo) => demo.id === activeId) ?? demos[0];
@@ -114,7 +147,7 @@ export default function LiveDemo() {
                   key={activeDemo.id}
                   src={activeDemo.src}
                   poster={activeDemo.poster}
-                  className="aspect-video w-full object-cover"
+                  className="aspect-video w-full object-contain"
                   controls
                   autoPlay
                   muted
@@ -128,7 +161,7 @@ export default function LiveDemo() {
                 </div>
               </div>
 
-              <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {demos.map((demo) => {
                   const Icon = demo.icon;
                   const active = demo.id === activeDemo.id;
