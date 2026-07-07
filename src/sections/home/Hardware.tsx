@@ -18,7 +18,8 @@ const devices = [
   { name: 'Astra Pro', typeKey: 'Humanoid', image: '/media/hardware/astra-pro.png', status: 'verified' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
   { name: 'Fourier GR-3', typeKey: 'Bipedal Humanoid', image: '/media/hardware/fourier-gr3.jpg', status: 'partial' as const, specs: ['Humanoid', 'MuJoCo', 'Real Robot'] },
   { name: 'Zerith H1 PRO', typeKey: 'Humanoid', image: '/media/hardware/zerith-h1-pro.png', status: 'verified' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
-  { name: 'LIBERO / BEHAVIOR-1K', typeKey: 'Simulation', image: '/scene.png', status: 'partial' as const, specs: ['MuJoCo', 'Benchmark', 'Batch Eval'] },
+  { name: 'LIBERO', typeKey: 'Simulation', image: '/media/hardware/libero.png', status: 'verified' as const, specs: ['MuJoCo', 'Benchmark', 'Policy Eval'] },
+  { name: 'BEHAVIOR-1K', typeKey: 'Simulation', image: '/media/hardware/b1k.png', status: 'verified' as const, specs: ['OmniGibson', 'Benchmark'] },
 ];
 const statusConfig = {
   verified: { icon: Check, color: 'text-emerald-600', bgColor: 'bg-emerald-500/10', borderColor: 'border-emerald-500/25', label: t.hardware.statusVerified },

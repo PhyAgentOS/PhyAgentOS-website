@@ -388,7 +388,8 @@ export const translations: Record<Lang, TranslationShape> = {
         { type: 'Wheeled Humanoid', description: 'Humanoid platform for perception, navigation, and manipulation workflows through the same runtime interface.' },
         { type: 'Bipedal Humanoid', description: 'Full-body humanoid platform for general-purpose embodied tasks, available through the hardware access pipeline.' },
         { type: 'Wheeled Humanoid', description: 'Wheeled humanoid hardware with real-device and MuJoCo access for long-horizon embodied tasks.' },
-        { type: 'Simulation', description: 'Physics-accurate simulation benchmark targets. Batch evaluation and experience mining at scale.' },
+        { type: 'Simulation', description: 'LIBERO is a lifelong robot learning and knowledge-transfer benchmark for manipulation, with Spatial, Object, Goal, and LIBERO-100 suites for evaluating policy generalization and transfer.' },
+        { type: 'Simulation', description: 'BEHAVIOR-1K simulation benchmark target on OmniGibson, built on NVIDIA Isaac Sim with PhysX, for household-scale embodied tasks and batch evaluation.' },
       ],
       deviceTable: {
         title: 'Supported Device Matrix',
@@ -772,7 +773,8 @@ export const translations: Record<Lang, TranslationShape> = {
         { type: '轮式人形', description: '面向感知、导航与操作流程的人形平台，通过统一运行时接口接入。' },
         { type: '双足人形', description: '面向通用具身任务的全身人形平台，可通过硬件接入链路运行。' },
         { type: '轮式人形', description: '支持真机接入与 MuJoCo 接入的轮式人形硬件，适合长程具身任务。' },
-        { type: '仿真', description: '物理精确的仿真基准目标。支持规模化批量评测与经验挖掘。' },
+        { type: '仿真', description: 'LIBERO 是面向终身机器人学习与知识迁移的机器人操作基准，包含 Spatial、Object、Goal、LIBERO-100 等任务套件，用于评估策略泛化与迁移能力。' },
+        { type: '仿真', description: 'BEHAVIOR-1K 仿真基准目标，使用 OmniGibson，底层基于 NVIDIA Isaac Sim 与 PhysX，覆盖家庭场景具身任务与批量评测。' },
       ],
       deviceTable: {
         title: '设备支持矩阵',
