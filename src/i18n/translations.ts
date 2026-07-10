@@ -654,7 +654,7 @@ export const translations: Record<Lang, TranslationShape> = {
       label: '核心理念',
       title: '六大原则让',
       highlight: 'PhyAgentOS 与众不同',
-      description: '这不仅是功能，而是会话中心化运行时背后的根本性设计决策，包括来自游戏智能体分支的三层分层记忆与 9 步反思闭环。',
+      description: '这不仅是功能，而是会话中心化运行时背后的根本性设计决策，包括来自游戏智能体分支的多粒度分层记忆与多步反思闭环。',
       items: [
         {
           title: '会话中心化运行时',
