@@ -269,7 +269,7 @@ export const translations: Record<Lang, TranslationShape> = {
       label: 'Core Concepts',
       title: 'Six principles that make',
       highlight: 'PhyAgentOS unique',
-      description: 'Not just features; fundamental design decisions behind the session-centered runtime, including the 3-tier hierarchical memory and 9-step reflection loop from the Game Agent branch.',
+      description: 'Not just features; fundamental design decisions behind the session-centered runtime, including multi-granularity hierarchical memory and a multi-step reflection loop from the Game Agent branch.',
       items: [
         {
           title: 'Session-Centered Runtime',
@@ -304,7 +304,7 @@ export const translations: Record<Lang, TranslationShape> = {
         {
           title: 'Hierarchical Memory & Reflection',
           subtitle: 'Learn from experience autonomously',
-          description: 'Three-tier memory (Episodic LESSONS.md → Semantic MEMORY.md → Methodological skills/) plus a 9-step reflection loop (Plan→Reflect→Abstract→Skill). The Agent autonomously compacts, deduplicates lessons, and auto-creates reusable skills after ≥2 verifications.',
+          description: 'Multi-granularity hierarchical memory (Episodic LESSONS.md → Semantic MEMORY.md → Methodological skills/) plus a multi-step reflection loop (Plan→Reflect→Abstract→Skill). The Agent autonomously compacts, deduplicates lessons, and auto-creates reusable skills after sufficient verification.',
           highlight: 'Experience auto-converts to reusable skills',
         },
       ],
@@ -457,7 +457,7 @@ export const translations: Record<Lang, TranslationShape> = {
             { title: 'Minecraft pipeline: cloud Agent connects to local game' },
             { title: 'Agent Loop integration: complex task completion in-game' },
             { title: 'Self-evolution with reflection: summarize experience from novel scenes' },
-            { title: 'Hermes memory: 3-tier hierarchical + 9-step Reflection loop' },
+            { title: 'Hermes memory: multi-granularity hierarchy + multi-step Reflection loop' },
           ],
         },
         {
@@ -689,7 +689,7 @@ export const translations: Record<Lang, TranslationShape> = {
         {
           title: '分层记忆与反思',
           subtitle: '自主学习，沉淀经验',
-          description: '三层记忆架构（战术层 LESSONS.md → 战略层 MEMORY.md → 方法论层 skills/）加 9 步反思闭环（Plan→Reflect→Abstract→Skill）。Agent 自主压缩、去重经验教训，≥2 次验证后自动调用 skill-creator 创建可复用技能。',
+          description: '多粒度分层记忆架构（战术层 LESSONS.md → 战略层 MEMORY.md → 方法论层 skills/）加多步反思闭环（Plan→Reflect→Abstract→Skill）。Agent 自主压缩、去重经验教训，经过多次验证后自动调用 skill-creator 创建可复用技能。',
           highlight: '经验自动转化为可复用技能',
         },
       ],
@@ -842,7 +842,7 @@ export const translations: Record<Lang, TranslationShape> = {
             { title: 'Minecraft 全链路：云端 Agent 连接本地游戏服务器' },
             { title: 'Agent Loop 整合：游戏内完成复杂任务' },
             { title: '反思自进化：在全新场景中总结经验' },
-            { title: 'Hermes 记忆：三层分层 + 9 步反思闭环' },
+            { title: 'Hermes 记忆：多粒度分层 + 多步反思闭环' },
           ],
         },
         {
