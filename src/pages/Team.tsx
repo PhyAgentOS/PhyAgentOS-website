@@ -6,41 +6,20 @@ import { useLang } from '../i18n/LanguageContext';
 const coreTeam = [
   {
     name: 'HCP Lab',
-    role: 'Core Development Team',
-    institution: 'Sun Yat-sen University',
-    description: 'Leading research in human-computer perception and embodied AI. Responsible for the overall architecture and cognitive layer design.',
     avatar: 'HCP',
-    links: {
-      github: 'https://github.com/SYSU-HCP-EAI',
-      website: 'https://www.sysu.edu.cn/',
-    },
   },
   {
     name: 'Peng Cheng Lab',
-    role: 'Research Partner',
-    institution: 'Peng Cheng Laboratory',
-    description: 'National laboratory for AI and robotics research. Contributing to simulation environments and hardware integration.',
     avatar: 'PCL',
-    links: {
-      github: 'https://github.com/PCL-AI',
-      website: 'https://www.pcl.ac.cn/',
-    },
   },
   {
     name: 'X-Era Lab',
-    role: 'Research Collaborator',
-    institution: 'X-Era Lab',
-    description: 'Cross-era embodied intelligence research lab. Contributing to long-horizon reasoning, self-evolution, and real-world deployment.',
     avatar: 'X-Era',
-    links: {
-      github: 'https://github.com/PhyAgentOS/PhyAgentOS',
-      website: 'https://phyagentos.org/',
-    },
   },
 ];
 
 export default function Team() {
-  const { lang } = useLang();
+  const { lang, t } = useLang();
   const docsBase = lang === 'zh' ? '/docs' : '/docs/en';
   return (
     <div className="min-h-screen pt-24 lg:pt-32">
@@ -48,17 +27,17 @@ export default function Team() {
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
             <SectionHeader
-              label="Team"
-              title="The people behind"
-              highlight="PhyAgentOS"
-              description="A collaboration between Sun Yat-sen University, Peng Cheng Laboratory, and X-Era Lab, built with the open-source community."
+              label={t.teamPage.label}
+              title={t.teamPage.title}
+              highlight={t.teamPage.highlight}
+              description={t.teamPage.description}
               align="left"
             />
           </ScrollReveal>
 
           {/* Core Team */}
           <div className="mt-20">
-            <h2 className="text-2xl font-display font-bold text-brand-text mb-8">Core Team</h2>
+            <h2 className="text-2xl font-display font-bold text-brand-text mb-8">{t.teamPage.coreTeam}</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {coreTeam.map((member, index) => (
                 <ScrollReveal key={index} delay={index * 0.15}>
@@ -77,38 +56,18 @@ export default function Team() {
                             {member.name}
                           </h3>
                           <p className="text-sm text-brand-accent font-medium">
-                            {member.role}
+                            {t.teamPage.members[index].role}
                           </p>
                           <p className="text-xs text-brand-text-tertiary mt-1">
-                            {member.institution}
+                            {t.teamPage.members[index].institution}
                           </p>
                         </div>
                       </div>
 
                       <p className="text-sm text-brand-text-secondary leading-relaxed mb-6">
-                        {member.description}
+                        {t.teamPage.members[index].description}
                       </p>
 
-                      <div className="flex gap-3">
-                        <a
-                          href={member.links.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-text/[0.03] border border-brand-border text-sm text-brand-text-secondary hover:text-brand-text hover:border-brand-accent/30 hover:shadow-soft transition-all"
-                        >
-                          <Github className="w-4 h-4" />
-                          GitHub
-                        </a>
-                        <a
-                          href={member.links.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-text/[0.03] border border-brand-border text-sm text-brand-text-secondary hover:text-brand-text hover:border-brand-accent/30 hover:shadow-soft transition-all"
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                          Website
-                        </a>
-                      </div>
                     </div>
                   </div>
                 </ScrollReveal>
@@ -118,7 +77,7 @@ export default function Team() {
 
           {/* Contributors */}
           <div className="mt-20">
-            <h2 className="text-2xl font-display font-bold text-brand-text mb-8">Contributors</h2>
+            <h2 className="text-2xl font-display font-bold text-brand-text mb-8">{t.teamPage.contributors}</h2>
             <ScrollReveal>
               <div className="p-8 rounded-3xl bg-brand-bg-secondary border border-brand-border shadow-card hover:shadow-card-hover transition-shadow duration-500">
                 <div className="flex items-center gap-4 mb-6">
@@ -126,17 +85,15 @@ export default function Team() {
                     <Github className="w-5 h-5 text-brand-accent" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-brand-text">Open Source Community</h3>
+                    <h3 className="text-lg font-semibold text-brand-text">{t.teamPage.openSourceCommunity}</h3>
                     <p className="text-sm text-brand-text-tertiary">
-                      Contributors from around the world
+                      {t.teamPage.contributorsFrom}
                     </p>
                   </div>
                 </div>
 
                 <p className="text-sm text-brand-text-secondary leading-relaxed mb-6">
-                  PhyAgentOS is an open-source project that welcomes contributions from the community.
-                  Whether you are fixing bugs, adding new features, improving documentation, or sharing
-                  your use cases, every contribution matters.
+                  {t.teamPage.contributionDescription}
                 </p>
 
                 <div className="flex flex-wrap gap-3">
@@ -147,7 +104,7 @@ export default function Team() {
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-brand-accent text-brand-text-on-accent text-sm font-medium hover:bg-brand-accent-light transition-all shadow-glow-soft hover:shadow-glow"
                   >
                     <Github className="w-4 h-4" />
-                    View Contributors
+                    {t.teamPage.viewContributors}
                   </a>
                   <a
                     href={`${docsBase}/developer-guide/`}
@@ -156,7 +113,7 @@ export default function Team() {
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-brand-text/[0.03] border border-brand-border text-brand-text text-sm hover:border-brand-accent/30 hover:shadow-soft transition-all"
                   >
                     <ExternalLink className="w-4 h-4" />
-                    Contribution Guide
+                    {t.teamPage.contributionGuide}
                   </a>
                 </div>
               </div>
@@ -165,7 +122,7 @@ export default function Team() {
 
           {/* Contact */}
           <div className="mt-20 mb-20">
-            <h2 className="text-2xl font-display font-bold text-brand-text mb-8">Contact</h2>
+            <h2 className="text-2xl font-display font-bold text-brand-text mb-8">{t.teamPage.contact}</h2>
             <ScrollReveal>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <a
@@ -178,21 +135,21 @@ export default function Team() {
                     <Github className="w-5 h-5 text-brand-accent" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-brand-text">GitHub Issues</p>
-                    <p className="text-xs text-brand-text-tertiary">Report bugs & request features</p>
+                    <p className="text-sm font-semibold text-brand-text">{t.teamPage.githubIssues}</p>
+                    <p className="text-xs text-brand-text-tertiary">{t.teamPage.reportBugs}</p>
                   </div>
                 </a>
 
                 <a
-                  href="mailto:contact@phyagentos.org"
+                  href="mailto:phyagentos@gamil.com"
                   className="flex items-center gap-4 p-6 rounded-3xl bg-brand-bg-secondary border border-brand-border hover:border-brand-accent/20 transition-all group shadow-card hover:shadow-card-hover"
                 >
                   <div className="w-10 h-10 rounded-xl bg-brand-accent/10 flex items-center justify-center group-hover:bg-brand-accent/20 transition-colors shadow-glow-soft">
                     <Mail className="w-5 h-5 text-brand-accent" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-brand-text">Email</p>
-                    <p className="text-xs text-brand-text-tertiary">contact@phyagentos.org</p>
+                    <p className="text-sm font-semibold text-brand-text">{t.teamPage.email}</p>
+                    <p className="text-xs text-brand-text-tertiary">phyagentos@gamil.com</p>
                   </div>
                 </a>
 
@@ -201,8 +158,8 @@ export default function Team() {
                     <MapPin className="w-5 h-5 text-brand-accent" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-brand-text">Location</p>
-                    <p className="text-xs text-brand-text-tertiary">Guangzhou, China</p>
+                    <p className="text-sm font-semibold text-brand-text">{t.teamPage.location}</p>
+                    <p className="text-xs text-brand-text-tertiary">{t.teamPage.locationValue}</p>
                   </div>
                 </div>
               </div>

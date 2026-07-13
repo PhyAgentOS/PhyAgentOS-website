@@ -30,6 +30,7 @@ const teamHighlights = [
               title={t.teamPreview.title}
               highlight={t.teamPreview.highlight}
               description={t.teamPreview.description}
+              className="whitespace-nowrap"
             />
           </ScrollReveal>
 

@@ -8,6 +8,7 @@ export interface TranslationShape {
     hardware: string;
     roadmap: string;
     team: string;
+    activities: string;
     themes: string;
     github: string;
     getStarted: string;
@@ -24,6 +25,8 @@ export interface TranslationShape {
     contribute: string;
     starOnGithub: string;
     contact: string;
+    license: string;
+    by: string;
     team: string;
     hackathon: string;
     madeWith: string;
@@ -40,6 +43,7 @@ export interface TranslationShape {
     description: string;
     getStarted: string;
     watchDemo: string;
+    activeEvent: string;
     statTargets: string;
     statOpenSource: string;
     statRelease: string;
@@ -165,6 +169,26 @@ export interface TranslationShape {
     institutions: { role: string; description: string }[];
     highlights: { label: string; value: string }[];
   };
+  teamPage: {
+    label: string;
+    title: string;
+    highlight: string;
+    description: string;
+    coreTeam: string;
+    contributors: string;
+    openSourceCommunity: string;
+    contributorsFrom: string;
+    contributionDescription: string;
+    viewContributors: string;
+    contributionGuide: string;
+    contact: string;
+    githubIssues: string;
+    reportBugs: string;
+    email: string;
+    location: string;
+    locationValue: string;
+    members: { role: string; institution: string; description: string }[];
+  };
   testimonials: {
     label: string;
     title: string;
@@ -198,6 +222,7 @@ export const translations: Record<Lang, TranslationShape> = {
       hardware: 'Hardware',
       roadmap: 'Roadmap',
       team: 'Team',
+      activities: 'Activities',
       themes: 'Themes',
       github: 'GitHub',
       getStarted: 'Get Started',
@@ -214,6 +239,8 @@ export const translations: Record<Lang, TranslationShape> = {
       contribute: 'Contribute',
       starOnGithub: 'Star on GitHub',
       contact: 'Contact',
+      license: 'MIT License',
+      by: 'by',
       team: 'Team',
       hackathon: 'Hackathon',
       madeWith: 'Made with',
@@ -230,6 +257,7 @@ export const translations: Record<Lang, TranslationShape> = {
       description: 'Heterogeneous robots plug in freely and work out of the box, making complex tasks one click away; embodied-model pipelines are automatically benchmarked and continuously evolved; long-term memory and self-evolution carry skills from games to simulation to real robots for seamless virtual-to-real migration.',
       getStarted: 'Get Started',
       watchDemo: 'Watch Demo',
+      activeEvent: 'Ongoing Activities',
       statTargets: 'Supported Targets',
       statOpenSource: 'Open Source',
       statRelease: 'Latest Release',
@@ -531,15 +559,39 @@ export const translations: Record<Lang, TranslationShape> = {
       description: 'PhyAgentOS is jointly developed by the HCP Laboratory at Sun Yat-sen University, Peng Cheng Laboratory, and X-Era Lab.',
       viewFullTeam: 'View full team',
       institutions: [
-        { role: 'HCP Lab', description: 'Human-Computer Perception Laboratory' },
-        { role: 'Research Partner', description: 'National laboratory for AI research' },
-        { role: 'X-Era Lab', description: 'Cross-era embodied intelligence research' },
+        { role: 'HCP Lab', description: 'Human Cyber Physical Intelligence Integration Lab' },
+        { role: 'Research Partner', description: 'Peng Cheng National Laboratory' },
+        { role: 'X-Era Lab', description: 'X-Era' },
       ],
       highlights: [
         { label: 'Research Lab', value: 'HCP @ SYSU' },
         { label: 'Partner', value: 'Peng Cheng Lab' },
         { label: 'Collaborator', value: 'X-Era Lab' },
         { label: 'License', value: 'MIT Open Source' },
+      ],
+    },
+    teamPage: {
+      label: 'Team',
+      title: 'The people behind',
+      highlight: 'PhyAgentOS',
+      description: 'A collaboration between Sun Yat-sen University, Peng Cheng Laboratory, and X-Era Lab, built with the open-source community.',
+      coreTeam: 'Core Team',
+      contributors: 'Contributors',
+      openSourceCommunity: 'Open Source Community',
+      contributorsFrom: 'Contributors from around the world',
+      contributionDescription: 'PhyAgentOS is an open-source project that welcomes contributions from the community. Whether you are fixing bugs, adding new features, improving documentation, or sharing your use cases, every contribution matters.',
+      viewContributors: 'View Contributors',
+      contributionGuide: 'Contribution Guide',
+      contact: 'Contact',
+      githubIssues: 'GitHub Issues',
+      reportBugs: 'Report bugs & request features',
+      email: 'Email',
+      location: 'Location',
+      locationValue: 'Guangzhou, China',
+      members: [
+        { role: 'Core Development Team', institution: 'Sun Yat-sen University', description: 'Leading research in human-computer perception and embodied AI. Responsible for the overall architecture and cognitive layer design.' },
+        { role: 'Research Partner', institution: 'Peng Cheng Laboratory', description: 'National laboratory for AI and robotics research. Contributing to simulation environments and hardware integration.' },
+        { role: 'Research Collaborator', institution: 'X-Era Lab', description: 'Cross-era embodied intelligence research lab. Contributing to long-horizon reasoning, self-evolution, and real-world deployment.' },
       ],
     },
     testimonials: {
@@ -582,6 +634,7 @@ export const translations: Record<Lang, TranslationShape> = {
       hardware: '硬件设备',
       roadmap: '路线图',
       team: '团队',
+      activities: '活动',
       themes: '主题',
       github: 'GitHub',
       getStarted: '快速开始',
@@ -598,6 +651,8 @@ export const translations: Record<Lang, TranslationShape> = {
       contribute: '参与贡献',
       starOnGithub: '在 GitHub 上 Star',
       contact: '联系我们',
+      license: 'MIT 许可证',
+      by: '由',
       team: '团队',
       hackathon: '黑客松',
       madeWith: '由',
@@ -614,6 +669,7 @@ export const translations: Record<Lang, TranslationShape> = {
       description: '异构机器人自由接入，即插即用，复杂任务一触即达；具身模型流水线自动评测、持续进化；长期记忆与自进化能力，Game → 仿真 → 真机，无缝虚实迁移。',
       getStarted: '快速开始',
       watchDemo: '观看演示',
+      activeEvent: '正在进行的活动',
       statTargets: '支持的目标',
       statOpenSource: '开源协议',
       statRelease: '最新版本',
@@ -916,15 +972,39 @@ export const translations: Record<Lang, TranslationShape> = {
       description: 'PhyAgentOS 由中山大学 HCP 实验室、鹏城实验室与 X-Era Lab 联合开发。',
       viewFullTeam: '查看完整团队',
       institutions: [
-        { role: 'HCP 实验室', description: '人机感知实验室' },
-        { role: '研究合作伙伴', description: '国家级人工智能研究实验室' },
-        { role: 'X-Era Lab', description: '跨时代具身智能研究' },
+        { role: 'HCP 实验室', description: '人机物智能融合实验室' },
+        { role: '研究合作伙伴', description: '鹏城国家实验室' },
+        { role: 'X-Era Lab', description: '拓元智慧' },
       ],
       highlights: [
         { label: '研究实验室', value: 'HCP @ 中山大学' },
         { label: '合作伙伴', value: '鹏城实验室' },
         { label: '合作单位', value: 'X-Era Lab' },
         { label: '开源协议', value: 'MIT 开源' },
+      ],
+    },
+    teamPage: {
+      label: '团队',
+      title: 'PhyAgentOS 背后的',
+      highlight: '建设者',
+      description: 'PhyAgentOS 由中山大学人机物智能融合实验室（HCP-Lab）、鹏城国家实验室和 X-Era Lab 联合开发，并与开源社区共同建设。',
+      coreTeam: '核心团队',
+      contributors: '贡献者',
+      openSourceCommunity: '开源社区',
+      contributorsFrom: '来自世界各地的贡献者',
+      contributionDescription: 'PhyAgentOS 是一个欢迎社区参与的开源项目。无论是修复问题、增加功能、改进文档，还是分享使用案例，每一份贡献都很重要。',
+      viewContributors: '查看贡献者',
+      contributionGuide: '贡献指南',
+      contact: '联系方式',
+      githubIssues: 'GitHub Issues',
+      reportBugs: '报告问题、提出功能需求',
+      email: '邮箱',
+      location: '所在地',
+      locationValue: '中国广州',
+      members: [
+        { role: '核心开发团队', institution: '中山大学人机物智能融合实验室（HCP-Lab）', description: '专注于人机感知与具身智能研究，负责整体架构与认知层设计。' },
+        { role: '研究合作伙伴', institution: '鹏城国家实验室', description: '国家级人工智能与机器人研究实验室，参与仿真环境与硬件集成。' },
+        { role: '研究合作伙伴', institution: 'X-Era Lab', description: '跨时代具身智能研究实验室，参与长程推理、自进化与真实世界部署。' },
       ],
     },
     testimonials: {
