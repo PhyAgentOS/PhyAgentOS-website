@@ -64,10 +64,6 @@ export default function Team() {
                         </div>
                       </div>
 
-                      <p className="text-sm text-brand-text-secondary leading-relaxed mb-6">
-                        {t.teamPage.members[index].description}
-                      </p>
-
                     </div>
                   </div>
                 </ScrollReveal>

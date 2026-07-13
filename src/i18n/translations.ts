@@ -187,7 +187,7 @@ export interface TranslationShape {
     email: string;
     location: string;
     locationValue: string;
-    members: { role: string; institution: string; description: string }[];
+    members: { role: string; institution: string }[];
   };
   testimonials: {
     label: string;
@@ -589,9 +589,9 @@ export const translations: Record<Lang, TranslationShape> = {
       location: 'Location',
       locationValue: 'Guangzhou, China',
       members: [
-        { role: 'Core Development Team', institution: 'Sun Yat-sen University', description: 'Leading research in human-computer perception and embodied AI. Responsible for the overall architecture and cognitive layer design.' },
-        { role: 'Research Partner', institution: 'Peng Cheng Laboratory', description: 'National laboratory for AI and robotics research. Contributing to simulation environments and hardware integration.' },
-        { role: 'Research Collaborator', institution: 'X-Era Lab', description: 'Cross-era embodied intelligence research lab. Contributing to long-horizon reasoning, self-evolution, and real-world deployment.' },
+        { role: 'Core Development Team', institution: 'Sun Yat-sen University' },
+        { role: 'Research Partner', institution: 'Peng Cheng Laboratory' },
+        { role: 'Research Collaborator', institution: 'X-Era Lab' },
       ],
     },
     testimonials: {
@@ -1002,9 +1002,9 @@ export const translations: Record<Lang, TranslationShape> = {
       location: '所在地',
       locationValue: '中国广州',
       members: [
-        { role: '核心开发团队', institution: '中山大学人机物智能融合实验室（HCP-Lab）', description: '专注于人机感知与具身智能研究，负责整体架构与认知层设计。' },
-        { role: '研究合作伙伴', institution: '鹏城国家实验室', description: '国家级人工智能与机器人研究实验室，参与仿真环境与硬件集成。' },
-        { role: '研究合作伙伴', institution: 'X-Era Lab', description: '跨时代具身智能研究实验室，参与长程推理、自进化与真实世界部署。' },
+        { role: '核心开发团队', institution: '中山大学人机物智能融合实验室（HCP-Lab）' },
+        { role: '研究合作伙伴', institution: '鹏城国家实验室' },
+        { role: '研究合作伙伴', institution: 'X-Era Lab' },
       ],
     },
     testimonials: {
