@@ -111,8 +111,8 @@ export default function LiveDemo() {
 
   const demos = [
     { id: 'overview', icon: Sparkles, src: '/media/demos/overview.mp4', poster: '/media/demos/overview.jpg', duration: '01:09' },
-    { id: 'real-robot', icon: Bot, src: '/media/demos/real-robot.mp4', poster: '/media/demos/real-robot.jpg', duration: '03:14' },
-    { id: 'deployment', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '03:27' },
+    { id: 'real-robot', icon: Bot, src: '/media/demos/real-robot.mp4', poster: '/media/demos/real-robot.jpg', duration: '03:05' },
+    { id: 'deployment', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '02:29' },
     { id: 'dont-starve', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.jpg', duration: '03:03' },
     { id: 'stardew', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.jpg', duration: '02:09' },
     { id: 'libero-benchmark', icon: BarChart3, src: '/media/demos/libero-benchmark.mp4', poster: '/media/demos/libero-benchmark.jpg', duration: '02:29' },
