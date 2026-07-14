@@ -166,6 +166,7 @@ export interface TranslationShape {
     highlight: string;
     description: string;
     viewFullTeam: string;
+    visitInstitution: string;
     institutions: { role: string; description: string }[];
     highlights: { label: string; value: string }[];
   };
@@ -558,6 +559,7 @@ export const translations: Record<Lang, TranslationShape> = {
       highlight: 'researchers',
       description: 'PhyAgentOS is jointly developed by the HCP Laboratory at Sun Yat-sen University, Peng Cheng Laboratory, and X-Era Lab.',
       viewFullTeam: 'View full team',
+      visitInstitution: 'Visit Website',
       institutions: [
         { role: 'HCP Lab', description: 'Human Cyber Physical Intelligence Integration Lab' },
         { role: 'Research Partner', description: 'Peng Cheng National Laboratory' },
@@ -971,6 +973,7 @@ export const translations: Record<Lang, TranslationShape> = {
       highlight: '研究者打造',
       description: 'PhyAgentOS 由中山大学 HCP 实验室、鹏城实验室与 X-Era Lab 联合开发。',
       viewFullTeam: '查看完整团队',
+      visitInstitution: '访问官网',
       institutions: [
         { role: 'HCP 实验室', description: '人机物智能融合实验室' },
         { role: '研究合作伙伴', description: '鹏城国家实验室' },

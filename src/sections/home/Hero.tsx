@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { ArrowRight, CalendarDays, Play } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { useT } from '../../i18n/LanguageContext';
 import ParticleField from '../../components/three/ParticleField';
@@ -127,14 +126,16 @@ export default function Hero() {
               </span>
               {t.hero.watchDemo}
             </a>
-            <Link
-              to="/hackathon"
+            <a
+              href="http://qinhan-lyu.top/acwm-challenge/index_zh.html"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group px-8 py-4 glass text-brand-text font-semibold rounded-2xl transition-all duration-300 flex items-center gap-2 hover:bg-brand-bg-secondary hover:shadow-soft"
             >
               <CalendarDays className="w-5 h-5 text-brand-accent" />
               {t.hero.activeEvent}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            </a>
           </div>
 
           {/* Stats preview */}
