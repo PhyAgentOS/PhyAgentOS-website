@@ -24,6 +24,7 @@ import {
   Cpu,
 } from 'lucide-react';
 import { useLang } from '../i18n/LanguageContext';
+import ChallengeRecap from '../sections/home/ChallengeRecap';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -417,6 +418,8 @@ export default function Hackathon() {
       </section>
 
       <div ref={contentRef}>
+        <ChallengeRecap />
+
         {/* ───────── Why PhyAgentOS ───────── */}
         <section id="why" className="gsap-section relative py-24 lg:py-32 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-accent/[0.02] to-transparent" />

@@ -6,20 +6,20 @@ export default function InterviewFeature() {
   const { lang } = useLang();
   const copy = lang === 'zh'
     ? {
-        label: '访谈视频',
+        label: '概念短片',
         title: '从会话到行动',
         highlight: '理解 PhyAgentOS',
         description:
-          '一段面向首页的大屏访谈，解释为什么物理智能体需要统一、透明、可审计的运行底座，以及 PhyAgentOS 如何把思考、协议和真实物理执行连接起来。',
-        meta: '理念访谈 · 75 秒 · 中英字幕',
+          '通过概念短片展示 Session 文件协议、可审计验证，以及 PhyAgentOS 如何把思考、协议与真实物理执行连接起来。',
+        meta: '概念短片',
       }
     : {
-        label: 'Interview',
+        label: 'Concept Film',
         title: 'From sessions to action',
         highlight: 'inside PhyAgentOS',
         description:
-          'A large-format interview introducing why physical agents need a unified, transparent, and auditable runtime foundation, and how PhyAgentOS connects reasoning, protocol state, and real-world execution.',
-        meta: 'Interview film · 75 sec · bilingual subtitles',
+          'A concept film showing Session files, auditable verification, and how PhyAgentOS connects reasoning, protocol state, and real-world execution.',
+        meta: 'Concept film',
       };
 
   return (
@@ -49,8 +49,8 @@ export default function InterviewFeature() {
             <div className="relative overflow-hidden rounded-3xl border border-brand-border bg-black shadow-2xl">
               <video
                 className="aspect-video w-full object-cover"
-                src="/media/demos/interview.mp4"
-                poster="/media/demos/interview.jpg"
+                src="/media/demos/overview.mp4"
+                poster="/media/demos/overview.jpg"
                 controls
                 autoPlay
                 muted

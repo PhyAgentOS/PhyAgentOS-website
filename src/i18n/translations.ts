@@ -123,13 +123,10 @@ export interface TranslationShape {
     title: string;
     highlight: string;
     description: string;
-    stats: { label: string; description: string }[];
     chart1Title: string;
     chart1Subtitle: string;
-    chart2Title: string;
-    chart2Subtitle: string;
-    note: string;
-    documentation: string;
+    first: string;
+    final: string;
   };
   roadmap: {
     label: string;
@@ -459,18 +456,10 @@ export const translations: Record<Lang, TranslationShape> = {
       title: 'Performance',
       highlight: "that's auditable",
       description: 'Target-session results on the LIBERO benchmark, with every run traceable through SESSIONS.md and LESSONS.md.',
-      stats: [
-        { label: 'LIBERO Success', description: 'Policy skill benchmark' },
-        { label: 'Target Adapters', description: 'sim · real-world' },
-        { label: 'Reproducible', description: 'File-protocol auditable' },
-        { label: 'Open Source', description: 'MIT Licensed' },
-      ],
-      chart1Title: 'Task Success Rate',
-      chart1Subtitle: 'Real-target session completion on LIBERO benchmark suite',
-      chart2Title: 'Integration Effort',
-      chart2Subtitle: 'Lines to add a new robot target (relative scale, one Target Adapter)',
-      note: '* Benchmarks evaluated on the LIBERO target suite. Full methodology and SESSIONS.md traces are available in our',
-      documentation: 'documentation',
+      chart1Title: 'Agent-assisted LIBERO validation',
+      chart1Subtitle: 'Overall task success rate before and after verifier-triggered retry.',
+      first: 'First attempt',
+      final: 'After verifier retry',
     },
     roadmap: {
       label: 'Roadmap',
@@ -873,18 +862,10 @@ export const translations: Record<Lang, TranslationShape> = {
       title: '可审计的',
       highlight: '性能表现',
       description: 'LIBERO 基准上的目标会话结果，每一次运行都可通过 SESSIONS.md 与 LESSONS.md 追溯。',
-      stats: [
-        { label: 'LIBERO 成功率', description: '策略技能基准' },
-        { label: '目标适配器', description: '仿真 · 真实世界' },
-        { label: '可复现', description: '文件协议可审计' },
-        { label: '完全开源', description: 'MIT 许可证' },
-      ],
-      chart1Title: '任务成功率',
-      chart1Subtitle: 'LIBERO 基准套件上的真机目标会话完成情况',
-      chart2Title: '集成成本',
-      chart2Subtitle: '新增一个机器人目标所需代码行数（相对量级，单个 Target Adapter）',
-      note: '* 基准在 LIBERO 目标套件上评测。完整方法论与 SESSIONS.md 追踪记录见我们的',
-      documentation: '文档',
+      chart1Title: '智能体辅助 LIBERO 验证',
+      chart1Subtitle: '展示验证器触发重试前后的总体任务成功率。',
+      first: '首次执行',
+      final: '验证器重试后',
     },
     roadmap: {
       label: '路线图',

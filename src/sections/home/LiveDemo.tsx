@@ -21,12 +21,12 @@ export default function LiveDemo() {
             description: '从“AI 能思考，如何行动”切入，展示 Session 文件协议、可审计闭环，以及跨游戏、仿真、真机的一体化运行时。',
           },
           {
-            title: 'LIBERO 评测 Demo',
+            title: 'LIBERO 评测',
             eyebrow: 'Benchmark · LIBERO',
             description: '展示 OpenVLA Agent 在 LIBERO 基准中的 Session 化评测流程：启动 TargetWS 与 OpenPI Policy，生成任务会话、调度执行并记录结果。',
           },
           {
-            title: 'BEHAVIOR-1K 评测 Demo',
+            title: 'BEHAVIOR-1K 评测',
             eyebrow: 'Benchmark · BEHAVIOR-1K',
             description: '展示 BEHAVIOR-1K 仿真评测链路：TargetWS9004 渲染场景，Policy8000 接收观测并返回动作，实时查看推理步骤和任务完成状态。',
           },
@@ -41,7 +41,7 @@ export default function LiveDemo() {
             description: '从设备连接、虚拟环境、配置文件、API Key 到给 Go2 发出起身行走指令，展示首次部署与运行路径。',
           },
           {
-            title: '饥荒游戏目标',
+            title: '饥荒游戏智能体',
             eyebrow: 'Game Target · Don’t Starve',
             description: '终端日志与游戏画面同步，Agent 基于环境状态进行长期生存规划、探索、采集与风险应对。',
           },
@@ -71,12 +71,12 @@ export default function LiveDemo() {
             description: 'Introduces the question “AI can think, but can it act?” through Session files, auditable verification, and one runtime across games, simulation, and robots.',
           },
           {
-            title: 'LIBERO benchmark demo',
+            title: 'LIBERO benchmark',
             eyebrow: 'Benchmark · LIBERO',
             description: 'Shows the Session-based LIBERO evaluation flow for OpenVLA Agent: TargetWS and OpenPI policy startup, task session generation, scheduling, and result logging.',
           },
           {
-            title: 'BEHAVIOR-1K benchmark demo',
+            title: 'BEHAVIOR-1K benchmark',
             eyebrow: 'Benchmark · BEHAVIOR-1K',
             description: 'Shows the BEHAVIOR-1K simulation evaluation path: TargetWS9004 renders scenes, Policy8000 returns actions from observations, and reasoning plus completion status are tracked live.',
           },
@@ -91,7 +91,7 @@ export default function LiveDemo() {
             description: 'Covers device setup, virtual environment, configuration files, API key setup, and the first Go2 standing/walking instruction.',
           },
           {
-            title: 'Don’t Starve game target',
+            title: 'Don’t Starve game agent',
             eyebrow: 'Game Target · Don’t Starve',
             description: 'Terminal traces and gameplay run together as the agent performs long-horizon survival planning, exploration, collection, and risk handling.',
           },
@@ -124,9 +124,9 @@ export default function LiveDemo() {
     { id: 'overview', icon: Sparkles, src: '/media/demos/overview.mp4', poster: '/media/demos/overview.jpg', duration: '01:09' },
     { id: 'real-robot', icon: Bot, src: '/media/demos/real-robot.mp4', poster: '/media/demos/real-robot.jpg', duration: '03:05' },
     { id: 'deployment', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '02:29' },
-    { id: 'dont-starve', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.jpg', duration: '03:03' },
-    { id: 'stardew', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.jpg', duration: '02:09' },
     { id: 'minecraft-game', icon: Gamepad2, src: '/media/demos/cross-target-runtime.mp4', poster: '/media/demos/cross-target-runtime.jpg', duration: '01:10' },
+    { id: 'dont-starve', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.jpg', duration: '03:03' },
+    { id: 'stardew', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.jpg', duration: '02:26' },
     { id: 'libero-benchmark', icon: BarChart3, src: '/media/demos/libero-benchmark.mp4', poster: '/media/demos/libero-benchmark.jpg', duration: '02:29' },
     { id: 'b1k-benchmark', icon: FlaskConical, src: '/media/demos/b1k-benchmark.mp4', poster: '/media/demos/b1k-benchmark.jpg', duration: '01:11' },
   ].map((demo) => ({ ...demo, ...copyById[demo.id] }));
