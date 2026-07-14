@@ -50,6 +50,11 @@ export default function LiveDemo() {
             eyebrow: 'Game Target · Stardew Valley',
             description: 'Agent 通过结构化动作序列移动、选择工具并清理农场石块，展示二维游戏环境中的目标执行能力。',
           },
+          {
+            title: 'Minecraft 游戏智能体',
+            eyebrow: 'Game Target - Minecraft',
+            description: '展示 PhyAgentOS 在 Minecraft 中通过 Session 协议完成从自然语言指令到游戏内执行的完整链路。',
+          },
         ],
       }
     : {
@@ -95,6 +100,11 @@ export default function LiveDemo() {
             eyebrow: 'Game Target · Stardew Valley',
             description: 'The agent moves, selects tools, and clears farm stones through structured actions, demonstrating target execution in a 2D game environment.',
           },
+          {
+            title: 'Minecraft game agent',
+            eyebrow: 'Game Target - Minecraft',
+            description: 'Shows the complete PhyAgentOS Session path in Minecraft, from a natural-language instruction to verifiable in-game execution.',
+          },
         ],
       };
 
@@ -106,6 +116,7 @@ export default function LiveDemo() {
     'deployment',
     'dont-starve',
     'stardew',
+    'minecraft-game',
   ];
   const copyById = Object.fromEntries(copyIds.map((id, index) => [id, copy.videos[index]]));
 
@@ -115,6 +126,7 @@ export default function LiveDemo() {
     { id: 'deployment', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '02:29' },
     { id: 'dont-starve', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.jpg', duration: '03:03' },
     { id: 'stardew', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.jpg', duration: '02:09' },
+    { id: 'minecraft-game', icon: Gamepad2, src: '/media/demos/cross-target-runtime.mp4', poster: '/media/demos/cross-target-runtime.jpg', duration: '01:10' },
     { id: 'libero-benchmark', icon: BarChart3, src: '/media/demos/libero-benchmark.mp4', poster: '/media/demos/libero-benchmark.jpg', duration: '02:29' },
     { id: 'b1k-benchmark', icon: FlaskConical, src: '/media/demos/b1k-benchmark.mp4', poster: '/media/demos/b1k-benchmark.jpg', duration: '01:11' },
   ].map((demo) => ({ ...demo, ...copyById[demo.id] }));
