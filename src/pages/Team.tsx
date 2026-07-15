@@ -137,7 +137,7 @@ export default function Team() {
                 </a>
 
                 <a
-                  href="mailto:phyagentos@gamil.com"
+                  href="mailto:phyagentos@gmail.com"
                   className="flex items-center gap-4 p-6 rounded-3xl bg-brand-bg-secondary border border-brand-border hover:border-brand-accent/20 transition-all group shadow-card hover:shadow-card-hover"
                 >
                   <div className="w-10 h-10 rounded-xl bg-brand-accent/10 flex items-center justify-center group-hover:bg-brand-accent/20 transition-colors shadow-glow-soft">
@@ -145,7 +145,7 @@ export default function Team() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-brand-text">{t.teamPage.email}</p>
-                    <p className="text-xs text-brand-text-tertiary">phyagentos@gamil.com</p>
+                    <p className="text-xs text-brand-text-tertiary">phyagentos@gmail.com</p>
                   </div>
                 </a>
 

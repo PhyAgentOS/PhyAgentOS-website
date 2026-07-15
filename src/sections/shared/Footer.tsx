@@ -65,7 +65,7 @@ export default function Footer() {
                   {t.footer.starOnGithub}
                 </a>
                 <a
-                  href="mailto:phyagentos@gamil.com"
+                  href="mailto:phyagentos@gmail.com"
                   className="px-4 py-2.5 rounded-xl border border-brand-border text-brand-text-secondary hover:text-brand-text hover:border-brand-accent/30 hover:bg-brand-bg-tertiary transition-all duration-300 flex items-center gap-2 text-sm"
                 >
                   <Mail className="w-4 h-4" />

@@ -42,6 +42,7 @@ export interface TranslationShape {
     subtitle: string;
     description: string;
     getStarted: string;
+    technicalReport: string;
     watchDemo: string;
     activeEvent: string;
     statTargets: string;
@@ -233,7 +234,7 @@ export const translations: Record<Lang, TranslationShape> = {
       community: 'Community',
       documentation: 'Documentation',
       apiReference: 'User Manual',
-      issues: 'Issues',
+      issues: 'Ask a Question',
       contribute: 'Contribute',
       starOnGithub: 'Star on GitHub',
       contact: 'Contact',
@@ -254,6 +255,7 @@ export const translations: Record<Lang, TranslationShape> = {
       subtitle: 'PhyAgentOS - A unified, transparent, and auditable runtime foundation for physical agents',
       description: 'Heterogeneous robots plug in freely and work out of the box, making complex tasks one click away; embodied-model pipelines are automatically benchmarked and continuously evolved; long-term memory and self-evolution carry skills from games to simulation to real robots for seamless virtual-to-real migration.',
       getStarted: 'Get Started',
+      technicalReport: 'Technical Report',
       watchDemo: 'Watch Demo',
       activeEvent: 'Ongoing Activities',
       statTargets: 'Supported Targets',
@@ -638,7 +640,7 @@ export const translations: Record<Lang, TranslationShape> = {
       community: '社区',
       documentation: '技术文档',
       apiReference: '用户手册',
-      issues: '议题',
+      issues: '提问',
       contribute: '参与贡献',
       starOnGithub: '在 GitHub 上 Star',
       contact: '联系我们',
@@ -659,6 +661,7 @@ export const translations: Record<Lang, TranslationShape> = {
       subtitle: 'PhyAgentOS-统一、透明、可审计的的物理智能体运行底座',
       description: '异构机器人自由接入，即插即用，复杂任务一触即达；具身模型流水线自动评测、持续进化；长期记忆与自进化能力，Game → 仿真 → 真机，无缝虚实迁移。',
       getStarted: '快速开始',
+      technicalReport: '技术报告',
       watchDemo: '观看演示',
       activeEvent: '正在进行的活动',
       statTargets: '支持的目标',

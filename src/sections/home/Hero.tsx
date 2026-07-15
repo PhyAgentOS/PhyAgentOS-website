@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
-import { ArrowRight, CalendarDays, Play } from 'lucide-react';
+import { ArrowRight, CalendarDays, FileText, Play } from 'lucide-react';
 import gsap from 'gsap';
 import { useT } from '../../i18n/LanguageContext';
 import ParticleField from '../../components/three/ParticleField';
@@ -116,6 +116,14 @@ export default function Hero() {
               {t.hero.getStarted}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
+            <button
+              type="button"
+              aria-disabled="true"
+              className="flex cursor-default items-center gap-2 rounded-2xl border border-brand-border px-8 py-4 font-semibold text-brand-text-secondary transition-all duration-300"
+            >
+              <FileText className="h-5 w-5 text-brand-accent" />
+              {t.hero.technicalReport}
+            </button>
             <a
               href="#demo"
               onClick={handleWatchDemoClick}
