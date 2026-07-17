@@ -36,9 +36,9 @@ export default function LiveDemo() {
             description: '终端日志与游戏画面同步，Agent 基于环境状态进行长期生存规划、探索、采集与风险应对。',
           },
           {
-            title: '星露谷清理石头',
+            title: '星露谷游戏智能体',
             eyebrow: 'Game Target · Stardew Valley',
-            description: 'Agent 通过结构化动作序列移动、选择工具并清理农场石块，展示二维游戏环境中的目标执行能力。',
+            description: 'Agent 通过结构化动作序列移动、管理物品并出售防风草，展示二维游戏环境中的任务规划与目标执行能力。',
           },
           {
             title: 'Minecraft 游戏智能体',
@@ -86,9 +86,9 @@ export default function LiveDemo() {
             description: 'Terminal traces and gameplay run together as the agent performs long-horizon survival planning, exploration, collection, and risk handling.',
           },
           {
-            title: 'Stardew Valley stone clearing',
+            title: 'Stardew Valley game agent',
             eyebrow: 'Game Target · Stardew Valley',
-            description: 'The agent moves, selects tools, and clears farm stones through structured actions, demonstrating target execution in a 2D game environment.',
+            description: 'The agent navigates the farm, manages its inventory, and sells parsnips through structured actions, demonstrating task planning and target execution in a 2D game environment.',
           },
           {
             title: 'Minecraft game agent',

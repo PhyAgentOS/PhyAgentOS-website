@@ -133,14 +133,12 @@ export default function Hackathon() {
   const contentRef = useRef<HTMLDivElement>(null);
   const copy = lang === 'zh'
     ? {
-        badge: '开放报名中',
         eventTitle: '2026 BETA',
         hackathonTitle: '黑客松',
         heroSubtitle: '自进化物理智能体操作系统',
         heroDescription: '你专注于创意，我们负责让智能体',
         heroEmphasis: '“可记忆、可纠错、可理解”',
         heroDescriptionEnd: '。',
-        register: '立即报名',
         viewGithub: '查看 GitHub',
         whyLabel: '为什么选择 PhyAgentOS？',
         whyTitle: '解决具身智能最棘手的问题',
@@ -216,14 +214,12 @@ export default function Hackathon() {
         exploreRepo: '探索代码仓库',
       }
     : {
-        badge: 'Open for Registration',
         eventTitle: '2026 BETA',
         hackathonTitle: 'Hackathon',
         heroSubtitle: 'Self-Evolving Physical Agent Operating System',
         heroDescription: 'You focus on the creativity, we handle making the agent',
         heroEmphasis: '"rememberable, correctable, and comprehensible"',
         heroDescriptionEnd: '.',
-        register: 'Register Now',
         viewGithub: 'View on GitHub',
         whyLabel: 'Why PhyAgentOS?',
         whyTitle: 'Pain Points & Solutions',
@@ -357,15 +353,6 @@ export default function Hackathon() {
         </div>
 
         <div className="relative z-10 px-6 sm:px-8 lg:px-16 xl:px-24 max-w-6xl mx-auto text-center">
-          {/* Badge */}
-          <div className="hero-animate inline-flex items-center gap-2 px-4 py-2 bg-brand-accent/15 border border-brand-accent/30 rounded-full mb-8">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-accent" />
-            </span>
-            <span className="text-sm font-medium text-brand-accent-light">{copy.badge}</span>
-          </div>
-
           {/* Title */}
           <h1 className="hero-animate text-5xl sm:text-6xl lg:text-8xl font-display font-bold tracking-tight mb-6">
             <span className="text-gradient">{copy.eventTitle}</span>
@@ -384,15 +371,6 @@ export default function Hackathon() {
 
           {/* CTA Buttons */}
           <div className="hero-animate flex flex-wrap justify-center gap-4">
-            <a
-              href="https://www.notion.so/2026-BETA-Hackathon-34b41d54c5b8806ca0a8c05a812e49db"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-4 bg-brand-accent hover:bg-brand-accent-light text-brand-text-on-accent font-semibold rounded-2xl transition-all duration-300 flex items-center gap-2 group shadow-glow-soft hover:shadow-glow"
-            >
-              {copy.register}
-              <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </a>
             <a
               href="https://github.com/PhyAgentOS/PhyAgentOS"
               target="_blank"

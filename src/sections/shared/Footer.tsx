@@ -158,7 +158,7 @@ export default function Footer() {
                 <span className="flex items-center gap-1">
                   {t.footer.madeWith} <Heart className="w-3 h-3 text-brand-accent" /> {t.footer.by}{' '}
                   <a
-                    href="https://github.com/SYSU-HCP-EAI"
+                    href="https://www.sysu-hcp.net/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-brand-text-secondary hover:text-brand-accent transition-colors"
@@ -176,7 +176,7 @@ export default function Footer() {
                   </a>
                   {' & '}
                   <a
-                    href="https://phyagentos.org/"
+                    href="https://www.ex-ai.cn/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-brand-text-secondary hover:text-brand-accent transition-colors"
