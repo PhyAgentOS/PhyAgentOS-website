@@ -45,6 +45,16 @@ export default function LiveDemo() {
             eyebrow: 'Game Target - Minecraft',
             description: '展示 PhyAgentOS 在 Minecraft 中通过 Session 协议完成从自然语言指令到游戏内执行的完整链路。',
           },
+          {
+            title: 'CALVIN 评测',
+            eyebrow: 'Benchmark · CALVIN',
+            description: '展示 CALVIN ABC→D 长程任务评测的接入流程：启动 π0.5 FlowSDE 策略服务，通过自然语言创建评测 Session，并由验证器跟踪执行与恢复结果。',
+          },
+          {
+            title: 'RoboCasa365 评测',
+            eyebrow: 'Benchmark · RoboCasa365',
+            description: '展示 RoboCasa365 target50 的评测接入：启动 Verification 与 π0.5 策略服务，通过自然语言下发冰箱门关闭任务并记录可审计的执行结果。',
+          },
         ],
       }
     : {
@@ -85,6 +95,16 @@ export default function LiveDemo() {
             eyebrow: 'Game Target - Minecraft',
             description: 'Shows the complete PhyAgentOS Session path in Minecraft, from a natural-language instruction to verifiable in-game execution.',
           },
+          {
+            title: 'CALVIN benchmark',
+            eyebrow: 'Benchmark · CALVIN',
+            description: 'Shows the CALVIN ABC→D long-horizon evaluation setup: starting the π0.5 FlowSDE policy service, creating an evaluation Session in natural language, and tracking execution and recovery through the verifier.',
+          },
+          {
+            title: 'RoboCasa365 benchmark',
+            eyebrow: 'Benchmark · RoboCasa365',
+            description: 'Shows the RoboCasa365 target50 evaluation setup: starting the Verification and π0.5 policy services, issuing a refrigerator-closing task in natural language, and recording auditable execution results.',
+          },
         ],
       };
 
@@ -95,6 +115,8 @@ export default function LiveDemo() {
     'dont-starve',
     'stardew',
     'minecraft-game',
+    'calvin-benchmark',
+    'robocasa365-benchmark',
   ];
   const copyById = Object.fromEntries(copyIds.map((id, index) => [id, copy.videos[index]]));
 
@@ -105,6 +127,8 @@ export default function LiveDemo() {
     { id: 'dont-starve', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.jpg', duration: '03:03' },
     { id: 'stardew', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.jpg', duration: '02:26' },
     { id: 'libero-benchmark', icon: BarChart3, src: '/media/demos/libero-benchmark.mp4', poster: '/media/demos/libero-benchmark.jpg', duration: '02:29' },
+    { id: 'calvin-benchmark', icon: BarChart3, src: '/media/demos/calvin-benchmark.mp4', poster: '/media/demos/calvin-benchmark.jpg', duration: '02:06' },
+    { id: 'robocasa365-benchmark', icon: BarChart3, src: '/media/demos/robocasa365-benchmark.mp4', poster: '/media/demos/robocasa365-benchmark.jpg', duration: '01:47' },
   ].map((demo) => ({ ...demo, ...copyById[demo.id] }));
 
   const [activeId, setActiveId] = useState(demos[0].id);
@@ -149,7 +173,7 @@ export default function LiveDemo() {
                 </div>
               </div>
 
-              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {demos.map((demo) => {
                   const Icon = demo.icon;
                   const active = demo.id === activeDemo.id;
