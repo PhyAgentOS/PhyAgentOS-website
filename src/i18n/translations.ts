@@ -84,7 +84,6 @@ export interface TranslationShape {
     title: string;
     highlight: string;
     description: string;
-    learnMore: string;
     items: { title: string; subtitle: string; description: string; features: string[] }[];
     note: string;
   };
@@ -126,8 +125,20 @@ export interface TranslationShape {
     description: string;
     chart1Title: string;
     chart1Subtitle: string;
+    chartCalvinTitle: string;
+    chartCalvinSubtitle: string;
+    chartRobocasaTitle: string;
+    chartRobocasaSubtitle: string;
     first: string;
     final: string;
+    metric: string;
+    averageLength: string;
+    atomic: string;
+    composite: string;
+    overall: string;
+    rescued: string;
+    previousBenchmark: string;
+    nextBenchmark: string;
   };
   roadmap: {
     label: string;
@@ -367,7 +378,6 @@ export const translations: Record<Lang, TranslationShape> = {
       title: 'One runtime,',
       highlight: 'four target kinds',
       description: 'Each target kind validates a different layer of the embodied stack. The same Session protocol spans all four, from game testbeds to real robots.',
-      learnMore: 'Learn more',
       items: [
         {
           title: 'Debug',
@@ -384,8 +394,8 @@ export const translations: Record<Lang, TranslationShape> = {
         {
           title: 'Simulation',
           subtitle: 'Remote · benchmark',
-          description: 'Physics-accurate simulation at scale with LIBERO and BEHAVIOR-1K. Batch-mine execution experience and benchmark policies with reproducible target sessions.',
-          features: ['LIBERO benchmark suite', 'BEHAVIOR-1K tasks', 'Batch experience mining', 'Reproducible evaluation'],
+          description: 'Physics-accurate simulation at scale with LIBERO, CALVIN, and RoboCasa365. Evaluate transfer, long-horizon chains, and household manipulation through reproducible target sessions.',
+          features: ['LIBERO benchmark suite', 'CALVIN ABC→D', 'RoboCasa365 target50', 'Reproducible evaluation'],
         },
         {
           title: 'Real Robot',
@@ -417,7 +427,8 @@ export const translations: Record<Lang, TranslationShape> = {
         { type: 'Bipedal Humanoid', description: 'Full-body humanoid platform for general-purpose embodied tasks, available through the hardware access pipeline.' },
         { type: 'Wheeled Humanoid', description: 'Wheeled humanoid hardware with real-device and MuJoCo access for long-horizon embodied tasks.' },
         { type: 'Simulation', description: 'LIBERO is a lifelong robot learning and knowledge-transfer benchmark for manipulation, with Spatial, Object, Goal, and LIBERO-100 suites for evaluating policy generalization and transfer.' },
-        { type: 'Simulation', description: 'BEHAVIOR-1K simulation benchmark target on OmniGibson, built on NVIDIA Isaac Sim with PhysX, for household-scale embodied tasks and batch evaluation.' },
+        { type: 'Simulation', description: 'CALVIN ABC→D is a language-conditioned, long-horizon manipulation benchmark that evaluates five-subtask chains and transfer to the unseen environment D.' },
+        { type: 'Simulation', description: 'RoboCasa365 evaluates atomic skills and composite household activities across diverse MuJoCo kitchen environments.' },
       ],
       deviceTable: {
         title: 'Supported Device Matrix',
@@ -457,11 +468,23 @@ export const translations: Record<Lang, TranslationShape> = {
       label: 'Benchmark',
       title: 'Performance',
       highlight: "that's auditable",
-      description: 'Target-session results on the LIBERO benchmark, with every run traceable through SESSIONS.md and LESSONS.md.',
+      description: 'Agent-assisted validation on LIBERO, CALVIN ABC→D, and RoboCasa365 target50, with every recovery traceable through SESSIONS.md and LESSONS.md.',
       chart1Title: 'Agent-assisted LIBERO validation',
       chart1Subtitle: 'Overall task success rate before and after verifier-triggered retry.',
+      chartCalvinTitle: 'Agent-assisted CALVIN ABC→D validation',
+      chartCalvinSubtitle: 'Chain success across five-subtask sequences; Avg. Len. is the average number of completed subtasks per sequence.',
+      chartRobocasaTitle: 'Agent-assisted RoboCasa365 target50 validation',
+      chartRobocasaSubtitle: 'Episode success on the pretrain split: 18 atomic skills / 90 episodes and 32 composite activities / 160 episodes.',
       first: 'First attempt',
       final: 'After verifier retry',
+      metric: 'Metric',
+      averageLength: 'Avg. Len.',
+      atomic: 'Atomic',
+      composite: 'Composite',
+      overall: 'Overall',
+      rescued: 'Rescued episodes',
+      previousBenchmark: 'Previous benchmark',
+      nextBenchmark: 'Next benchmark',
     },
     roadmap: {
       label: 'Roadmap',
@@ -491,7 +514,7 @@ export const translations: Record<Lang, TranslationShape> = {
             { title: 'Strict Policy/Builtin SkillRuntime separation' },
             { title: 'Onboarding & communication protocol spec' },
             { title: 'Cleaned protocols; main branch sim & real focus' },
-            { title: 'Behavior 1K support; SessionVerifier' },
+            { title: 'CALVIN and RoboCasa365 support; SessionVerifier' },
           ],
         },
         {
@@ -774,7 +797,6 @@ export const translations: Record<Lang, TranslationShape> = {
       title: '一个运行时，',
       highlight: '四类目标',
       description: '每类目标验证具身栈的不同层面。同一 Session 协议贯穿四者，从游戏试验场到真实机器人。',
-      learnMore: '了解更多',
       items: [
         {
           title: '调试',
@@ -791,8 +813,8 @@ export const translations: Record<Lang, TranslationShape> = {
         {
           title: '仿真',
           subtitle: '远程 · 基准评测',
-          description: '基于 LIBERO 与 BEHAVIOR-1K 的大规模物理精确仿真。批量挖掘执行经验，通过可复现的目标会话对策略进行基准评测。',
-          features: ['LIBERO 基准套件', 'BEHAVIOR-1K 任务', '批量经验挖掘', '可复现评估'],
+          description: '基于 LIBERO、CALVIN 与 RoboCasa365 的大规模物理精确仿真，通过可复现的目标会话评估迁移、长程任务链与家庭操作能力。',
+          features: ['LIBERO 基准套件', 'CALVIN ABC→D', 'RoboCasa365 target50', '可复现评估'],
         },
         {
           title: '真机',
@@ -824,7 +846,8 @@ export const translations: Record<Lang, TranslationShape> = {
         { type: '双足人形', description: '面向通用具身任务的全身人形平台，可通过硬件接入链路运行。' },
         { type: '轮式人形', description: '支持真机接入与 MuJoCo 接入的轮式人形硬件，适合长程具身任务。' },
         { type: '仿真', description: 'LIBERO 是面向终身机器人学习与知识迁移的机器人操作基准，包含 Spatial、Object、Goal、LIBERO-100 等任务套件，用于评估策略泛化与迁移能力。' },
-        { type: '仿真', description: 'BEHAVIOR-1K 仿真基准目标，使用 OmniGibson，底层基于 NVIDIA Isaac Sim 与 PhysX，覆盖家庭场景具身任务与批量评测。' },
+        { type: '仿真', description: 'CALVIN ABC→D 是面向语言条件长程操作的仿真基准，用五步子任务链评估策略向未见环境 D 的迁移能力。' },
+        { type: '仿真', description: 'RoboCasa365 在多样化的 MuJoCo 厨房环境中评估原子技能与复合家庭活动。' },
       ],
       deviceTable: {
         title: '设备支持矩阵',
@@ -864,11 +887,23 @@ export const translations: Record<Lang, TranslationShape> = {
       label: '性能基准',
       title: '可审计的',
       highlight: '性能表现',
-      description: 'LIBERO 基准上的目标会话结果，每一次运行都可通过 SESSIONS.md 与 LESSONS.md 追溯。',
+      description: 'LIBERO、CALVIN ABC→D 与 RoboCasa365 target50 上的智能体辅助验证结果，每次恢复均可通过 SESSIONS.md 与 LESSONS.md 追溯。',
       chart1Title: '智能体辅助 LIBERO 验证',
       chart1Subtitle: '展示验证器触发重试前后的总体任务成功率。',
+      chartCalvinTitle: '智能体辅助 CALVIN ABC→D 验证',
+      chartCalvinSubtitle: '展示五步子任务序列的链式成功率；平均链长表示每个序列平均完成的子任务数量。',
+      chartRobocasaTitle: '智能体辅助 RoboCasa365 target50 验证',
+      chartRobocasaSubtitle: 'pretrain 划分上的回合成功率：18 项原子技能 / 90 回合，32 项复合活动 / 160 回合。',
       first: '首次执行',
       final: '验证器重试后',
+      metric: '指标',
+      averageLength: '平均链长',
+      atomic: '原子技能',
+      composite: '复合活动',
+      overall: '总体',
+      rescued: '挽救回合',
+      previousBenchmark: '上一个基准',
+      nextBenchmark: '下一个基准',
     },
     roadmap: {
       label: '路线图',
@@ -898,7 +933,7 @@ export const translations: Record<Lang, TranslationShape> = {
             { title: '严格的 Policy/Builtin SkillRuntime 分离' },
             { title: '入门流程与通信协议规范' },
             { title: '协议清理；主分支聚焦仿真与真机' },
-            { title: 'Behavior 1K 支持；SessionVerifier' },
+            { title: 'CALVIN 与 RoboCasa365 支持；SessionVerifier' },
           ],
         },
         {

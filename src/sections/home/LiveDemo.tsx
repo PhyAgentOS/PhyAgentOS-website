@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BarChart3, Bot, FlaskConical, Gamepad2, Rocket, Sparkles, TerminalSquare } from 'lucide-react';
+import { BarChart3, Bot, Gamepad2, Rocket, TerminalSquare } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useLang } from '../../i18n/LanguageContext';
@@ -12,23 +12,13 @@ export default function LiveDemo() {
         title: '跨目标',
         highlight: '运行实录',
         description:
-          '将产品概念、部署流程、游戏目标与真实机器人任务放在同一套 Session 运行链路下展示，验证 PhyAgentOS 从指令到执行的闭环能力。',
+          '将部署流程、游戏目标与真实机器人任务放在同一套 Session 运行链路下展示，验证 PhyAgentOS 从指令到执行的闭环能力。',
         watch: '当前播放',
         videos: [
-          {
-            title: '概念短片',
-            eyebrow: 'Session-Centered Runtime',
-            description: '从“AI 能思考，如何行动”切入，展示 Session 文件协议、可审计闭环，以及跨游戏、仿真、真机的一体化运行时。',
-          },
           {
             title: 'LIBERO 评测',
             eyebrow: 'Benchmark · LIBERO',
             description: '展示 OpenVLA Agent 在 LIBERO 基准中的 Session 化评测流程：启动 TargetWS 与 OpenPI Policy，生成任务会话、调度执行并记录结果。',
-          },
-          {
-            title: 'BEHAVIOR-1K 评测',
-            eyebrow: 'Benchmark · BEHAVIOR-1K',
-            description: '展示 BEHAVIOR-1K 仿真评测链路：TargetWS9004 渲染场景，Policy8000 接收观测并返回动作，实时查看推理步骤和任务完成状态。',
           },
           {
             title: '真机任务链',
@@ -62,23 +52,13 @@ export default function LiveDemo() {
         title: 'Runtime demos',
         highlight: 'across targets',
         description:
-          'Concept, deployment, game targets, and real robots are shown through the same Session-centered runtime path, from instruction to verifiable execution.',
+          'Deployment, game targets, and real robots are shown through the same Session-centered runtime path, from instruction to verifiable execution.',
         watch: 'Now playing',
         videos: [
-          {
-            title: 'Concept film',
-            eyebrow: 'Session-Centered Runtime',
-            description: 'Introduces the question “AI can think, but can it act?” through Session files, auditable verification, and one runtime across games, simulation, and robots.',
-          },
           {
             title: 'LIBERO benchmark',
             eyebrow: 'Benchmark · LIBERO',
             description: 'Shows the Session-based LIBERO evaluation flow for OpenVLA Agent: TargetWS and OpenPI policy startup, task session generation, scheduling, and result logging.',
-          },
-          {
-            title: 'BEHAVIOR-1K benchmark',
-            eyebrow: 'Benchmark · BEHAVIOR-1K',
-            description: 'Shows the BEHAVIOR-1K simulation evaluation path: TargetWS9004 renders scenes, Policy8000 returns actions from observations, and reasoning plus completion status are tracked live.',
           },
           {
             title: 'Real-robot task chain',
@@ -109,9 +89,7 @@ export default function LiveDemo() {
       };
 
   const copyIds = [
-    'overview',
     'libero-benchmark',
-    'b1k-benchmark',
     'real-robot',
     'deployment',
     'dont-starve',
@@ -121,14 +99,12 @@ export default function LiveDemo() {
   const copyById = Object.fromEntries(copyIds.map((id, index) => [id, copy.videos[index]]));
 
   const demos = [
-    { id: 'overview', icon: Sparkles, src: '/media/demos/overview.mp4', poster: '/media/demos/overview.jpg', duration: '01:09' },
     { id: 'real-robot', icon: Bot, src: '/media/demos/real-robot.mp4', poster: '/media/demos/real-robot.jpg', duration: '03:05' },
     { id: 'deployment', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '02:29' },
     { id: 'minecraft-game', icon: Gamepad2, src: '/media/demos/cross-target-runtime.mp4', poster: '/media/demos/cross-target-runtime.jpg', duration: '01:10' },
     { id: 'dont-starve', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.jpg', duration: '03:03' },
     { id: 'stardew', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.jpg', duration: '02:26' },
     { id: 'libero-benchmark', icon: BarChart3, src: '/media/demos/libero-benchmark.mp4', poster: '/media/demos/libero-benchmark.jpg', duration: '02:29' },
-    { id: 'b1k-benchmark', icon: FlaskConical, src: '/media/demos/b1k-benchmark.mp4', poster: '/media/demos/b1k-benchmark.jpg', duration: '01:11' },
   ].map((demo) => ({ ...demo, ...copyById[demo.id] }));
 
   const [activeId, setActiveId] = useState(demos[0].id);
@@ -173,7 +149,7 @@ export default function LiveDemo() {
                 </div>
               </div>
 
-              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
                 {demos.map((demo) => {
                   const Icon = demo.icon;
                   const active = demo.id === activeDemo.id;
@@ -181,7 +157,7 @@ export default function LiveDemo() {
                   <button
                     key={demo.id}
                     onClick={() => setActiveId(demo.id)}
-                    className={`group relative flex min-h-[232px] flex-col gap-3 rounded-2xl border p-3 text-left transition-all duration-300 ${
+                    className={`group relative flex min-h-[300px] flex-col gap-3 rounded-2xl border p-3 text-left transition-all duration-300 ${
                       active
                         ? 'border-brand-accent/35 bg-brand-accent/10 shadow-glow-soft'
                         : 'border-brand-border bg-brand-bg-secondary hover:border-brand-accent/30 hover:shadow-soft'
@@ -208,7 +184,7 @@ export default function LiveDemo() {
                       <h3 className={`mt-2 font-display text-lg font-bold leading-tight ${active ? 'text-brand-text' : 'text-brand-text-secondary'}`}>
                         {demo.title}
                       </h3>
-                      <p className="mt-1 line-clamp-2 text-sm leading-6 text-brand-text-tertiary">
+                      <p className="mt-1 text-sm leading-6 text-brand-text-tertiary">
                         {demo.description}
                       </p>
                     </div>

@@ -135,7 +135,7 @@ export default function Hero() {
               {t.hero.watchDemo}
             </a>
             <a
-              href="http://qinhan-lyu.top/acwm-challenge/index_zh.html"
+              href="https://github.com/X-EraAI/ActPhysCause-Challenge"
               target="_blank"
               rel="noopener noreferrer"
               className="group px-8 py-4 glass text-brand-text font-semibold rounded-2xl transition-all duration-300 flex items-center gap-2 hover:bg-brand-bg-secondary hover:shadow-soft"
