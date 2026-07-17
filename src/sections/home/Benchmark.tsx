@@ -1,133 +1,311 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Bar, BarChart, CartesianGrid, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
-import CountUp from '../../components/animations/CountUp';
 import { useT } from '../../i18n/LanguageContext';
 
-const benchmarkData = [
-  { name: 'PhyAgentOS', successRate: 92, codeLines: 15, robots: 6, fill: '#5c7385' },
-  { name: 'Baseline-1', successRate: 78, codeLines: 45, robots: 3, fill: '#a4adb6' },
-  { name: 'Baseline-2', successRate: 85, codeLines: 80, robots: 2, fill: '#a4adb6' },
-  { name: 'Baseline-3', successRate: 73, codeLines: 35, robots: 2, fill: '#a4adb6' },
+type ComparisonDatum = { name: string; first: number; final: number };
+type Unit = '%' | '';
+
+const liberoData: ComparisonDatum[] = [
+  { name: 'OpenVLA', first: 74.5, final: 75.5 },
+  { name: 'π₀', first: 92.8, final: 93.2 },
+  { name: 'π₀.₅', first: 97.0, final: 97.8 },
+  { name: 'X-VLA', first: 97.3, final: 98.6 },
 ];
+
+const calvinData = {
+  one: [
+    { name: 'X-VLA', first: 96.8, final: 97.0 },
+    { name: 'π₀', first: 86.5, final: 86.8 },
+    { name: 'π₀.₅', first: 99.7, final: 99.7 },
+  ],
+  two: [
+    { name: 'X-VLA', first: 92.0, final: 92.0 },
+    { name: 'π₀', first: 74.0, final: 74.7 },
+    { name: 'π₀.₅', first: 98.0, final: 98.5 },
+  ],
+  three: [
+    { name: 'X-VLA', first: 86.2, final: 86.3 },
+    { name: 'π₀', first: 62.2, final: 64.1 },
+    { name: 'π₀.₅', first: 94.5, final: 95.2 },
+  ],
+  four: [
+    { name: 'X-VLA', first: 81.7, final: 81.9 },
+    { name: 'π₀', first: 50.9, final: 53.7 },
+    { name: 'π₀.₅', first: 91.5, final: 92.5 },
+  ],
+  five: [
+    { name: 'X-VLA', first: 74.3, final: 75.7 },
+    { name: 'π₀', first: 38.9, final: 45.6 },
+    { name: 'π₀.₅', first: 85.3, final: 89.4 },
+  ],
+  average: [
+    { name: 'X-VLA', first: 4.310, final: 4.329 },
+    { name: 'π₀', first: 3.125, final: 3.249 },
+    { name: 'π₀.₅', first: 4.690, final: 4.753 },
+  ],
+};
+
+const robocasaData = {
+  atomic: [
+    { name: 'π₀.₅', first: 41.1, final: 56.7 },
+    { name: 'RLDX-1', first: 70.0, final: 75.6 },
+    { name: 'WorldDreamer', first: 66.7, final: 73.3 },
+  ],
+  composite: [
+    { name: 'π₀.₅', first: 4.4, final: 10.0 },
+    { name: 'RLDX-1', first: 16.2, final: 24.4 },
+    { name: 'WorldDreamer', first: 15.6, final: 25.0 },
+  ],
+  overall: [
+    { name: 'π₀.₅', first: 17.6, final: 26.8 },
+    { name: 'RLDX-1', first: 35.6, final: 42.8 },
+    { name: 'WorldDreamer', first: 34.0, final: 42.4 },
+  ],
+};
+
+type CalvinMetric = keyof typeof calvinData;
+type RoboCasaMetric = keyof typeof robocasaData;
+
+function formatValue(value: number, unit: Unit) {
+  return unit === '%' ? `${value.toFixed(1)}%` : value.toFixed(3);
+}
+
+function getDomain(data: ComparisonDatum[], unit: Unit): [number, number] {
+  const minimum = Math.min(...data.flatMap((item) => [item.first, item.final]));
+  if (unit === '') {
+    return [Math.max(0, Math.floor((minimum - 0.1) * 2) / 2), 5];
+  }
+  return [Math.max(0, Math.floor((minimum - 2) / 10) * 10), 100];
+}
+
+function MetricSelector({
+  label,
+  options,
+  active,
+  onChange,
+}: {
+  label: string;
+  options: { id: string; label: string }[];
+  active: string;
+  onChange: (id: string) => void;
+}) {
+  return (
+    <div className="mt-6 flex flex-wrap items-center gap-2" aria-label={label}>
+      <span className="mr-1 text-xs font-mono font-semibold uppercase tracking-[0.12em] text-brand-text-tertiary">
+        {label}
+      </span>
+      {options.map((option) => (
+        <button
+          key={option.id}
+          type="button"
+          onClick={() => onChange(option.id)}
+          className={`min-w-14 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${
+            active === option.id
+              ? 'border-brand-accent/40 bg-brand-accent/12 text-brand-accent-dark'
+              : 'border-brand-border bg-brand-bg text-brand-text-tertiary hover:text-brand-text'
+          }`}
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function ComparisonChart({
+  title,
+  subtitle,
+  data,
+  unit,
+  firstLabel,
+  finalLabel,
+  controls,
+  note,
+}: {
+  title: string;
+  subtitle: string;
+  data: ComparisonDatum[];
+  unit: Unit;
+  firstLabel: string;
+  finalLabel: string;
+  controls?: React.ReactNode;
+  note?: string;
+}) {
+  const domain = getDomain(data, unit);
+
+  return (
+    <div className="rounded-3xl border border-brand-border bg-brand-bg-secondary p-6 shadow-card transition-shadow duration-500 hover:shadow-card-hover sm:p-8">
+      <h3 className="text-lg font-semibold text-brand-text">{title}</h3>
+      <p className="mt-2 max-w-4xl text-sm leading-6 text-brand-text-tertiary">{subtitle}</p>
+      {controls}
+      <div className="mt-5 h-[320px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data} margin={{ top: 28, right: 20, left: -4, bottom: 0 }} barGap={6}>
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(45,58,69,0.08)" vertical={false} />
+            <XAxis dataKey="name" tick={{ fill: '#5d6b78', fontSize: 12 }} axisLine={false} tickLine={false} />
+            <YAxis
+              domain={domain}
+              tick={{ fill: '#8d97a3', fontSize: 12 }}
+              axisLine={false}
+              tickLine={false}
+              tickFormatter={(value) => (unit === '%' ? `${value}%` : Number(value).toFixed(1))}
+            />
+            <Tooltip
+              formatter={(value: number, name: string) => [formatValue(value, unit), name]}
+              contentStyle={{
+                background: '#fcfaf5',
+                border: '1px solid rgba(45,58,69,0.1)',
+                borderRadius: '12px',
+                color: '#2d3a45',
+              }}
+              cursor={{ fill: 'rgba(45,58,69,0.03)' }}
+            />
+            <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '12px' }} />
+            <Bar dataKey="first" name={firstLabel} fill="#a4adb6" radius={[8, 8, 0, 0]} barSize={28}>
+              <LabelList dataKey="first" position="top" formatter={(value: number) => formatValue(value, unit)} fill="#7a858f" fontSize={11} />
+            </Bar>
+            <Bar dataKey="final" name={finalLabel} fill="#5c7385" radius={[8, 8, 0, 0]} barSize={28}>
+              <LabelList dataKey="final" position="top" formatter={(value: number) => formatValue(value, unit)} fill="#425867" fontSize={11} />
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+      {note && <p className="mt-3 text-xs leading-6 text-brand-text-tertiary">{note}</p>}
+    </div>
+  );
+}
 
 export default function Benchmark() {
   const t = useT();
-const stats = [
-  { value: 92, suffix: '%', label: t.benchmark.stats[0].label, description: t.benchmark.stats[0].description },
-  { value: 6, suffix: '+', label: t.benchmark.stats[1].label, description: t.benchmark.stats[1].description },
-  { value: 100, suffix: 'x', label: t.benchmark.stats[2].label, description: t.benchmark.stats[2].description },
-  { value: 100, suffix: '%', label: t.benchmark.stats[3].label, description: t.benchmark.stats[3].description },
-];
+  const [calvinMetric, setCalvinMetric] = useState<CalvinMetric>('five');
+  const [robocasaMetric, setRobocasaMetric] = useState<RoboCasaMetric>('overall');
+  const [benchmarkIndex, setBenchmarkIndex] = useState(0);
+
+  const calvinOptions = [
+    { id: 'one', label: '1/5' },
+    { id: 'two', label: '2/5' },
+    { id: 'three', label: '3/5' },
+    { id: 'four', label: '4/5' },
+    { id: 'five', label: '5/5' },
+    { id: 'average', label: t.benchmark.averageLength },
+  ];
+  const robocasaOptions = [
+    { id: 'atomic', label: t.benchmark.atomic },
+    { id: 'composite', label: t.benchmark.composite },
+    { id: 'overall', label: t.benchmark.overall },
+  ];
+  const charts = [
+    {
+      name: 'LIBERO',
+      content: (
+        <ComparisonChart
+          title={t.benchmark.chart1Title}
+          subtitle={t.benchmark.chart1Subtitle}
+          data={liberoData}
+          unit="%"
+          firstLabel={t.benchmark.first}
+          finalLabel={t.benchmark.final}
+        />
+      ),
+    },
+    {
+      name: 'CALVIN',
+      content: (
+        <ComparisonChart
+          title={t.benchmark.chartCalvinTitle}
+          subtitle={t.benchmark.chartCalvinSubtitle}
+          data={calvinData[calvinMetric]}
+          unit={calvinMetric === 'average' ? '' : '%'}
+          firstLabel={t.benchmark.first}
+          finalLabel={t.benchmark.final}
+          controls={
+            <MetricSelector
+              label={t.benchmark.metric}
+              options={calvinOptions}
+              active={calvinMetric}
+              onChange={(id) => setCalvinMetric(id as CalvinMetric)}
+            />
+          }
+        />
+      ),
+    },
+    {
+      name: 'RoboCasa365',
+      content: (
+        <ComparisonChart
+          title={t.benchmark.chartRobocasaTitle}
+          subtitle={t.benchmark.chartRobocasaSubtitle}
+          data={robocasaData[robocasaMetric]}
+          unit="%"
+          firstLabel={t.benchmark.first}
+          finalLabel={t.benchmark.final}
+          controls={
+            <MetricSelector
+              label={t.benchmark.metric}
+              options={robocasaOptions}
+              active={robocasaMetric}
+              onChange={(id) => setRobocasaMetric(id as RoboCasaMetric)}
+            />
+          }
+          note={`${t.benchmark.rescued}: π₀.₅ 23 · RLDX-1 18 · WorldDreamer 21`}
+        />
+      ),
+    },
+  ];
+  const activeChart = charts[benchmarkIndex];
+  const changeBenchmark = (direction: number) => {
+    setBenchmarkIndex((current) => (current + direction + charts.length) % charts.length);
+  };
+
   return (
-    <section id="benchmark" className="relative py-24 lg:py-32 overflow-hidden">
+    <section id="benchmark" className="relative overflow-hidden py-24 lg:py-32">
       <div className="absolute inset-0 bg-brand-bg-secondary/40" />
       <div className="absolute inset-0 bg-grid opacity-[0.02]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-brand-accent/[0.03] rounded-full blur-[150px]" />
 
       <div className="relative z-10 px-6 sm:px-8 lg:px-16 xl:px-24">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto max-w-7xl">
           <ScrollReveal>
             <SectionHeader
               label={t.benchmark.label}
               title={t.benchmark.title}
               highlight={t.benchmark.highlight}
-              description="Target-session results on the LIBERO benchmark, with every run traceable through SESSIONS.md and LESSONS.md."
+              description={t.benchmark.description}
             />
           </ScrollReveal>
 
-          {/* Stats Grid */}
           <ScrollReveal delay={0.1}>
-            <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-              {stats.map((stat, index) => (
-                <div
-                  key={index}
-                  className="relative p-6 rounded-3xl bg-brand-bg-secondary border border-brand-border group hover:border-brand-accent/30 transition-all duration-500 shadow-card hover:shadow-card-hover"
+            <div className="mx-auto mt-12 max-w-5xl">
+              <div className="mb-4 flex items-center justify-center gap-4">
+                <button
+                  type="button"
+                  onClick={() => changeBenchmark(-1)}
+                  title={t.benchmark.previousBenchmark}
+                  aria-label={t.benchmark.previousBenchmark}
+                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-brand-border bg-brand-bg-secondary text-brand-text-secondary transition-colors hover:border-brand-accent/35 hover:text-brand-text"
                 >
-                  <div className="absolute inset-0 bg-brand-accent/[0.03] opacity-0 group-hover:opacity-100 rounded-3xl transition-opacity duration-500" />
-                  <div className="relative z-10">
-                    <div className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-brand-text mb-3">
-                      <CountUp end={stat.value} suffix={stat.suffix} />
-                    </div>
-                    <div className="text-sm font-semibold text-brand-text mb-1">{stat.label}</div>
-                    <div className="text-xs text-brand-text-tertiary">{stat.description}</div>
-                  </div>
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <div className="min-w-40 text-center">
+                  <p className="font-display text-lg font-bold text-brand-text">{activeChart.name}</p>
+                  <p className="mt-1 text-xs font-mono text-brand-text-tertiary">
+                    {benchmarkIndex + 1} / {charts.length}
+                  </p>
                 </div>
-              ))}
-            </div>
-          </ScrollReveal>
-
-          {/* Charts */}
-          <ScrollReveal delay={0.2}>
-            <div className="mt-16 grid lg:grid-cols-2 gap-8">
-              {/* Success Rate Chart */}
-              <div className="p-6 sm:p-8 rounded-3xl bg-brand-bg-secondary border border-brand-border shadow-card hover:shadow-card-hover transition-shadow duration-500">
-                <h3 className="text-lg font-semibold text-brand-text mb-2">{t.benchmark.chart1Title}</h3>
-                <p className="text-sm text-brand-text-tertiary mb-8">Real-target session completion on LIBERO benchmark suite</p>
-                <div className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={benchmarkData} layout="vertical" margin={{ left: 0, right: 20 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(45,58,69,0.06)" horizontal={false} />
-                      <XAxis type="number" domain={[0, 100]} tick={{ fill: '#8d97a3', fontSize: 12 }} axisLine={false} tickLine={false} />
-                      <YAxis dataKey="name" type="category" tick={{ fill: '#5d6b78', fontSize: 12 }} axisLine={false} tickLine={false} width={90} />
-                      <Tooltip
-                        contentStyle={{
-                          background: '#fcfaf5',
-                          border: '1px solid rgba(45,58,69,0.1)',
-                          borderRadius: '16px',
-                          color: '#2d3a45',
-                        }}
-                        cursor={{ fill: 'rgba(45,58,69,0.03)' }}
-                      />
-                      <Bar dataKey="successRate" radius={[0, 12, 12, 0]} barSize={28}>
-                        {benchmarkData.map((entry, index) => (
-                          <Cell key={index} fill={entry.fill} />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => changeBenchmark(1)}
+                  title={t.benchmark.nextBenchmark}
+                  aria-label={t.benchmark.nextBenchmark}
+                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-brand-border bg-brand-bg-secondary text-brand-text-secondary transition-colors hover:border-brand-accent/35 hover:text-brand-text"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
               </div>
-
-              {/* Code Lines Chart */}
-              <div className="p-6 sm:p-8 rounded-3xl bg-brand-bg-secondary border border-brand-border shadow-card hover:shadow-card-hover transition-shadow duration-500">
-                <h3 className="text-lg font-semibold text-brand-text mb-2">{t.benchmark.chart2Title}</h3>
-                <p className="text-sm text-brand-text-tertiary mb-8">Lines to add a new robot target (relative scale, one Target Adapter)</p>
-                <div className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={benchmarkData} layout="vertical" margin={{ left: 0, right: 20 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(45,58,69,0.06)" horizontal={false} />
-                      <XAxis type="number" tick={{ fill: '#8d97a3', fontSize: 12 }} axisLine={false} tickLine={false} />
-                      <YAxis dataKey="name" type="category" tick={{ fill: '#5d6b78', fontSize: 12 }} axisLine={false} tickLine={false} width={90} />
-                      <Tooltip
-                        contentStyle={{
-                          background: '#fcfaf5',
-                          border: '1px solid rgba(45,58,69,0.1)',
-                          borderRadius: '16px',
-                          color: '#2d3a45',
-                        }}
-                        cursor={{ fill: 'rgba(45,58,69,0.03)' }}
-                      />
-                      <Bar dataKey="codeLines" radius={[0, 12, 12, 0]} barSize={28}>
-                        {benchmarkData.map((entry, index) => (
-                          <Cell key={index} fill={entry.fill} />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
+              <div key={activeChart.name}>{activeChart.content}</div>
             </div>
-          </ScrollReveal>
-
-          {/* Note */}
-          <ScrollReveal delay={0.3}>
-            <p className="mt-8 text-center text-xs text-brand-text-tertiary">
-              * Benchmarks evaluated on the LIBERO target suite. Full methodology and SESSIONS.md traces are available in our{' '}
-              <a href="https://github.com/PhyAgentOS/PhyAgentOS" target="_blank" rel="noopener noreferrer" className="text-brand-accent hover:underline">
-                documentation
-              </a>.
-            </p>
           </ScrollReveal>
         </div>
       </div>

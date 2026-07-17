@@ -52,8 +52,7 @@ export default function Footer() {
               </div>
 
               <p className="text-brand-text-secondary leading-relaxed max-w-sm text-sm">
-                A self-evolving embodied AI framework based on Agentic workflow,
-                achieving complete decoupling of cognition and physical execution.
+                {t.footer.tagline}
               </p>
 
               <div className="flex gap-3">
@@ -64,14 +63,14 @@ export default function Footer() {
                   className="px-4 py-2.5 rounded-xl border border-brand-border text-brand-text-secondary hover:text-brand-text hover:border-brand-accent/30 hover:bg-brand-bg-tertiary transition-all duration-300 flex items-center gap-2 text-sm"
                 >
                   <Github className="w-4 h-4" />
-                  Star on GitHub
+                  {t.footer.starOnGithub}
                 </a>
                 <a
-                  href="mailto:contact@phyagentos.org"
+                  href="mailto:phyagentos@gmail.com"
                   className="px-4 py-2.5 rounded-xl border border-brand-border text-brand-text-secondary hover:text-brand-text hover:border-brand-accent/30 hover:bg-brand-bg-tertiary transition-all duration-300 flex items-center gap-2 text-sm"
                 >
                   <Mail className="w-4 h-4" />
-                  Contact
+                  {t.footer.contact}
                 </a>
               </div>
             </div>
@@ -79,7 +78,7 @@ export default function Footer() {
             {/* Product */}
             <div className="lg:col-span-2 lg:col-start-7">
               <h4 className="text-sm font-semibold uppercase tracking-wider mb-5 text-brand-text">
-                Product
+                {t.footer.product}
               </h4>
               <ul className="space-y-3">
                 {footerLinks.product.map((link) => (
@@ -98,7 +97,7 @@ export default function Footer() {
             {/* Resources */}
             <div className="lg:col-span-2">
               <h4 className="text-sm font-semibold uppercase tracking-wider mb-5 text-brand-text">
-                Resources
+                {t.footer.resources}
               </h4>
               <ul className="space-y-3">
                 {footerLinks.resources.map((link) => (
@@ -120,7 +119,7 @@ export default function Footer() {
             {/* Community */}
             <div className="lg:col-span-2">
               <h4 className="text-sm font-semibold uppercase tracking-wider mb-5 text-brand-text">
-                Community
+                {t.footer.community}
               </h4>
               <ul className="space-y-3">
                 {footerLinks.community.map((link) => (
@@ -155,17 +154,17 @@ export default function Footer() {
               <div className="flex flex-wrap justify-center sm:justify-start items-center gap-3 text-xs text-brand-text-tertiary">
                 <span>&copy; {currentYear} PhyAgentOS</span>
                 <span className="hidden sm:inline">·</span>
-                <span>MIT License</span>
+                <span>{t.footer.license}</span>
                 <span className="hidden sm:inline">·</span>
                 <span className="flex items-center gap-1">
-                  {t.footer.madeWith} <Heart className="w-3 h-3 text-brand-accent" /> by{' '}
+                  {t.footer.madeWith} <Heart className="w-3 h-3 text-brand-accent" /> {t.footer.by}{' '}
                   <a
-                    href="https://github.com/SYSU-HCP-EAI"
+                    href="https://www.sysu-hcp.net/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-brand-text-secondary hover:text-brand-accent transition-colors"
                   >
-                    HCP Lab
+                    {t.footer.hcpLab}
                   </a>
                   {' & '}
                   <a
@@ -174,11 +173,11 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     className="text-brand-text-secondary hover:text-brand-accent transition-colors"
                   >
-                    Peng Cheng Lab
+                    {t.footer.pengchengLab}
                   </a>
                   {' & '}
                   <a
-                    href="https://phyagentos.org/"
+                    href="https://www.ex-ai.cn/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-brand-text-secondary hover:text-brand-accent transition-colors"
@@ -210,7 +209,7 @@ export default function Footer() {
 
             {/* Credits */}
             <div className="mt-6 text-center text-[11px] text-brand-text-tertiary/60">
-              Built with React, Three.js & GSAP
+              {t.footer.basedOn}
             </div>
           </div>
         </div>

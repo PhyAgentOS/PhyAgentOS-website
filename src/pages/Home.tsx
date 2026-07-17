@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Hero from '../sections/home/Hero';
+import InterviewFeature from '../sections/home/InterviewFeature';
 import ProblemSolution from '../sections/home/ProblemSolution';
 import CoreConcepts from '../sections/home/CoreConcepts';
 import Architecture from '../sections/home/Architecture';
@@ -29,12 +30,6 @@ export default function Home() {
     // Refresh ScrollTrigger on load
     ScrollTrigger.refresh();
 
-    // Handle reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      gsap.globalTimeline.timeScale(0);
-    }
-
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
@@ -43,6 +38,8 @@ export default function Home() {
   return (
     <div>
       <Hero />
+      <div className="section-divider" />
+      <InterviewFeature />
       <div className="section-divider" />
       <ProblemSolution />
       <div className="section-divider" />

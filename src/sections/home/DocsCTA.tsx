@@ -25,7 +25,7 @@ export default function DocsCTA() {
               label={t.docsCTA.label}
               title={t.docsCTA.title}
               highlight={t.docsCTA.highlight}
-              description="Comprehensive documentation covering the runtime architecture, user operation, and hardware integration."
+              description={t.docsCTA.description}
             />
           </ScrollReveal>
 

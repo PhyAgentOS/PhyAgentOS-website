@@ -1,4 +1,4 @@
-import { Bug, Gamepad2, Box, Bot, ArrowRight, Sparkles } from 'lucide-react';
+import { Bug, Gamepad2, Box, Bot, Sparkles } from 'lucide-react';
 import TiltCard from '../../components/animations/TiltCard';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
@@ -25,7 +25,7 @@ const scenarios = [
               labelIcon={<Sparkles className="w-3.5 h-3.5" />}
               title={t.scenarios.title}
               highlight={t.scenarios.highlight}
-              description="Each target kind validates a different layer of the embodied stack. The same Session protocol spans all three."
+              description={t.scenarios.description}
             />
           </ScrollReveal>
 
@@ -70,11 +70,6 @@ const scenarios = [
                         ))}
                       </div>
 
-                      {/* Link */}
-                      <div className="flex items-center gap-2 text-sm font-semibold text-brand-text-secondary group-hover:text-brand-text transition-colors">
-                        <span>{t.scenarios.learnMore}</span>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </div>
                     </div>
                   </TiltCard>
                 </ScrollReveal>

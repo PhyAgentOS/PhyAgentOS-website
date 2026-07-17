@@ -43,7 +43,7 @@ const phases = [
     { version: 'v0.1.3', title: t.roadmap.phases[1].items[3].title, status: 'completed' as const },
     { version: 'v0.1.4', title: t.roadmap.phases[1].items[4].title, status: 'completed' as const },
     { version: 'v0.1.5', title: t.roadmap.phases[1].items[5].title, status: 'completed' as const },
-    { version: 'v0.1.6', title: t.roadmap.phases[1].items[6].title, status: 'in-progress' as const },
+    { version: 'v0.1.6', title: t.roadmap.phases[1].items[6].title, status: 'completed' as const },
   ]},
   { phase: t.roadmap.phases[2].phase, title: t.roadmap.phases[2].title, period: t.roadmap.phases[2].period, items: [
     { version: 'v0.2.0', title: t.roadmap.phases[2].items[0].title, status: 'in-progress' as const },
@@ -68,7 +68,7 @@ const phases = [
               label={t.roadmap.label}
               title={t.roadmap.title}
               highlight={t.roadmap.highlight}
-              description="From the session-runtime MVP to semantic verification and fleet coordination: a clear, versioned trajectory."
+              description={t.roadmap.description}
             />
           </ScrollReveal>
 

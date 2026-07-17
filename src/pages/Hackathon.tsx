@@ -23,6 +23,8 @@ import {
   BrainCircuit,
   Cpu,
 } from 'lucide-react';
+import { useLang } from '../i18n/LanguageContext';
+import ChallengeRecap from '../sections/home/ChallengeRecap';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -126,8 +128,141 @@ const submissions = [
 const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdPuJ5YvOuI2AUOGPun0VIAa0g6P6rcmyo8Nw46gNkSOE4Zxw/viewform';
 
 export default function Hackathon() {
+  const { lang } = useLang();
   const heroRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const copy = lang === 'zh'
+    ? {
+        eventTitle: '2026 BETA',
+        hackathonTitle: '黑客松',
+        heroSubtitle: '自进化物理智能体操作系统',
+        heroDescription: '你专注于创意，我们负责让智能体',
+        heroEmphasis: '“可记忆、可纠错、可理解”',
+        heroDescriptionEnd: '。',
+        viewGithub: '查看 GitHub',
+        whyLabel: '为什么选择 PhyAgentOS？',
+        whyTitle: '解决具身智能最棘手的问题',
+        whyDescription: '看看 PhyAgentOS 如何从根本上解决具身智能领域的难题。',
+        painPoints: [
+          { pain: '大模型直接控制硬件，错误难以追溯', solution: '认知-物理解耦：规划器与 HAL 独立运行，通过 ACTION.md 透明通信' },
+          { pain: '动作失败无法沉淀为经验', solution: 'LESSONS.md 经验库自动积累，支持真正的自进化' },
+          { pain: '像黑盒一样调试', solution: 'Markdown 协议矩阵：所有状态可读可写，极致透明' },
+          { pain: '缺少安全保障', solution: 'Critic 多智能体验证：高风险动作执行前必须依据 EMBODIED.md 完成校验' },
+        ],
+        directionsLabel: '推荐方向',
+        directionsTitle: '单体具身赛道',
+        directionsDescription: '选择一个令你兴奋的方向，推动具身智能能力的边界。',
+        directions: [
+          { icon: Target, title: '精准操作', desc: '基于 SAM3 / ReKep 的语义抓取：“把那个红色工具放进左侧第二个抽屉”', color: 'from-amber-500/20 to-orange-600/20', border: 'border-amber-500/30', iconColor: 'text-amber-400' },
+          { icon: MapPin, title: '语义导航', desc: '基于场景图的自然语言移动：“去厨房找到还在冒热气的杯子”', color: 'from-cyan-500/20 to-blue-600/20', border: 'border-cyan-500/30', iconColor: 'text-cyan-400' },
+          { icon: RefreshCw, title: '长程任务', desc: '复杂动作链：“帮我准备一杯咖啡”（完成开封、取料、冲泡与回收等完整流程）', color: 'from-emerald-500/20 to-green-600/20', border: 'border-emerald-500/30', iconColor: 'text-emerald-400' },
+          { icon: Shield, title: '安全演化', desc: '展示 Critic 机制如何拦截危险动作，并将修正经验写入 LESSONS.md', color: 'from-rose-500/20 to-red-600/20', border: 'border-rose-500/30', iconColor: 'text-rose-400' },
+          { icon: Plug, title: '新硬件接入', desc: '为机器人编写 hal/drivers/ 插件，实现 PhyAgentOS 一键接管', color: 'from-violet-500/20 to-purple-600/20', border: 'border-violet-500/30', iconColor: 'text-violet-400' },
+        ],
+        ideaTitle: '你的想法',
+        ideaDescription: '有其他想法？我们欢迎所有富有创造力的方向！',
+        submitProposal: '提交方案',
+        techLabel: '技术要求',
+        techTitle: '构建于坚实基础之上',
+        techReqs: [
+          { label: '必需', text: '使用 PhyAgentOS 的 hal_watchdog.py 作为硬件执行层（Track B）', required: true },
+          { label: '必需', text: '通过 Markdown 协议文件（ENVIRONMENT.md / ACTION.md）连接认知层与物理层', required: true },
+          { label: '加分', text: '实现自定义 HAL 驱动插件，接入官方暂未支持的硬件', required: false },
+          { label: '加分', text: '设计可复用的 SKILL.md 工作流，沉淀成功经验', required: false },
+          { label: '加分', text: '展示 Critic 安全纠错机制或 LESSONS.md 失败经验积累', required: false },
+        ],
+        architectureTitle: '架构概览',
+        architectureDescription: 'PhyAgentOS 采用双轨架构，将认知规划与物理执行完全解耦。',
+        trackA: 'Track A：认知规划 + Critic 验证',
+        trackB: 'Track B：HAL Watchdog + 物理执行',
+        protocol: '协议：Markdown 文件（ACTION.md / ENVIRONMENT.md）',
+        evaluationLabel: '评审标准',
+        evaluationTitle: '我们如何评审',
+        evalCriteria: [
+          { dim: '演示展示', weight: '40%', desc: '具身任务的现场执行，从自然语言到物理动作的完整链路流畅度，以及系统稳定性' },
+          { dim: '文档质量', weight: '30%', desc: 'SKILL.md（成功工作流）、LESSONS.md（失败经验）和技术说明的质量与完整性' },
+          { dim: '创意阐释', weight: '30%', desc: '场景动机的清晰度、方案原创性，以及对 PhyAgentOS 解耦架构的运用理解' },
+        ],
+        supportLabel: '参赛支持',
+        supportTitle: '我们为你提供支持',
+        supports: [
+          { icon: FileText, title: '集成指南', desc: '官方 HAL 驱动模板与插件开发文档，帮助快速接入硬件' },
+          { icon: Cpu, title: '仿真支持', desc: '内置轻量仿真，无需硬件即可验证逻辑' },
+          { icon: MessageSquare, title: '问答渠道', desc: '带有专属标签的 GitHub Issues，核心维护者在线答疑' },
+          { icon: Plug, title: '硬件参考', desc: '经过验证的机器人参数参考（PIPER / Nova 2 / Go2 等）' },
+        ],
+        submissionLabel: '提交要求',
+        submissionTitle: '需要提交什么',
+        submissions: [
+          { num: '01', title: '代码', desc: 'Fork 官方仓库或提交独立仓库，包含完整驱动插件（如适用）' },
+          { num: '02', title: '演示视频', desc: '3-5 分钟视频展示完整链路：自然语言指令 → Markdown 协议 → 物理执行' },
+          { num: '03', title: '协议文件', desc: '提交 SKILL.md（成功工作流）和/或 LESSONS.md（失败经验）' },
+          { num: '04', title: '演示汇报', desc: '5 分钟展示 + 3 分钟问答，重点说明如何利用 PhyAgentOS 的解耦架构' },
+        ],
+        readyLabel: '准备提交？',
+        uploadTitle: '上传你的参赛作品',
+        uploadDescription: '将代码、演示视频、协议文件和演示文稿打包为一个 ZIP 文件，并上传到 Google Drive 文件夹。请确保文件名包含团队名称。',
+        formTitle: '通过 Google Form 提交',
+        formDescription: '填写团队信息并上传 ZIP 文件',
+        formSteps: ['团队名称与联系方式', '项目说明', '上传 ZIP 提交文件'],
+        openForm: '打开提交表单',
+        redirect: '你将被重定向到 Google Forms 完成提交。',
+        ctaTitle: '一起探索',
+        ctaHighlight: '物理世界？',
+        ctaDescription: '加入 2026 BETA 黑客松，与 PhyAgentOS 一起构建具身智能的未来。期待看到你的具身方案与 PhyAgentOS 碰撞出新的火花！',
+        joinHackathon: '加入黑客松',
+        exploreRepo: '探索代码仓库',
+      }
+    : {
+        eventTitle: '2026 BETA',
+        hackathonTitle: 'Hackathon',
+        heroSubtitle: 'Self-Evolving Physical Agent Operating System',
+        heroDescription: 'You focus on the creativity, we handle making the agent',
+        heroEmphasis: '"rememberable, correctable, and comprehensible"',
+        heroDescriptionEnd: '.',
+        viewGithub: 'View on GitHub',
+        whyLabel: 'Why PhyAgentOS?',
+        whyTitle: 'Pain Points & Solutions',
+        whyDescription: 'See how PhyAgentOS fundamentally solves the hardest problems in embodied AI.',
+        painPoints,
+        directionsLabel: 'Recommended Directions',
+        directionsTitle: 'Single Embodiment Tracks',
+        directionsDescription: 'Choose a direction that excites you. Each track pushes the boundary of what embodied AI can achieve.',
+        directions,
+        ideaTitle: 'Your Idea',
+        ideaDescription: 'Have something else in mind? We welcome all creative directions!',
+        submitProposal: 'Submit your proposal',
+        techLabel: 'Technical Requirements',
+        techTitle: 'Build on Solid Foundations',
+        techReqs,
+        architectureTitle: 'Architecture Overview',
+        architectureDescription: 'PhyAgentOS uses a dual-track architecture where cognitive planning and physical execution are fully decoupled.',
+        trackA: 'Track A: Cognitive Planning + Critic Verification',
+        trackB: 'Track B: HAL Watchdog + Physical Execution',
+        protocol: 'Protocol: Markdown Files (ACTION.md / ENVIRONMENT.md)',
+        evaluationLabel: 'Evaluation Criteria',
+        evaluationTitle: 'How We Judge',
+        evalCriteria,
+        supportLabel: 'Participant Support',
+        supportTitle: 'We Got Your Back',
+        supports,
+        submissionLabel: 'Submission Requirements',
+        submissionTitle: 'What to Submit',
+        submissions,
+        readyLabel: 'Ready to Submit?',
+        uploadTitle: 'Upload Your Submission',
+        uploadDescription: 'Package your code, demo video, protocol files, and presentation into a single ZIP file and upload it to our Google Drive folder. Make sure your filename includes your team name.',
+        formTitle: 'Submit via Google Form',
+        formDescription: 'Fill in team info and upload your ZIP',
+        formSteps: ['Team name & contact', 'Project description', 'Upload ZIP submission'],
+        openForm: 'Open Submission Form',
+        redirect: "You'll be redirected to Google Forms to complete your submission.",
+        ctaTitle: 'Ready to Hack the',
+        ctaHighlight: 'Physical World?',
+        ctaDescription: 'Join the 2026 BETA Hackathon and build the future of embodied AI with PhyAgentOS. Looking forward to seeing the sparks fly when your embodiment meets PhyAgentOS!',
+        joinHackathon: 'Join Hackathon',
+        exploreRepo: 'Explore Repo',
+      };
 
   const handleUpload = useCallback(() => {
     window.open(GOOGLE_FORM_URL, '_blank', 'noopener,noreferrer');
@@ -218,42 +353,24 @@ export default function Hackathon() {
         </div>
 
         <div className="relative z-10 px-6 sm:px-8 lg:px-16 xl:px-24 max-w-6xl mx-auto text-center">
-          {/* Badge */}
-          <div className="hero-animate inline-flex items-center gap-2 px-4 py-2 bg-brand-accent/15 border border-brand-accent/30 rounded-full mb-8">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-accent" />
-            </span>
-            <span className="text-sm font-medium text-brand-accent-light">Open for Registration</span>
-          </div>
-
           {/* Title */}
           <h1 className="hero-animate text-5xl sm:text-6xl lg:text-8xl font-display font-bold tracking-tight mb-6">
-            <span className="text-gradient">2026 BETA</span>
+            <span className="text-gradient">{copy.eventTitle}</span>
             <br />
-            <span className="text-brand-text">Hackathon</span>
+            <span className="text-brand-text">{copy.hackathonTitle}</span>
           </h1>
 
           {/* Subtitle */}
           <p className="hero-animate text-xl sm:text-2xl text-brand-text max-w-3xl mx-auto mb-4 leading-relaxed">
-            Self-Evolving Physical Agent Operating System
+            {copy.heroSubtitle}
           </p>
           <p className="hero-animate text-base sm:text-lg text-brand-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed">
-            You focus on the creativity, we handle making the agent
-            <span className="text-brand-text"> "rememberable, correctable, and comprehensible"</span>.
+            {copy.heroDescription}
+            <span className="text-brand-text"> {copy.heroEmphasis}</span>{copy.heroDescriptionEnd}
           </p>
 
           {/* CTA Buttons */}
           <div className="hero-animate flex flex-wrap justify-center gap-4">
-            <a
-              href="https://www.notion.so/2026-BETA-Hackathon-34b41d54c5b8806ca0a8c05a812e49db"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-4 bg-brand-accent hover:bg-brand-accent-light text-brand-text-on-accent font-semibold rounded-2xl transition-all duration-300 flex items-center gap-2 group shadow-glow-soft hover:shadow-glow"
-            >
-              Register Now
-              <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </a>
             <a
               href="https://github.com/PhyAgentOS/PhyAgentOS"
               target="_blank"
@@ -261,7 +378,7 @@ export default function Hackathon() {
               className="px-8 py-4 bg-brand-bg-secondary hover:bg-brand-bg-tertiary text-brand-text font-semibold rounded-2xl border border-brand-border hover:border-brand-accent/30 transition-all duration-300 flex items-center gap-2 shadow-soft hover:shadow-card"
             >
               <Github className="w-4 h-4" />
-              View on GitHub
+              {copy.viewGithub}
             </a>
           </div>
 
@@ -279,6 +396,8 @@ export default function Hackathon() {
       </section>
 
       <div ref={contentRef}>
+        <ChallengeRecap />
+
         {/* ───────── Why PhyAgentOS ───────── */}
         <section id="why" className="gsap-section relative py-24 lg:py-32 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-accent/[0.02] to-transparent" />
@@ -287,18 +406,18 @@ export default function Hackathon() {
               <div className="text-center mb-16 gsap-item">
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-text/[0.03] rounded-full text-xs text-brand-text-secondary mb-4">
                   <BrainCircuit className="w-3.5 h-3.5" />
-                  Why PhyAgentOS?
+                  {copy.whyLabel}
                 </div>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-brand-text mb-4">
-                  Pain Points & Solutions
+                  {copy.whyTitle}
                 </h2>
                 <p className="text-brand-text-secondary max-w-2xl mx-auto">
-                  See how PhyAgentOS fundamentally solves the hardest problems in embodied AI.
+                  {copy.whyDescription}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {painPoints.map((item, idx) => (
+                {copy.painPoints.map((item, idx) => (
                   <div
                     key={idx}
                     className="gsap-item group relative p-6 rounded-2xl border border-brand-border bg-brand-text/[0.03] hover:bg-brand-text/[0.04] transition-all duration-300 hover:border-brand-accent/30"
@@ -333,18 +452,18 @@ export default function Hackathon() {
               <div className="text-center mb-16 gsap-item">
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-text/[0.03] rounded-full text-xs text-brand-text-secondary mb-4">
                   <Sparkles className="w-3.5 h-3.5" />
-                  Recommended Directions
+                  {copy.directionsLabel}
                 </div>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-brand-text mb-4">
-                  Single Embodiment Tracks
+                  {copy.directionsTitle}
                 </h2>
                 <p className="text-brand-text-secondary max-w-2xl mx-auto">
-                  Choose a direction that excites you. Each track pushes the boundary of what embodied AI can achieve.
+                  {copy.directionsDescription}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {directions.map((dir, idx) => {
+                {copy.directions.map((dir, idx) => {
                   const Icon = dir.icon;
                   return (
                     <div
@@ -369,9 +488,9 @@ export default function Hackathon() {
                   <div className="w-12 h-12 rounded-xl bg-brand-accent/10 flex items-center justify-center text-brand-accent-dark mb-4">
                     <Zap className="w-6 h-6" />
                   </div>
-                  <h3 className="text-lg font-semibold text-brand-text mb-2">Your Idea</h3>
+                  <h3 className="text-lg font-semibold text-brand-text mb-2">{copy.ideaTitle}</h3>
                   <p className="text-sm text-brand-text-secondary mb-4">
-                    Have something else in mind? We welcome all creative directions!
+                    {copy.ideaDescription}
                   </p>
                   <a
                     href="https://www.notion.so/2026-BETA-Hackathon-34b41d54c5b8806ca0a8c05a812e49db"
@@ -379,7 +498,7 @@ export default function Hackathon() {
                     rel="noopener noreferrer"
                     className="text-sm text-brand-accent-dark hover:text-brand-accent-light flex items-center gap-1 transition-colors"
                   >
-                    Submit your proposal
+                    {copy.submitProposal}
                     <ArrowRight className="w-3.5 h-3.5" />
                   </a>
                 </div>
@@ -395,16 +514,16 @@ export default function Hackathon() {
               <div className="text-center mb-16 gsap-item">
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-text/[0.03] rounded-full text-xs text-brand-text-secondary mb-4">
                   <GitBranch className="w-3.5 h-3.5" />
-                  Technical Requirements
+                  {copy.techLabel}
                 </div>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-brand-text mb-4">
-                  Build on Solid Foundations
+                  {copy.techTitle}
                 </h2>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
                 <div className="lg:col-span-3 space-y-4">
-                  {techReqs.map((req, idx) => (
+                  {copy.techReqs.map((req, idx) => (
                     <div
                       key={idx}
                       className="gsap-item flex items-start gap-4 p-5 rounded-xl border border-brand-border bg-brand-text/[0.03] hover:bg-brand-text/[0.04] transition-colors"
@@ -428,23 +547,23 @@ export default function Hackathon() {
                     <div className="w-10 h-10 rounded-xl bg-brand-accent/10 flex items-center justify-center">
                       <Puzzle className="w-5 h-5 text-brand-accent-dark" />
                     </div>
-                    <h3 className="text-lg font-semibold text-brand-text">Architecture Overview</h3>
+                    <h3 className="text-lg font-semibold text-brand-text">{copy.architectureTitle}</h3>
                   </div>
                   <p className="text-sm text-brand-text-secondary leading-relaxed mb-4">
-                    PhyAgentOS uses a dual-track architecture where cognitive planning and physical execution are fully decoupled.
+                    {copy.architectureDescription}
                   </p>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2 text-brand-text-secondary">
                       <div className="w-2 h-2 rounded-full bg-cyan-400" />
-                      Track A: Cognitive Planning + Critic Verification
+                      {copy.trackA}
                     </div>
                     <div className="flex items-center gap-2 text-brand-text-secondary">
                       <div className="w-2 h-2 rounded-full bg-brand-accent" />
-                      Track B: HAL Watchdog + Physical Execution
+                      {copy.trackB}
                     </div>
                     <div className="flex items-center gap-2 text-brand-text-secondary">
                       <div className="w-2 h-2 rounded-full bg-brand-text/40" />
-                      Protocol: Markdown Files (ACTION.md / ENVIRONMENT.md)
+                      {copy.protocol}
                     </div>
                   </div>
                 </div>
@@ -460,15 +579,15 @@ export default function Hackathon() {
               <div className="text-center mb-16 gsap-item">
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-text/[0.03] rounded-full text-xs text-brand-text-secondary mb-4">
                   <Trophy className="w-3.5 h-3.5" />
-                  Evaluation Criteria
+                  {copy.evaluationLabel}
                 </div>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-brand-text mb-4">
-                  How We Judge
+                  {copy.evaluationTitle}
                 </h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {evalCriteria.map((item, idx) => (
+                {copy.evalCriteria.map((item, idx) => (
                   <div
                     key={idx}
                     className="gsap-item relative p-8 rounded-2xl border border-brand-border bg-brand-text/[0.03] text-center group hover:border-brand-accent/30 transition-all duration-300"
@@ -496,15 +615,15 @@ export default function Hackathon() {
               <div className="text-center mb-16 gsap-item">
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-text/[0.03] rounded-full text-xs text-brand-text-secondary mb-4">
                   <Zap className="w-3.5 h-3.5" />
-                  Participant Support
+                  {copy.supportLabel}
                 </div>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-brand-text mb-4">
-                  We Got Your Back
+                  {copy.supportTitle}
                 </h2>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {supports.map((item, idx) => {
+                {copy.supports.map((item, idx) => {
                   const Icon = item.icon;
                   return (
                     <div
@@ -535,15 +654,15 @@ export default function Hackathon() {
               <div className="text-center mb-16 gsap-item">
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-text/[0.03] rounded-full text-xs text-brand-text-secondary mb-4">
                   <FileText className="w-3.5 h-3.5" />
-                  Submission Requirements
+                  {copy.submissionLabel}
                 </div>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-brand-text mb-4">
-                  What to Submit
+                  {copy.submissionTitle}
                 </h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                {submissions.map((sub, idx) => (
+                {copy.submissions.map((sub, idx) => (
                   <div
                     key={idx}
                     className="gsap-item relative p-6 rounded-2xl border border-brand-border bg-brand-text/[0.03] group hover:border-brand-accent/30 transition-all duration-300"
@@ -576,13 +695,13 @@ export default function Hackathon() {
                     <div className="flex-1 text-center lg:text-left">
                       <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-accent/10 border border-brand-accent/20 rounded-full text-xs text-brand-accent-light mb-4">
                         <ExternalLink className="w-3.5 h-3.5" />
-                        Ready to Submit?
+                        {copy.readyLabel}
                       </div>
                       <h3 className="text-2xl sm:text-3xl font-display font-bold text-brand-text mb-3">
-                        Upload Your Submission
+                        {copy.uploadTitle}
                       </h3>
                       <p className="text-brand-text-secondary text-sm sm:text-base leading-relaxed max-w-lg">
-                        Package your code, demo video, protocol files, and presentation into a single ZIP file and upload it to our Google Drive folder. Make sure your filename includes your team name.
+                        {copy.uploadDescription}
                       </p>
                     </div>
 
@@ -595,25 +714,25 @@ export default function Hackathon() {
                             <FileText className="w-7 h-7 text-brand-accent-dark" />
                           </div>
                           <p className="text-brand-text font-medium mb-1">
-                            Submit via Google Form
+                            {copy.formTitle}
                           </p>
                           <p className="text-brand-text-tertiary text-sm">
-                            Fill in team info and upload your ZIP
+                            {copy.formDescription}
                           </p>
                         </div>
 
                         <div className="space-y-3 mb-5">
                           <div className="flex items-center gap-3 p-3 rounded-lg bg-brand-text/[0.04] border border-brand-border">
                             <div className="w-6 h-6 rounded-full bg-brand-accent/20 flex items-center justify-center text-xs text-brand-accent-dark font-bold">1</div>
-                            <span className="text-sm text-brand-text-secondary">Team name & contact</span>
+                            <span className="text-sm text-brand-text-secondary">{copy.formSteps[0]}</span>
                           </div>
                           <div className="flex items-center gap-3 p-3 rounded-lg bg-brand-text/[0.04] border border-brand-border">
                             <div className="w-6 h-6 rounded-full bg-brand-accent/20 flex items-center justify-center text-xs text-brand-accent-dark font-bold">2</div>
-                            <span className="text-sm text-brand-text-secondary">Project description</span>
+                            <span className="text-sm text-brand-text-secondary">{copy.formSteps[1]}</span>
                           </div>
                           <div className="flex items-center gap-3 p-3 rounded-lg bg-brand-text/[0.04] border border-brand-border">
                             <div className="w-6 h-6 rounded-full bg-brand-accent/20 flex items-center justify-center text-xs text-brand-accent-dark font-bold">3</div>
-                            <span className="text-sm text-brand-text-secondary">Upload ZIP submission</span>
+                            <span className="text-sm text-brand-text-secondary">{copy.formSteps[2]}</span>
                           </div>
                         </div>
 
@@ -624,12 +743,12 @@ export default function Hackathon() {
                           className="w-full px-6 py-3.5 bg-brand-accent hover:bg-brand-accent-light text-brand-text-on-accent font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-glow hover:shadow-glow-lg"
                         >
                           <ExternalLink className="w-5 h-5" />
-                          Open Submission Form
+                          {copy.openForm}
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                         </button>
 
                         <p className="text-center text-xs text-brand-text-tertiary mt-3">
-                          You'll be redirected to Google Forms to complete your submission.
+                          {copy.redirect}
                         </p>
                       </div>
                     </div>
@@ -649,12 +768,12 @@ export default function Hackathon() {
             <div className="max-w-4xl mx-auto text-center">
               <div className="gsap-item">
                 <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-brand-text mb-6">
-                  Ready to Hack the
+                  {copy.ctaTitle}
                   <br />
-                  <span className="text-gradient">Physical World?</span>
+                  <span className="text-gradient">{copy.ctaHighlight}</span>
                 </h2>
                 <p className="text-lg text-brand-text-secondary mb-10 max-w-2xl mx-auto">
-                  Join the 2026 BETA Hackathon and build the future of embodied AI with PhyAgentOS. Looking forward to seeing the sparks fly when your embodiment meets PhyAgentOS! ⭐
+                  {copy.ctaDescription}
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
                   <a
@@ -663,7 +782,7 @@ export default function Hackathon() {
                     rel="noopener noreferrer"
                     className="px-10 py-4 bg-brand-accent hover:bg-brand-accent-light text-brand-text-on-accent font-semibold rounded-xl transition-all duration-300 flex items-center gap-2 group shadow-glow hover:shadow-glow-lg"
                   >
-                    Join Hackathon
+                    {copy.joinHackathon}
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </a>
                   <a
@@ -673,7 +792,7 @@ export default function Hackathon() {
                     className="px-10 py-4 bg-brand-text/[0.03] hover:bg-brand-text/[0.05] backdrop-blur-sm text-brand-text font-semibold rounded-xl border border-brand-border-hover transition-all duration-300 flex items-center gap-2"
                   >
                     <Github className="w-5 h-5" />
-                    Explore Repo
+                    {copy.exploreRepo}
                   </a>
                 </div>
               </div>

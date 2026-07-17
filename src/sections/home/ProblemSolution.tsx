@@ -24,9 +24,8 @@ const problems = [
       cards?.forEach((card, i) => {
         gsap.fromTo(
           card,
-          { opacity: 0, x: i % 2 === 0 ? -50 : 50 },
+          { x: i % 2 === 0 ? -50 : 50 },
           {
-            opacity: 1,
             x: 0,
             duration: 0.8,
             ease: 'power3.out',
@@ -57,7 +56,7 @@ const problems = [
             label={t.problemSolution.label}
             title={t.problemSolution.title}
             highlight={t.problemSolution.highlight}
-            description="Four fundamental challenges that have blocked embodied intelligence, and how PhyAgentOS solves each one."
+            description={t.problemSolution.description}
           />
 
           <div className="mt-20 grid grid-cols-1 lg:grid-cols-2 gap-6">

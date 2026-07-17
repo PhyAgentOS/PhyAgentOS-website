@@ -13,13 +13,20 @@ const devices = [
   { name: 'Unitree Go2', typeKey: 'Quadruped', image: '/go2.png', status: 'verified' as const, specs: ['12 Motors', 'LiDAR', 'Navigation'] },
   { name: 'Franka Research 3', typeKey: 'Industrial Arm', image: '/franka.png', status: 'verified' as const, specs: ['7-DoF', 'Torque Sensing', 'Industrial'] },
   { name: 'XLeRobot', typeKey: 'Dual Arm', image: '/XLeRobot.png', status: 'verified' as const, specs: ['Dual Arm', 'Bimanual', 'ROS2'] },
-  { name: 'LIBERO / RoboCasa', typeKey: 'Simulation', image: '/scene.png', status: 'partial' as const, specs: ['MuJoCo', 'Benchmark', 'Batch Eval'] },
+  { name: 'SO101', typeKey: 'Desktop Arm', image: '/media/hardware/so101.jpg', status: 'verified' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
+  { name: 'Lekiwi', typeKey: 'Wheeled', image: '/media/hardware/lekiwi.jpg', status: 'verified' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
+  { name: 'Astra Pro', typeKey: 'Humanoid', image: '/media/hardware/astra-pro.png', status: 'verified' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
+  { name: 'Fourier GR-3', typeKey: 'Bipedal Humanoid', image: '/media/hardware/fourier-gr3.jpg', status: 'partial' as const, specs: ['Humanoid', 'MuJoCo', 'Real Robot'] },
+  { name: 'Zerith H1 PRO', typeKey: 'Humanoid', image: '/media/hardware/zerith-h1-pro.png', status: 'verified' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
+  { name: 'LIBERO', typeKey: 'Simulation', image: '/media/hardware/libero.png', status: 'verified' as const, specs: ['MuJoCo', 'Benchmark', 'Policy Eval'] },
+  { name: 'CALVIN', typeKey: 'Simulation', image: '/media/hardware/calvin.png', status: 'verified' as const, specs: ['PyBullet', 'ABC→D', 'Long-Horizon'] },
+  { name: 'RoboCasa365', typeKey: 'Simulation', image: '/media/hardware/robocasa365.jpg', status: 'verified' as const, specs: ['MuJoCo', 'target50', '250 Episodes'] },
 ];
 const statusConfig = {
   verified: { icon: Check, color: 'text-emerald-600', bgColor: 'bg-emerald-500/10', borderColor: 'border-emerald-500/25', label: t.hardware.statusVerified },
   partial: { icon: Clock, color: 'text-amber-600', bgColor: 'bg-amber-500/10', borderColor: 'border-amber-500/25', label: t.hardware.statusInProgress },
 };
-const filterKeys = ['All', 'Arm', 'Quadruped', 'Simulation'];
+const filterKeys = ['All', 'Arm', 'Quadruped', 'Humanoid', 'Wheeled', 'Simulation'];
 const devicesWithType = devices.map((d, idx) => ({
   ...d,
   type: t.hardware.items[idx].type,
@@ -64,7 +71,7 @@ const devicesWithType = devices.map((d, idx) => ({
               label={t.hardware.label}
               title={t.hardware.title}
               highlight={t.hardware.highlight}
-              description="Through Target Adapters, PhyAgentOS spans debug, simulation, and real-robot targets, from desktop arms to quadrupeds to dual-arm systems."
+              description={t.hardware.description}
             />
           </ScrollReveal>
 

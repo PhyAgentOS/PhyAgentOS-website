@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Play } from 'lucide-react';
+import { useEffect, useRef, useState, type MouseEvent } from 'react';
+import { ArrowRight, CalendarDays, FileText, Play } from 'lucide-react';
 import gsap from 'gsap';
 import { useT } from '../../i18n/LanguageContext';
 import ParticleField from '../../components/three/ParticleField';
@@ -11,6 +11,11 @@ export default function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const mousePosition = useMousePosition();
+
+  const handleWatchDemoClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   useEffect(() => {
     // Small delay to ensure DOM is ready
@@ -28,9 +33,8 @@ export default function Hero() {
       if (children) {
         tl.fromTo(
           children,
-          { opacity: 0, y: 40 },
+          { y: 40 },
           {
-            opacity: 1,
             y: 0,
             duration: 1,
             stagger: 0.12,
@@ -112,14 +116,33 @@ export default function Hero() {
               {t.hero.getStarted}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
+            <button
+              type="button"
+              aria-disabled="true"
+              className="flex cursor-default items-center gap-2 rounded-2xl border border-brand-border px-8 py-4 font-semibold text-brand-text-secondary transition-all duration-300"
+            >
+              <FileText className="h-5 w-5 text-brand-accent" />
+              {t.hero.technicalReport}
+            </button>
             <a
               href="#demo"
+              onClick={handleWatchDemoClick}
               className="group px-8 py-4 glass text-brand-text font-semibold rounded-2xl transition-all duration-300 flex items-center gap-2 hover:bg-brand-bg-secondary hover:shadow-soft"
             >
               <span className="flex items-center justify-center w-6 h-6 rounded-full bg-brand-accent/10 mr-1">
                 <Play className="w-3 h-3 text-brand-accent fill-brand-accent" />
               </span>
               {t.hero.watchDemo}
+            </a>
+            <a
+              href="https://actphyscause-challenge.x-era.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group px-8 py-4 glass text-brand-text font-semibold rounded-2xl transition-all duration-300 flex items-center gap-2 hover:bg-brand-bg-secondary hover:shadow-soft"
+            >
+              <CalendarDays className="w-5 h-5 text-brand-accent" />
+              {t.hero.activeEvent}
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
           </div>
 

@@ -8,6 +8,7 @@ export interface TranslationShape {
     hardware: string;
     roadmap: string;
     team: string;
+    activities: string;
     themes: string;
     github: string;
     getStarted: string;
@@ -25,6 +26,8 @@ export interface TranslationShape {
     contribute: string;
     starOnGithub: string;
     contact: string;
+    license: string;
+    by: string;
     team: string;
     hackathon: string;
     madeWith: string;
@@ -40,7 +43,9 @@ export interface TranslationShape {
     subtitle: string;
     description: string;
     getStarted: string;
+    technicalReport: string;
     watchDemo: string;
+    activeEvent: string;
     statTargets: string;
     statOpenSource: string;
     statRelease: string;
@@ -80,7 +85,6 @@ export interface TranslationShape {
     title: string;
     highlight: string;
     description: string;
-    learnMore: string;
     items: { title: string; subtitle: string; description: string; features: string[] }[];
     note: string;
   };
@@ -120,13 +124,22 @@ export interface TranslationShape {
     title: string;
     highlight: string;
     description: string;
-    stats: { label: string; description: string }[];
     chart1Title: string;
     chart1Subtitle: string;
-    chart2Title: string;
-    chart2Subtitle: string;
-    note: string;
-    documentation: string;
+    chartCalvinTitle: string;
+    chartCalvinSubtitle: string;
+    chartRobocasaTitle: string;
+    chartRobocasaSubtitle: string;
+    first: string;
+    final: string;
+    metric: string;
+    averageLength: string;
+    atomic: string;
+    composite: string;
+    overall: string;
+    rescued: string;
+    previousBenchmark: string;
+    nextBenchmark: string;
   };
   roadmap: {
     label: string;
@@ -163,8 +176,29 @@ export interface TranslationShape {
     highlight: string;
     description: string;
     viewFullTeam: string;
+    visitInstitution: string;
     institutions: { role: string; description: string }[];
     highlights: { label: string; value: string }[];
+  };
+  teamPage: {
+    label: string;
+    title: string;
+    highlight: string;
+    description: string;
+    coreTeam: string;
+    contributors: string;
+    openSourceCommunity: string;
+    contributorsFrom: string;
+    contributionDescription: string;
+    viewContributors: string;
+    contributionGuide: string;
+    contact: string;
+    githubIssues: string;
+    reportBugs: string;
+    email: string;
+    location: string;
+    locationValue: string;
+    members: { role: string; institution: string }[];
   };
   testimonials: {
     label: string;
@@ -199,6 +233,7 @@ export const translations: Record<Lang, TranslationShape> = {
       hardware: 'Hardware',
       roadmap: 'Roadmap',
       team: 'Team',
+      activities: 'Activities',
       themes: 'Themes',
       github: 'GitHub',
       getStarted: 'Get Started',
@@ -212,10 +247,12 @@ export const translations: Record<Lang, TranslationShape> = {
       documentation: 'Documentation',
       apiReference: 'User Manual',
       techReport: 'Technical Report',
-      issues: 'Issues',
+      issues: 'Ask a Question',
       contribute: 'Contribute',
       starOnGithub: 'Star on GitHub',
       contact: 'Contact',
+      license: 'MIT License',
+      by: 'by',
       team: 'Team',
       hackathon: 'Hackathon',
       madeWith: 'Made with',
@@ -229,9 +266,11 @@ export const translations: Record<Lang, TranslationShape> = {
       titleLine1: 'Self-Evolving Physical Agent',
       titleLine2: 'Operating System',
       subtitle: 'PhyAgentOS - A unified, transparent, and auditable runtime foundation for physical agents',
-      description: 'Build, deploy, and orchestrate embodied AI agents through a unified Session protocol that runs identically across debug, simulation, and real-robot targets, with complete auditability via Markdown + YAML file protocols.',
+      description: 'Heterogeneous robots plug in freely and work out of the box, making complex tasks one click away; embodied-model pipelines are automatically benchmarked and continuously evolved; long-term memory and self-evolution carry skills from games to simulation to real robots for seamless virtual-to-real migration.',
       getStarted: 'Get Started',
+      technicalReport: 'Technical Report',
       watchDemo: 'Watch Demo',
+      activeEvent: 'Ongoing Activities',
       statTargets: 'Supported Targets',
       statOpenSource: 'Open Source',
       statRelease: 'Latest Release',
@@ -264,14 +303,14 @@ export const translations: Record<Lang, TranslationShape> = {
           pain: 'Sim-to-real migration friction',
           detail: 'The same task behaves differently across simulation and real hardware.',
           solution: 'Zero-Friction Migration',
-          solutionDetail: 'One Session protocol runs identically across debug, simulation (LIBERO, RoboCasa), and real_robot targets, declared via target_adapter:// URI.',
+          solutionDetail: 'One Session protocol runs identically across simulation and real-world targets, declared via target_adapter:// URI.',
         },
       ],    },
     coreConcepts: {
       label: 'Core Concepts',
       title: 'Six principles that make',
       highlight: 'PhyAgentOS unique',
-      description: 'Not just features; fundamental design decisions behind the session-centered runtime, including the 3-tier hierarchical memory and 9-step reflection loop from the Game Agent branch.',
+      description: 'Not just features; fundamental design decisions behind the session-centered runtime, including multi-granularity hierarchical memory and a multi-step reflection loop from the Game Agent branch.',
       items: [
         {
           title: 'Session-Centered Runtime',
@@ -306,7 +345,7 @@ export const translations: Record<Lang, TranslationShape> = {
         {
           title: 'Hierarchical Memory & Reflection',
           subtitle: 'Learn from experience autonomously',
-          description: 'Three-tier memory (Episodic LESSONS.md → Semantic MEMORY.md → Methodological skills/) plus a 9-step reflection loop (Plan→Reflect→Abstract→Skill). The Agent autonomously compacts, deduplicates lessons, and auto-creates reusable skills after ≥2 verifications.',
+          description: 'Multi-granularity hierarchical memory (Episodic LESSONS.md → Semantic MEMORY.md → Methodological skills/) plus a multi-step reflection loop (Plan→Reflect→Abstract→Skill). The Agent autonomously compacts, deduplicates lessons, and auto-creates reusable skills after sufficient verification.',
           highlight: 'Experience auto-converts to reusable skills',
         },
       ],
@@ -333,7 +372,7 @@ export const translations: Record<Lang, TranslationShape> = {
         { label: 'WatchdogSupervisor', sublabel: 'Supervisor', description: 'The execution-plane supervisor that watches the session queue, launches SessionRunners, and enforces lifecycle (pending→running→succeeded/failed).' },
         { label: 'SessionRunner', sublabel: 'Sessions', description: 'Runs one session end-to-end: acquires a TargetSessionHandle, drives the SkillRuntime, and records results + artifacts.' },
         { label: 'SkillRuntime', sublabel: 'Skills', description: 'PolicySkillRuntime (closed-loop policy) and BuiltinSkillRuntime (agent interactive loop) execute skills against their declared contracts in SKILLRUNTIME.md.' },
-        { label: 'Adapters & Bridge', sublabel: 'Targets', description: 'TargetAdapter + PolicyAdapter + ActionBridge decouple contracts. Targets register in TARGETS.md via target_adapter:// URI: debug, simulation, real_robot.' },
+        { label: 'Adapters & Bridge', sublabel: 'Targets', description: 'TargetAdapter + PolicyAdapter + ActionBridge decouple contracts. Simulation and real-world targets register in TARGETS.md via target_adapter:// URI.' },
       ],
     },
     scenarios: {
@@ -341,7 +380,6 @@ export const translations: Record<Lang, TranslationShape> = {
       title: 'One runtime,',
       highlight: 'four target kinds',
       description: 'Each target kind validates a different layer of the embodied stack. The same Session protocol spans all four, from game testbeds to real robots.',
-      learnMore: 'Learn more',
       items: [
         {
           title: 'Debug',
@@ -358,8 +396,8 @@ export const translations: Record<Lang, TranslationShape> = {
         {
           title: 'Simulation',
           subtitle: 'Remote · benchmark',
-          description: 'Physics-accurate simulation at scale with LIBERO and RoboCasa. Batch-mine execution experience and benchmark policies with reproducible target sessions.',
-          features: ['LIBERO benchmark suite', 'RoboCasa scenes', 'Batch experience mining', 'Reproducible evaluation'],
+          description: 'Physics-accurate simulation at scale with LIBERO, CALVIN, and RoboCasa365. Evaluate transfer, long-horizon chains, and household manipulation through reproducible target sessions.',
+          features: ['LIBERO benchmark suite', 'CALVIN ABC→D', 'RoboCasa365 target50', 'Reproducible evaluation'],
         },
         {
           title: 'Real Robot',
@@ -374,18 +412,25 @@ export const translations: Record<Lang, TranslationShape> = {
       label: 'Hardware',
       title: 'Supported',
       highlight: 'Devices',
-      description: 'Through Target Adapters, PhyAgentOS spans game, debug, simulation, and real-robot targets, from Minecraft to desktop arms to quadrupeds to dual-arm systems.',
+      description: 'Through Target Adapter, PhyAgentOS covers game, debug, simulation, and real-robot targets, from Minecraft to desktop robotic arms, quadrupeds, and dual-arm systems.',
       devices: 'Devices',
       statusVerified: 'Verified',
       statusInProgress: 'In Progress',
-      filters: ['All', 'Arm', 'Quadruped', 'Simulation'],
+      filters: ['All', 'Arm', 'Quadruped', 'Humanoid', 'Wheeled', 'Simulation'],
       items: [
         { type: 'Desktop Arm', description: 'Real-robot target with ReKep & SAM3 grasping pipeline. One-click deployment via Target Adapter.' },
         { type: 'Desktop Arm', description: 'Collaborative arm target. ReKep deployment verified with precision control.' },
         { type: 'Quadruped', description: 'Legged robot target. Mobile manipulation and semantic navigation supported.' },
         { type: 'Industrial Arm', description: 'Industrial-grade precision arm target. Full protocol integration via Target Adapter.' },
         { type: 'Dual Arm', description: 'Bimanual dual-arm target. Dual-arm manipulation through a single Session protocol.' },
-        { type: 'Simulation', description: 'Physics-accurate simulation benchmark targets. Batch evaluation and experience mining at scale.' },
+        { type: 'Desktop Arm', description: 'Open desktop-arm hardware with real-device and MuJoCo access, suitable for compact manipulation benchmarks.' },
+        { type: 'Wheeled Robot', description: 'Compact wheeled manipulation platform with real-device and MuJoCo support for mobile operation tasks.' },
+        { type: 'Wheeled Humanoid', description: 'Humanoid platform for perception, navigation, and manipulation workflows through the same runtime interface.' },
+        { type: 'Bipedal Humanoid', description: 'Full-body humanoid platform for general-purpose embodied tasks, available through the hardware access pipeline.' },
+        { type: 'Wheeled Humanoid', description: 'Wheeled humanoid hardware with real-device and MuJoCo access for long-horizon embodied tasks.' },
+        { type: 'Simulation', description: 'LIBERO is a lifelong robot learning and knowledge-transfer benchmark for manipulation, with Spatial, Object, Goal, and LIBERO-100 suites for evaluating policy generalization and transfer.' },
+        { type: 'Simulation', description: 'CALVIN ABC→D is a language-conditioned, long-horizon manipulation benchmark that evaluates five-subtask chains and transfer to the unseen environment D.' },
+        { type: 'Simulation', description: 'RoboCasa365 evaluates atomic skills and composite household activities across diverse MuJoCo kitchen environments.' },
       ],
       deviceTable: {
         title: 'Supported Device Matrix',
@@ -425,19 +470,23 @@ export const translations: Record<Lang, TranslationShape> = {
       label: 'Benchmark',
       title: 'Performance',
       highlight: "that's auditable",
-      description: 'Target-session results on the LIBERO benchmark, with every run traceable through SESSIONS.md and LESSONS.md.',
-      stats: [
-        { label: 'LIBERO Success', description: 'Policy skill benchmark' },
-        { label: 'Target Adapters', description: 'debug · sim · real' },
-        { label: 'Reproducible', description: 'File-protocol auditable' },
-        { label: 'Open Source', description: 'MIT Licensed' },
-      ],
-      chart1Title: 'Task Success Rate',
-      chart1Subtitle: 'Real-target session completion on LIBERO benchmark suite',
-      chart2Title: 'Integration Effort',
-      chart2Subtitle: 'Lines to add a new robot target (relative scale, one Target Adapter)',
-      note: '* Benchmarks evaluated on the LIBERO target suite. Full methodology and SESSIONS.md traces are available in our',
-      documentation: 'documentation',
+      description: 'Agent-assisted validation on LIBERO, CALVIN ABC→D, and RoboCasa365 target50, with every recovery traceable through SESSIONS.md and LESSONS.md.',
+      chart1Title: 'Agent-assisted LIBERO validation',
+      chart1Subtitle: 'Overall task success rate before and after verifier-triggered retry.',
+      chartCalvinTitle: 'Agent-assisted CALVIN ABC→D validation',
+      chartCalvinSubtitle: 'Chain success across five-subtask sequences; Avg. Len. is the average number of completed subtasks per sequence.',
+      chartRobocasaTitle: 'Agent-assisted RoboCasa365 target50 validation',
+      chartRobocasaSubtitle: 'Episode success on the pretrain split: 18 atomic skills / 90 episodes and 32 composite activities / 160 episodes.',
+      first: 'First attempt',
+      final: 'After verifier retry',
+      metric: 'Metric',
+      averageLength: 'Avg. Len.',
+      atomic: 'Atomic',
+      composite: 'Composite',
+      overall: 'Overall',
+      rescued: 'Rescued episodes',
+      previousBenchmark: 'Previous benchmark',
+      nextBenchmark: 'Next benchmark',
     },
     roadmap: {
       label: 'Roadmap',
@@ -453,7 +502,7 @@ export const translations: Record<Lang, TranslationShape> = {
             { title: 'Minecraft pipeline: cloud Agent connects to local game' },
             { title: 'Agent Loop integration: complex task completion in-game' },
             { title: 'Self-evolution with reflection: summarize experience from novel scenes' },
-            { title: 'Hermes memory: 3-tier hierarchical + 9-step Reflection loop' },
+            { title: 'Hermes memory: multi-granularity hierarchy + multi-step Reflection loop' },
           ],
         },
         {
@@ -467,7 +516,7 @@ export const translations: Record<Lang, TranslationShape> = {
             { title: 'Strict Policy/Builtin SkillRuntime separation' },
             { title: 'Onboarding & communication protocol spec' },
             { title: 'Cleaned protocols; main branch sim & real focus' },
-            { title: 'Behavior 1K support; SessionVerifier' },
+            { title: 'CALVIN and RoboCasa365 support; SessionVerifier' },
           ],
         },
         {
@@ -512,7 +561,7 @@ export const translations: Record<Lang, TranslationShape> = {
       githubStars: 'GitHub Stars',
       githubStarsDesc: 'Community support',
       targetAdapters: 'Target Adapters',
-      targetAdaptersDesc: 'debug · sim · real_robot',
+      targetAdaptersDesc: 'sim · real-world',
       auditable: 'Auditable',
       auditableDesc: 'Markdown + YAML protocols',
       openSource: 'Open Source',
@@ -526,16 +575,41 @@ export const translations: Record<Lang, TranslationShape> = {
       highlight: 'researchers',
       description: 'PhyAgentOS is jointly developed by the HCP Laboratory at Sun Yat-sen University, Peng Cheng Laboratory, and X-Era Lab.',
       viewFullTeam: 'View full team',
+      visitInstitution: 'Visit Website',
       institutions: [
-        { role: 'HCP Lab', description: 'Human-Computer Perception Laboratory' },
-        { role: 'Research Partner', description: 'National laboratory for AI research' },
-        { role: 'X-Era Lab', description: 'Cross-era embodied intelligence research' },
+        { role: 'HCP Lab', description: 'Human Cyber Physical Intelligence Integration Lab' },
+        { role: 'Research Partner', description: 'Peng Cheng National Laboratory' },
+        { role: 'X-Era Lab', description: 'X-Era' },
       ],
       highlights: [
         { label: 'Research Lab', value: 'HCP @ SYSU' },
         { label: 'Partner', value: 'Peng Cheng Lab' },
         { label: 'Collaborator', value: 'X-Era Lab' },
         { label: 'License', value: 'MIT Open Source' },
+      ],
+    },
+    teamPage: {
+      label: 'Team',
+      title: 'The people behind',
+      highlight: 'PhyAgentOS',
+      description: 'A collaboration between Sun Yat-sen University, Peng Cheng Laboratory, and X-Era Lab, built with the open-source community.',
+      coreTeam: 'Core Team',
+      contributors: 'Contributors',
+      openSourceCommunity: 'Open Source Community',
+      contributorsFrom: 'Contributors from around the world',
+      contributionDescription: 'PhyAgentOS is an open-source project that welcomes contributions from the community. Whether you are fixing bugs, adding new features, improving documentation, or sharing your use cases, every contribution matters.',
+      viewContributors: 'View Contributors',
+      contributionGuide: 'Contribution Guide',
+      contact: 'Contact',
+      githubIssues: 'GitHub Issues',
+      reportBugs: 'Report bugs & request features',
+      email: 'Email',
+      location: 'Location',
+      locationValue: 'Guangzhou, China',
+      members: [
+        { role: 'Core Development Team', institution: 'Sun Yat-sen University' },
+        { role: 'Research Partner', institution: 'Peng Cheng Laboratory' },
+        { role: 'Research Collaborator', institution: 'X-Era Lab' },
       ],
     },
     testimonials: {
@@ -578,6 +652,7 @@ export const translations: Record<Lang, TranslationShape> = {
       hardware: '硬件设备',
       roadmap: '路线图',
       team: '团队',
+      activities: '活动',
       themes: '主题',
       github: 'GitHub',
       getStarted: '快速开始',
@@ -591,10 +666,12 @@ export const translations: Record<Lang, TranslationShape> = {
       documentation: '技术文档',
       apiReference: '用户手册',
       techReport: '技术报告',
-      issues: '议题',
+      issues: '提问',
       contribute: '参与贡献',
       starOnGithub: '在 GitHub 上 Star',
       contact: '联系我们',
+      license: 'MIT 许可证',
+      by: '由',
       team: '团队',
       hackathon: '黑客松',
       madeWith: '由',
@@ -608,9 +685,11 @@ export const translations: Record<Lang, TranslationShape> = {
       titleLine1: '自进化物理智能体',
       titleLine2: '操作系统',
       subtitle: 'PhyAgentOS-统一、透明、可审计的的物理智能体运行底座',
-      description: '通过统一的 Session 协议构建、部署并编排具身智能体，在调试、仿真与真机目标上行为完全一致；借助 Markdown + YAML 文件协议实现全链路可审计。',
+      description: '异构机器人自由接入，即插即用，复杂任务一触即达；具身模型流水线自动评测、持续进化；长期记忆与自进化能力，Game → 仿真 → 真机，无缝虚实迁移。',
       getStarted: '快速开始',
+      technicalReport: '技术报告',
       watchDemo: '观看演示',
+      activeEvent: '正在进行的活动',
       statTargets: '支持的目标',
       statOpenSource: '开源协议',
       statRelease: '最新版本',
@@ -643,7 +722,7 @@ export const translations: Record<Lang, TranslationShape> = {
           pain: '仿真到真机的迁移摩擦',
           detail: '同一任务在仿真与真实硬件上行为不一致。',
           solution: '零摩擦迁移',
-          solutionDetail: '同一 Session 协议在 debug、simulation（LIBERO、RoboCasa）与 real_robot 目标上行为完全一致，通过 target_adapter:// URI 声明。',
+          solutionDetail: '同一 Session 协议在仿真和真实世界目标上行为完全一致，通过 target_adapter:// URI 声明。',
         },
       ],
     },
@@ -651,7 +730,7 @@ export const translations: Record<Lang, TranslationShape> = {
       label: '核心理念',
       title: '六大原则让',
       highlight: 'PhyAgentOS 与众不同',
-      description: '这不仅是功能，而是会话中心化运行时背后的根本性设计决策，包括来自游戏智能体分支的三层分层记忆与 9 步反思闭环。',
+      description: '这不仅是功能，而是会话中心化运行时背后的根本性设计决策，包括来自游戏智能体分支的多粒度分层记忆与多步反思闭环。',
       items: [
         {
           title: '会话中心化运行时',
@@ -686,7 +765,7 @@ export const translations: Record<Lang, TranslationShape> = {
         {
           title: '分层记忆与反思',
           subtitle: '自主学习，沉淀经验',
-          description: '三层记忆架构（战术层 LESSONS.md → 战略层 MEMORY.md → 方法论层 skills/）加 9 步反思闭环（Plan→Reflect→Abstract→Skill）。Agent 自主压缩、去重经验教训，≥2 次验证后自动调用 skill-creator 创建可复用技能。',
+          description: '多粒度分层记忆架构（战术层 LESSONS.md → 战略层 MEMORY.md → 方法论层 skills/）加多步反思闭环（Plan→Reflect→Abstract→Skill）。Agent 自主压缩、去重经验教训，经过多次验证后自动调用 skill-creator 创建可复用技能。',
           highlight: '经验自动转化为可复用技能',
         },
       ],
@@ -713,7 +792,7 @@ export const translations: Record<Lang, TranslationShape> = {
         { label: 'WatchdogSupervisor', sublabel: '监督者', description: '执行层监督者，监视会话队列、启动 SessionRunner 并强制执行生命周期（pending→running→succeeded/failed）。' },
         { label: 'SessionRunner', sublabel: '会话', description: '端到端运行单个会话：获取 TargetSessionHandle、驱动 SkillRuntime 并记录结果与产物。' },
         { label: 'SkillRuntime', sublabel: '技能', description: 'PolicySkillRuntime（闭环策略）与 BuiltinSkillRuntime（智能体交互闭环）依据 SKILLRUNTIME.md 中声明的契约执行技能。' },
-        { label: 'Adapters & Bridge', sublabel: '目标', description: 'TargetAdapter + PolicyAdapter + ActionBridge 解耦契约。目标通过 target_adapter:// URI 注册于 TARGETS.md：debug、simulation、real_robot。' },
+        { label: 'Adapters & Bridge', sublabel: '目标', description: 'TargetAdapter + PolicyAdapter + ActionBridge 解耦契约。仿真和真实世界目标通过 target_adapter:// URI 注册于 TARGETS.md。' },
       ],
     },
     scenarios: {
@@ -721,7 +800,6 @@ export const translations: Record<Lang, TranslationShape> = {
       title: '一个运行时，',
       highlight: '四类目标',
       description: '每类目标验证具身栈的不同层面。同一 Session 协议贯穿四者，从游戏试验场到真实机器人。',
-      learnMore: '了解更多',
       items: [
         {
           title: '调试',
@@ -738,8 +816,8 @@ export const translations: Record<Lang, TranslationShape> = {
         {
           title: '仿真',
           subtitle: '远程 · 基准评测',
-          description: '基于 LIBERO 与 RoboCasa 的大规模物理精确仿真。批量挖掘执行经验，通过可复现的目标会话对策略进行基准评测。',
-          features: ['LIBERO 基准套件', 'RoboCasa 场景', '批量经验挖掘', '可复现评估'],
+          description: '基于 LIBERO、CALVIN 与 RoboCasa365 的大规模物理精确仿真，通过可复现的目标会话评估迁移、长程任务链与家庭操作能力。',
+          features: ['LIBERO 基准套件', 'CALVIN ABC→D', 'RoboCasa365 target50', '可复现评估'],
         },
         {
           title: '真机',
@@ -758,14 +836,21 @@ export const translations: Record<Lang, TranslationShape> = {
       devices: '个设备',
       statusVerified: '已验证',
       statusInProgress: '开发中',
-      filters: ['全部', '机械臂', '四足', '仿真'],
+      filters: ['全部', '机械臂', '四足', '人形', '轮式', '仿真'],
       items: [
         { type: '桌面机械臂', description: '支持 ReKep 与 SAM3 抓取流水线的真机目标。通过 Target Adapter 一键部署。' },
         { type: '桌面机械臂', description: '协作机械臂目标。ReKep 部署已验证，具备精密控制能力。' },
         { type: '四足机器人', description: '足式机器人目标。支持移动操作与语义导航。' },
         { type: '工业机械臂', description: '工业级精密机械臂目标。通过 Target Adapter 实现完整协议集成。' },
         { type: '双臂', description: '双臂操作目标。通过单一 Session 协议实现双臂协同操作。' },
-        { type: '仿真', description: '物理精确的仿真基准目标。支持规模化批量评测与经验挖掘。' },
+        { type: '桌面机械臂', description: '开源桌面机械臂硬件，支持真机接入与 MuJoCo 接入，适合紧凑型操作评测。' },
+        { type: '轮式机器人', description: '紧凑型轮式操作平台，支持真机与 MuJoCo，用于移动操作任务。' },
+        { type: '轮式人形', description: '面向感知、导航与操作流程的人形平台，通过统一运行时接口接入。' },
+        { type: '双足人形', description: '面向通用具身任务的全身人形平台，可通过硬件接入链路运行。' },
+        { type: '轮式人形', description: '支持真机接入与 MuJoCo 接入的轮式人形硬件，适合长程具身任务。' },
+        { type: '仿真', description: 'LIBERO 是面向终身机器人学习与知识迁移的机器人操作基准，包含 Spatial、Object、Goal、LIBERO-100 等任务套件，用于评估策略泛化与迁移能力。' },
+        { type: '仿真', description: 'CALVIN ABC→D 是面向语言条件长程操作的仿真基准，用五步子任务链评估策略向未见环境 D 的迁移能力。' },
+        { type: '仿真', description: 'RoboCasa365 在多样化的 MuJoCo 厨房环境中评估原子技能与复合家庭活动。' },
       ],
       deviceTable: {
         title: '设备支持矩阵',
@@ -805,19 +890,23 @@ export const translations: Record<Lang, TranslationShape> = {
       label: '性能基准',
       title: '可审计的',
       highlight: '性能表现',
-      description: 'LIBERO 基准上的目标会话结果，每一次运行都可通过 SESSIONS.md 与 LESSONS.md 追溯。',
-      stats: [
-        { label: 'LIBERO 成功率', description: '策略技能基准' },
-        { label: '目标适配器', description: 'debug · sim · real' },
-        { label: '可复现', description: '文件协议可审计' },
-        { label: '完全开源', description: 'MIT 许可证' },
-      ],
-      chart1Title: '任务成功率',
-      chart1Subtitle: 'LIBERO 基准套件上的真机目标会话完成情况',
-      chart2Title: '集成成本',
-      chart2Subtitle: '新增一个机器人目标所需代码行数（相对量级，单个 Target Adapter）',
-      note: '* 基准在 LIBERO 目标套件上评测。完整方法论与 SESSIONS.md 追踪记录见我们的',
-      documentation: '文档',
+      description: 'LIBERO、CALVIN ABC→D 与 RoboCasa365 target50 上的智能体辅助验证结果，每次恢复均可通过 SESSIONS.md 与 LESSONS.md 追溯。',
+      chart1Title: '智能体辅助 LIBERO 验证',
+      chart1Subtitle: '展示验证器触发重试前后的总体任务成功率。',
+      chartCalvinTitle: '智能体辅助 CALVIN ABC→D 验证',
+      chartCalvinSubtitle: '展示五步子任务序列的链式成功率；平均链长表示每个序列平均完成的子任务数量。',
+      chartRobocasaTitle: '智能体辅助 RoboCasa365 target50 验证',
+      chartRobocasaSubtitle: 'pretrain 划分上的回合成功率：18 项原子技能 / 90 回合，32 项复合活动 / 160 回合。',
+      first: '首次执行',
+      final: '验证器重试后',
+      metric: '指标',
+      averageLength: '平均链长',
+      atomic: '原子技能',
+      composite: '复合活动',
+      overall: '总体',
+      rescued: '挽救回合',
+      previousBenchmark: '上一个基准',
+      nextBenchmark: '下一个基准',
     },
     roadmap: {
       label: '路线图',
@@ -833,7 +922,7 @@ export const translations: Record<Lang, TranslationShape> = {
             { title: 'Minecraft 全链路：云端 Agent 连接本地游戏服务器' },
             { title: 'Agent Loop 整合：游戏内完成复杂任务' },
             { title: '反思自进化：在全新场景中总结经验' },
-            { title: 'Hermes 记忆：三层分层 + 9 步反思闭环' },
+            { title: 'Hermes 记忆：多粒度分层 + 多步反思闭环' },
           ],
         },
         {
@@ -847,7 +936,7 @@ export const translations: Record<Lang, TranslationShape> = {
             { title: '严格的 Policy/Builtin SkillRuntime 分离' },
             { title: '入门流程与通信协议规范' },
             { title: '协议清理；主分支聚焦仿真与真机' },
-            { title: 'Behavior 1K 支持；SessionVerifier' },
+            { title: 'CALVIN 与 RoboCasa365 支持；SessionVerifier' },
           ],
         },
         {
@@ -892,7 +981,7 @@ export const translations: Record<Lang, TranslationShape> = {
       githubStars: 'GitHub Stars',
       githubStarsDesc: '社区支持',
       targetAdapters: '目标适配器',
-      targetAdaptersDesc: 'debug · sim · real_robot',
+      targetAdaptersDesc: '仿真 · 真实世界',
       auditable: '可审计',
       auditableDesc: 'Markdown + YAML 协议',
       openSource: '完全开源',
@@ -906,16 +995,41 @@ export const translations: Record<Lang, TranslationShape> = {
       highlight: '研究者打造',
       description: 'PhyAgentOS 由中山大学 HCP 实验室、鹏城实验室与 X-Era Lab 联合开发。',
       viewFullTeam: '查看完整团队',
+      visitInstitution: '访问官网',
       institutions: [
-        { role: 'HCP 实验室', description: '人机感知实验室' },
-        { role: '研究合作伙伴', description: '国家级人工智能研究实验室' },
-        { role: 'X-Era Lab', description: '跨时代具身智能研究' },
+        { role: 'HCP 实验室', description: '人机物智能融合实验室' },
+        { role: '研究合作伙伴', description: '鹏城国家实验室' },
+        { role: 'X-Era Lab', description: '拓元智慧' },
       ],
       highlights: [
         { label: '研究实验室', value: 'HCP @ 中山大学' },
         { label: '合作伙伴', value: '鹏城实验室' },
         { label: '合作单位', value: 'X-Era Lab' },
         { label: '开源协议', value: 'MIT 开源' },
+      ],
+    },
+    teamPage: {
+      label: '团队',
+      title: 'PhyAgentOS 背后的',
+      highlight: '建设者',
+      description: 'PhyAgentOS 由中山大学人机物智能融合实验室（HCP-Lab）、鹏城国家实验室和 X-Era Lab 联合开发，并与开源社区共同建设。',
+      coreTeam: '核心团队',
+      contributors: '贡献者',
+      openSourceCommunity: '开源社区',
+      contributorsFrom: '来自世界各地的贡献者',
+      contributionDescription: 'PhyAgentOS 是一个欢迎社区参与的开源项目。无论是修复问题、增加功能、改进文档，还是分享使用案例，每一份贡献都很重要。',
+      viewContributors: '查看贡献者',
+      contributionGuide: '贡献指南',
+      contact: '联系方式',
+      githubIssues: 'GitHub Issues',
+      reportBugs: '报告问题、提出功能需求',
+      email: '邮箱',
+      location: '所在地',
+      locationValue: '中国广州',
+      members: [
+        { role: '核心开发团队', institution: '中山大学人机物智能融合实验室（HCP-Lab）' },
+        { role: '研究合作伙伴', institution: '鹏城国家实验室' },
+        { role: '研究合作伙伴', institution: 'X-Era Lab' },
       ],
     },
     testimonials: {
