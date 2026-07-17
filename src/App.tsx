@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Hackathon from './pages/Hackathon';
 import Team from './pages/Team';
 import ThemePreview from './pages/ThemePreview';
+import TechReport from './pages/TechReport';
 
 import './App.css';
 
@@ -34,6 +35,7 @@ function App() {
                 <Route path="/hackathon" element={<Hackathon />} />
                 <Route path="/team" element={<Team />} />
                 <Route path="/themes" element={<ThemePreview />} />
+                <Route path="/tech-report" element={<TechReport />} />
               </Routes>
             </main>
             <Footer />

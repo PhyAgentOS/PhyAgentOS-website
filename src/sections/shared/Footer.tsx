@@ -17,7 +17,7 @@ export default function Footer() {
     resources: [
       { label: t.footer.documentation, href: `${docsBase}/architecture/`, external: true },
       { label: t.footer.apiReference, href: `${docsBase}/api-reference/`, external: true },
-      { label: t.footer.techReport, href: `${docsBase}/tech-report.pdf`, external: true },
+      { label: t.footer.techReport, href: '/tech-report', external: false },
       { label: t.nav.github, href: 'https://github.com/PhyAgentOS/PhyAgentOS', external: true },
       { label: t.footer.issues, href: 'https://github.com/PhyAgentOS/PhyAgentOS/issues', external: true },
     ],
@@ -102,15 +102,24 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerLinks.resources.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-brand-text-secondary hover:text-brand-text transition-colors duration-200 flex items-center gap-1"
-                    >
-                      {link.label}
-                      <ExternalLink className="w-3 h-3 opacity-50" />
-                    </a>
+                    {link.external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-brand-text-secondary hover:text-brand-text transition-colors duration-200 flex items-center gap-1"
+                      >
+                        {link.label}
+                        <ExternalLink className="w-3 h-3 opacity-50" />
+                      </a>
+                    ) : (
+                      <Link
+                        to={link.href}
+                        className="text-sm text-brand-text-secondary hover:text-brand-text transition-colors duration-200 flex items-center gap-1"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
