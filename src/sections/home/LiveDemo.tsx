@@ -126,9 +126,9 @@ export default function LiveDemo() {
     { id: 'minecraft-game', icon: Gamepad2, src: '/media/demos/cross-target-runtime.mp4', poster: '/media/demos/cross-target-runtime.jpg', duration: '01:10' },
     { id: 'dont-starve', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.jpg', duration: '03:03' },
     { id: 'stardew', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.jpg', duration: '02:26' },
-    { id: 'libero-benchmark', icon: BarChart3, src: '/media/demos/libero-benchmark.mp4', poster: '/media/demos/libero-benchmark.jpg', duration: '02:29' },
-    { id: 'calvin-benchmark', icon: BarChart3, src: '/media/demos/calvin-benchmark.mp4', poster: '/media/demos/calvin-benchmark.jpg', duration: '02:06' },
-    { id: 'robocasa365-benchmark', icon: BarChart3, src: '/media/demos/robocasa365-benchmark.mp4', poster: '/media/demos/robocasa365-benchmark.jpg', duration: '01:47' },
+    { id: 'libero-benchmark', icon: BarChart3, src: '/media/demos/libero-benchmark.mp4', poster: '/media/demos/libero-benchmark.jpg', duration: '02:39' },
+    { id: 'calvin-benchmark', icon: BarChart3, src: '/media/demos/calvin-benchmark.mp4', poster: '/media/demos/calvin-benchmark.jpg', duration: '02:37' },
+    { id: 'robocasa365-benchmark', icon: BarChart3, src: '/media/demos/robocasa365-benchmark.mp4', poster: '/media/demos/robocasa365-benchmark.jpg', duration: '02:27' },
   ].map((demo) => ({ ...demo, ...copyById[demo.id] }));
 
   const [activeId, setActiveId] = useState(demos[0].id);
