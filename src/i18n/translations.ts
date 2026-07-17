@@ -20,6 +20,7 @@ export interface TranslationShape {
     community: string;
     documentation: string;
     apiReference: string;
+    techReport: string;
     issues: string;
     contribute: string;
     starOnGithub: string;
@@ -210,6 +211,7 @@ export const translations: Record<Lang, TranslationShape> = {
       community: 'Community',
       documentation: 'Documentation',
       apiReference: 'User Manual',
+      techReport: 'Technical Report',
       issues: 'Issues',
       contribute: 'Contribute',
       starOnGithub: 'Star on GitHub',
@@ -588,6 +590,7 @@ export const translations: Record<Lang, TranslationShape> = {
       community: '社区',
       documentation: '技术文档',
       apiReference: '用户手册',
+      techReport: '技术报告',
       issues: '议题',
       contribute: '参与贡献',
       starOnGithub: '在 GitHub 上 Star',

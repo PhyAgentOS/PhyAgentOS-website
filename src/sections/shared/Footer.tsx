@@ -17,6 +17,7 @@ export default function Footer() {
     resources: [
       { label: t.footer.documentation, href: `${docsBase}/architecture/`, external: true },
       { label: t.footer.apiReference, href: `${docsBase}/api-reference/`, external: true },
+      { label: t.footer.techReport, href: `${docsBase}/tech-report.pdf`, external: true },
       { label: t.nav.github, href: 'https://github.com/PhyAgentOS/PhyAgentOS', external: true },
       { label: t.footer.issues, href: 'https://github.com/PhyAgentOS/PhyAgentOS/issues', external: true },
     ],
