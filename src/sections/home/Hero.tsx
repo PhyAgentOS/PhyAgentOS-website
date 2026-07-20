@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CalendarDays, FileText, Play } from 'lucide-react';
+import { ArrowRight, CalendarDays, FileText, Play, Presentation, Users } from 'lucide-react';
 import gsap from 'gsap';
 import { useT } from '../../i18n/LanguageContext';
 import ParticleField from '../../components/three/ParticleField';
@@ -107,8 +107,9 @@ export default function Hero() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="hero-animate flex flex-wrap justify-center gap-4">
-            <a
+          <div className="hero-animate flex flex-col items-center gap-4">
+            <div className="flex flex-wrap justify-center gap-4">
+              <a
               href="https://github.com/PhyAgentOS/PhyAgentOS"
               target="_blank"
               rel="noopener noreferrer"
@@ -116,16 +117,24 @@ export default function Hero() {
             >
               {t.hero.getStarted}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <Link
+              </a>
+              <Link
+              to="/product-introduction"
+              className="group px-8 py-4 glass text-brand-text font-semibold rounded-2xl transition-all duration-300 flex items-center gap-2 hover:bg-brand-bg-secondary hover:shadow-soft"
+            >
+              <Presentation className="h-5 w-5 text-brand-accent" />
+              {t.hero.productIntroduction}
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
               to="/tech-report"
               className="group px-8 py-4 glass text-brand-text font-semibold rounded-2xl transition-all duration-300 flex items-center gap-2 hover:bg-brand-bg-secondary hover:shadow-soft"
             >
               <FileText className="h-5 w-5 text-brand-accent" />
               {t.hero.technicalReport}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <a
+              </Link>
+              <a
               href="#demo"
               onClick={handleWatchDemoClick}
               className="group px-8 py-4 glass text-brand-text font-semibold rounded-2xl transition-all duration-300 flex items-center gap-2 hover:bg-brand-bg-secondary hover:shadow-soft"
@@ -134,8 +143,19 @@ export default function Hero() {
                 <Play className="w-3 h-3 text-brand-accent fill-brand-accent" />
               </span>
               {t.hero.watchDemo}
-            </a>
-            <a
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </a>
+            </div>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link
+              to="/join-us"
+              className="group px-8 py-4 glass text-brand-text font-semibold rounded-2xl transition-all duration-300 flex items-center gap-2 hover:bg-brand-bg-secondary hover:shadow-soft"
+            >
+              <Users className="w-5 h-5 text-brand-accent" />
+              {t.hero.joinUs}
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <a
               href="https://actphyscause-challenge.x-era.com/"
               target="_blank"
               rel="noopener noreferrer"
@@ -144,7 +164,8 @@ export default function Hero() {
               <CalendarDays className="w-5 h-5 text-brand-accent" />
               {t.hero.activeEvent}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
+              </a>
+            </div>
           </div>
 
           {/* Stats preview */}

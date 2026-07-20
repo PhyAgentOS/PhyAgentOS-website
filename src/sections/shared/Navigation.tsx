@@ -24,7 +24,10 @@ export default function Navigation() {
   ];
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [starCount, setStarCount] = useState(0);
+  const [starCount, setStarCount] = useState<number | null>(() => {
+    const cached = window.localStorage.getItem('phyagentos-star-count');
+    return cached ? Number(cached) : null;
+  });
   const location = useLocation();
   const logoSrc = `${import.meta.env.BASE_URL}LOGO.png`;
   const isHome = location.pathname === '/';
@@ -44,16 +47,35 @@ export default function Navigation() {
 
   useEffect(() => {
     const fetchStars = async () => {
+      let stars: number | null = null;
+
       try {
         const res = await fetch('https://api.github.com/repos/PhyAgentOS/PhyAgentOS', {
           headers: { Accept: 'application/vnd.github+json' },
         });
         if (res.ok) {
           const data = await res.json();
-          setStarCount(data.stargazers_count || 0);
+          stars = data.stargazers_count;
         }
       } catch {
-        // silently fail
+        // Try the cached Shields endpoint below.
+      }
+
+      if (stars === null) {
+        try {
+          const res = await fetch('https://img.shields.io/github/stars/PhyAgentOS/PhyAgentOS.json');
+          if (res.ok) {
+            const data = await res.json();
+            stars = Number(data.value);
+          }
+        } catch {
+          // Keep the last successfully cached value.
+        }
+      }
+
+      if (stars !== null && Number.isFinite(stars)) {
+        setStarCount(stars);
+        window.localStorage.setItem('phyagentos-star-count', String(stars));
       }
     };
 
@@ -140,7 +162,7 @@ export default function Navigation() {
               >
                 <Github className="w-4 h-4" />
                 <span>{t.nav.github}</span>
-                {starCount > 0 && (
+                {starCount !== null && (
                   <span className="flex items-center gap-1 text-xs text-brand-text-tertiary bg-brand-text/[0.04] px-1.5 py-0.5 rounded-md">
                     <Star className="w-3 h-3 fill-amber-500 text-amber-500" />
                     {starCount}
@@ -217,7 +239,7 @@ export default function Navigation() {
             >
               <Github className="w-4 h-4" />
               GitHub
-              {starCount > 0 && (
+              {starCount !== null && (
                 <span className="flex items-center gap-1 text-xs text-brand-text-tertiary">
                   <Star className="w-3 h-3 fill-amber-500 text-amber-500" />
                   {starCount}
