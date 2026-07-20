@@ -9,7 +9,6 @@ import Hackathon from './pages/Hackathon';
 import Team from './pages/Team';
 import ThemePreview from './pages/ThemePreview';
 import TechReport from './pages/TechReport';
-import ProductIntroduction from './pages/ProductIntroduction';
 import JoinUs from './pages/JoinUs';
 
 import './App.css';
@@ -38,7 +37,6 @@ function App() {
                 <Route path="/team" element={<Team />} />
                 <Route path="/themes" element={<ThemePreview />} />
                 <Route path="/tech-report" element={<TechReport />} />
-                <Route path="/product-introduction" element={<ProductIntroduction />} />
                 <Route path="/join-us" element={<JoinUs />} />
               </Routes>
             </main>
