@@ -43,7 +43,6 @@ export interface TranslationShape {
     subtitle: string;
     description: string;
     getStarted: string;
-    productIntroduction: string;
     technicalReport: string;
     watchDemo: string;
     joinUs: string;
@@ -270,7 +269,6 @@ export const translations: Record<Lang, TranslationShape> = {
       subtitle: 'PhyAgentOS - A unified, transparent, and auditable runtime foundation for physical agents',
       description: 'Heterogeneous robots plug in freely and work out of the box, making complex tasks one click away; embodied-model pipelines are automatically benchmarked and continuously evolved; long-term memory and self-evolution carry skills from games to simulation to real robots for seamless virtual-to-real migration.',
       getStarted: 'Get Started',
-      productIntroduction: 'Product Introduction',
       technicalReport: 'Technical Report',
       watchDemo: 'Watch Demo',
       joinUs: 'Join Us',
@@ -691,7 +689,6 @@ export const translations: Record<Lang, TranslationShape> = {
       subtitle: 'PhyAgentOS-统一、透明、可审计的的物理智能体运行底座',
       description: '异构机器人自由接入，即插即用，复杂任务一触即达；具身模型流水线自动评测、持续进化；长期记忆与自进化能力，Game → 仿真 → 真机，无缝虚实迁移。',
       getStarted: '快速开始',
-      productIntroduction: '产品介绍',
       technicalReport: '技术报告',
       watchDemo: '观看演示',
       joinUs: '加入我们',
