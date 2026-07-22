@@ -399,16 +399,10 @@ export const translations: Record<Lang, TranslationShape> = {
     },
     scenarios: {
       label: 'Scenarios',
-      title: 'One runtime,',
-      highlight: 'four target kinds',
-      description: 'Each target kind validates a different layer of the embodied stack. The same Session protocol spans all four, from game testbeds to real robots.',
+      title: 'One Runtime,',
+      highlight: 'three task types',
+      description: 'The same Session protocol supports three task types: games, simulation, and physical robots.',
       items: [
-        {
-          title: 'Debug',
-          subtitle: 'Local · zero-hardware',
-          description: 'echo / mock / dry-run targets validate the full protocol pipeline with zero hardware. Perfect for contract testing and rapid iteration before touching sim or real robots.',
-          features: ['Echo & mock targets', 'Dry-run contract validation', 'Zero-hardware iteration', 'Fast feedback loop'],
-        },
         {
           title: 'Game',
           subtitle: 'Local · Minecraft / Stardew Valley / Don\'t Starve',
@@ -428,7 +422,7 @@ export const translations: Record<Lang, TranslationShape> = {
           features: ['Franka, Go2, XLeRobot, PIPER', 'ReKep / SAM3 grasping', 'Fleet multi-robot coordination', 'Semantic verification'],
         },
       ],
-      note: 'Debug validates contracts with zero hardware. Game explores Agent behavior in open-world and life-simulation games at minimal cost. Simulation benchmarks policies at scale. Real Robot closes the loop with physical data. Each new target = register one target_adapter:// entry in TARGETS.md.',
+      note: 'Game explores Agent behavior in open-world and life-simulation games at minimal cost. Simulation benchmarks policies at scale. Real Robot closes the loop with physical data. Each new target = register one target_adapter:// entry in TARGETS.md.',
     },
     hardware: {
       label: 'Hardware',
@@ -713,7 +707,7 @@ export const translations: Record<Lang, TranslationShape> = {
       watchDemo: '观看演示',
       developerCommunity: '开发者社区',
       activeEvent: '正在进行的活动',
-      statTargets: '支持的目标',
+      statTargets: '支持的构型',
       statOpenSource: '开源协议',
       statRelease: '最新版本',
     },
@@ -752,10 +746,10 @@ export const translations: Record<Lang, TranslationShape> = {
           solutionDetail: '状态、动作与感知结果均写入 Markdown + YAML 文件（TARGETS.md、SESSIONS.md、SKILLRUNTIME.md、LESSONS.md）。每一步可追溯、可复现。',
         },
         {
-          pain: '仿真到真机的迁移摩擦',
+          pain: '仿真与真机执行链路不一致',
           detail: '同一任务在仿真与真实硬件上行为不一致。',
-          solution: '零摩擦迁移',
-          solutionDetail: '同一 Session 协议在仿真和真实世界目标上行为完全一致，通过 target_adapter:// URI 声明。',
+          solution: '统一执行链路',
+          solutionDetail: '同一套 Session 协议贯通仿真环境与真实硬件，具体接入方式通过 target_adapter:// URI 声明。',
         },
       ],
     },
@@ -831,15 +825,9 @@ export const translations: Record<Lang, TranslationShape> = {
     scenarios: {
       label: '应用场景',
       title: '一个运行时，',
-      highlight: '四类目标',
-      description: '每类目标验证具身栈的不同层面。同一 Session 协议贯穿四者，从游戏试验场到真实机器人。',
+      highlight: '三类任务',
+      description: '同一套 Session 协议支持游戏、仿真与真机三类任务。',
       items: [
-        {
-          title: '调试',
-          subtitle: '本地 · 零硬件',
-          description: 'echo / mock / dry-run 目标以零硬件验证完整协议流水线。在接触仿真或真机前进行契约测试与快速迭代的理想之选。',
-          features: ['echo 与 mock 目标', 'dry-run 契约验证', '零硬件迭代', '快速反馈循环'],
-        },
         {
           title: '游戏',
           subtitle: '本地 · Minecraft / 星露谷 / 饥荒',
@@ -859,7 +847,7 @@ export const translations: Record<Lang, TranslationShape> = {
           features: ['Franka、Go2、XLeRobot、PIPER', 'ReKep / SAM3 抓取', '编队多机协同', '语义验证'],
         },
       ],
-      note: '调试以零硬件验证契约；游戏以极低硬件成本在开放世界与生存模拟游戏中探索 Agent 行为；仿真大规模评测策略；真机以物理数据闭环。每个新目标 = 在 TARGETS.md 中注册一个 target_adapter:// 条目。',
+      note: '游戏以极低硬件成本在开放世界与生存模拟游戏中探索 Agent 行为；仿真大规模评测策略；真机以物理数据闭环。每个新目标 = 在 TARGETS.md 中注册一个 target_adapter:// 条目。',
     },
     hardware: {
       label: '硬件设备',
