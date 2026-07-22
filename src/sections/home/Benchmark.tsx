@@ -74,11 +74,11 @@ function formatValue(value: number, unit: Unit) {
 }
 
 function getDomain(data: ComparisonDatum[], unit: Unit): [number, number] {
-  const minimum = Math.min(...data.flatMap((item) => [item.first, item.final]));
   if (unit === '') {
-    return [Math.max(0, Math.floor((minimum - 0.1) * 2) / 2), 5];
+    return [0, 5];
   }
-  return [Math.max(0, Math.floor((minimum - 2) / 10) * 10), 100];
+  const maximum = Math.max(...data.flatMap((item) => [item.first, item.final]));
+  return [0, Math.ceil(maximum)];
 }
 
 function MetricSelector({

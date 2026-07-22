@@ -1,4 +1,4 @@
-import { Bug, Gamepad2, Box, Bot, Sparkles } from 'lucide-react';
+import { Gamepad2, Box, Bot, Sparkles } from 'lucide-react';
 import TiltCard from '../../components/animations/TiltCard';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
@@ -7,10 +7,9 @@ import { useT } from '../../i18n/LanguageContext';
 export default function Scenarios() {
   const t = useT();
 const scenarios = [
-  { icon: Bug, title: t.scenarios.items[0].title, subtitle: t.scenarios.items[0].subtitle, description: t.scenarios.items[0].description, features: t.scenarios.items[0].features, color: 'from-emerald-400/12 to-teal-400/12', borderColor: 'border-emerald-500/20', iconColor: 'text-emerald-700', accentColor: 'bg-emerald-500' },
-  { icon: Gamepad2, title: t.scenarios.items[1].title, subtitle: t.scenarios.items[1].subtitle, description: t.scenarios.items[1].description, features: t.scenarios.items[1].features, color: 'from-purple-400/12 to-fuchsia-400/12', borderColor: 'border-purple-500/20', iconColor: 'text-purple-700', accentColor: 'bg-purple-500' },
-  { icon: Box, title: t.scenarios.items[2].title, subtitle: t.scenarios.items[2].subtitle, description: t.scenarios.items[2].description, features: t.scenarios.items[2].features, color: 'from-sky-400/12 to-indigo-400/12', borderColor: 'border-sky-500/20', iconColor: 'text-sky-700', accentColor: 'bg-sky-500' },
-  { icon: Bot, title: t.scenarios.items[3].title, subtitle: t.scenarios.items[3].subtitle, description: t.scenarios.items[3].description, features: t.scenarios.items[3].features, color: 'from-amber-400/12 to-orange-400/12', borderColor: 'border-amber-500/20', iconColor: 'text-amber-700', accentColor: 'bg-amber-500' },
+  { icon: Gamepad2, title: t.scenarios.items[0].title, subtitle: t.scenarios.items[0].subtitle, description: t.scenarios.items[0].description, features: t.scenarios.items[0].features, color: 'from-purple-400/12 to-fuchsia-400/12', borderColor: 'border-purple-500/20', iconColor: 'text-purple-700', accentColor: 'bg-purple-500' },
+  { icon: Box, title: t.scenarios.items[1].title, subtitle: t.scenarios.items[1].subtitle, description: t.scenarios.items[1].description, features: t.scenarios.items[1].features, color: 'from-sky-400/12 to-indigo-400/12', borderColor: 'border-sky-500/20', iconColor: 'text-sky-700', accentColor: 'bg-sky-500' },
+  { icon: Bot, title: t.scenarios.items[2].title, subtitle: t.scenarios.items[2].subtitle, description: t.scenarios.items[2].description, features: t.scenarios.items[2].features, color: 'from-amber-400/12 to-orange-400/12', borderColor: 'border-amber-500/20', iconColor: 'text-amber-700', accentColor: 'bg-amber-500' },
 ];
   return (
     <section id="scenarios" className="relative py-24 lg:py-32 overflow-hidden">
@@ -29,7 +28,7 @@ const scenarios = [
             />
           </ScrollReveal>
 
-          <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {scenarios.map((scenario, index) => {
               const Icon = scenario.icon;
               return (
