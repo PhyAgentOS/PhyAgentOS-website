@@ -45,11 +45,21 @@ export interface TranslationShape {
     getStarted: string;
     technicalReport: string;
     watchDemo: string;
-    joinUs: string;
+    developerCommunity: string;
     activeEvent: string;
     statTargets: string;
     statOpenSource: string;
     statRelease: string;
+  };
+  communityPage: {
+    description: string;
+    discordTitle: string;
+    discordDescription: string;
+    joinDiscord: string;
+    feishu: string;
+    bilibili: string;
+    xiaohongshu: string;
+    scanToJoin: string;
   };
   problemSolution: {
     label: string;
@@ -271,11 +281,21 @@ export const translations: Record<Lang, TranslationShape> = {
       getStarted: 'Get Started',
       technicalReport: 'Technical Report',
       watchDemo: 'Watch Demo',
-      joinUs: 'Join Us',
+      developerCommunity: 'Developer Community',
       activeEvent: 'Ongoing Activities',
       statTargets: 'Supported Targets',
       statOpenSource: 'Open Source',
       statRelease: 'Latest Release',
+    },
+    communityPage: {
+      description: 'Connect with PhyAgentOS developers and follow the latest project updates.',
+      discordTitle: 'Join us on Discord',
+      discordDescription: 'Chat with developers worldwide, ask questions, and take part in community discussions.',
+      joinDiscord: 'Join Discord',
+      feishu: 'Feishu Community',
+      bilibili: 'Bilibili',
+      xiaohongshu: 'Xiaohongshu',
+      scanToJoin: 'Scan the QR code to follow or join',
     },
     problemSolution: {
       label: 'Why PhyAgentOS?',
@@ -691,11 +711,21 @@ export const translations: Record<Lang, TranslationShape> = {
       getStarted: '快速开始',
       technicalReport: '技术报告',
       watchDemo: '观看演示',
-      joinUs: '加入我们',
+      developerCommunity: '开发者社区',
       activeEvent: '正在进行的活动',
       statTargets: '支持的目标',
       statOpenSource: '开源协议',
       statRelease: '最新版本',
+    },
+    communityPage: {
+      description: '与 PhyAgentOS 开发者交流，获取项目最新动态。',
+      discordTitle: '加入 Discord 社区',
+      discordDescription: '与全球开发者交流、提问，并参与社区讨论。',
+      joinDiscord: '加入 Discord',
+      feishu: '飞书开发者群',
+      bilibili: '哔哩哔哩',
+      xiaohongshu: '小红书',
+      scanToJoin: '扫描二维码关注或加入',
     },
     problemSolution: {
       label: '为何选择 PhyAgentOS？',
