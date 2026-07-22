@@ -141,7 +141,7 @@ export default function Hero() {
               className="group glass flex items-center gap-2 whitespace-nowrap rounded-2xl px-5 py-4 text-sm font-semibold text-brand-text transition-all duration-300 hover:bg-brand-bg-secondary hover:shadow-soft xl:px-7 xl:text-base"
             >
               <Users className="w-5 h-5 text-brand-accent" />
-              {t.hero.joinUs}
+              {t.hero.developerCommunity}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <a
