@@ -749,7 +749,7 @@ export const translations: Record<Lang, TranslationShape> = {
           pain: '仿真与真机执行链路不一致',
           detail: '同一任务在仿真与真实硬件上行为不一致。',
           solution: '统一执行链路',
-          solutionDetail: '同一套 Session 协议贯通仿真环境与真实硬件，具体接入方式通过 target_adapter:// URI 声明。',
+          solutionDetail: '同一套 Session 协议贯通仿真环境与真实硬件，具体接入方式通过 TARGETS.md 声明。',
         },
       ],
     },
@@ -762,7 +762,7 @@ export const translations: Record<Lang, TranslationShape> = {
         {
           title: '会话中心化运行时',
           subtitle: '一个协议，任意目标',
-          description: '统一流水线 WatchdogSupervisor → SessionRunner → SkillRuntime → TargetSessionHandle 替代了传统的驱动中心化模型。同一 Session 协议在调试、仿真与真机目标上行为完全一致。',
+          description: '统一流水线 WatchdogSupervisor → SessionRunner → SkillRuntime → Target 替代了传统的驱动中心化模型。同一 Session 协议在调试、仿真与真机目标上行为完全一致。',
           highlight: '替代传统的驱动中心化架构',
         },
         {
@@ -819,7 +819,7 @@ export const translations: Record<Lang, TranslationShape> = {
         { label: 'WatchdogSupervisor', sublabel: '监督者', description: '执行层监督者，监视会话队列、启动 SessionRunner 并强制执行生命周期（pending→running→succeeded/failed）。' },
         { label: 'SessionRunner', sublabel: '会话', description: '端到端运行单个会话：获取 TargetSessionHandle、驱动 SkillRuntime 并记录结果与产物。' },
         { label: 'SkillRuntime', sublabel: '技能', description: 'PolicySkillRuntime（闭环策略）与 BuiltinSkillRuntime（智能体交互闭环）依据 SKILLRUNTIME.md 中声明的契约执行技能。' },
-        { label: 'Adapters & Bridge', sublabel: '目标', description: 'TargetAdapter + PolicyAdapter + ActionBridge 解耦契约。仿真和真实世界目标通过 target_adapter:// URI 注册于 TARGETS.md。' },
+        { label: 'Target', sublabel: '目标', description: '仿真和真实世界目标注册于 TARGETS.md，通过 TargetAdapter + PolicyAdapter + ActionBridge 实现契约解耦。' },
       ],
     },
     scenarios: {
