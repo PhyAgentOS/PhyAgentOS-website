@@ -7,9 +7,9 @@ import { useT } from '../../i18n/LanguageContext';
 export default function TeamPreview() {
   const t = useT();
 const institutions = [
-  { name: 'Sun Yat-sen University', shortName: 'SYSU', href: 'https://www.sysu-hcp.net/', role: t.teamPreview.institutions[0].role, description: t.teamPreview.institutions[0].description },
-  { name: 'Peng Cheng Laboratory', shortName: 'PCL', href: 'https://www.pcl.ac.cn/', role: t.teamPreview.institutions[1].role, description: t.teamPreview.institutions[1].description },
-  { name: 'X-Era Lab', shortName: 'X-Era', href: 'https://www.ex-ai.cn/', role: t.teamPreview.institutions[2].role, description: t.teamPreview.institutions[2].description },
+  { name: t.teamPreview.institutions[0].name, shortName: 'SYSU', href: 'https://www.sysu-hcp.net/', role: t.teamPreview.institutions[0].role, description: t.teamPreview.institutions[0].description },
+  { name: t.teamPreview.institutions[1].name, shortName: 'PCL', href: 'https://www.pcl.ac.cn/', role: t.teamPreview.institutions[1].role, description: t.teamPreview.institutions[1].description },
+  { name: t.teamPreview.institutions[2].name, shortName: 'X-Era', href: 'https://www.ex-ai.cn/', role: t.teamPreview.institutions[2].role, description: t.teamPreview.institutions[2].description },
 ];
 const teamHighlights = [
   { label: t.teamPreview.highlights[0].label, value: t.teamPreview.highlights[0].value },

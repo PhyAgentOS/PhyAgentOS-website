@@ -1,19 +1,17 @@
-import { Github, Mail, MapPin, ExternalLink } from 'lucide-react';
+import { Github, Mail, MapPin, ExternalLink, Users } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/animations/ScrollReveal';
 import SectionHeader from '../components/layout/SectionHeader';
 import { useLang } from '../i18n/LanguageContext';
 
 const coreTeam = [
   {
-    name: 'HCP Lab',
     avatar: 'HCP',
   },
   {
-    name: 'Peng Cheng Lab',
     avatar: 'PCL',
   },
   {
-    name: 'X-Era Lab',
     avatar: 'X-Era',
   },
 ];
@@ -32,6 +30,7 @@ export default function Team() {
               highlight={t.teamPage.highlight}
               description={t.teamPage.description}
               align="left"
+              className="[&_h2]:leading-[1.35]"
             />
           </ScrollReveal>
 
@@ -53,7 +52,7 @@ export default function Team() {
                         </div>
                         <div>
                           <h3 className="text-xl font-display font-bold text-brand-text">
-                            {member.name}
+                            {t.teamPage.members[index].name}
                           </h3>
                           <p className="text-sm text-brand-accent font-medium">
                             {t.teamPage.members[index].role}
@@ -111,6 +110,13 @@ export default function Team() {
                     <ExternalLink className="w-4 h-4" />
                     {t.teamPage.contributionGuide}
                   </a>
+                  <Link
+                    to="/join-us"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-brand-text/[0.03] border border-brand-border text-brand-text text-sm hover:border-brand-accent/30 hover:shadow-soft transition-all"
+                  >
+                    <Users className="w-4 h-4" />
+                    {t.teamPage.developerCommunity}
+                  </Link>
                 </div>
               </div>
             </ScrollReveal>
