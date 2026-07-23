@@ -188,7 +188,7 @@ export interface TranslationShape {
     description: string;
     viewFullTeam: string;
     visitInstitution: string;
-    institutions: { role: string; description: string }[];
+    institutions: { name: string; role: string; description: string }[];
     highlights: { label: string; value: string }[];
   };
   teamPage: {
@@ -593,9 +593,9 @@ export const translations: Record<Lang, TranslationShape> = {
       viewFullTeam: 'View full team',
       visitInstitution: 'Visit Website',
       institutions: [
-        { role: 'HCP Lab', description: 'Human Cyber Physical Intelligence Integration Lab' },
-        { role: 'Research Partner', description: 'Peng Cheng National Laboratory' },
-        { role: 'X-Era Lab', description: 'X-Era' },
+        { name: 'Sun Yat-sen University', role: 'HCP Lab', description: 'Human Cyber Physical Intelligence Integration Lab' },
+        { name: 'Peng Cheng Laboratory', role: 'Research Partner', description: 'Peng Cheng National Laboratory' },
+        { name: 'X-Era Lab', role: 'X-Era Lab', description: 'X-Era' },
       ],
       highlights: [
         { label: 'Research Lab', value: 'HCP @ SYSU' },
@@ -1018,9 +1018,9 @@ export const translations: Record<Lang, TranslationShape> = {
       viewFullTeam: '查看完整团队',
       visitInstitution: '访问官网',
       institutions: [
-        { role: 'HCP 实验室', description: '人机物智能融合实验室' },
-        { role: '研究合作伙伴', description: '鹏城国家实验室' },
-        { role: 'X-Era Lab', description: '拓元智慧' },
+        { name: '中山大学', role: 'HCP 实验室', description: '人机物智能融合实验室' },
+        { name: '鹏城国家实验室', role: '具身智能研究所', description: '鹏城国家实验室' },
+        { name: '拓元智慧', role: 'X-Era Lab', description: '拓元智慧' },
       ],
       highlights: [
         { label: '研究实验室', value: 'HCP @ 中山大学' },
