@@ -203,13 +203,14 @@ export interface TranslationShape {
     contributionDescription: string;
     viewContributors: string;
     contributionGuide: string;
+    developerCommunity: string;
     contact: string;
     githubIssues: string;
     reportBugs: string;
     email: string;
     location: string;
     locationValue: string;
-    members: { role: string; institution: string }[];
+    members: { name: string; role: string; institution: string }[];
   };
   testimonials: {
     label: string;
@@ -616,6 +617,7 @@ export const translations: Record<Lang, TranslationShape> = {
       contributionDescription: 'PhyAgentOS is an open-source project that welcomes contributions from the community. Whether you are fixing bugs, adding new features, improving documentation, or sharing your use cases, every contribution matters.',
       viewContributors: 'View Contributors',
       contributionGuide: 'Contribution Guide',
+      developerCommunity: 'Developer Community',
       contact: 'Contact',
       githubIssues: 'GitHub Issues',
       reportBugs: 'Report bugs & request features',
@@ -623,9 +625,9 @@ export const translations: Record<Lang, TranslationShape> = {
       location: 'Location',
       locationValue: 'Guangzhou, China',
       members: [
-        { role: 'Core Development Team', institution: 'Sun Yat-sen University' },
-        { role: 'Research Partner', institution: 'Peng Cheng Laboratory' },
-        { role: 'Research Collaborator', institution: 'X-Era Lab' },
+        { name: 'HCP Lab', role: 'Core Development Team', institution: 'Sun Yat-sen University' },
+        { name: 'Peng Cheng Lab', role: 'Research Partner', institution: 'Peng Cheng Laboratory' },
+        { name: 'X-Era Lab', role: 'Research Collaborator', institution: 'X-Era Lab' },
       ],
     },
     testimonials: {
@@ -1041,6 +1043,7 @@ export const translations: Record<Lang, TranslationShape> = {
       contributionDescription: 'PhyAgentOS 是一个欢迎社区参与的开源项目。无论是修复问题、增加功能、改进文档，还是分享使用案例，每一份贡献都很重要。',
       viewContributors: '查看贡献者',
       contributionGuide: '贡献指南',
+      developerCommunity: '开发者社区',
       contact: '联系方式',
       githubIssues: 'GitHub Issues',
       reportBugs: '报告问题、提出功能需求',
@@ -1048,9 +1051,9 @@ export const translations: Record<Lang, TranslationShape> = {
       location: '所在地',
       locationValue: '中国广州',
       members: [
-        { role: '核心开发团队', institution: '中山大学人机物智能融合实验室（HCP-Lab）' },
-        { role: '研究合作伙伴', institution: '鹏城国家实验室' },
-        { role: '研究合作伙伴', institution: 'X-Era Lab' },
+        { name: '中山大学', role: '核心开发团队', institution: '中山大学人机物智能融合实验室（HCP-Lab）' },
+        { name: '鹏城国家实验室', role: '具身智能研究所', institution: '鹏城国家实验室' },
+        { name: '拓元智慧', role: '研究合作伙伴', institution: 'X-Era Lab' },
       ],
     },
     testimonials: {
