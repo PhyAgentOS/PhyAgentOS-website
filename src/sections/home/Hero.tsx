@@ -161,7 +161,7 @@ export default function Hero() {
             {[
               { value: '19+', label: t.hero.statTargets },
               { value: 'MIT', label: t.hero.statOpenSource },
-              { value: 'v0.1.6', label: t.hero.statRelease },
+              { value: 'v0.1.7', label: t.hero.statRelease },
             ].map((stat) => (
               <div
                 key={stat.label}

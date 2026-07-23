@@ -50,7 +50,7 @@ export default function TechReport() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="text-2xl font-display font-bold text-brand-text">Technical Report</h1>
-            <p className="text-sm text-brand-text-secondary">PhyAgentOS v0.1.6</p>
+            <p className="text-sm text-brand-text-secondary">PhyAgentOS v0.1.7</p>
           </div>
           <div className="flex items-center gap-2">
             <a
