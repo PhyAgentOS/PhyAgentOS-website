@@ -5,6 +5,8 @@ import gsap from 'gsap';
 import { useT } from '../../i18n/LanguageContext';
 import ParticleField from '../../components/three/ParticleField';
 import { useMousePosition } from '../../hooks/useMousePosition';
+import { algorithmItems } from '../../pages/Algorithms';
+import { skillItems } from '../../pages/Skills';
 
 export default function Hero() {
   const t = useT();
@@ -16,6 +18,11 @@ export default function Hero() {
   const handleWatchDemoClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const handleHardwareClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    document.getElementById('hardware')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   useEffect(() => {
@@ -159,22 +166,32 @@ export default function Hero() {
           {/* Stats preview */}
           <div className="hero-animate mt-16 grid w-full max-w-4xl grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6 mx-auto">
             {[
-              { value: '19+', label: t.hero.statTargets },
-              { value: 'MIT', label: t.hero.statOpenSource },
-              { value: 'v0.1.7', label: t.hero.statRelease },
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className="flex min-h-[112px] flex-col items-center justify-center rounded-lg border border-brand-border/50 bg-brand-bg-secondary/70 px-6 py-6 text-center backdrop-blur-sm transition-all duration-300 hover:border-brand-accent/25 hover:bg-brand-bg-secondary/85 sm:min-h-[128px] sm:px-7 lg:min-h-[140px] lg:px-8"
-              >
-                <div className="font-display text-4xl font-bold leading-none text-brand-text sm:text-5xl lg:text-6xl">
-                  {stat.value}
-                </div>
-                <div className="mt-3 text-sm font-medium leading-tight text-brand-text-tertiary sm:text-base">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+              { value: '19+', label: t.hero.statTargets, href: '#hardware', to: undefined },
+              { value: String(algorithmItems.length), label: t.hero.statAlgorithms, href: undefined, to: '/algorithms' },
+              { value: String(skillItems.length), label: t.hero.statSkills, href: undefined, to: '/skills' },
+            ].map((stat) => {
+              const content = (
+                <>
+                  <div className="font-display text-4xl font-bold leading-none text-brand-text sm:text-5xl lg:text-6xl">
+                    {stat.value}
+                  </div>
+                  <div className="mt-3 text-sm font-medium leading-tight text-brand-text-tertiary sm:text-base">
+                    {stat.label}
+                  </div>
+                </>
+              );
+              const className = 'flex min-h-[112px] flex-col items-center justify-center rounded-lg border border-brand-border/50 bg-brand-bg-secondary/70 px-6 py-6 text-center backdrop-blur-sm transition-all duration-300 hover:border-brand-accent/25 hover:bg-brand-bg-secondary/85 sm:min-h-[128px] sm:px-7 lg:min-h-[140px] lg:px-8';
+
+              return stat.to ? (
+                <Link key={stat.label} to={stat.to} className={className}>
+                  {content}
+                </Link>
+              ) : (
+                <a key={stat.label} href={stat.href} onClick={handleHardwareClick} className={className}>
+                  {content}
+                </a>
+              );
+            })}
           </div>
         </div>
       </div>

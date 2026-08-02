@@ -19,7 +19,6 @@ export default function Navigation() {
     { label: t.liveDemo.label, href: '/#demo' },
     { label: t.nav.activities, href: '/hackathon' },
     { label: t.nav.hardware, href: '/#hardware' },
-    { label: t.nav.roadmap, href: '/#roadmap' },
     { label: t.nav.team, href: '/team' },
   ];
   const [isScrolled, setIsScrolled] = useState(false);

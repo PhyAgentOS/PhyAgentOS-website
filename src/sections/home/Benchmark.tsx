@@ -8,13 +8,6 @@ import { useT } from '../../i18n/LanguageContext';
 type ComparisonDatum = { name: string; first: number; final: number };
 type Unit = '%' | '';
 
-const liberoData: ComparisonDatum[] = [
-  { name: 'OpenVLA', first: 74.5, final: 75.5 },
-  { name: 'π₀', first: 92.8, final: 93.2 },
-  { name: 'π₀.₅', first: 97.0, final: 97.8 },
-  { name: 'X-VLA', first: 97.3, final: 98.6 },
-];
-
 const calvinData = {
   one: [
     { name: 'X-VLA', first: 96.8, final: 97.0 },
@@ -198,19 +191,6 @@ export default function Benchmark() {
     { id: 'overall', label: t.benchmark.overall },
   ];
   const charts = [
-    {
-      name: 'LIBERO',
-      content: (
-        <ComparisonChart
-          title={t.benchmark.chart1Title}
-          subtitle={t.benchmark.chart1Subtitle}
-          data={liberoData}
-          unit="%"
-          firstLabel={t.benchmark.first}
-          finalLabel={t.benchmark.final}
-        />
-      ),
-    },
     {
       name: 'CALVIN',
       content: (

@@ -12,7 +12,6 @@ export default function Footer() {
       { label: t.nav.features, href: '/#features' },
       { label: t.nav.architecture, href: '/#architecture' },
       { label: t.nav.hardware, href: '/#hardware' },
-      { label: t.nav.roadmap, href: '/#roadmap' },
     ],
     resources: [
       { label: t.footer.documentation, href: `${docsBase}/architecture/`, external: true },

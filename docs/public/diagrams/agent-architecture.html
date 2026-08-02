@@ -128,14 +128,14 @@
 <body>
   <header>
     <h1>PhyAgentOS Agent Architecture</h1>
-    <p>Track A 的消息驱动 Agent：上下文在文件、会话历史与运行时状态之间汇聚；模型通过结构化 Tool Call 形成闭环；长期任务通过 Runtime Session 下沉到 Track B。</p>
+    <p>Track A 的消息驱动 Agent：上下文在文件、会话历史与 Runtime 状态之间汇聚；模型通过结构化 Tool Call 形成闭环；长期任务通过 Runtime Session 下沉到 Track B。</p>
     <div class="meta"><span>代码基线：AgentLoop / ContextBuilder / ToolRegistry</span><span>图示范围：主 Agent、并行服务、Runtime 边界</span></div>
   </header>
   <main>
     <div class="legend">
       <span style="color:var(--blue)"><i class="dot"></i>上下文与消息</span>
       <span style="color:var(--green)"><i class="dot"></i>推理闭环</span>
-      <span style="color:var(--amber)"><i class="dot"></i>运行时协议</span>
+      <span style="color:var(--amber)"><i class="dot"></i>Runtime 协议</span>
       <span style="color:var(--violet)"><i class="dot"></i>后台服务</span>
       <span style="color:var(--red)"><i class="dot"></i>状态裁决</span>
     </div>

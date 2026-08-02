@@ -11,9 +11,7 @@ import Scenarios from '../sections/home/Scenarios';
 import LiveDemo from '../sections/home/LiveDemo';
 import Hardware from '../sections/home/Hardware';
 import Benchmark from '../sections/home/Benchmark';
-import Roadmap from '../sections/home/Roadmap';
 import TeamPreview from '../sections/home/TeamPreview';
-import Stats from '../sections/home/Stats';
 import Testimonials from '../sections/home/Testimonials';
 import DocsCTA from '../sections/home/DocsCTA';
 
@@ -55,11 +53,7 @@ export default function Home() {
       <div className="section-divider" />
       <Benchmark />
       <div className="section-divider" />
-      <Roadmap />
-      <div className="section-divider" />
       <TeamPreview />
-      <div className="section-divider" />
-      <Stats />
       <div className="section-divider" />
       <Testimonials />
       <div className="section-divider" />

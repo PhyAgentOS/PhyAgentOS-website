@@ -6,7 +6,6 @@ export interface TranslationShape {
     architecture: string;
     scenarios: string;
     hardware: string;
-    roadmap: string;
     team: string;
     activities: string;
     themes: string;
@@ -48,8 +47,8 @@ export interface TranslationShape {
     developerCommunity: string;
     activeEvent: string;
     statTargets: string;
-    statOpenSource: string;
-    statRelease: string;
+    statAlgorithms: string;
+    statSkills: string;
   };
   communityPage: {
     description: string;
@@ -152,13 +151,6 @@ export interface TranslationShape {
     previousBenchmark: string;
     nextBenchmark: string;
   };
-  roadmap: {
-    label: string;
-    title: string;
-    highlight: string;
-    description: string;
-    phases: { phase: string; title: string; period: string; items: { title: string }[] }[];
-  };
   liveDemo: {
     label: string;
     title: string;
@@ -166,20 +158,6 @@ export interface TranslationShape {
     description: string;
     step: string;
     chapters: { label: string; description: string }[];
-  };
-  stats: {
-    title: string;
-    description: string;
-    githubStars: string;
-    githubStarsDesc: string;
-    targetAdapters: string;
-    targetAdaptersDesc: string;
-    auditable: string;
-    auditableDesc: string;
-    openSource: string;
-    openSourceDesc: string;
-    contributors: string;
-    contributorsDesc: string;
   };
   teamPreview: {
     label: string;
@@ -243,7 +221,6 @@ export const translations: Record<Lang, TranslationShape> = {
       architecture: 'Architecture',
       scenarios: 'Scenarios',
       hardware: 'Hardware',
-      roadmap: 'Roadmap',
       team: 'Team',
       activities: 'Activities',
       themes: 'Themes',
@@ -285,8 +262,8 @@ export const translations: Record<Lang, TranslationShape> = {
       developerCommunity: 'Developer Community',
       activeEvent: 'Ongoing Activities',
       statTargets: 'Supported Targets',
-      statOpenSource: 'Open Source',
-      statRelease: 'Latest Release',
+      statAlgorithms: 'Supported Algorithms',
+      statSkills: 'Runtime Skills',
     },
     communityPage: {
       description: 'Connect with PhyAgentOS developers and follow the latest project updates.',
@@ -428,12 +405,12 @@ export const translations: Record<Lang, TranslationShape> = {
     hardware: {
       label: 'Hardware',
       title: 'Supported',
-      highlight: 'Devices',
-      description: 'Through Target Adapter, PhyAgentOS covers game, debug, simulation, and real-robot targets, from Minecraft to desktop robotic arms, quadrupeds, and dual-arm systems.',
+      highlight: 'Targets',
+      description: 'Through Target Adapter, PhyAgentOS covers game, debug, simulation, and real-robot targets, from Minecraft to desktop robotic arms, quadrupeds, and dual-arm systems, All targets are supported in simulation.',
       devices: 'Devices',
       statusVerified: 'Verified',
       statusInProgress: 'In Progress',
-      filters: ['All', 'Arm', 'Quadruped', 'Humanoid', 'Wheeled', 'Simulation'],
+      filters: ['All', 'Arm', 'Quadruped', 'Humanoid', 'Wheeled', 'Hand'],
       items: [
         { type: 'Desktop Arm', description: 'Real-robot target with ReKep & SAM3 grasping pipeline. One-click deployment via Target Adapter.' },
         { type: 'Desktop Arm', description: 'Collaborative arm target. ReKep deployment verified with precision control.' },
@@ -445,9 +422,20 @@ export const translations: Record<Lang, TranslationShape> = {
         { type: 'Wheeled Humanoid', description: 'Humanoid platform for perception, navigation, and manipulation workflows through the same runtime interface.' },
         { type: 'Bipedal Humanoid', description: 'Full-body humanoid platform for general-purpose embodied tasks, available through the hardware access pipeline.' },
         { type: 'Wheeled Humanoid', description: 'Wheeled humanoid hardware with real-device and MuJoCo access for long-horizon embodied tasks.' },
-        { type: 'Simulation', description: 'LIBERO is a lifelong robot learning and knowledge-transfer benchmark for manipulation, with Spatial, Object, Goal, and LIBERO-100 suites for evaluating policy generalization and transfer.' },
-        { type: 'Simulation', description: 'CALVIN ABC→D is a language-conditioned, long-horizon manipulation benchmark that evaluates five-subtask chains and transfer to the unseen environment D.' },
-        { type: 'Simulation', description: 'RoboCasa365 evaluates atomic skills and composite household activities across diverse MuJoCo kitchen environments.' },
+        // { type: 'Simulation', description: 'LIBERO is a lifelong robot learning and knowledge-transfer benchmark for manipulation, with Spatial, Object, Goal, and LIBERO-100 suites for evaluating policy generalization and transfer.' },
+        // { type: 'Simulation', description: 'CALVIN ABC→D is a language-conditioned, long-horizon manipulation benchmark that evaluates five-subtask chains and transfer to the unseen environment D.' },
+        // { type: 'Simulation', description: 'RoboCasa365 evaluates atomic skills and composite household activities across diverse MuJoCo kitchen environments.' },
+        { type: 'Desktop Manipulator', description: 'Collaborative desktop robotic arm target with high-precision joint control, integrated through the Target Adapter.' },
+        { type: 'Desktop Manipulator', description: 'Desktop robotic arm target designed for fine manipulation scenarios such as beverage preparation, supporting both real-world hardware and MuJoCo integration.' },
+        { type: 'Industrial Manipulator', description: 'Long-reach collaborative robotic arm target suitable for large-scale industrial operation tasks, integrated through the Target Adapter.' },
+        { type: 'Industrial Manipulator', description: 'Classic research-grade robotic arm target with torque sensing capabilities, widely used for manipulation algorithm validation.' },
+        { type: 'Industrial Manipulator', description: 'Next-generation industrial precision robotic arm target with complete protocol integration enabled through the Target Adapter.' },
+        { type: 'Wheeled Humanoid', description: 'Wheeled humanoid hardware target that combines efficient mobility with upper-body manipulation capabilities, supporting both real-world hardware and MuJoCo integration.' },
+        { type: 'Bipedal Humanoid', description: 'Full-size bipedal humanoid platform target supporting whole-body motion and manipulation task hardware integration.' },
+        { type: 'Bipedal Humanoid', description: 'Compact bipedal humanoid hardware target suitable for rapid evaluation of desktop-scale embodied intelligence tasks.' },
+        { type: 'Desktop Manipulator', description: 'Early-generation open-source desktop robotic arm hardware target, supporting real-world hardware integration and MuJoCo integration.' },
+        { type: 'Desktop Manipulator', description: 'High-precision desktop robotic arm target commonly used for bimanual collaboration and teleoperation data collection scenarios.' },
+        { type: 'Dexterous Hand', description: '20-DoF dexterous hand end-effector target supporting fine-grained grasping and manipulation task evaluation.' },
       ],
       deviceTable: {
         title: 'Supported Device Matrix',
@@ -505,59 +493,6 @@ export const translations: Record<Lang, TranslationShape> = {
       previousBenchmark: 'Previous benchmark',
       nextBenchmark: 'Next benchmark',
     },
-    roadmap: {
-      label: 'Roadmap',
-      title: 'Shipping the future',
-      highlight: 'session by session',
-      description: 'From the session-runtime MVP to semantic verification and fleet coordination: a clear, versioned trajectory.',
-      phases: [
-        {
-          phase: 'Game Track',
-          title: 'PhyAgentOS-G',
-          period: '2026',
-          items: [
-            { title: 'Minecraft pipeline: cloud Agent connects to local game' },
-            { title: 'Agent Loop integration: complex task completion in-game' },
-            { title: 'Self-evolution with reflection: summarize experience from novel scenes' },
-            { title: 'Hermes memory: multi-granularity hierarchy + multi-step Reflection loop' },
-          ],
-        },
-        {
-          phase: 'Phase 1',
-          title: 'Session-Centered Runtime',
-          period: '2025 - 2026',
-          items: [
-            { title: 'Hackathon baseline: plugin HAL, ReKep/SAM3 grasping & VLN' },
-            { title: 'Session-Centered Runtime MVP: DummyTarget pipeline' },
-            { title: 'Perception plugin system: Sensor/Perception YAML' },
-            { title: 'Strict Policy/Builtin SkillRuntime separation' },
-            { title: 'Onboarding & communication protocol spec' },
-            { title: 'Cleaned protocols; main branch sim & real focus' },
-            { title: 'CALVIN and RoboCasa365 support; SessionVerifier' },
-          ],
-        },
-        {
-          phase: 'Phase 2',
-          title: 'Verification & Fleet',
-          period: '2026',
-          items: [
-            { title: 'SessionVerifier: RGB-based semantic verification' },
-            { title: 'Fleet multi-robot priority scheduling' },
-            { title: 'Cross-robot skill migration' },
-          ],
-        },
-        {
-          phase: 'Phase 3',
-          title: 'Autonomy & Coordination',
-          period: '2026+',
-          items: [
-            { title: 'Autonomous task planning at scale' },
-            { title: 'Advanced heterogeneous coordination' },
-            { title: 'Closed-loop self-evolution engine' },
-          ],
-        },
-      ],
-    },
     liveDemo: {
       label: 'Live Demo',
       title: 'See it',
@@ -571,20 +506,6 @@ export const translations: Record<Lang, TranslationShape> = {
         { label: 'Session Execution', description: 'SessionRunner drives SkillRuntime + Target handle' },
         { label: 'Verify & Record', description: 'SessionVerifier checks RGB; results to LESSONS.md' },
       ],
-    },
-    stats: {
-      title: 'Impact Metrics',
-      description: 'PhyAgentOS accelerates embodied AI by unifying cognition and execution behind one session-centered runtime. Live metrics from our open-source community.',
-      githubStars: 'GitHub Stars',
-      githubStarsDesc: 'Community support',
-      targetAdapters: 'Target Adapters',
-      targetAdaptersDesc: 'sim · real-world',
-      auditable: 'Auditable',
-      auditableDesc: 'Markdown + YAML protocols',
-      openSource: 'Open Source',
-      openSourceDesc: 'MIT Licensed, always free',
-      contributors: 'Contributors',
-      contributorsDesc: 'Open source community',
     },
     teamPreview: {
       label: 'Team',
@@ -668,7 +589,6 @@ export const translations: Record<Lang, TranslationShape> = {
       architecture: '系统架构',
       scenarios: '应用场景',
       hardware: '硬件设备',
-      roadmap: '路线图',
       team: '团队',
       activities: '活动',
       themes: '主题',
@@ -699,7 +619,7 @@ export const translations: Record<Lang, TranslationShape> = {
       basedOn: '使用 React、Three.js 与 GSAP 构建',
     },
     hero: {
-      label: '认知-物理解耦 · 会话中心化运行时',
+      label: '认知-物理解耦 · 会话中心化Runtime',
       titleLine1: '自进化物理智能体',
       titleLine2: '操作系统',
       subtitle: 'PhyAgentOS-统一、透明、可审计的的物理智能体运行底座',
@@ -710,8 +630,8 @@ export const translations: Record<Lang, TranslationShape> = {
       developerCommunity: '开发者社区',
       activeEvent: '正在进行的活动',
       statTargets: '支持的构型',
-      statOpenSource: '开源协议',
-      statRelease: '最新版本',
+      statAlgorithms: '支持的算法',
+      statSkills: '系统技能',
     },
     communityPage: {
       description: '与 PhyAgentOS 开发者交流，获取项目最新动态。',
@@ -733,7 +653,7 @@ export const translations: Record<Lang, TranslationShape> = {
           pain: '大模型直连硬件的紧耦合',
           detail: '推理与执行紧密绑定，切换机器人意味着重写整个流水线。',
           solution: '认知-物理解耦',
-          solutionDetail: '会话中心化运行时位于规划器与硬件之间。新增机器人只需实现一个 Target Adapter（约 100 行）；调度层零改动。',
+          solutionDetail: '会话中心化 Rumtime 位于规划器与硬件之间。新增机器人只需实现一个 Target Adapter（约 100 行）；调度层零改动。',
         },
         {
           pain: '危险动作缺乏验证',
@@ -759,10 +679,10 @@ export const translations: Record<Lang, TranslationShape> = {
       label: '核心理念',
       title: '六大原则让',
       highlight: 'PhyAgentOS 与众不同',
-      description: '这不仅是功能，而是会话中心化运行时背后的根本性设计决策，包括来自游戏智能体分支的多粒度分层记忆与多步反思闭环。',
+      description: '这不仅是功能，而是会话中心化 Runtime 背后的根本性设计决策，包括来自游戏智能体分支的多粒度分层记忆与多步反思闭环。',
       items: [
         {
-          title: '会话中心化运行时',
+          title: '会话中心化 Runtime',
           subtitle: '一个协议，任意目标',
           description: '统一流水线 WatchdogSupervisor → SessionRunner → SkillRuntime → Target 替代了传统的驱动中心化模型。同一 Session 协议在调试、仿真与真机目标上行为完全一致。',
           highlight: '替代传统的驱动中心化架构',
@@ -774,10 +694,10 @@ export const translations: Record<Lang, TranslationShape> = {
           highlight: '告别目标×技能的组合爆炸',
         },
         {
-          title: '双重技能运行时',
+          title: '双重技能 Runtime',
           subtitle: '策略闭环 × 智能体闭环',
           description: 'PolicySkillRuntime 维护闭环策略控制器，BuiltinSkillRuntime 管理智能体交互闭环。两者各自在 SKILLRUNTIME.md 中注册明确的执行契约。',
-          highlight: '两个运行时，一个契约面',
+          highlight: '两个 Runtime，一个契约面',
         },
         {
           title: '多层安全',
@@ -802,7 +722,7 @@ export const translations: Record<Lang, TranslationShape> = {
     architecture: {
       label: '系统架构',
       title: '会话中心化',
-      highlight: '运行时',
+      highlight: 'Runtime',
       description: '认知与执行通过共享的文件协议层解耦。点击任意组件探索详情。',
       trackA: '轨道 A',
       trackASub: '智能体层',
@@ -826,7 +746,7 @@ export const translations: Record<Lang, TranslationShape> = {
     },
     scenarios: {
       label: '应用场景',
-      title: '一个运行时，',
+      title: '一个 Runtime，',
       highlight: '三类任务',
       description: '同一套 Session 协议支持游戏、仿真与真机三类任务。',
       items: [
@@ -854,12 +774,12 @@ export const translations: Record<Lang, TranslationShape> = {
     hardware: {
       label: '硬件设备',
       title: '支持的',
-      highlight: '设备',
-      description: '通过 Target Adapter，PhyAgentOS 覆盖游戏、调试、仿真与真机目标，从 Minecraft 到桌面机械臂再到四足机器人与双臂系统。',
+      highlight: '构型',
+      description: '通过 Target Adapter，PhyAgentOS 覆盖游戏、调试、仿真与真机目标，从 Minecraft 到桌面机械臂再到四足机器人与双臂系统，所有构型均可仿真。',
       devices: '个设备',
       statusVerified: '已验证',
       statusInProgress: '开发中',
-      filters: ['全部', '机械臂', '四足', '人形', '轮式', '仿真'],
+      filters: ['全部', '机械臂', '四足', '人形', '轮式', '灵巧手'],
       items: [
         { type: '桌面机械臂', description: '支持 ReKep 与 SAM3 抓取流水线的真机目标。通过 Target Adapter 一键部署。' },
         { type: '桌面机械臂', description: '协作机械臂目标。ReKep 部署已验证，具备精密控制能力。' },
@@ -868,12 +788,25 @@ export const translations: Record<Lang, TranslationShape> = {
         { type: '双臂', description: '双臂操作目标。通过单一 Session 协议实现双臂协同操作。' },
         { type: '桌面机械臂', description: '开源桌面机械臂硬件，支持真机接入与 MuJoCo 接入，适合紧凑型操作评测。' },
         { type: '轮式机器人', description: '紧凑型轮式操作平台，支持真机与 MuJoCo，用于移动操作任务。' },
-        { type: '轮式人形', description: '面向感知、导航与操作流程的人形平台，通过统一运行时接口接入。' },
+        { type: '轮式人形', description: '面向感知、导航与操作流程的人形平台，通过统一 Runtime 接口接入。' },
         { type: '双足人形', description: '面向通用具身任务的全身人形平台，可通过硬件接入链路运行。' },
         { type: '轮式人形', description: '支持真机接入与 MuJoCo 接入的轮式人形硬件，适合长程具身任务。' },
-        { type: '仿真', description: 'LIBERO 是面向终身机器人学习与知识迁移的机器人操作基准，包含 Spatial、Object、Goal、LIBERO-100 等任务套件，用于评估策略泛化与迁移能力。' },
-        { type: '仿真', description: 'CALVIN ABC→D 是面向语言条件长程操作的仿真基准，用五步子任务链评估策略向未见环境 D 的迁移能力。' },
-        { type: '仿真', description: 'RoboCasa365 在多样化的 MuJoCo 厨房环境中评估原子技能与复合家庭活动。' },
+        
+        // { type: '仿真', description: 'LIBERO 是面向终身机器人学习与知识迁移的机器人操作基准，包含 Spatial、Object、Goal、LIBERO-100 等任务套件，用于评估策略泛化与迁移能力。' },
+        // { type: '仿真', description: 'CALVIN ABC→D 是面向语言条件长程操作的仿真基准，用五步子任务链评估策略向未见环境 D 的迁移能力。' },
+        // { type: '仿真', description: 'RoboCasa365 在多样化的 MuJoCo 厨房环境中评估原子技能与复合家庭活动。' },
+
+        { type: '桌面机械臂', description: '协作型桌面机械臂目标，具备高精度关节控制，通过 Target Adapter 完成接入。' },
+        { type: '桌面机械臂', description: '面向饮品调配等精细操作场景的桌面机械臂目标，支持真机与 MuJoCo 接入。' },
+        { type: '工业机械臂', description: '长臂展协作机械臂目标，适合大范围工业操作任务，通过 Target Adapter 接入。' },
+        { type: '工业机械臂', description: '经典科研级机械臂目标，具备力矩感知能力，广泛用于操作算法验证。' },
+        { type: '工业机械臂', description: '新一代工业级精密机械臂目标，通过 Target Adapter 实现完整协议集成。' },
+        { type: '轮式人形', description: '轮式人形硬件目标，兼顾移动效率与上肢操作能力，支持真机与 MuJoCo 接入。' },
+        { type: '双足人形', description: '全尺寸双足人形平台目标，支持全身运动与操作任务的硬件接入链路。' },
+        { type: '双足人形', description: '紧凑型双足人形硬件目标，适合桌面级具身智能任务的快速评测。' },
+        { type: '桌面机械臂', description: '开源桌面机械臂硬件早期型号，支持真机接入与 MuJoCo 接入。' },
+        { type: '桌面机械臂', description: '高精度桌面机械臂目标，常用于双臂协同与遥操作数据采集场景。' },
+        { type: '灵巧手', description: '20 自由度灵巧手末端执行器目标，支持精细抓取与操作任务评测。' },
       ],
       deviceTable: {
         title: '设备支持矩阵',
@@ -931,59 +864,6 @@ export const translations: Record<Lang, TranslationShape> = {
       previousBenchmark: '上一个基准',
       nextBenchmark: '下一个基准',
     },
-    roadmap: {
-      label: '路线图',
-      title: '逐会话',
-      highlight: '交付未来',
-      description: '从会话运行时 MVP 到语义验证与编队协同，形成一条清晰、版本化的演进轨迹。',
-      phases: [
-        {
-          phase: '游戏轨道',
-          title: 'PhyAgentOS-G',
-          period: '2026',
-          items: [
-            { title: 'Minecraft 全链路：云端 Agent 连接本地游戏服务器' },
-            { title: 'Agent Loop 整合：游戏内完成复杂任务' },
-            { title: '反思自进化：在全新场景中总结经验' },
-            { title: 'Hermes 记忆：多粒度分层 + 多步反思闭环' },
-          ],
-        },
-        {
-          phase: '第一阶段',
-          title: '会话中心化运行时',
-          period: '2025 - 2026',
-          items: [
-            { title: '黑客松基线：插件 HAL、ReKep/SAM3 抓取与 VLN' },
-            { title: '会话中心化运行时 MVP：DummyTarget 流水线' },
-            { title: '感知插件系统：Sensor/Perception YAML' },
-            { title: '严格的 Policy/Builtin SkillRuntime 分离' },
-            { title: '入门流程与通信协议规范' },
-            { title: '协议清理；主分支聚焦仿真与真机' },
-            { title: 'CALVIN 与 RoboCasa365 支持；SessionVerifier' },
-          ],
-        },
-        {
-          phase: '第二阶段',
-          title: '验证与编队',
-          period: '2026',
-          items: [
-            { title: 'SessionVerifier：基于 RGB 的语义验证' },
-            { title: '编队多机优先级调度' },
-            { title: '跨机器人技能迁移' },
-          ],
-        },
-        {
-          phase: '第三阶段',
-          title: '自主与协同',
-          period: '2026+',
-          items: [
-            { title: '规模化自主任务规划' },
-            { title: '高级异构协同' },
-            { title: '闭环自进化引擎' },
-          ],
-        },
-      ],
-    },
     liveDemo: {
       label: '实时演示',
       title: '一睹',
@@ -997,20 +877,6 @@ export const translations: Record<Lang, TranslationShape> = {
         { label: '会话执行', description: 'SessionRunner 驱动 SkillRuntime 与 Target 句柄' },
         { label: '验证与记录', description: 'SessionVerifier 检查 RGB；结果写入 LESSONS.md' },
       ],
-    },
-    stats: {
-      title: '影响力指标',
-      description: 'PhyAgentOS 通过统一的会话中心化运行时融合认知与执行，加速具身智能开发。以下为开源社区的实时指标。',
-      githubStars: 'GitHub Stars',
-      githubStarsDesc: '社区支持',
-      targetAdapters: '目标适配器',
-      targetAdaptersDesc: '仿真 · 真实世界',
-      auditable: '可审计',
-      auditableDesc: 'Markdown + YAML 协议',
-      openSource: '完全开源',
-      openSourceDesc: 'MIT 许可，永久免费',
-      contributors: '贡献者',
-      contributorsDesc: '开源社区',
     },
     teamPreview: {
       label: '团队',
@@ -1062,7 +928,7 @@ export const translations: Record<Lang, TranslationShape> = {
       highlight: '真实声音',
       description: '来自研究者、开发者与开源社区在使用 PhyAgentOS 过程中的反馈。',
       items: [
-        { quote: '会话中心化运行时让 sim-to-real 迁移毫不费力。同一 Session 协议在 LIBERO 与我们的 Franka 机械臂上行为完全一致。', author: '研究团队', role: '中山大学 HCP 实验室 / X-Era Lab' },
+        { quote: '会话中心化 Runtime 让 sim-to-real 迁移毫不费力。同一 Session 协议在 LIBERO 与我们的 Franka 机械臂上行为完全一致。', author: '研究团队', role: '中山大学 HCP 实验室 / X-Era Lab' },
         { quote: 'Target Adapter 将我们的集成成本从数千行代码压缩到单个约 100 行的文件。AdapterPlan 自动组合的设计确实优雅。', author: '贡献者', role: '开源社区' },
         { quote: '三层安全，即 Critic、Preflight、SafetyGuard，终于让我们有信心在真实硬件上部署学习到的策略。', author: '开发者', role: '机器人工程师' },
       ],
@@ -1071,14 +937,14 @@ export const translations: Record<Lang, TranslationShape> = {
       label: '文档',
       title: '入门所需的',
       highlight: '一切资料',
-      description: '涵盖运行时架构、用户操作与硬件集成的全面文档。',
+      description: '涵盖 Runtime 架构、用户操作与硬件集成的全面文档。',
       viewDocumentation: '查看文档',
       starOnGithub: '在 GitHub 上 Star',
       joinDiscussion: '参与讨论',
       items: [
-        { title: '系统架构', subtitle: '技术文档', description: '深入了解会话中心化运行时：WatchdogSupervisor、SessionRunner、双重 SkillRuntime、Target Adapter 与 Bridge，以及 Markdown + YAML 文件协议矩阵。' },
-        { title: '用户手册', subtitle: '安装与操作', description: '使用 `paos` 安装、初始化工作区、运行 `paos agent`、连接运行时服务，并为真机部署配置语义验证。' },
-        { title: '开发者指南', subtitle: '二次开发', description: '编写 Target Adapter、在 SKILLRUNTIME.md 中注册技能运行时、通过 OpenPI 集成新策略，并遵循贡献工作流。' },
+        { title: '系统架构', subtitle: '技术文档', description: '深入了解会话中心化 Runtime：WatchdogSupervisor、SessionRunner、双重 SkillRuntime、Target Adapter 与 Bridge，以及 Markdown + YAML 文件协议矩阵。' },
+        { title: '用户手册', subtitle: '安装与操作', description: '使用 `paos` 安装、初始化工作区、运行 `paos agent`、连接 Runtime 服务，并为真机部署配置语义验证。' },
+        { title: '开发者指南', subtitle: '二次开发', description: '编写 Target Adapter、在 SKILLRUNTIME.md 中注册技能 Runtime、通过 OpenPI 集成新策略，并遵循贡献工作流。' },
       ],
     },
     langToggle: {
