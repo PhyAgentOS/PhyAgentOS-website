@@ -18,15 +18,27 @@ const devices = [
   { name: 'Astra Pro', typeKey: 'Humanoid', image: '/media/hardware/astra-pro.png', status: 'verified' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
   { name: 'Fourier GR-3', typeKey: 'Bipedal Humanoid', image: '/media/hardware/fourier-gr3.jpg', status: 'partial' as const, specs: ['Humanoid', 'MuJoCo', 'Real Robot'] },
   { name: 'Zerith H1 PRO', typeKey: 'Humanoid', image: '/media/hardware/zerith-h1-pro.png', status: 'verified' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
-  { name: 'LIBERO', typeKey: 'Simulation', image: '/media/hardware/libero.png', status: 'verified' as const, specs: ['MuJoCo', 'Benchmark', 'Policy Eval'] },
-  { name: 'CALVIN', typeKey: 'Simulation', image: '/media/hardware/calvin.png', status: 'verified' as const, specs: ['PyBullet', 'ABC→D', 'Long-Horizon'] },
-  { name: 'RoboCasa365', typeKey: 'Simulation', image: '/media/hardware/robocasa365.jpg', status: 'verified' as const, specs: ['MuJoCo', 'target50', '250 Episodes'] },
+  // { name: 'LIBERO', typeKey: 'Simulation', image: '/media/hardware/libero.png', status: 'verified' as const, specs: ['MuJoCo', 'Benchmark', 'Policy Eval'] },
+  // { name: 'CALVIN', typeKey: 'Simulation', image: '/media/hardware/calvin.png', status: 'verified' as const, specs: ['PyBullet', 'ABC→D', 'Long-Horizon'] },
+  // { name: 'RoboCasa365', typeKey: 'Simulation', image: '/media/hardware/robocasa365.jpg', status: 'verified' as const, specs: ['MuJoCo', 'target50', '250 Episodes'] },
+  
+  { name: 'RealMan RM65-B', typeKey: 'Desktop Arm', image: '/media/hardware/robotic-arm-rm65-6.webp', status: 'partial' as const, specs: ['6-DoF', 'Collaborative', 'ROS2'] },
+  { name: 'BOBABOT', typeKey: 'Desktop Arm', image: '/media/hardware/bobabot.jpg', status: 'partial' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
+  { name: 'Elfin 5L', typeKey: 'Industrial Arm', image: '/media/hardware/elfin-5l.jpg', status: 'partial' as const, specs: ['6-DoF', 'Collaborative', 'Industrial'] },
+  { name: 'Franka Emika Panda', typeKey: 'Industrial Arm', image: '/media/hardware/franka-panda.png', status: 'partial' as const, specs: ['7-DoF', 'Torque Sensing', 'Research'] },
+  { name: 'Franka FR3', typeKey: 'Industrial Arm', image: '/media/hardware/franka-fr3.jpg', status: 'partial' as const, specs: ['7-DoF', 'Torque Sensing', 'Industrial'] },
+  { name: 'Unitree G1-D', typeKey: 'Humanoid', image: '/media/hardware/unitree-g1-d.webp', status: 'partial' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
+  { name: 'Unitree G1', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-g1.webp', status: 'partial' as const, specs: ['Humanoid', 'MuJoCo', 'Real Robot'] },
+  { name: 'Unitree R1', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-r1.webp', status: 'partial' as const, specs: ['Humanoid', 'MuJoCo', 'Real Robot'] },
+  { name: 'SO100', typeKey: 'Desktop Arm', image: '/media/hardware/so100.webp', status: 'partial' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
+  { name: 'ViperX300', typeKey: 'Desktop Arm', image: '/media/hardware/viperx300.jpg', status: 'partial' as const, specs: ['6-DoF', 'Real Robot', 'MuJoCo'] },
+  { name: 'Stella Gaia Hand 20', typeKey: 'Dexterous Hand', image: '/media/hardware/stella-gaia-hand-20.png', status: 'partial' as const, specs: ['20-DoF', 'Dexterous', 'Real Robot'] },
 ];
 const statusConfig = {
   verified: { icon: Check, color: 'text-emerald-600', bgColor: 'bg-emerald-500/10', borderColor: 'border-emerald-500/25', label: t.hardware.statusVerified },
   partial: { icon: Clock, color: 'text-amber-600', bgColor: 'bg-amber-500/10', borderColor: 'border-amber-500/25', label: t.hardware.statusInProgress },
 };
-const filterKeys = ['All', 'Arm', 'Quadruped', 'Humanoid', 'Wheeled', 'Simulation'];
+const filterKeys = ['All', 'Arm', 'Quadruped', 'Humanoid', 'Wheeled', 'Hand'];
 const devicesWithType = devices.map((d, idx) => ({
   ...d,
   type: t.hardware.items[idx].type,
@@ -186,8 +198,8 @@ const devicesWithType = devices.map((d, idx) => ({
             </div>
           </ScrollReveal>
 
-          {/* Device Support Matrix */}
-          <ScrollReveal delay={0.3}>
+          {/* Device Support Matrix （隐藏）*/}
+          {/* <ScrollReveal delay={0.3}>
             <div className="mt-24">
               <div className="text-center mb-10">
                 <h3 className="text-2xl font-display font-bold text-brand-text mb-3">
@@ -224,7 +236,7 @@ const devicesWithType = devices.map((d, idx) => ({
                 </table>
               </div>
             </div>
-          </ScrollReveal>
+          </ScrollReveal> */}
         </div>
       </div>
     </section>
