@@ -14,6 +14,7 @@ export default function LiveDemo() {
         description:
           '将部署流程、游戏目标与真实机器人任务放在同一套 Session 运行链路下展示，验证 PhyAgentOS 从指令到执行的闭环能力。',
         watch: '当前播放',
+        filters: { all: '全部', game: '游戏', real: '真机', simulation: '仿真' },
         videos: [
           {
             title: 'LIBERO 评测',
@@ -64,6 +65,7 @@ export default function LiveDemo() {
         description:
           'Deployment, game targets, and real robots are shown through the same Session-centered runtime path, from instruction to verifiable execution.',
         watch: 'Now playing',
+        filters: { all: 'All', game: 'Games', real: 'Real Robot', simulation: 'Simulation' },
         videos: [
           {
             title: 'LIBERO benchmark',
@@ -121,19 +123,28 @@ export default function LiveDemo() {
   const copyById = Object.fromEntries(copyIds.map((id, index) => [id, copy.videos[index]]));
 
   const demos = [
-    { id: 'real-robot', icon: Bot, src: '/media/demos/real-robot.mp4', poster: '/media/demos/real-robot.jpg', duration: '03:05' },
-    { id: 'deployment', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '02:29' },
-    { id: 'minecraft-game', icon: Gamepad2, src: '/media/demos/cross-target-runtime.mp4', poster: '/media/demos/cross-target-runtime.jpg', duration: '01:10' },
-    { id: 'dont-starve', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.jpg', duration: '03:03' },
-    { id: 'stardew', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.jpg', duration: '02:26' },
-    { id: 'libero-benchmark', icon: BarChart3, src: '/media/demos/libero-benchmark.mp4', poster: '/media/demos/libero-benchmark.jpg', duration: '02:39' },
-    { id: 'calvin-benchmark', icon: BarChart3, src: '/media/demos/calvin-benchmark.mp4', poster: '/media/demos/calvin-benchmark.jpg', duration: '02:37' },
-    { id: 'robocasa365-benchmark', icon: BarChart3, src: '/media/demos/robocasa365-benchmark.mp4', poster: '/media/demos/robocasa365-benchmark.jpg', duration: '02:27' },
+    { id: 'real-robot', category: 'real', icon: Bot, src: '/media/demos/real-robot.mp4', poster: '/media/demos/real-robot.jpg', duration: '03:05' },
+    { id: 'deployment', category: 'real', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '02:29' },
+    { id: 'minecraft-game', category: 'game', icon: Gamepad2, src: '/media/demos/cross-target-runtime.mp4', poster: '/media/demos/cross-target-runtime.jpg', duration: '01:10' },
+    { id: 'dont-starve', category: 'game', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.jpg', duration: '03:03' },
+    { id: 'stardew', category: 'game', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.jpg', duration: '02:26' },
+    { id: 'libero-benchmark', category: 'simulation', icon: BarChart3, src: '/media/demos/libero-benchmark.mp4', poster: '/media/demos/libero-benchmark.jpg', duration: '02:39' },
+    { id: 'calvin-benchmark', category: 'simulation', icon: BarChart3, src: '/media/demos/calvin-benchmark.mp4', poster: '/media/demos/calvin-benchmark.jpg', duration: '02:37' },
+    { id: 'robocasa365-benchmark', category: 'simulation', icon: BarChart3, src: '/media/demos/robocasa365-benchmark.mp4', poster: '/media/demos/robocasa365-benchmark.jpg', duration: '02:27' },
   ].map((demo) => ({ ...demo, ...copyById[demo.id] }));
 
+  const filters = Object.entries(copy.filters) as [keyof typeof copy.filters, string][];
+  const [filter, setFilter] = useState<keyof typeof copy.filters>('all');
+  const filteredDemos = filter === 'all' ? demos : demos.filter((demo) => demo.category === filter);
   const [activeId, setActiveId] = useState(demos[0].id);
-  const activeDemo = demos.find((demo) => demo.id === activeId) ?? demos[0];
+  const activeDemo = filteredDemos.find((demo) => demo.id === activeId) ?? filteredDemos[0];
   const ActiveIcon = activeDemo.icon;
+
+  const handleFilterChange = (newFilter: keyof typeof copy.filters) => {
+    setFilter(newFilter);
+    const nextDemos = newFilter === 'all' ? demos : demos.filter((demo) => demo.category === newFilter);
+    setActiveId(nextDemos[0].id);
+  };
 
   return (
     <section id="demo" className="relative py-24 lg:py-32 overflow-hidden">
@@ -154,6 +165,22 @@ export default function LiveDemo() {
 
           <ScrollReveal delay={0.2}>
             <div className="mt-16 space-y-5">
+              <div className="flex flex-wrap justify-center gap-2">
+                {filters.map(([key, label]) => (
+                  <button
+                    key={key}
+                    onClick={() => handleFilterChange(key)}
+                    className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+                      filter === key
+                        ? 'bg-brand-accent text-white shadow-glow-soft'
+                        : 'bg-brand-bg-secondary text-brand-text-tertiary border border-brand-border hover:text-brand-text hover:border-brand-accent/30 hover:shadow-soft'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
               <div className="relative overflow-hidden rounded-3xl border border-brand-border bg-black shadow-2xl">
                 <video
                   key={activeDemo.id}
@@ -174,7 +201,7 @@ export default function LiveDemo() {
               </div>
 
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                {demos.map((demo) => {
+                {filteredDemos.map((demo) => {
                   const Icon = demo.icon;
                   const active = demo.id === activeDemo.id;
                   return (
