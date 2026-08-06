@@ -17,9 +17,6 @@ export default function Navigation() {
     { label: t.nav.architecture, href: '/#architecture' },
     { label: t.nav.scenarios, href: '/#scenarios' },
     { label: t.liveDemo.label, href: '/#demo' },
-    { label: t.nav.activities, href: '/hackathon' },
-    { label: t.nav.hardware, href: '/#hardware' },
-    { label: t.nav.team, href: '/team' },
   ];
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -128,22 +125,21 @@ export default function Navigation() {
               </span>
             </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-1 bg-brand-bg-secondary/40 backdrop-blur-xl rounded-2xl p-1 border border-brand-border/50">
+            {/* Desktop Navigation + Actions */}
+            <div className="hidden lg:flex items-center gap-5 xl:gap-6">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className="px-3 py-2 rounded-xl text-sm text-brand-text-secondary hover:text-brand-text hover:bg-brand-text/[0.04] transition-all duration-200 xl:px-4"
+                  className="px-4 py-2 rounded-xl text-sm text-brand-text-secondary hover:text-brand-text hover:bg-brand-text/[0.04] transition-all duration-200 xl:px-5"
                 >
                   {item.label}
                 </Link>
               ))}
-            </div>
 
-            {/* CTA Buttons */}
-            <div className="hidden lg:flex items-center gap-3">
+              <div className="w-px h-5 bg-brand-border/70 mx-1" />
+
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}

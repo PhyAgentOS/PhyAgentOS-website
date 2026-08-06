@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CalendarDays, FileText, Play, Users } from 'lucide-react';
+import { ArrowRight, CalendarDays, FileText, Users } from 'lucide-react';
 import gsap from 'gsap';
 import { useT } from '../../i18n/LanguageContext';
 import ParticleField from '../../components/three/ParticleField';
@@ -14,11 +14,6 @@ export default function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const mousePosition = useMousePosition();
-
-  const handleWatchDemoClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
 
   const handleHardwareClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -114,7 +109,7 @@ export default function Hero() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="hero-animate flex flex-wrap justify-center gap-3 lg:flex-nowrap xl:gap-4">
+          <div className="hero-animate flex flex-wrap justify-center gap-4 lg:flex-nowrap xl:gap-5">
             <a
               href="https://github.com/PhyAgentOS/PhyAgentOS"
               target="_blank"
@@ -132,17 +127,6 @@ export default function Hero() {
               {t.hero.technicalReport}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <a
-              href="#demo"
-              onClick={handleWatchDemoClick}
-              className="group glass flex items-center gap-2 whitespace-nowrap rounded-2xl px-5 py-4 text-sm font-semibold text-brand-text transition-all duration-300 hover:bg-brand-bg-secondary hover:shadow-soft xl:px-7 xl:text-base"
-            >
-              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-brand-accent/10 mr-1">
-                <Play className="w-3 h-3 text-brand-accent fill-brand-accent" />
-              </span>
-              {t.hero.watchDemo}
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
             <Link
               to="/join-us"
               className="group glass flex items-center gap-2 whitespace-nowrap rounded-2xl px-5 py-4 text-sm font-semibold text-brand-text transition-all duration-300 hover:bg-brand-bg-secondary hover:shadow-soft xl:px-7 xl:text-base"
