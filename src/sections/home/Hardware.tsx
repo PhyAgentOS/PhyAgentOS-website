@@ -1,53 +1,75 @@
 import { useState } from 'react';
-import { Check, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Bot, ChevronLeft, ChevronRight } from 'lucide-react';
 import TiltCard from '../../components/animations/TiltCard';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useT } from '../../i18n/LanguageContext';
 
+type AccessTag = 'real' | 'mujoco' | 'isaac' | 'pending';
+
+const devices: {
+  name: string;
+  typeKey: string;
+  image: string;
+  access: AccessTag[];
+  specs: string[];
+}[] = [
+  { name: 'AgileX PIPER', typeKey: 'Desktop Arm', image: '/piper.png', access: ['real', 'mujoco', 'isaac'], specs: ['6-DoF', 'ROS2', 'ReKep/SAM3'] },
+  { name: 'SO101', typeKey: 'Desktop Arm', image: '/media/hardware/so101.jpg', access: ['real', 'mujoco', 'isaac'], specs: ['Open Source', 'MuJoCo', 'Real Robot'] },
+  { name: 'SO100', typeKey: 'Desktop Arm', image: '/media/hardware/so100.webp', access: ['mujoco'], specs: ['Open Source', 'MuJoCo'] },
+  { name: 'RealMan RM65-B', typeKey: 'Desktop Arm', image: '/media/hardware/robotic-arm-rm65-6.webp', access: ['mujoco'], specs: ['6-DoF', 'Collaborative', 'ROS2'] },
+  { name: 'BOBABOT', typeKey: 'Desktop Arm', image: '/media/hardware/bobabot.jpg', access: ['mujoco'], specs: ['Open Source', 'MuJoCo'] },
+  { name: 'Elfin 5L', typeKey: 'Industrial Arm', image: '/media/hardware/elfin-5l.jpg', access: ['mujoco'], specs: ['6-DoF', 'Collaborative', 'Industrial'] },
+  { name: 'Franka Emika Panda', typeKey: 'Industrial Arm', image: '/media/hardware/franka-panda.png', access: ['mujoco'], specs: ['7-DoF', 'Torque Sensing', 'Research'] },
+  { name: 'Franka Research 3', typeKey: 'Industrial Arm', image: '/franka.png', access: ['mujoco'], specs: ['7-DoF', 'Torque Sensing', 'Industrial'] },
+  { name: 'ViperX300', typeKey: 'Desktop Arm', image: '/media/hardware/viperx300.jpg', access: ['mujoco'], specs: ['6-DoF', 'MuJoCo'] },
+  { name: 'Unitree Z1', typeKey: 'Desktop Arm', image: '/media/hardware/unitree-z1.jpeg', access: ['mujoco'], specs: ['Unitree', 'Arm', 'MuJoCo'] },
+  { name: 'UR5e', typeKey: 'Industrial Arm', image: '/media/hardware/ur5e.jpeg', access: ['mujoco'], specs: ['6-DoF', 'Collaborative', 'MuJoCo'] },
+  { name: 'Kinova Gen3', typeKey: 'Industrial Arm', image: '/media/hardware/kinova-gen3.jpeg', access: ['pending'], specs: ['7-DoF', 'Collaborative', 'Pending'] },
+  { name: 'Dobot Nova 2', typeKey: 'Desktop Arm', image: '/dobot.png', access: ['pending'], specs: ['4-DoF', 'Collaborative', 'Pending'] },
+  { name: 'Unitree Go2', typeKey: 'Quadruped', image: '/go2.png', access: ['real', 'mujoco'], specs: ['12 Motors', 'LiDAR', 'Navigation'] },
+  { name: 'Unitree Go1', typeKey: 'Quadruped', image: '/media/hardware/unitree-go1.png', access: ['mujoco'], specs: ['Quadruped', 'MuJoCo'] },
+  { name: 'Unitree A1', typeKey: 'Quadruped', image: '/media/hardware/unitree-a1.jpeg', access: ['mujoco'], specs: ['Quadruped', 'MuJoCo'] },
+  { name: 'Unitree A2', typeKey: 'Quadruped', image: '/media/hardware/unitree-a2.jpeg', access: ['mujoco'], specs: ['Quadruped', 'MuJoCo'] },
+  { name: 'Unitree AS2', typeKey: 'Quadruped', image: '/media/hardware/unitree-as2.jpeg', access: ['mujoco'], specs: ['Quadruped', 'MuJoCo'] },
+  { name: 'Unitree B1', typeKey: 'Quadruped', image: '/media/hardware/unitree-b1.webp', access: ['mujoco'], specs: ['Quadruped', 'MuJoCo'] },
+  { name: 'Unitree B2', typeKey: 'Quadruped', image: '/media/hardware/unitree-b2.webp', access: ['mujoco'], specs: ['Quadruped', 'MuJoCo'] },
+  { name: 'Unitree AlienGo', typeKey: 'Quadruped', image: '/media/hardware/unitree-aliengo.jpeg', access: ['mujoco'], specs: ['Quadruped', 'MuJoCo'] },
+  { name: 'Unitree G1', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-g1.webp', access: ['real', 'mujoco'], specs: ['Humanoid', 'MuJoCo', 'Real Robot'] },
+  { name: 'Fourier GR-3', typeKey: 'Bipedal Humanoid', image: '/media/hardware/fourier-gr3.jpg', access: ['real', 'mujoco'], specs: ['Humanoid', 'MuJoCo', 'Real Robot'] },
+  { name: 'Unitree R1', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-r1.webp', access: ['mujoco'], specs: ['Humanoid', 'MuJoCo'] },
+  { name: 'Unitree H1', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-h1.jpeg', access: ['mujoco'], specs: ['Humanoid', 'MuJoCo'] },
+  { name: 'Unitree H1-2', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-h1-2.jpeg', access: ['mujoco'], specs: ['Humanoid', 'MuJoCo'] },
+  { name: 'Unitree H2', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-h2.jpeg', access: ['mujoco'], specs: ['Humanoid', 'MuJoCo'] },
+  { name: 'Unitree H2-PLUS', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-h2-plus.png', access: ['mujoco'], specs: ['Humanoid', 'MuJoCo'] },
+  { name: 'Unitree R1-A5', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-r1-a5.jpeg', access: ['mujoco'], specs: ['Humanoid', 'MuJoCo'] },
+  { name: 'Unitree G1-D', typeKey: 'Wheeled Humanoid', image: '/media/hardware/unitree-g1-d.webp', access: ['mujoco'], specs: ['Wheeled', 'MuJoCo'] },
+  { name: 'Astra Pro', typeKey: 'Wheeled Humanoid', image: '/media/hardware/astra-pro.png', access: ['real', 'mujoco'], specs: ['Wheeled', 'MuJoCo', 'Real Robot'] },
+  { name: 'Zerith H1 PRO', typeKey: 'Wheeled Humanoid', image: '/media/hardware/zerith-h1-pro.png', access: ['real', 'mujoco'], specs: ['Wheeled', 'MuJoCo', 'Real Robot'] },
+  { name: 'Lekiwi', typeKey: 'Wheeled', image: '/media/hardware/lekiwi.jpg', access: ['real', 'mujoco'], specs: ['Mobile', 'MuJoCo', 'Real Robot'] },
+  { name: 'XLeRobot', typeKey: 'Wheeled', image: '/XLeRobot.png', access: ['real', 'mujoco'], specs: ['Mobile', 'Bimanual', 'Real Robot'] },
+  { name: 'Aloha', typeKey: 'Wheeled', image: '/media/hardware/aloha.avif', access: ['mujoco'], specs: ['Mobile', 'Bimanual', 'MuJoCo'] },
+  { name: 'Stella Gaia Hand 20', typeKey: 'Dexterous Hand', image: '/media/hardware/stella-gaia-hand-20.png', access: ['real', 'mujoco'], specs: ['20-DoF', 'Dexterous', 'Real Robot'] },
+];
+
 export default function Hardware() {
   const t = useT();
-const devices = [
-  { name: 'AgileX PIPER', typeKey: 'Desktop Arm', image: '/piper.png', status: 'verified' as const, specs: ['6-DoF', 'ROS2', 'ReKep/SAM3'] },
-  { name: 'Dobot Nova 2', typeKey: 'Desktop Arm', image: '/dobot.png', status: 'verified' as const, specs: ['4-DoF', 'Collaborative', 'ReKep'] },
-  { name: 'Unitree Go2', typeKey: 'Quadruped', image: '/go2.png', status: 'verified' as const, specs: ['12 Motors', 'LiDAR', 'Navigation'] },
-  { name: 'Franka Research 3', typeKey: 'Industrial Arm', image: '/franka.png', status: 'verified' as const, specs: ['7-DoF', 'Torque Sensing', 'Industrial'] },
-  { name: 'XLeRobot', typeKey: 'Dual Arm', image: '/XLeRobot.png', status: 'verified' as const, specs: ['Dual Arm', 'Bimanual', 'ROS2'] },
-  { name: 'SO101', typeKey: 'Desktop Arm', image: '/media/hardware/so101.jpg', status: 'verified' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
-  { name: 'Lekiwi', typeKey: 'Wheeled', image: '/media/hardware/lekiwi.jpg', status: 'verified' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
-  { name: 'Astra Pro', typeKey: 'Humanoid', image: '/media/hardware/astra-pro.png', status: 'verified' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
-  { name: 'Fourier GR-3', typeKey: 'Bipedal Humanoid', image: '/media/hardware/fourier-gr3.jpg', status: 'partial' as const, specs: ['Humanoid', 'MuJoCo', 'Real Robot'] },
-  { name: 'Zerith H1 PRO', typeKey: 'Humanoid', image: '/media/hardware/zerith-h1-pro.png', status: 'verified' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
-  // { name: 'LIBERO', typeKey: 'Simulation', image: '/media/hardware/libero.png', status: 'verified' as const, specs: ['MuJoCo', 'Benchmark', 'Policy Eval'] },
-  // { name: 'CALVIN', typeKey: 'Simulation', image: '/media/hardware/calvin.png', status: 'verified' as const, specs: ['PyBullet', 'ABC→D', 'Long-Horizon'] },
-  // { name: 'RoboCasa365', typeKey: 'Simulation', image: '/media/hardware/robocasa365.jpg', status: 'verified' as const, specs: ['MuJoCo', 'target50', '250 Episodes'] },
-  
-  { name: 'RealMan RM65-B', typeKey: 'Desktop Arm', image: '/media/hardware/robotic-arm-rm65-6.webp', status: 'partial' as const, specs: ['6-DoF', 'Collaborative', 'ROS2'] },
-  { name: 'BOBABOT', typeKey: 'Desktop Arm', image: '/media/hardware/bobabot.jpg', status: 'partial' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
-  { name: 'Elfin 5L', typeKey: 'Industrial Arm', image: '/media/hardware/elfin-5l.jpg', status: 'partial' as const, specs: ['6-DoF', 'Collaborative', 'Industrial'] },
-  { name: 'Franka Emika Panda', typeKey: 'Industrial Arm', image: '/media/hardware/franka-panda.png', status: 'partial' as const, specs: ['7-DoF', 'Torque Sensing', 'Research'] },
-  { name: 'Franka FR3', typeKey: 'Industrial Arm', image: '/media/hardware/franka-fr3.jpg', status: 'partial' as const, specs: ['7-DoF', 'Torque Sensing', 'Industrial'] },
-  { name: 'Unitree G1-D', typeKey: 'Humanoid', image: '/media/hardware/unitree-g1-d.webp', status: 'partial' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
-  { name: 'Unitree G1', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-g1.webp', status: 'partial' as const, specs: ['Humanoid', 'MuJoCo', 'Real Robot'] },
-  { name: 'Unitree R1', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-r1.webp', status: 'partial' as const, specs: ['Humanoid', 'MuJoCo', 'Real Robot'] },
-  { name: 'SO100', typeKey: 'Desktop Arm', image: '/media/hardware/so100.webp', status: 'partial' as const, specs: ['Real Robot', 'MuJoCo', 'Verified'] },
-  { name: 'ViperX300', typeKey: 'Desktop Arm', image: '/media/hardware/viperx300.jpg', status: 'partial' as const, specs: ['6-DoF', 'Real Robot', 'MuJoCo'] },
-  { name: 'Stella Gaia Hand 20', typeKey: 'Dexterous Hand', image: '/media/hardware/stella-gaia-hand-20.png', status: 'partial' as const, specs: ['20-DoF', 'Dexterous', 'Real Robot'] },
-];
-const statusConfig = {
-  verified: { icon: Check, color: 'text-emerald-600', bgColor: 'bg-emerald-500/10', borderColor: 'border-emerald-500/25', label: t.hardware.statusVerified },
-  partial: { icon: Clock, color: 'text-amber-600', bgColor: 'bg-amber-500/10', borderColor: 'border-amber-500/25', label: t.hardware.statusInProgress },
-};
-const filterKeys = ['All', 'Arm', 'Quadruped', 'Humanoid', 'Wheeled', 'Hand'];
-const devicesWithType = devices.map((d, idx) => ({
-  ...d,
-  type: t.hardware.items[idx].type,
-  description: t.hardware.items[idx].description,
-}));
+
+  const accessConfig: Record<AccessTag, { color: string; bgColor: string; borderColor: string; label: string }> = {
+    real: { color: 'text-emerald-600', bgColor: 'bg-emerald-500/10', borderColor: 'border-emerald-500/25', label: t.hardware.statusReal },
+    mujoco: { color: 'text-sky-600', bgColor: 'bg-sky-500/10', borderColor: 'border-sky-500/25', label: t.hardware.statusMujoco },
+    isaac: { color: 'text-violet-600', bgColor: 'bg-violet-500/10', borderColor: 'border-violet-500/25', label: t.hardware.statusIsaac },
+    pending: { color: 'text-amber-600', bgColor: 'bg-amber-500/10', borderColor: 'border-amber-500/25', label: t.hardware.statusPending },
+  };
+
+  const filterKeys = ['All', 'Arm', 'Quadruped', 'Humanoid', 'Wheeled', 'Hand'];
+  const devicesWithType = devices.map((d, idx) => ({
+    ...d,
+    type: t.hardware.items[idx]?.type ?? d.typeKey,
+    description: t.hardware.items[idx]?.description ?? '',
+  }));
   const [activeIndex, setActiveIndex] = useState(0);
   const [filter, setFilter] = useState(t.hardware.filters[0]);
-
-  
 
   const filterKey = filterKeys[t.hardware.filters.indexOf(filter)] || 'All';
   const filteredDevices = filterKey === 'All'
@@ -55,8 +77,6 @@ const devicesWithType = devices.map((d, idx) => ({
     : devicesWithType.filter((d) => d.typeKey.includes(filterKey));
 
   const activeDevice = filteredDevices[activeIndex] || filteredDevices[0];
-  const status = statusConfig[activeDevice.status];
-  const StatusIcon = status.icon;
 
   const handleFilterChange = (newFilter: string) => {
     setFilter(newFilter);
@@ -89,7 +109,7 @@ const devicesWithType = devices.map((d, idx) => ({
 
           {/* Filter */}
           <ScrollReveal delay={0.1}>
-            <div className="mt-12 flex justify-center gap-2">
+            <div className="mt-12 flex justify-center gap-2 flex-wrap">
               {t.hardware.filters.map((option) => (
                 <button
                   key={option}
@@ -114,11 +134,20 @@ const devicesWithType = devices.map((d, idx) => ({
                 <TiltCard className="relative aspect-square max-w-md mx-auto rounded-3xl bg-gradient-to-br from-brand-bg-secondary to-brand-bg-tertiary border border-brand-border p-10 flex items-center justify-center shadow-card" tiltAmount={4}>
                   <div className="absolute inset-0 bg-brand-accent/[0.03] blur-2xl rounded-3xl" />
                   <div className="absolute inset-0 bg-gradient-to-br from-brand-accent/5 to-transparent rounded-3xl" />
-                  <img
-                    src={activeDevice.image}
-                    alt={activeDevice.name}
-                    className="relative z-10 w-full h-full object-contain transition-all duration-500 drop-shadow-xl"
-                  />
+                  {activeDevice.image ? (
+                    <img
+                      src={activeDevice.image}
+                      alt={activeDevice.name}
+                      className="relative z-10 w-full h-full object-contain transition-all duration-500 drop-shadow-xl"
+                    />
+                  ) : (
+                    <div className="relative z-10 flex flex-col items-center justify-center gap-3 text-brand-text-tertiary">
+                      <div className="w-20 h-20 rounded-2xl border border-dashed border-brand-border flex items-center justify-center bg-brand-text/[0.02]">
+                        <Bot className="w-9 h-9 opacity-50" />
+                      </div>
+                      <p className="text-sm font-medium">{t.hardware.imagePending}</p>
+                    </div>
+                  )}
                 </TiltCard>
 
                 {/* Navigation */}
@@ -140,10 +169,19 @@ const devicesWithType = devices.map((d, idx) => ({
 
               {/* Right: Info */}
               <div className="space-y-6">
-                {/* Status */}
-                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl ${status.bgColor} border ${status.borderColor}`}>
-                  <StatusIcon className={`w-4 h-4 ${status.color}`} />
-                  <span className={`text-sm font-mono font-medium ${status.color}`}>{status.label}</span>
+                {/* Access tags */}
+                <div className="flex flex-wrap gap-2">
+                  {activeDevice.access.map((tag) => {
+                    const cfg = accessConfig[tag];
+                    return (
+                      <div
+                        key={tag}
+                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl ${cfg.bgColor} border ${cfg.borderColor}`}
+                      >
+                        <span className={`text-sm font-mono font-medium ${cfg.color}`}>{cfg.label}</span>
+                      </div>
+                    );
+                  })}
                 </div>
 
                 {/* Name */}
@@ -178,7 +216,7 @@ const devicesWithType = devices.map((d, idx) => ({
                   <p className="text-xs font-mono text-brand-text-tertiary uppercase tracking-wider mb-4">
                     {filteredDevices.length} Devices
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto pr-1">
                     {filteredDevices.map((device, index) => (
                       <button
                         key={device.name}
@@ -197,46 +235,6 @@ const devicesWithType = devices.map((d, idx) => ({
               </div>
             </div>
           </ScrollReveal>
-
-          {/* Device Support Matrix （隐藏）*/}
-          {/* <ScrollReveal delay={0.3}>
-            <div className="mt-24">
-              <div className="text-center mb-10">
-                <h3 className="text-2xl font-display font-bold text-brand-text mb-3">
-                  {t.hardware.deviceTable.title}
-                </h3>
-                <p className="text-brand-text-secondary max-w-2xl mx-auto">
-                  {t.hardware.deviceTable.description}
-                </p>
-              </div>
-              <div className="overflow-x-auto rounded-3xl border border-brand-border bg-brand-bg-secondary shadow-card">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-brand-border bg-brand-text/[0.03]">
-                      <th className="px-4 py-3 text-left font-semibold text-brand-text">{t.hardware.deviceTable.columns.vendor}</th>
-                      <th className="px-4 py-3 text-left font-semibold text-brand-text">{t.hardware.deviceTable.columns.model}</th>
-                      <th className="px-4 py-3 text-left font-semibold text-brand-text">{t.hardware.deviceTable.columns.type}</th>
-                      <th className="px-4 py-3 text-center font-semibold text-brand-text">{t.hardware.deviceTable.columns.real}</th>
-                      <th className="px-4 py-3 text-center font-semibold text-brand-text">{t.hardware.deviceTable.columns.sim}</th>
-                      <th className="px-4 py-3 text-center font-semibold text-brand-text">{t.hardware.deviceTable.columns.tested}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {t.hardware.deviceTable.rows.map((row, index) => (
-                      <tr key={index} className="border-b border-brand-border last:border-b-0 hover:bg-brand-text/[0.02]">
-                        <td className="px-4 py-3 text-brand-text-secondary whitespace-nowrap">{row.vendor || '-'}</td>
-                        <td className="px-4 py-3 text-brand-text font-medium whitespace-nowrap">{row.model}</td>
-                        <td className="px-4 py-3 text-brand-text-secondary whitespace-nowrap">{row.type}</td>
-                        <td className="px-4 py-3 text-center">{row.real ? '✅' : '❌'}</td>
-                        <td className="px-4 py-3 text-center">{row.sim ? '✅' : '❌'}</td>
-                        <td className="px-4 py-3 text-center">{row.tested ? '✅' : '❌'}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </ScrollReveal> */}
         </div>
       </div>
     </section>
