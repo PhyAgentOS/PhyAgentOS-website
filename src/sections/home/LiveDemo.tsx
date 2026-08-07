@@ -34,7 +34,7 @@ export default function LiveDemo() {
           {
             title: '饥荒游戏智能体',
             eyebrow: 'Game Target · Don’t Starve',
-            description: '终端日志与游戏画面同步，Agent 基于环境状态进行长期生存规划、探索、采集与风险应对。',
+            description: '展示 PhyAgentOS 在复杂动态世界中的长期自主生存能力，实现从探索、规划到执行的智能体自进化闭环。',
           },
           {
             title: '星露谷游戏智能体',
@@ -126,7 +126,7 @@ export default function LiveDemo() {
     { id: 'real-robot', category: 'real', icon: Bot, src: '/media/demos/real-robot.mp4', poster: '/media/demos/real-robot.jpg', duration: '03:05' },
     { id: 'deployment', category: 'real', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '02:29' },
     { id: 'minecraft-game', category: 'game', icon: Gamepad2, src: '/media/demos/cross-target-runtime.mp4', poster: '/media/demos/cross-target-runtime.jpg', duration: '01:10' },
-    { id: 'dont-starve', category: 'game', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.jpg', duration: '03:03' },
+    { id: 'dont-starve', category: 'game', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.png', duration: '03:03' },
     { id: 'stardew', category: 'game', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.jpg', duration: '02:26' },
     { id: 'libero-benchmark', category: 'simulation', icon: BarChart3, src: '/media/demos/libero-benchmark.mp4', poster: '/media/demos/libero-benchmark.jpg', duration: '02:39' },
     { id: 'calvin-benchmark', category: 'simulation', icon: BarChart3, src: '/media/demos/calvin-benchmark.mp4', poster: '/media/demos/calvin-benchmark.jpg', duration: '02:37' },
