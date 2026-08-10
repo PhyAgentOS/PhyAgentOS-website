@@ -111,26 +111,6 @@ export interface TranslationShape {
     imagePending: string;
     filters: string[];
     items: { type: string; description: string }[];
-    deviceTable: {
-      title: string;
-      description: string;
-      columns: {
-        vendor: string;
-        model: string;
-        type: string;
-        real: string;
-        sim: string;
-        tested: string;
-      };
-      rows: {
-        vendor: string;
-        model: string;
-        type: string;
-        real: boolean;
-        sim: boolean;
-        tested: boolean;
-      }[];
-    };
   };
   benchmark: {
     label: string;
@@ -455,39 +435,6 @@ export const translations: Record<Lang, TranslationShape> = {
         { type: 'Mobile Manipulator', description: 'Aloha-style bimanual mobile manipulation target available through MuJoCo.' },
         { type: 'Dexterous Hand', description: '20-DoF dexterous hand end-effector target for fine-grained grasping on real robot and MuJoCo.' },
       ],
-      deviceTable: {
-        title: 'Supported Device Matrix',
-        description: 'A comprehensive list of robots and hardware platforms supported or planned by PhyAgentOS.',
-        columns: {
-          vendor: 'Manufacturer',
-          model: 'Model',
-          type: 'Type',
-          real: 'Real Robot',
-          sim: 'Simulation',
-          tested: 'Tested',
-        },
-        rows: [
-          { vendor: 'Agilex', model: 'PIPER', type: 'Robotic Arm', real: true, sim: true, tested: true },
-          { vendor: 'RealMan', model: 'RM65-B', type: 'Robotic Arm', real: false, sim: true, tested: false },
-          { vendor: '', model: 'BOBABOT', type: 'Robotic Arm', real: false, sim: true, tested: false },
-          { vendor: '', model: 'Elfin 5L', type: 'Robotic Arm', real: false, sim: true, tested: false },
-          { vendor: '', model: 'Fourier GR-3', type: 'Bipedal Humanoid', real: true, sim: true, tested: false },
-          { vendor: 'Franka', model: 'Franka Emika Panda', type: 'Robotic Arm', real: false, sim: true, tested: false },
-          { vendor: 'Franka', model: 'Franka FR3', type: 'Robotic Arm', real: false, sim: true, tested: false },
-          { vendor: 'Unitree', model: 'G1-D', type: 'Wheeled Humanoid', real: false, sim: true, tested: false },
-          { vendor: 'Unitree', model: 'GO2', type: 'Quadruped Humanoid', real: false, sim: true, tested: false },
-          { vendor: 'Unitree', model: 'G1', type: 'Bipedal Humanoid', real: false, sim: true, tested: false },
-          { vendor: 'Unitree', model: 'R1', type: 'Bipedal Humanoid', real: false, sim: true, tested: false },
-          { vendor: 'Huibo', model: 'Astra-Pro', type: 'Wheeled Humanoid', real: true, sim: true, tested: true },
-          { vendor: 'Lekiwi', model: 'lekiwi', type: 'Wheeled', real: true, sim: true, tested: true },
-          { vendor: 'HuggingFace', model: 'SO100', type: 'Robotic Arm', real: false, sim: true, tested: false },
-          { vendor: 'HuggingFace', model: 'SO101', type: 'Robotic Arm', real: true, sim: true, tested: true },
-          { vendor: '', model: 'Stella Gaia Hand 20', type: 'Dexterous Hand', real: true, sim: true, tested: true },
-          { vendor: '', model: 'ViperX300', type: 'Robotic Arm', real: false, sim: true, tested: false },
-          { vendor: '', model: 'XLerobot', type: 'Robotic Arm', real: false, sim: true, tested: false },
-          { vendor: '', model: 'Zerith_H1_PRO', type: 'Wheeled Humanoid', real: true, sim: true, tested: true },
-        ],
-      },
     },
     benchmark: {
       label: 'Benchmark',
@@ -839,39 +786,6 @@ export const translations: Record<Lang, TranslationShape> = {
         { type: '移动操作机器人', description: 'Aloha 风格双臂移动操作目标，当前通过 MuJoCo 接入。' },
         { type: '灵巧手', description: '20 自由度灵巧手末端执行器目标，支持真机与 MuJoCo 下的精细抓取评测。' },
       ],
-      deviceTable: {
-        title: '设备支持矩阵',
-        description: 'PhyAgentOS 已支持或计划支持的机器人与硬件平台完整列表。',
-        columns: {
-          vendor: '厂商',
-          model: '型号',
-          type: '类型',
-          real: '真机',
-          sim: '仿真',
-          tested: '是否测试',
-        },
-        rows: [
-          { vendor: 'Agilex', model: 'PIPER', type: '机械臂', real: true, sim: true, tested: true },
-          { vendor: 'RealMan', model: 'RM65-B', type: '机械臂', real: false, sim: true, tested: false },
-          { vendor: '', model: 'BOBABOT', type: '机械臂', real: false, sim: true, tested: false },
-          { vendor: '', model: 'Elfin 5L', type: '机械臂', real: false, sim: true, tested: false },
-          { vendor: '', model: 'Fourier GR-3', type: '双足人形', real: true, sim: true, tested: false },
-          { vendor: 'Franka', model: 'Franka Emika Panda', type: '机械臂', real: false, sim: true, tested: false },
-          { vendor: 'Franka', model: 'Franka FR3', type: '机械臂', real: false, sim: true, tested: false },
-          { vendor: 'Unitree', model: 'G1-D', type: '轮式人形', real: false, sim: true, tested: false },
-          { vendor: 'Unitree', model: 'GO2', type: '四足人形', real: false, sim: true, tested: false },
-          { vendor: 'Unitree', model: 'G1', type: '双足人形', real: false, sim: true, tested: false },
-          { vendor: 'Unitree', model: 'R1', type: '双足人形', real: false, sim: true, tested: false },
-          { vendor: 'Huibo', model: 'Astra-Pro', type: '轮式人形', real: true, sim: true, tested: true },
-          { vendor: 'Lekiwi', model: 'lekiwi', type: '轮式', real: true, sim: true, tested: true },
-          { vendor: 'HuggingFace', model: 'SO100', type: '机械臂', real: false, sim: true, tested: false },
-          { vendor: 'HuggingFace', model: 'SO101', type: '机械臂', real: true, sim: true, tested: true },
-          { vendor: '', model: 'Stella Gaia Hand 20', type: '灵巧手', real: true, sim: true, tested: true },
-          { vendor: '', model: 'ViperX300', type: '机械臂', real: false, sim: true, tested: false },
-          { vendor: '', model: 'XLerobot', type: '机械臂', real: false, sim: true, tested: false },
-          { vendor: '', model: 'Zerith_H1_PRO', type: '轮式人形', real: true, sim: true, tested: true },
-        ],
-      },
     },
     benchmark: {
       label: '性能基准',

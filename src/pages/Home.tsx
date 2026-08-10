@@ -9,10 +9,8 @@ import CoreConcepts from '../sections/home/CoreConcepts';
 import Architecture from '../sections/home/Architecture';
 import Scenarios from '../sections/home/Scenarios';
 import LiveDemo from '../sections/home/LiveDemo';
-import Hardware from '../sections/home/Hardware';
 import Benchmark from '../sections/home/Benchmark';
 import TeamPreview from '../sections/home/TeamPreview';
-import Testimonials from '../sections/home/Testimonials';
 import DocsCTA from '../sections/home/DocsCTA';
 
 // Register GSAP plugins
@@ -49,15 +47,11 @@ export default function Home() {
       <div className="section-divider" />
       <LiveDemo />
       <div className="section-divider" />
-      <Hardware />
-      <div className="section-divider" />
       <Benchmark />
       <div className="section-divider" />
-      <TeamPreview />
-      <div className="section-divider" />
-      <Testimonials />
-      <div className="section-divider" />
       <DocsCTA />
+      <div className="section-divider" />
+      <TeamPreview />
     </div>
   );
 }

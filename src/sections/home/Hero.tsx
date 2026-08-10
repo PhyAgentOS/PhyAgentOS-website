@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type MouseEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CalendarDays, FileText, Users } from 'lucide-react';
 import gsap from 'gsap';
@@ -14,11 +14,6 @@ export default function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const mousePosition = useMousePosition();
-
-  const handleHardwareClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    document.getElementById('hardware')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
 
   useEffect(() => {
     // Small delay to ensure DOM is ready
@@ -150,7 +145,7 @@ export default function Hero() {
           {/* Stats preview */}
           <div className="hero-animate mt-16 grid w-full max-w-4xl grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6 mx-auto">
             {[
-              { value: '36', label: t.hero.statTargets, href: '#hardware', to: undefined },
+              { value: '36', label: t.hero.statTargets, to: '/targets' },
               { value: String(algorithmItems.length), label: t.hero.statAlgorithms, href: undefined, to: '/algorithms' },
               { value: String(skillItems.length), label: t.hero.statSkills, href: undefined, to: '/skills' },
             ].map((stat) => {
@@ -166,14 +161,10 @@ export default function Hero() {
               );
               const className = 'flex min-h-[112px] flex-col items-center justify-center rounded-lg border border-brand-border/50 bg-brand-bg-secondary/70 px-6 py-6 text-center backdrop-blur-sm transition-all duration-300 hover:border-brand-accent/25 hover:bg-brand-bg-secondary/85 sm:min-h-[128px] sm:px-7 lg:min-h-[140px] lg:px-8';
 
-              return stat.to ? (
+              return (
                 <Link key={stat.label} to={stat.to} className={className}>
                   {content}
                 </Link>
-              ) : (
-                <a key={stat.label} href={stat.href} onClick={handleHardwareClick} className={className}>
-                  {content}
-                </a>
               );
             })}
           </div>

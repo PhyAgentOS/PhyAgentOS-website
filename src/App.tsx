@@ -12,6 +12,7 @@ import TechReport from './pages/TechReport';
 import JoinUs from './pages/JoinUs';
 import Algorithms from './pages/Algorithms';
 import Skills from './pages/Skills';
+import Targets from './pages/Targets';
 
 import './App.css';
 
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/themes" element={<ThemePreview />} />
                 <Route path="/tech-report" element={<TechReport />} />
                 <Route path="/join-us" element={<JoinUs />} />
+                <Route path="/targets" element={<Targets />} />
                 <Route path="/algorithms" element={<Algorithms />} />
                 <Route path="/skills" element={<Skills />} />
               </Routes>
