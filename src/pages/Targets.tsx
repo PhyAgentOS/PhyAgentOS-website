@@ -55,7 +55,7 @@ const hardwareDevices: HardwareDevice[] = [
   { name: 'Zerith H1 PRO', typeKey: 'Wheeled Humanoid', image: '/media/hardware/zerith-h1-pro.png', access: ['real', 'mujoco'], specs: ['Wheeled', 'MuJoCo', 'Real Robot'] },
   { name: 'Lekiwi', typeKey: 'Wheeled', image: '/media/hardware/lekiwi.jpg', access: ['real', 'mujoco'], specs: ['Mobile', 'MuJoCo', 'Real Robot'] },
   { name: 'XLeRobot', typeKey: 'Wheeled', image: '/XLeRobot.png', access: ['real', 'mujoco'], specs: ['Mobile', 'Bimanual', 'Real Robot'] },
-  { name: 'Aloha', typeKey: 'Wheeled', image: '/media/hardware/aloha.avif', access: ['mujoco'], specs: ['Mobile', 'Bimanual', 'MuJoCo'] },
+  { name: 'Aloha', typeKey: 'Desktop Arm', image: '/media/hardware/aloha.avif', access: ['mujoco'], specs: ['Mobile', 'Bimanual', 'MuJoCo'] },
   { name: 'Stella Gaia Hand 20', typeKey: 'Dexterous Hand', image: '/media/hardware/stella-gaia-hand-20.png', access: ['real', 'mujoco'], specs: ['20-DoF', 'Dexterous', 'Real Robot'] },
 ];
 
@@ -322,68 +322,69 @@ export default function Targets() {
           </ScrollReveal>
 
           <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {filteredDevices.map((device, index) => (
-              <ScrollReveal key={device.name} delay={Math.min(index * 0.035, 0.28)}>
-                <article className="group flex h-full min-h-[260px] overflow-hidden rounded-2xl border border-brand-border bg-brand-bg-secondary p-4 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-brand-accent/25 hover:shadow-card-hover">
-                  <div className="flex w-32 shrink-0 items-center justify-center rounded-xl bg-brand-text/[0.03] p-3">
-                    {device.image ? (
-                      <img
-                        src={device.image}
-                        alt={device.name}
-                        className="h-full max-h-36 w-full object-contain drop-shadow-lg"
-                      />
-                    ) : (
-                      <Bot className="h-10 w-10 text-brand-text-tertiary" />
-                    )}
-                  </div>
+          {filteredDevices.map((device, index) => (
+            <ScrollReveal key={device.name} delay={Math.min(index * 0.035, 0.28)}>
+              <article className="group relative flex h-full min-h-[360px] flex-col overflow-hidden rounded-2xl border border-brand-border bg-brand-bg-secondary p-5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-brand-accent/25 hover:shadow-card-hover">
+                
+                {/* 右上角状态 */}
+                <span
+                  className={`absolute right-5 top-5 z-10 rounded-full px-3 py-1 text-xs font-medium ${
+                    device.access.includes('pending')
+                      ? 'bg-amber-500/10 text-amber-700'
+                      : device.access.includes('real')
+                        ? 'bg-emerald-500/10 text-emerald-700'
+                        : 'bg-sky-500/10 text-sky-700'
+                  }`}
+                >
+                  {statusFor(device.access)}
+                </span>
 
-                  <div className="flex min-w-0 flex-1 flex-col pl-5">
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-xs font-medium text-brand-text-tertiary">{device.vendor}</p>
-                        <h2 className="mt-1 break-words font-display text-lg font-bold leading-snug text-brand-text sm:text-xl">
-                          {device.name}
-                        </h2>
-                      </div>
-                      <span className={`shrink-0 self-start rounded-full px-3 py-1 text-xs font-medium ${
-                        device.access.includes('pending')
-                          ? 'bg-amber-500/10 text-amber-700'
-                          : device.access.includes('real')
-                            ? 'bg-emerald-500/10 text-emerald-700'
-                            : 'bg-sky-500/10 text-sky-700'
-                      }`}>
-                        {statusFor(device.access)}
-                      </span>
-                    </div>
+                {/* 顶部图片区域 */}
+                <div className="flex h-40 w-full items-center justify-center rounded-xl bg-brand-text/[0.03] p-5">
+                  {device.image ? (
+                    <img
+                      src={device.image}
+                      alt={device.name}
+                      className="h-full max-h-32 w-full object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-105"
+                    />
+                  ) : (
+                    <Bot className="h-12 w-12 text-brand-text-tertiary" />
+                  )}
+                </div>
 
-                    <div className="mt-3 flex flex-wrap gap-2 text-xs text-brand-text-tertiary">
-                      <span className="rounded-full border border-brand-border bg-brand-text/[0.03] px-2.5 py-1">
-                        {device.type}
-                      </span>
-                      {device.specs.slice(0, 2).map((spec) => (
-                        <span key={spec} className="rounded-full border border-brand-border bg-brand-text/[0.03] px-2.5 py-1">
-                          {spec}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {device.access.map((tag) => (
-                        <span key={tag} className={`rounded-full border px-2.5 py-1 text-xs font-medium ${accessConfig[tag].className}`}>
-                          {accessConfig[tag].label}
-                        </span>
-                      ))}
-                    </div>
-
-                    <p className="mt-4 text-sm leading-6 text-brand-text-secondary">
-                      {device.description}
+                {/* 内容区域 */}
+                <div className="mt-5 flex min-w-0 flex-1 flex-col">
+                  <div>
+                    <p className="truncate text-xs font-medium text-brand-text-tertiary">
+                      {device.vendor}
                     </p>
 
+                    <h2 className="mt-1 break-words font-display text-lg font-bold leading-snug text-brand-text sm:text-xl">
+                      {device.name}
+                    </h2>
                   </div>
-                </article>
-              </ScrollReveal>
-            ))}
-          </div>
+
+                  {/* 标签 */}
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {device.access.map((tag) => (
+                      <span
+                        key={tag}
+                        className={`rounded-full border px-2.5 py-1 text-xs font-medium ${accessConfig[tag].className}`}
+                      >
+                        {accessConfig[tag].label}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* 描述 */}
+                  <p className="mt-5 flex-1 text-sm leading-6 text-brand-text-secondary">
+                    {device.description}
+                  </p>
+                </div>
+              </article>
+            </ScrollReveal>
+          ))}
+        </div>
         </div>
       </div>
     </div>

@@ -14,7 +14,7 @@ export default function LiveDemo() {
         description:
           '将部署流程、游戏目标与真实机器人任务放在同一套 Session 运行链路下展示，验证 PhyAgentOS 从指令到执行的闭环能力。',
         watch: '当前播放',
-        filters: { all: '全部', game: '游戏', real: '真机', simulation: '仿真' },
+        filters: { all: '全部', deployment: '快速部署', real: '真机', simulation: '仿真', game: '游戏' },
         videos: [
           {
             title: 'LIBERO 评测',
@@ -65,7 +65,7 @@ export default function LiveDemo() {
         description:
           'Deployment, game targets, and real robots are shown through the same Session-centered runtime path, from instruction to verifiable execution.',
         watch: 'Now playing',
-        filters: { all: 'All', game: 'Games', real: 'Real Robot', simulation: 'Simulation' },
+        filters: { all: 'All', deployment: 'Quick Deployment', real: 'Real Robot', simulation: 'Simulation', game: 'Games' },
         videos: [
           {
             title: 'LIBERO benchmark',
@@ -124,7 +124,7 @@ export default function LiveDemo() {
 
   const demos = [
     { id: 'real-robot', category: 'real', icon: Bot, src: '/media/demos/real-robot.mp4', poster: '/media/demos/real-robot.jpg', duration: '03:05' },
-    { id: 'deployment', category: 'real', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '02:29' },
+    { id: 'deployment', category: 'deployment', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '02:29' },
     { id: 'minecraft-game', category: 'game', icon: Gamepad2, src: '/media/demos/cross-target-runtime.mp4', poster: '/media/demos/cross-target-runtime.jpg', duration: '01:10' },
     { id: 'dont-starve', category: 'game', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.png', duration: '03:03' },
     { id: 'stardew', category: 'game', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.jpg', duration: '02:26' },

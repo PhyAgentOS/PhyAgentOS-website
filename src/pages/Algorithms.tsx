@@ -21,7 +21,7 @@ interface AlgorithmEntry {
 export const algorithmItems: AlgorithmEntry[] = [
   {
     name: { en: 'Shelf Grasp YOLO Pipeline', zh: 'Shelf Grasp YOLO Pipeline' },
-    category: { en: 'Policy Integration', zh: '策略集成' },
+    category: { en: 'VLA', zh: 'VLA' },
     status: 'available',
     description: {
       en: 'An intelligent shelf-grasping system powered by a Piper arm and Orbbec RGB-D camera, using YOLO object detection for object localization and grasp execution.',
@@ -34,7 +34,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'Policy Orchestrator Core', zh: 'Policy Orchestrator Core' },
-    category: { en: 'Policy Integration', zh: '策略集成' },
+    category: { en: 'Control', zh: '控制' },
     status: 'available',
     description: {
       en: 'A shared policy orchestration core library that provides a unified runtime framework, interface management, and module scheduling for robot task policies.',
@@ -47,7 +47,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'LLM Action Planner', zh: 'LLM Action Planner' },
-    category: { en: 'Policy Integration', zh: '策略集成' },
+    category: { en: 'VLA', zh: 'VLA' },
     status: 'available',
     description: {
       en: 'Converts natural-language tasks into structured, executable action commands for robots using large language models for high-level task planning.',
@@ -60,7 +60,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'Speech Recognition', zh: 'Speech Recognition' },
-    category: { en: 'Policy Integration', zh: '策略集成' },
+    category: { en: 'Perception', zh: '感知' },
     status: 'available',
     description: {
       en: 'A microphone-based speech recognition module that converts real-time speech to text, providing voice capability for robot interaction tasks.',
@@ -73,7 +73,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'QR Code Tracker', zh: 'QR Code Tracker' },
-    category: { en: 'Policy Integration', zh: '策略集成' },
+    category: { en: 'Perception', zh: '感知' },
     status: 'available',
     description: {
       en: 'A robot QR code recognition module that uses visual detection and multi-frame fusion to reliably identify workstations, materials, and task markers.',
@@ -86,7 +86,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'Human Safety Monitor', zh: 'Human Safety Monitor' },
-    category: { en: 'Policy Integration', zh: '策略集成' },
+    category: { en: 'Perception', zh: '感知' },
     status: 'available',
     description: {
       en: 'An embodied safety detection module that visually senses human presence in work areas and dynamically adjusts robot safety policies.',
@@ -99,7 +99,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'Object Counter', zh: 'Object Counter' },
-    category: { en: 'Policy Integration', zh: '策略集成' },
+    category: { en: 'Perception', zh: '感知' },
     status: 'available',
     description: {
       en: 'An open-vocabulary object detection module based on YOLO-World for object recognition, counting, and position analysis in camera feeds.',
@@ -112,7 +112,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'Fruit Detector', zh: 'Fruit Detector' },
-    category: { en: 'Policy Integration', zh: '策略集成' },
+    category: { en: 'Perception', zh: '感知' },
     status: 'available',
     description: {
       en: 'A vision-based fruit detection module that identifies fruit categories from camera images and outputs target positions.',
@@ -125,7 +125,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'YOLO Object Detector', zh: 'YOLO Object Detector' },
-    category: { en: 'Policy Integration', zh: '策略集成' },
+    category: { en: 'Perception', zh: '感知' },
     status: 'available',
     description: {
       en: 'A real-time object detection module based on Ultralytics YOLO, providing efficient object localization for robot vision tasks.',
@@ -138,7 +138,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'Hand Teleoperation Controller', zh: 'Hand Teleoperation Controller' },
-    category: { en: 'Policy Integration', zh: '策略集成' },
+    category: { en: 'Control', zh: '控制' },
     status: 'available',
     description: {
       en: 'A hand teleoperation system using MediaPipe hand keypoints and DexPilot algorithms to convert gestures into robot joint control commands.',
@@ -151,7 +151,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'Face Detection Module', zh: 'Face Detection Module' },
-    category: { en: 'Policy Integration', zh: '策略集成' },
+    category: { en: 'Perception', zh: '感知' },
     status: 'available',
     description: {
       en: 'An OpenCV-based face detection module that recognizes faces from robot camera input and outputs visual analysis results.',
@@ -164,7 +164,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'SAM3 Grasp Pipeline', zh: 'SAM3 Grasp Pipeline' },
-    category: { en: 'Policy Integration', zh: '策略集成' },
+    category: { en: 'VLA', zh: 'VLA' },
     status: 'available',
     description: {
       en: 'An intelligent grasping system combining SAM3 segmentation, Piper arm, and RGB-D camera for object understanding and autonomous grasping.',
@@ -177,7 +177,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'SAM3 Object Detection', zh: 'SAM3 Object Detection' },
-    category: { en: 'Detection', zh: '目标检测' },
+    category: { en: 'Perception', zh: '感知' },
     status: 'available',
     description: {
       en: 'A SAM3-based vision perception module for prompt-driven segmentation, object detection, and fine-grained region understanding.',
@@ -190,7 +190,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'YOLO RGB Detection', zh: 'YOLO RGB Detection' },
-    category: { en: 'Detection', zh: '目标检测' },
+    category: { en: 'Perception', zh: '感知' },
     status: 'available',
     description: {
       en: 'A YOLO-based RGB object detection module providing real-time object localization capabilities for robots.',
@@ -203,7 +203,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'LeRobot Policy Runner', zh: 'LeRobot Policy Runner' },
-    category: { en: 'Embodied Policy', zh: '具身策略' },
+    category: { en: 'RL', zh: 'RL' },
     status: 'available',
     description: {
       en: 'Converts robot learning policies to the LeRobot format and supports online inference execution and task deployment.',
@@ -216,7 +216,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'PyBullet Motion Solver', zh: 'PyBullet Motion Solver' },
-    category: { en: 'Motion Control', zh: '运动控制' },
+    category: { en: 'Control', zh: '控制' },
     status: 'available',
     description: {
       en: 'A PyBullet simulation-based robot motion planning module for arm kinematics solving and trajectory generation.',
@@ -229,7 +229,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'Heuristic Task Planner', zh: 'Heuristic Task Planner' },
-    category: { en: 'Planning', zh: '任务规划' },
+    category: { en: 'Planning', zh: '规划' },
     status: 'available',
     description: {
       en: 'A rule-based and heuristic task planning module that decomposes target tasks into executable execution steps.',
@@ -242,7 +242,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'Whisper Speech Recognizer', zh: 'Whisper Speech Recognizer' },
-    category: { en: 'Speech Recognition', zh: '语音识别' },
+    category: { en: 'Perception', zh: '感知' },
     status: 'available',
     description: {
       en: 'An offline speech recognition module based on Faster Whisper that converts robot-captured audio into text commands.',
@@ -255,7 +255,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'Piper Text To Speech', zh: 'Piper Text To Speech' },
-    category: { en: 'Speech Synthesis', zh: '语音合成' },
+    category: { en: 'Interaction', zh: '交互' },
     status: 'available',
     description: {
       en: 'An offline speech synthesis module using the Piper local TTS model for natural voice output on robots.',
@@ -268,7 +268,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'VR Teleoperation Policy', zh: 'VR Teleoperation Policy' },
-    category: { en: 'Teleoperation', zh: '遥操作' },
+    category: { en: 'Control', zh: '控制' },
     status: 'available',
     description: {
       en: 'A universal VR teleoperation policy module that converts headset and controller inputs into robot motion control signals.',
@@ -281,7 +281,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'RGB-D 3D Localizer', zh: 'RGBD 3D Localizer' },
-    category: { en: 'Vision Perception', zh: '视觉感知' },
+    category: { en: 'Perception', zh: '感知' },
     status: 'available',
     description: {
       en: 'Fuses RGB detection results with depth information to recover 3D positions of visual targets for robot perception.',
@@ -294,7 +294,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'SAM Segmentation Perception', zh: 'SAM Segmentation Perception' },
-    category: { en: 'Vision Perception', zh: '视觉感知' },
+    category: { en: 'Perception', zh: '感知' },
     status: 'available',
     description: {
       en: 'A SAM3-based continuous vision segmentation module that generates target segmentation masks and detection info from text prompts.',
@@ -307,7 +307,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'YOLO Visual Perception', zh: 'YOLO Visual Perception' },
-    category: { en: 'Vision Perception', zh: '视觉感知' },
+    category: { en: 'Perception', zh: '感知' },
     status: 'available',
     description: {
       en: 'An Ultralytics YOLO-based robot vision perception module supporting detection, segmentation, pose estimation, and tracking.',
@@ -334,9 +334,19 @@ export default function Algorithms() {
         highlight: '算法与工具',
         description: '当前正在接入、评估或已经可用的 VLA、世界模型、感知与规划算法。框架仍在演进，新算法可直接在本页面的数据列表中维护。',
         countLabel: '项算法与工具',
+        categoryCountLabel: '算法类别',
+        availableCountLabel: '已接入',
         availableLabel: '已接入',
         evaluatingLabel: '评估中',
         backLabel: '返回首页',
+        searchPlaceholder: '搜索算法名称、描述或能力',
+        categoryFilterLabel: '算法类别',
+        statusFilterLabel: '接入状态',
+        allLabel: '全部',
+        resetLabel: '清空筛选',
+        showingLabel: '显示',
+        resultLabel: '项算法与工具',
+        emptyLabel: '没有找到匹配的算法',
       }
     : {
         label: 'Algorithm Catalog',
@@ -344,9 +354,19 @@ export default function Algorithms() {
         highlight: 'algorithms and tools',
         description: 'VLA, world-model, perception, and planning algorithms that are integrated or under active evaluation. Add future entries directly to this page catalog.',
         countLabel: 'algorithms and tools',
+        categoryCountLabel: 'algorithm categories',
+        availableCountLabel: 'available',
         availableLabel: 'Available',
         evaluatingLabel: 'Evaluating',
         backLabel: 'Back to home',
+        searchPlaceholder: 'Search algorithm names, descriptions, or capabilities',
+        categoryFilterLabel: 'Algorithm Category',
+        statusFilterLabel: 'Integration Status',
+        allLabel: 'All',
+        resetLabel: 'Reset filters',
+        showingLabel: 'Showing',
+        resultLabel: 'algorithms and tools',
+        emptyLabel: 'No matching algorithms found',
       };
 
   const items: CapabilityItem[] = algorithmItems.map((item) => ({
