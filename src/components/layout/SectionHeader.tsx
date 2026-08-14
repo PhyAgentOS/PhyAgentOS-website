@@ -35,7 +35,7 @@ export default function SectionHeader({
         {title}
         {highlight && (
           <>
-            {' '}
+            {title.endsWith('，') ? null : ' '}
             <span className="inline-block text-gradient">{highlight}</span>
           </>
         )}
