@@ -75,10 +75,14 @@ export default function CapabilityCatalog({
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
 
-  const categories = useMemo(
-    () => Array.from(new Set(items.map((item) => item.category))),
-    [items],
-  );
+  const categories = useMemo(() => {
+    const unique = Array.from(new Set(items.map((item) => item.category)));
+    const preferred = ['Perception', 'Manipulation', 'Locomotion', 'Motion Control'];
+    return [
+      ...preferred.filter((category) => unique.includes(category)),
+      ...unique.filter((category) => !preferred.includes(category)),
+    ];
+  }, [items]);
   const availableCount = items.filter((item) => item.status === 'available').length;
   const filteredItems = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -141,19 +145,19 @@ export default function CapabilityCatalog({
 
           <ScrollReveal delay={0.15}>
             <div className="mt-8 rounded-2xl border border-brand-border bg-brand-bg-secondary/80 p-4 shadow-soft">
-              <div className="grid gap-5 lg:grid-cols-[1fr_1fr_auto] lg:items-end">
-                <div>
+              <div className="flex flex-col gap-5 lg:flex-row lg:flex-wrap lg:items-end lg:gap-x-10 lg:gap-y-4">
+                <div className="min-w-0">
                   <div className="mb-3 flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-brand-text-tertiary">
                     <SlidersHorizontal className="h-4 w-4" />
                     {categoryFilterLabel}
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-nowrap gap-2 overflow-x-auto pb-1">
                     {['all', ...categories].map((category) => (
                       <button
                         key={category}
                         type="button"
                         onClick={() => setCategoryFilter(category)}
-                        className={`rounded-xl px-4 py-2 text-sm font-medium transition-all ${categoryFilter === category ? 'bg-brand-accent text-white shadow-glow-soft' : 'border border-brand-border bg-brand-text/[0.03] text-brand-text-tertiary hover:border-brand-accent/30 hover:text-brand-text'}`}
+                        className={`shrink-0 rounded-xl px-4 py-2 text-sm font-medium transition-all ${categoryFilter === category ? 'bg-brand-accent text-white shadow-glow-soft' : 'border border-brand-border bg-brand-text/[0.03] text-brand-text-tertiary hover:border-brand-accent/30 hover:text-brand-text'}`}
                       >
                         {category === 'all' ? allLabel : category}
                       </button>
@@ -163,7 +167,7 @@ export default function CapabilityCatalog({
 
                 <div>
                   <div className="mb-3 text-xs font-mono uppercase tracking-wider text-brand-text-tertiary">{statusFilterLabel}</div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-nowrap gap-2">
                     {([
                       { value: 'all', label: allLabel },
                       { value: 'available', label: availableLabel },
@@ -173,7 +177,7 @@ export default function CapabilityCatalog({
                         key={status.value}
                         type="button"
                         onClick={() => setStatusFilter(status.value)}
-                        className={`rounded-xl px-4 py-2 text-sm font-medium transition-all ${statusFilter === status.value ? 'bg-brand-accent text-white shadow-glow-soft' : 'border border-brand-border bg-brand-text/[0.03] text-brand-text-tertiary hover:border-brand-accent/30 hover:text-brand-text'}`}
+                        className={`shrink-0 rounded-xl px-4 py-2 text-sm font-medium transition-all ${statusFilter === status.value ? 'bg-brand-accent text-white shadow-glow-soft' : 'border border-brand-border bg-brand-text/[0.03] text-brand-text-tertiary hover:border-brand-accent/30 hover:text-brand-text'}`}
                       >
                         {status.label}
                       </button>
@@ -188,7 +192,7 @@ export default function CapabilityCatalog({
                     setCategoryFilter('all');
                     setStatusFilter('all');
                   }}
-                  className="rounded-xl border border-brand-border bg-brand-bg px-4 py-2 text-sm font-medium text-brand-text-tertiary transition-all hover:border-brand-accent/30 hover:text-brand-text"
+                  className="rounded-xl border border-brand-border bg-brand-bg px-4 py-2 text-sm font-medium text-brand-text-tertiary transition-all hover:border-brand-accent/30 hover:text-brand-text lg:ml-auto"
                 >
                   {resetLabel}
                 </button>

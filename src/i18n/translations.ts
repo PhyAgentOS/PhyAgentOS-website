@@ -234,7 +234,7 @@ export const translations: Record<Lang, TranslationShape> = {
       basedOn: 'Built with React, Three.js & GSAP',
     },
     hero: {
-      label: 'Cognitive-Physical Decoupling · Session-Centered Runtime',
+      label: 'The Harness for Physical Agents',
       titleLine1: 'Self-Evolving Physical Agent',
       titleLine2: 'Operating System',
       subtitle: 'PhyAgentOS - A unified, transparent, and auditable runtime foundation for physical agents',
@@ -360,9 +360,9 @@ export const translations: Record<Lang, TranslationShape> = {
     },
     scenarios: {
       label: 'Scenarios',
-      title: 'One Runtime,',
+      title: 'One Protocol,',
       highlight: 'three task types',
-      description: 'The same Session protocol supports three task types: games, simulation, and physical robots.',
+      description: 'Seamlessly supports real robots, simulation, and game environments, covering the full pipeline from development and validation to deployment.',
       items: [
         {
           title: 'Game',
@@ -372,13 +372,13 @@ export const translations: Record<Lang, TranslationShape> = {
         },
         {
           title: 'Simulation',
-          subtitle: 'Remote · benchmark',
+          subtitle: 'Example · LIBERO / RoboCasa365 / CALVIN',
           description: 'Physics-accurate simulation at scale with LIBERO, CALVIN, and RoboCasa365. Evaluate transfer, long-horizon chains, and household manipulation through reproducible target sessions.',
           features: ['LIBERO benchmark suite', 'CALVIN ABC→D', 'RoboCasa365 target50', 'Reproducible evaluation'],
         },
         {
           title: 'Real Robot',
-          subtitle: 'Remote · deployment',
+          subtitle: 'Example · PIPER / Go2 / XLeRobot',
           description: 'Full deployment on physical hardware via Target Adapters. Real-world perception, manipulation, and fleet coordination all through the same Session protocol.',
           features: ['Franka, Go2, XLeRobot, PIPER', 'ReKep / SAM3 grasping', 'Fleet multi-robot coordination', 'Semantic verification'],
         },
@@ -584,11 +584,11 @@ export const translations: Record<Lang, TranslationShape> = {
       basedOn: '使用 React、Three.js 与 GSAP 构建',
     },
     hero: {
-      label: '认知-物理解耦 · 会话中心化Runtime',
+      label: 'The Harness for Physical Agents',
       titleLine1: '自进化物理智能体',
       titleLine2: '操作系统',
       subtitle: 'PhyAgentOS-统一、透明、可审计的的物理智能体运行底座',
-      description: '异构机器人自由接入，即插即用，复杂任务一触即达；具身模型流水线自动评测、持续进化；长期记忆与自进化能力，Game → 仿真 → 真机，无缝虚实迁移。',
+      description: '任意机器人构型快速接入，实现即插即用；多种算法与工具自由组合，快速构建智能体技能，复杂任务一触即达；通过认知-物理解耦统一智能决策与物理执行，并支持长期记忆与持续进化；一套协议贯通游戏、仿真与真机，实现虚实环境无缝迁移。',
       getStarted: '快速开始',
       technicalReport: '技术报告',
       watchDemo: '观看演示',
@@ -711,9 +711,9 @@ export const translations: Record<Lang, TranslationShape> = {
     },
     scenarios: {
       label: '应用场景',
-      title: '一个 Runtime，',
+      title: '一套协议，',
       highlight: '三类任务',
-      description: '同一套 Session 协议支持游戏、仿真与真机三类任务。',
+      description: '无缝支持真机、仿真与游戏环境，贯通开发、验证与部署全流程。',
       items: [
         {
           title: '游戏',
@@ -723,13 +723,13 @@ export const translations: Record<Lang, TranslationShape> = {
         },
         {
           title: '仿真',
-          subtitle: '远程 · 基准评测',
+          subtitle: '示例 · LIBERO / RoboCasa365 / CALVIN',
           description: '基于 LIBERO、CALVIN 与 RoboCasa365 的大规模物理精确仿真，通过可复现的目标会话评估迁移、长程任务链与家庭操作能力。',
           features: ['LIBERO 基准套件', 'CALVIN ABC→D', 'RoboCasa365 target50', '可复现评估'],
         },
         {
           title: '真机',
-          subtitle: '远程 · 部署',
+          subtitle: '示例 · PIPER / Go2 / XLeRobot',
           description: '通过 Target Adapter 在物理硬件上完整部署。真实世界感知、操作与编队协同全部通过同一 Session 协议。',
           features: ['Franka、Go2、XLeRobot、PIPER', 'ReKep / SAM3 抓取', '编队多机协同', '语义验证'],
         },

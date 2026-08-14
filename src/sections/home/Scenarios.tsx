@@ -46,7 +46,7 @@ const scenarios = [
 
                       {/* Title */}
                       <div className="mb-4">
-                        <p className={`text-xs font-mono uppercase tracking-wider ${scenario.iconColor} mb-2`}>
+                        <p className={`text-[8px] sm:text-[9px] font-mono uppercase tracking-wide leading-snug ${scenario.iconColor} mb-2`}>
                           {scenario.subtitle}
                         </p>
                         <h3 className="text-2xl font-display font-bold text-brand-text">
