@@ -4,7 +4,8 @@ import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import { ChevronLeft, ChevronRight, Download } from 'lucide-react';
 
-pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.mjs';
+// CDN serves .mjs as octet-stream; .js is text/javascript so pdf.js can import the worker.
+pdfjs.GlobalWorkerOptions.workerSrc = `${import.meta.env.BASE_URL}pdf.worker.js`;
 
 export default function TechReport() {
   const [numPages, setNumPages] = useState<number>(0);
