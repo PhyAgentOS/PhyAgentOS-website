@@ -130,7 +130,6 @@ export default function Targets() {
         verifiedEnvironments: '验证环境',
         availableSkills: '可用技能',
         details: '查看适配详情',
-        official: '官方维护',
         community: '社区适配',
         evaluating: '评估中',
         reset: '清空筛选',
@@ -159,7 +158,6 @@ export default function Targets() {
         verifiedEnvironments: 'verified environments',
         availableSkills: 'available skills',
         details: 'View adapter details',
-        official: 'Official',
         community: 'Community',
         evaluating: 'Evaluating',
         reset: 'Reset filters',
@@ -204,7 +202,6 @@ export default function Targets() {
 
   const verifiedEnvironmentCount = accessFilters.length - 1;
   const statusFor = (access: AccessTag[]) => {
-    if (access.includes('real')) return copy.official;
     if (access.includes('pending')) return copy.evaluating;
     return copy.community;
   };
@@ -331,9 +328,7 @@ export default function Targets() {
                   className={`absolute right-5 top-5 z-10 rounded-full px-3 py-1 text-xs font-medium ${
                     device.access.includes('pending')
                       ? 'bg-amber-500/10 text-amber-700'
-                      : device.access.includes('real')
-                        ? 'bg-emerald-500/10 text-emerald-700'
-                        : 'bg-sky-500/10 text-sky-700'
+                      : 'bg-emerald-500/10 text-emerald-700'
                   }`}
                 >
                   {statusFor(device.access)}

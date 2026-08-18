@@ -127,7 +127,7 @@ export default function LiveDemo() {
     { id: 'deployment', category: 'deployment', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '02:29' },
     { id: 'minecraft-game', category: 'game', icon: Gamepad2, src: '/media/demos/cross-target-runtime.mp4', poster: '/media/demos/cross-target-runtime.jpg', duration: '01:10' },
     { id: 'dont-starve', category: 'game', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.png', duration: '03:03' },
-    { id: 'stardew', category: 'game', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.jpg', duration: '02:26' },
+    { id: 'stardew', category: 'game', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.png', duration: '00:58' },
     { id: 'libero-benchmark', category: 'simulation', icon: BarChart3, src: '/media/demos/libero-benchmark.mp4', poster: '/media/demos/libero-benchmark.jpg', duration: '02:39' },
     { id: 'calvin-benchmark', category: 'simulation', icon: BarChart3, src: '/media/demos/calvin-benchmark.mp4', poster: '/media/demos/calvin-benchmark.jpg', duration: '02:37' },
     { id: 'robocasa365-benchmark', category: 'simulation', icon: BarChart3, src: '/media/demos/robocasa365-benchmark.mp4', poster: '/media/demos/robocasa365-benchmark.jpg', duration: '02:27' },
