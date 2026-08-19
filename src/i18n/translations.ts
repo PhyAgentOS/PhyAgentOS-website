@@ -2,9 +2,12 @@ export type Lang = 'en' | 'zh';
 
 export interface TranslationShape {
   nav: {
+    conceptFilm: string;
     features: string;
     architecture: string;
     scenarios: string;
+    benchmark: string;
+    gettingStartedDocs: string;
     hardware: string;
     team: string;
     activities: string;
@@ -200,9 +203,12 @@ export interface TranslationShape {
 export const translations: Record<Lang, TranslationShape> = {
   en: {
     nav: {
+      conceptFilm: 'Concept Film',
       features: 'Features',
       architecture: 'Architecture',
       scenarios: 'Scenarios',
+      benchmark: 'Benchmarks',
+      gettingStartedDocs: 'Getting Started Docs',
       hardware: 'Hardware',
       team: 'Team',
       activities: 'Activities',
@@ -550,9 +556,12 @@ export const translations: Record<Lang, TranslationShape> = {
 
   zh: {
     nav: {
+      conceptFilm: '概念短片',
       features: '核心特性',
       architecture: '系统架构',
       scenarios: '应用场景',
+      benchmark: '性能基准',
+      gettingStartedDocs: '入门文档',
       hardware: '硬件设备',
       team: '团队',
       activities: '活动',

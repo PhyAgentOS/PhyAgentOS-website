@@ -13,10 +13,13 @@ export default function Navigation() {
   const isLight = currentTheme.category === 'light';
 
   const navItems = [
+    { label: t.nav.conceptFilm, href: '/#interview' },
     { label: t.nav.features, href: '/#features' },
     { label: t.nav.architecture, href: '/#architecture' },
     { label: t.nav.scenarios, href: '/#scenarios' },
     { label: t.liveDemo.label, href: '/#demo' },
+    { label: t.nav.benchmark, href: '/#benchmark' },
+    { label: t.nav.gettingStartedDocs, href: '/#docs' },
   ];
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -108,11 +111,11 @@ export default function Navigation() {
             : 'bg-transparent'
         }`}
       >
-        <div className="px-6 sm:px-8 lg:px-16 xl:px-24">
-          <div className="max-w-7xl mx-auto flex items-center justify-between h-16 lg:h-20">
+        <div className="px-6 sm:px-8 lg:px-10 xl:px-12 2xl:px-16">
+          <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between lg:h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <div className="relative">
+            <Link to="/" className="group flex shrink-0 items-center gap-3 whitespace-nowrap" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <div className="relative shrink-0">
                 <img
                   src={logoSrc}
                   alt="PhyAgentOS"
@@ -126,24 +129,24 @@ export default function Navigation() {
             </Link>
 
             {/* Desktop Navigation + Actions */}
-            <div className="hidden lg:flex items-center gap-5 xl:gap-6">
+            <div className="hidden xl:flex items-center gap-2 xl:gap-3">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className="px-4 py-2 rounded-xl text-sm text-brand-text-secondary hover:text-brand-text hover:bg-brand-text/[0.04] transition-all duration-200 xl:px-5"
+                  className="shrink-0 whitespace-nowrap rounded-xl px-3 py-2 text-[13px] text-brand-text-secondary transition-all duration-200 hover:bg-brand-text/[0.04] hover:text-brand-text"
                 >
                   {item.label}
                 </Link>
               ))}
 
-              <div className="w-px h-5 bg-brand-border/70 mx-1" />
+              <div className="mx-1 h-5 w-px shrink-0 bg-brand-border/70" />
 
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className="p-2.5 rounded-xl text-brand-text-secondary hover:text-brand-text hover:bg-brand-text/[0.04] transition-all duration-200"
+                className="shrink-0 rounded-xl p-2.5 text-brand-text-secondary transition-all duration-200 hover:bg-brand-text/[0.04] hover:text-brand-text"
                 aria-label="Toggle theme"
                 title={isLight ? 'Switch to dark' : 'Switch to light'}
               >
@@ -153,7 +156,7 @@ export default function Navigation() {
                 href="https://github.com/PhyAgentOS/PhyAgentOS"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-brand-text-secondary hover:text-brand-text hover:bg-brand-text/[0.04] transition-all duration-200"
+                className="flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl px-3 py-2.5 text-sm text-brand-text-secondary transition-all duration-200 hover:bg-brand-text/[0.04] hover:text-brand-text"
               >
                 <Github className="w-4 h-4" />
                 <span>{t.nav.github}</span>
@@ -168,7 +171,7 @@ export default function Navigation() {
                 href={`${docsBase}/api-reference/`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-2.5 bg-brand-accent hover:bg-brand-accent-light text-brand-text-on-accent text-sm font-medium rounded-xl transition-all duration-300 shadow-glow-soft hover:shadow-glow"
+                className="shrink-0 whitespace-nowrap rounded-xl bg-brand-accent px-4 py-2.5 text-sm font-medium text-brand-text-on-accent shadow-glow-soft transition-all duration-300 hover:bg-brand-accent-light hover:shadow-glow"
               >
                 {t.nav.getStarted}
               </a>
@@ -177,7 +180,7 @@ export default function Navigation() {
             {/* Mobile Menu Button */}
             <button
               type="button"
-              className="lg:hidden p-2 rounded-xl text-brand-text-secondary hover:text-brand-text hover:bg-brand-text/[0.04] transition-all"
+              className="xl:hidden p-2 rounded-xl text-brand-text-secondary hover:text-brand-text hover:bg-brand-text/[0.04] transition-all"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -189,7 +192,7 @@ export default function Navigation() {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-40 lg:hidden transition-all duration-500 ${
+        className={`fixed inset-0 z-40 xl:hidden transition-all duration-500 ${
           isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
         }`}
       >
@@ -199,7 +202,7 @@ export default function Navigation() {
         />
 
         <div
-          className={`absolute top-20 left-4 right-4 bg-brand-bg-secondary/95 backdrop-blur-2xl border border-brand-border rounded-3xl p-6 shadow-large transition-all duration-500 ${
+          className={`absolute top-20 left-4 right-4 max-h-[calc(100vh-6rem)] overflow-y-auto bg-brand-bg-secondary/95 backdrop-blur-2xl border border-brand-border rounded-3xl p-6 shadow-large transition-all duration-500 ${
             isMobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'
           }`}
         >
