@@ -1,16 +1,21 @@
 import { useEffect, useState } from 'react';
-import { Github, Menu, X, Star, Sun, Moon } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Github, Menu, X, Star, Sun, Moon, LogIn, LogOut, RefreshCcw, UserRound } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useT } from '../../i18n/LanguageContext';
 import { useLang } from '../../i18n/LanguageContext';
 import { useTheme } from '../../themes/ThemeContext';
+import { getProfile, type AuthUser } from '../../lib/userSystemApi';
 
 export default function Navigation() {
   const t = useT();
   const { lang } = useLang();
+  const navigate = useNavigate();
   const docsBase = lang === 'zh' ? '/docs' : '/docs/en';
   const { currentTheme, setTheme } = useTheme();
   const isLight = currentTheme.category === 'light';
+  const authLabel = lang === 'zh' ? '登录/注册' : 'Login / Register';
+  const switchAccountLabel = lang === 'zh' ? '切换账号' : 'Switch account';
+  const logoutLabel = lang === 'zh' ? '退出登录' : 'Log out';
 
   const navItems = [
     { label: t.nav.conceptFilm, href: '/#interview' },
@@ -23,6 +28,8 @@ export default function Navigation() {
   ];
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
   const [starCount, setStarCount] = useState<number | null>(() => {
     const cached = window.localStorage.getItem('phyagentos-star-count');
     return cached ? Number(cached) : null;
@@ -33,6 +40,25 @@ export default function Navigation() {
 
   const toggleTheme = () => {
     setTheme(isLight ? 'apple-dark' : 'morandi-light');
+  };
+
+  const clearAuth = () => {
+    window.localStorage.removeItem('phyagentos_user_token');
+    window.localStorage.removeItem('phyagentos_user_profile');
+    setAuthUser(null);
+    setIsUserMenuOpen(false);
+  };
+
+  const switchAccount = () => {
+    clearAuth();
+    navigate('/login');
+    setIsMobileMenuOpen(false);
+  };
+
+  const logout = () => {
+    clearAuth();
+    navigate('/');
+    setIsMobileMenuOpen(false);
   };
 
   useEffect(() => {
@@ -86,6 +112,53 @@ export default function Navigation() {
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const syncAuthUser = async () => {
+      const token = window.localStorage.getItem('phyagentos_user_token');
+      const cachedProfile = window.localStorage.getItem('phyagentos_user_profile');
+
+      if (!token) {
+        if (isMounted) {
+          setAuthUser(null);
+        }
+        return;
+      }
+
+      if (cachedProfile) {
+        try {
+          const user = JSON.parse(cachedProfile) as AuthUser;
+          if (isMounted) {
+            setAuthUser(user);
+          }
+        } catch {
+          window.localStorage.removeItem('phyagentos_user_profile');
+        }
+      }
+
+      try {
+        const profile = await getProfile(token);
+        window.localStorage.setItem('phyagentos_user_profile', JSON.stringify(profile));
+        if (isMounted) {
+          setAuthUser(profile);
+        }
+      } catch {
+        clearAuth();
+      }
+    };
+
+    syncAuthUser();
+    window.addEventListener('phyagentos-auth-updated', syncAuthUser);
+    window.addEventListener('storage', syncAuthUser);
+
+    return () => {
+      isMounted = false;
+      window.removeEventListener('phyagentos-auth-updated', syncAuthUser);
+      window.removeEventListener('storage', syncAuthUser);
+    };
+  }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (!isHome && href.startsWith('/#')) {
@@ -167,6 +240,48 @@ export default function Navigation() {
                   </span>
                 )}
               </a>
+              <div className="relative">
+                {authUser ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => setIsUserMenuOpen((open) => !open)}
+                      className="flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl border border-brand-border px-3 py-2.5 text-sm font-medium text-brand-text transition-all duration-200 hover:border-brand-accent/35 hover:bg-brand-text/[0.04]"
+                    >
+                      <UserRound className="w-4 h-4 text-brand-accent" />
+                      <span>{authUser.username}</span>
+                    </button>
+                    {isUserMenuOpen && (
+                      <div className="absolute right-0 top-full mt-2 w-44 rounded-lg border border-brand-border bg-brand-bg-secondary/95 p-2 shadow-large backdrop-blur-2xl">
+                        <button
+                          type="button"
+                          onClick={switchAccount}
+                          className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm text-brand-text transition hover:bg-brand-text/[0.06]"
+                        >
+                          <RefreshCcw className="h-4 w-4 text-brand-accent" />
+                          {switchAccountLabel}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={logout}
+                          className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm text-brand-text-secondary transition hover:bg-brand-text/[0.06] hover:text-brand-text"
+                        >
+                          <LogOut className="h-4 w-4" />
+                          {logoutLabel}
+                        </button>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl border border-brand-border px-3 py-2.5 text-sm font-medium text-brand-text transition-all duration-200 hover:border-brand-accent/35 hover:bg-brand-text/[0.04]"
+                  >
+                    <LogIn className="w-4 h-4 text-brand-accent" />
+                    <span>{authLabel}</span>
+                  </Link>
+                )}
+              </div>
               <a
                 href={`${docsBase}/api-reference/`}
                 target="_blank"
@@ -221,6 +336,35 @@ export default function Navigation() {
           </div>
 
           <div className="mt-6 pt-6 border-t border-brand-border space-y-3">
+            <Link
+              to="/login"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-brand-accent text-brand-text-on-accent font-medium transition-all shadow-glow-soft hover:bg-brand-accent-light"
+            >
+              {authUser ? <UserRound className="w-4 h-4" /> : <LogIn className="w-4 h-4" />}
+              {authUser ? authUser.username : authLabel}
+            </Link>
+            {authUser && (
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={switchAccount}
+                  className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-brand-border text-brand-text hover:border-brand-accent/30 transition-all"
+                >
+                  <RefreshCcw className="w-4 h-4" />
+                  {switchAccountLabel}
+                </button>
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-brand-border text-brand-text hover:border-brand-accent/30 transition-all"
+                >
+                  <LogOut className="w-4 h-4" />
+                  {logoutLabel}
+                </button>
+              </div>
+            )}
+
             {/* Mobile Theme Toggle */}
             <button
               onClick={toggleTheme}

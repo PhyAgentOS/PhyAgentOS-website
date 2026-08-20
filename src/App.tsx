@@ -13,6 +13,8 @@ import JoinUs from './pages/JoinUs';
 import Algorithms from './pages/Algorithms';
 import Skills from './pages/Skills';
 import Targets from './pages/Targets';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 import './App.css';
 
@@ -44,6 +46,8 @@ function App() {
                 <Route path="/targets" element={<Targets />} />
                 <Route path="/algorithms" element={<Algorithms />} />
                 <Route path="/skills" element={<Skills />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
               </Routes>
             </main>
             <Footer />
