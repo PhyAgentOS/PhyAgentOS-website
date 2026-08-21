@@ -74,15 +74,12 @@ export default function Login() {
         <div className="max-w-2xl">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand-accent/20 bg-brand-bg-secondary px-4 py-2 text-sm font-semibold text-brand-accent-light shadow-glow-soft">
             <LogIn className="h-4 w-4" />
-            User System MVP
+            账号登录
           </div>
           <h1 className="font-display text-5xl font-bold leading-tight text-brand-text sm:text-6xl">
             登录 PhyAgentOS
-            <span className="block text-gradient">开始调试账号系统</span>
+            <span className="block text-gradient">开启个人操作体验</span>
           </h1>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-brand-text-secondary sm:text-lg">
-            支持手机号或邮箱密码登录，也可以使用手机验证码登录。当前验证码是 Mock 服务，开发环境会直接显示调试验证码。
-          </p>
         </div>
 
         <div className="rounded-lg border border-brand-border bg-brand-bg-secondary/90 p-6 shadow-large backdrop-blur-xl sm:p-8">

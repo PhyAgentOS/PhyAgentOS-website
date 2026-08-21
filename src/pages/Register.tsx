@@ -64,7 +64,7 @@ export default function Register() {
         <div className="max-w-2xl">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand-accent/20 bg-brand-bg-secondary px-4 py-2 text-sm font-semibold text-brand-accent-light shadow-glow-soft">
             <UserPlus className="h-4 w-4" />
-            User System MVP
+            账号注册
           </div>
           <h1 className="font-display text-5xl font-bold leading-tight text-brand-text sm:text-6xl">
             创建 PhyAgentOS 账号
