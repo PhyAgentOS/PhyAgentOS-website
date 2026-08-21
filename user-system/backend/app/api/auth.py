@@ -31,14 +31,16 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> User:
     if payload.password != payload.confirm_password:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Passwords do not match")
 
-    _ensure_unique_user_fields(db, payload.username, payload.phone, payload.email)
+    email = str(payload.email).lower() if payload.email else None
+    _ensure_unique_user_fields(db, payload.username, payload.phone, email)
     verify_code_or_raise(db, payload.phone, payload.code, "register")
 
     user = User(
         username=payload.username,
         phone=payload.phone,
-        email=str(payload.email).lower(),
+        email=email,
         password_hash=hash_password(payload.password),
+        phone_verified=True,
         status="active",
     )
     db.add(user)
@@ -49,9 +51,10 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> User:
 
 @router.post("/login/password", response_model=TokenResponse)
 def login_with_password(payload: PasswordLoginRequest, db: Session = Depends(get_db)) -> TokenResponse:
-    account = payload.account.strip().lower()
+    raw_account = payload.account.strip()
+    account = raw_account.lower()
     user = db.execute(
-        select(User).where(or_(User.phone == payload.account.strip(), User.email == account))
+        select(User).where(or_(User.phone == raw_account, User.email == account))
     ).scalar_one_or_none()
 
     if user is None:
@@ -76,17 +79,19 @@ def login_with_code(payload: CodeLoginRequest, db: Session = Depends(get_db)) ->
     return _token_response(user)
 
 
-def _ensure_unique_user_fields(db: Session, username: str, phone: str, email: str) -> None:
-    existing = db.execute(
-        select(User).where(or_(User.username == username, User.phone == phone, User.email == str(email).lower()))
-    ).scalars()
+def _ensure_unique_user_fields(db: Session, username: str, phone: str, email: str | None) -> None:
+    checks = [User.username == username, User.phone == phone]
+    if email is not None:
+        checks.append(User.email == email)
+
+    existing = db.execute(select(User).where(or_(*checks))).scalars()
 
     for user in existing:
         if user.username == username:
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Username already registered")
         if user.phone == phone:
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Phone already registered")
-        if user.email == str(email).lower():
+        if email is not None and user.email == email:
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email already registered")
 
 

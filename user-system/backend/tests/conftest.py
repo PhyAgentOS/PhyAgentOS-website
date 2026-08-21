@@ -17,7 +17,7 @@ os.environ["DATABASE_URL"] = "sqlite:///:memory:"
 os.environ["VERIFICATION_CODE_RESEND_SECONDS"] = "0"
 
 from app.core.config import get_settings
-from app.database.database import Base, get_db
+from app.database.database import Base, engine as app_engine, get_db
 from app.main import create_app
 
 
@@ -43,11 +43,12 @@ def client():
     app = create_app()
     app.dependency_overrides[get_db] = override_get_db
 
-    test_client = TestClient(app)
     try:
-        yield test_client
+        with TestClient(app) as test_client:
+            yield test_client
     finally:
-        test_client.close()
         app.dependency_overrides.clear()
+        Base.metadata.drop_all(bind=app_engine)
+        app_engine.dispose()
         Base.metadata.drop_all(bind=engine)
         engine.dispose()

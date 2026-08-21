@@ -67,12 +67,9 @@ export default function Register() {
             账号注册
           </div>
           <h1 className="font-display text-5xl font-bold leading-tight text-brand-text sm:text-6xl">
-            创建 PhyAgentOS 账号
-            <span className="block text-gradient">验证完整注册流程</span>
+            注册 PhyAgentOS
+            <span className="block text-gradient">开启个人操作体验</span>
           </h1>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-brand-text-secondary sm:text-lg">
-            填写用户信息、发送 Mock 手机验证码、提交注册后，后端会写入 SQLite 数据库并自动生成数字用户 ID。
-          </p>
         </div>
 
         <div className="rounded-lg border border-brand-border bg-brand-bg-secondary/90 p-6 shadow-large backdrop-blur-xl sm:p-8">
@@ -92,8 +89,8 @@ export default function Register() {
               </div>
             </label>
             <label className="grid gap-2 text-sm font-semibold text-brand-text">
-              邮箱
-              <input name="email" type="email" required className="h-12 rounded-lg border border-brand-border bg-brand-bg px-4 text-brand-text outline-none transition focus:border-brand-accent" />
+              邮箱（选填）
+              <input name="email" type="email" className="h-12 rounded-lg border border-brand-border bg-brand-bg px-4 text-brand-text outline-none transition focus:border-brand-accent" />
             </label>
             <label className="grid gap-2 text-sm font-semibold text-brand-text">
               验证码

@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api import auth, health, user
 from app.core.config import get_settings
 from app.database.database import Base, engine
+from app.database.migrations import ensure_user_schema_compatibility
 from app.models import User, VerificationCode
 
 
@@ -20,6 +21,7 @@ def create_app() -> FastAPI:
     )
 
     Base.metadata.create_all(bind=engine)
+    ensure_user_schema_compatibility(engine)
     app.include_router(health.router)
     app.include_router(auth.router)
     app.include_router(user.router)

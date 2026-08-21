@@ -20,7 +20,7 @@ class SendCodeResponse(BaseModel):
 class RegisterRequest(BaseModel):
     username: str = Field(min_length=2, max_length=64)
     phone: str = Field(pattern=PHONE_PATTERN)
-    email: EmailStr
+    email: EmailStr | None = None
     password: str = Field(min_length=8, max_length=128)
     confirm_password: str = Field(min_length=8, max_length=128)
     code: str = Field(pattern=r"^\d{6}$")
@@ -31,6 +31,15 @@ class RegisterRequest(BaseModel):
         if not value.strip():
             raise ValueError("Username cannot be empty")
         return value.strip()
+
+    @field_validator("email", mode="before")
+    @classmethod
+    def empty_email_to_none(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        if isinstance(value, str) and not value.strip():
+            return None
+        return value
 
 
 class PasswordLoginRequest(BaseModel):
