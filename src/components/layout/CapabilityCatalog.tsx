@@ -3,6 +3,7 @@ import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
+  ExternalLink,
   FlaskConical,
   Search,
   SlidersHorizontal,
@@ -16,6 +17,11 @@ export interface CapabilityTagGroup {
   tags: string[];
 }
 
+export interface CapabilityLink {
+  label: string;
+  href: string;
+}
+
 export interface CapabilityItem {
   name: string;
   category: string;
@@ -23,6 +29,8 @@ export interface CapabilityItem {
   description: string;
   capabilities: string[];
   icon?: string;
+  statusHref?: string;
+  upstreamLinks?: CapabilityLink[];
   tagGroups?: CapabilityTagGroup[];
 }
 
@@ -93,6 +101,7 @@ export default function CapabilityCatalog({
         item.category,
         item.description,
         ...item.capabilities,
+        ...(item.upstreamLinks?.map((link) => link.label) ?? []),
         ...(item.tagGroups?.flatMap((group) => [group.label, ...group.tags]) ?? []),
       ].join(' ').toLowerCase();
       const matchesQuery = !normalizedQuery || searchableText.includes(normalizedQuery);
@@ -223,10 +232,24 @@ export default function CapabilityCatalog({
                           ) : (
                             <span className="rounded-full border border-brand-border bg-brand-text/[0.03] px-3 py-1 text-xs font-mono uppercase tracking-wider text-brand-text-tertiary">{item.category}</span>
                           )}
-                          <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${isAvailable ? 'text-emerald-600' : 'text-amber-600'}`}>
-                            <StatusIcon className="h-3.5 w-3.5" />
-                            {isAvailable ? availableLabel : evaluatingLabel}
-                          </span>
+                          {isAvailable && item.statusHref ? (
+                            <a
+                              href={item.statusHref}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-xs font-medium text-emerald-600 transition-colors hover:bg-emerald-500/10 hover:text-emerald-700"
+                              aria-label={`${availableLabel}: ${item.name}`}
+                            >
+                              <StatusIcon className="h-3.5 w-3.5" />
+                              {availableLabel}
+                              <ExternalLink className="h-3 w-3" />
+                            </a>
+                          ) : (
+                            <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${isAvailable ? 'text-emerald-600' : 'text-amber-600'}`}>
+                              <StatusIcon className="h-3.5 w-3.5" />
+                              {isAvailable ? availableLabel : evaluatingLabel}
+                            </span>
+                          )}
                         </div>
 
                         {item.icon && (
@@ -258,6 +281,24 @@ export default function CapabilityCatalog({
                             ))}
                           </div>
                         )}
+
+                        {item.upstreamLinks && item.upstreamLinks.length > 0 && (
+                          <div className="mt-5 flex flex-wrap gap-2 border-t border-brand-border pt-5">
+                            {item.upstreamLinks.map((link) => (
+                              <a
+                                key={`${link.label}-${link.href}`}
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 rounded-full border border-brand-border bg-brand-bg px-3 py-1.5 text-xs font-medium text-brand-text-secondary transition-all hover:border-brand-accent/30 hover:text-brand-accent"
+                              >
+                                {link.label}
+                                <ExternalLink className="h-3.5 w-3.5" />
+                              </a>
+                            ))}
+                          </div>
+                        )}
+
                       </div>
                     </article>
                   </ScrollReveal>

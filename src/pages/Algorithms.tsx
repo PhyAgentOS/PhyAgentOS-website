@@ -8,13 +8,26 @@ interface LocalizedText {
   zh: string;
 }
 
+interface LocalizedLink {
+  label: LocalizedText;
+  href: string;
+}
+
 interface AlgorithmEntry {
   name: LocalizedText;
   category: LocalizedText;
   status: CapabilityItem['status'];
   description: LocalizedText;
   capabilities: Record<Lang, string[]>;
+  implementationUrl?: string;
+  upstreamLinks?: LocalizedLink[];
 }
+
+const LEROBOT_REPOSITORY_URL = 'https://github.com/huggingface/lerobot';
+const LEROBOT_UPSTREAM_LINK: LocalizedLink = {
+  label: { en: 'LeRobot', zh: 'LeRobot' },
+  href: LEROBOT_REPOSITORY_URL,
+};
 
 // Add or remove entries here. The Hero algorithm count is derived from this array.
 // eslint-disable-next-line react-refresh/only-export-components
@@ -31,6 +44,8 @@ export const algorithmItems: AlgorithmEntry[] = [
       en: ['Vision-language-action', 'Cross-embodiment control', 'Generalist manipulation'],
       zh: ['视觉-语言-动作', '跨构型控制', '通用操作'],
     },
+    implementationUrl: 'https://gitlab.ex-ai.cn/PhyAgentOS/framework/policies/embodied/lerobot_runner/-/tree/qinhan/inference/policies/pi05',
+    upstreamLinks: [LEROBOT_UPSTREAM_LINK],
   },
   {
     name: { en: 'MolmoAct2', zh: 'MolmoAct2' },
@@ -48,15 +63,17 @@ export const algorithmItems: AlgorithmEntry[] = [
   {
     name: { en: 'SmolVLA', zh: 'SmolVLA' },
     category: { en: 'Manipulation', zh: 'Manipulation' },
-    status: 'evaluating',
+    status: 'available',
     description: {
-      en: 'Compact vision-language-action policy designed for efficient on-device or edge deployment in manipulation workflows.',
-      zh: '轻量视觉-语言-动作策略，面向操作任务中的高效端侧或边缘部署。',
+      en: 'Compact vision-language-action policy that combines multimodal scene understanding with efficient continuous robot control.',
+      zh: '轻量视觉-语言-动作策略，将多模态场景理解与高效连续机器人控制相结合。',
     },
     capabilities: {
-      en: ['Lightweight VLA', 'Efficient inference', 'Manipulation policies'],
-      zh: ['轻量 VLA', '高效推理', '操作策略'],
+      en: ['Lightweight VLA', 'Efficient multimodal inference', 'Language-conditioned manipulation'],
+      zh: ['轻量 VLA', '高效多模态推理', '语言条件操作'],
     },
+    implementationUrl: 'https://gitlab.ex-ai.cn/PhyAgentOS/framework/policies/embodied/lerobot_runner/-/tree/qinhan/inference/policies/smolvla',
+    upstreamLinks: [LEROBOT_UPSTREAM_LINK],
   },
   {
     name: { en: 'XVLA', zh: 'XVLA' },
@@ -154,39 +171,45 @@ export const algorithmItems: AlgorithmEntry[] = [
     category: { en: 'Manipulation', zh: 'Manipulation' },
     status: 'available',
     description: {
-      en: 'Vision-language-action model combined with JEPA-style predictive representations for robust manipulation planning.',
-      zh: '结合 JEPA 式预测表征的视觉-语言-动作模型，提升操作规划鲁棒性。',
+      en: 'Vision-language-action policy that learns predictive latent representations with a JEPA world model and generates continuous actions through flow matching.',
+      zh: '视觉-语言-动作策略，通过 JEPA 世界模型学习预测性潜表征，并以流匹配生成连续动作。',
     },
     capabilities: {
-      en: ['VLA + JEPA', 'Predictive representations', 'Robust manipulation'],
-      zh: ['VLA + JEPA', '预测表征', '鲁棒操作'],
+      en: ['Vision-language-action', 'JEPA latent world model', 'Flow-matching action generation'],
+      zh: ['视觉-语言-动作', 'JEPA 潜空间世界模型', '流匹配动作生成'],
     },
+    implementationUrl: 'https://gitlab.ex-ai.cn/PhyAgentOS/framework/policies/embodied/lerobot_runner/-/tree/qinhan/inference/policies/vla_jepa',
+    upstreamLinks: [LEROBOT_UPSTREAM_LINK],
   },
   {
     name: { en: 'LingBot-VA', zh: 'LingBot-VA' },
     category: { en: 'Manipulation', zh: 'Manipulation' },
-    status: 'evaluating',
+    status: 'available',
     description: {
-      en: 'Vision-action robot policy that couples perception with language-guided manipulation for interactive tasks.',
-      zh: '视觉-动作机器人策略，将感知与语言引导操作结合，面向交互式任务。',
+      en: 'Autoregressive video-action world-model policy that jointly predicts future visual latents and robot actions for closed-loop manipulation.',
+      zh: '自回归视频-动作世界模型策略，联合预测未来视觉潜变量与机器人动作，实现闭环操作。',
     },
     capabilities: {
-      en: ['Vision-action coupling', 'Language-guided manipulation', 'Interactive control'],
-      zh: ['视觉-动作耦合', '语言引导操作', '交互式控制'],
+      en: ['Video-action world model', 'Autoregressive prediction', 'Closed-loop manipulation'],
+      zh: ['视频-动作世界模型', '自回归预测', '闭环操作'],
     },
+    implementationUrl: 'https://gitlab.ex-ai.cn/PhyAgentOS/framework/policies/embodied/lerobot_runner/-/tree/qinhan/inference/policies/lingbot_va',
+    upstreamLinks: [LEROBOT_UPSTREAM_LINK],
   },
   {
     name: { en: 'FastWAM', zh: 'FastWAM' },
-    category: { en: 'Motion Control', zh: 'Motion Control' },
-    status: 'evaluating',
+    category: { en: 'Manipulation', zh: 'Manipulation' },
+    status: 'available',
     description: {
-      en: 'Fast whole-arm motion controller for generating smooth, high-frequency trajectories on manipulator arms.',
-      zh: '快速整臂运动控制器，为机械臂生成平滑、高频的运动轨迹。',
+      en: 'Efficient world-action model that learns predictive visual dynamics while generating robot actions without test-time future imagination.',
+      zh: '高效世界-动作模型，在学习预测性视觉动力学的同时生成机器人动作，推理时无需未来想象。',
     },
     capabilities: {
-      en: ['Whole-arm motion', 'High-frequency control', 'Trajectory generation'],
-      zh: ['整臂运动', '高频控制', '轨迹生成'],
+      en: ['World-action modeling', 'Efficient action generation', 'Multi-camera manipulation'],
+      zh: ['世界-动作建模', '高效动作生成', '多相机操作'],
     },
+    implementationUrl: 'https://gitlab.ex-ai.cn/PhyAgentOS/framework/policies/embodied/lerobot_runner/-/tree/feat/fastwam-policy-adapter?ref_type=heads',
+    upstreamLinks: [LEROBOT_UPSTREAM_LINK],
   },
   {
     name: { en: 'DreamZero', zh: 'DreamZero' },
@@ -213,6 +236,13 @@ export const algorithmItems: AlgorithmEntry[] = [
       en: ['Promptable segmentation', 'Fine-grained masks', 'Vision foundation model'],
       zh: ['提示式分割', '精细掩码', '视觉基础模型'],
     },
+    implementationUrl: 'https://gitlab.ex-ai.cn/PhyAgentOS/framework/policies/detection/sam3_detection',
+    upstreamLinks: [
+      {
+        label: { en: 'SAM 3', zh: 'SAM 3' },
+        href: 'https://github.com/facebookresearch/sam3',
+      },
+    ],
   },
   {
     name: { en: 'YOLO', zh: 'YOLO' },
@@ -226,6 +256,13 @@ export const algorithmItems: AlgorithmEntry[] = [
       en: ['Real-time detection', 'Multi-class localization', 'Camera-stream perception'],
       zh: ['实时检测', '多类别定位', '相机流感知'],
     },
+    implementationUrl: 'https://gitlab.ex-ai.cn/PhyAgentOS/framework/policies/detection/yolo_detection',
+    upstreamLinks: [
+      {
+        label: { en: 'Ultralytics', zh: 'Ultralytics' },
+        href: 'https://github.com/ultralytics/ultralytics',
+      },
+    ],
   },
   {
     name: { en: 'ACT', zh: 'ACT' },
@@ -239,19 +276,23 @@ export const algorithmItems: AlgorithmEntry[] = [
       en: ['Action chunking', 'Imitation learning', 'Bimanual / tabletop manipulation'],
       zh: ['动作分块', '模仿学习', '双臂 / 桌面操作'],
     },
+    implementationUrl: 'https://gitlab.ex-ai.cn/PhyAgentOS/framework/policies/embodied/lerobot_runner/-/tree/qinhan/inference/policies/act',
+    upstreamLinks: [LEROBOT_UPSTREAM_LINK],
   },
   {
     name: { en: 'Diffusion Policy', zh: 'Diffusion Policy' },
-    category: { en: 'Motion Control', zh: 'Motion Control' },
-    status: 'evaluating',
+    category: { en: 'Manipulation', zh: 'Manipulation' },
+    status: 'available',
     description: {
-      en: 'Diffusion-based visuomotor policy that generates smooth action sequences for contact-rich robot motion control.',
-      zh: '基于扩散的视觉运动策略，生成平滑动作序列，面向接触丰富的机器人运动控制。',
+      en: 'Diffusion-based visuomotor policy that models multimodal action distributions and generates smooth action sequences for robot manipulation.',
+      zh: '基于扩散模型的视觉运动策略，建模多模态动作分布，为机器人操作生成平滑动作序列。',
     },
     capabilities: {
-      en: ['Diffusion visuomotor policy', 'Smooth action sequences', 'Contact-rich control'],
-      zh: ['扩散视觉运动策略', '平滑动作序列', '接触丰富控制'],
+      en: ['Diffusion visuomotor policy', 'Multimodal action distributions', 'Smooth action sequences'],
+      zh: ['扩散视觉运动策略', '多模态动作分布', '平滑动作序列'],
     },
+    implementationUrl: 'https://gitlab.ex-ai.cn/PhyAgentOS/framework/policies/embodied/lerobot_runner/-/tree/qinhan/inference/policies/diffusion',
+    upstreamLinks: [LEROBOT_UPSTREAM_LINK],
   },
   {
     name: { en: 'VQ-BeT', zh: 'VQ-BeT' },
@@ -336,6 +377,11 @@ export default function Algorithms() {
     status: item.status,
     description: item.description[lang],
     capabilities: item.capabilities[lang],
+    statusHref: item.implementationUrl,
+    upstreamLinks: item.upstreamLinks?.map((link) => ({
+      label: link.label[lang],
+      href: link.href,
+    })),
   }));
 
   return <CapabilityCatalog {...copy} items={items} />;

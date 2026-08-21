@@ -49,10 +49,10 @@ const hardwareDevices: HardwareDevice[] = [
   { name: 'Unitree H1-2', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-h1-2.jpeg', access: ['mujoco'], specs: ['Humanoid', 'MuJoCo'] },
   { name: 'Unitree H2', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-h2.jpeg', access: ['mujoco'], specs: ['Humanoid', 'MuJoCo'] },
   { name: 'Unitree H2-PLUS', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-h2-plus.png', access: ['mujoco'], specs: ['Humanoid', 'MuJoCo'] },
-  { name: 'Unitree R1-A5', typeKey: 'Bipedal Humanoid', image: '/media/hardware/unitree-r1-a5.jpeg', access: ['mujoco'], specs: ['Humanoid', 'MuJoCo'] },
-  { name: 'Unitree G1-D', typeKey: 'Wheeled Humanoid', image: '/media/hardware/unitree-g1-d.webp', access: ['mujoco'], specs: ['Wheeled', 'MuJoCo'] },
-  { name: 'Astra Pro', typeKey: 'Wheeled Humanoid', image: '/media/hardware/astra-pro.png', access: ['real', 'mujoco'], specs: ['Wheeled', 'MuJoCo', 'Real Robot'] },
-  { name: 'Zerith H1 PRO', typeKey: 'Wheeled Humanoid', image: '/media/hardware/zerith-h1-pro.png', access: ['real', 'mujoco'], specs: ['Wheeled', 'MuJoCo', 'Real Robot'] },
+  { name: 'Unitree R1-A5', typeKey: 'Wheeled', image: '/media/hardware/unitree-r1-a5.jpeg', access: ['mujoco'], specs: ['Wheeled', 'MuJoCo'] },
+  { name: 'Unitree G1-D', typeKey: 'Wheeled', image: '/media/hardware/unitree-g1-d.webp', access: ['mujoco'], specs: ['Wheeled', 'MuJoCo'] },
+  { name: 'Astra Pro', typeKey: 'Wheeled', image: '/media/hardware/astra-pro.png', access: ['real', 'mujoco'], specs: ['Wheeled', 'MuJoCo', 'Real Robot'] },
+  { name: 'Zerith H1 PRO', typeKey: 'Wheeled', image: '/media/hardware/zerith-h1-pro.png', access: ['real', 'mujoco'], specs: ['Wheeled', 'MuJoCo', 'Real Robot'] },
   { name: 'Lekiwi', typeKey: 'Wheeled', image: '/media/hardware/lekiwi.jpg', access: ['real', 'mujoco'], specs: ['Mobile', 'MuJoCo', 'Real Robot'] },
   { name: 'XLeRobot', typeKey: 'Wheeled', image: '/XLeRobot.png', access: ['real', 'mujoco'], specs: ['Mobile', 'Bimanual', 'Real Robot'] },
   { name: 'Aloha', typeKey: 'Desktop Arm', image: '/media/hardware/aloha.avif', access: ['mujoco'], specs: ['Mobile', 'Bimanual', 'MuJoCo'] },
@@ -62,6 +62,7 @@ const hardwareDevices: HardwareDevice[] = [
 
 const filterKeys = ['All', 'Arm', 'Quadruped', 'Humanoid', 'Wheeled', 'Hand'];
 const accessFilters: (AccessTag | 'all')[] = ['all', 'real', 'mujoco', 'isaac'];
+const officialDeviceNames = new Set(['AgileX PIPER', 'RealMan RM65-B', 'XLeRobot']);
 
 const vendorOverrides: Record<string, string> = {
   'AgileX PIPER': 'AgileX',
@@ -130,6 +131,7 @@ export default function Targets() {
         verifiedEnvironments: '验证环境',
         availableSkills: '可用技能',
         details: '查看适配详情',
+        official: '官方维护',
         community: '社区适配',
         evaluating: '评估中',
         reset: '清空筛选',
@@ -158,6 +160,7 @@ export default function Targets() {
         verifiedEnvironments: 'verified environments',
         availableSkills: 'available skills',
         details: 'View adapter details',
+        official: 'Official',
         community: 'Community',
         evaluating: 'Evaluating',
         reset: 'Reset filters',
@@ -201,8 +204,9 @@ export default function Targets() {
   })();
 
   const verifiedEnvironmentCount = accessFilters.length - 1;
-  const statusFor = (access: AccessTag[]) => {
-    if (access.includes('pending')) return copy.evaluating;
+  const statusFor = (device: HardwareDevice) => {
+    if (device.access.includes('pending')) return copy.evaluating;
+    if (officialDeviceNames.has(device.name)) return copy.official;
     return copy.community;
   };
 
@@ -328,10 +332,12 @@ export default function Targets() {
                   className={`absolute right-5 top-5 z-10 rounded-full px-3 py-1 text-xs font-medium ${
                     device.access.includes('pending')
                       ? 'bg-amber-500/10 text-amber-700'
-                      : 'bg-emerald-500/10 text-emerald-700'
+                      : officialDeviceNames.has(device.name)
+                        ? 'bg-sky-500/10 text-sky-700'
+                        : 'bg-emerald-500/10 text-emerald-700'
                   }`}
                 >
-                  {statusFor(device.access)}
+                  {statusFor(device)}
                 </span>
 
                 {/* 顶部图片区域 */}
