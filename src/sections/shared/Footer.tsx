@@ -1,4 +1,4 @@
-import { Github, BookOpen, Mail, ExternalLink, Heart } from 'lucide-react';
+import { BookHeart, ExternalLink, Github, Heart, Linkedin, Mail, MessageCircle, Tv } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useT } from '../../i18n/LanguageContext';
 import { useLang } from '../../i18n/LanguageContext';
@@ -26,6 +26,32 @@ export default function Footer() {
       { label: t.footer.contribute, href: `${docsBase}/developer-guide/index.html`, external: true },
     ],
   };
+  const socialLinks = [
+    {
+      label: 'Bilibili',
+      href: 'https://space.bilibili.com/3546880296355920?spm_id_from=333.1007.0.0',
+      icon: Tv,
+    },
+    {
+      label: '小红书',
+      href: 'https://www.xiaohongshu.com/user/profile/673d83e3000000001c01a183',
+      icon: BookHeart,
+    },
+    {
+      label: 'X',
+      href: 'https://x.com/phyagentos',
+    },
+    {
+      label: 'LinkedIn',
+      href: 'https://www.linkedin.com/in/phyagent-os-252372401/',
+      icon: Linkedin,
+    },
+    {
+      label: 'Discord',
+      href: 'https://discord.com/invite/TUzwE6FSd',
+      icon: MessageCircle,
+    },
+  ];
   const logoSrc = `${import.meta.env.BASE_URL}LOGO.png`;
   const currentYear = new Date().getFullYear();
 
@@ -156,9 +182,36 @@ export default function Footer() {
             </div>
           </div>
 
+          {/* Social links */}
+          <div className="mb-8 flex flex-wrap items-center justify-center gap-2 lg:justify-end">
+            {socialLinks.map((link) => {
+              const Icon = link.icon;
+
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  className="group inline-flex h-10 items-center gap-2 rounded-xl border border-brand-border bg-brand-bg px-3.5 text-sm font-medium text-brand-text-tertiary transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-accent/30 hover:bg-brand-bg-tertiary hover:text-brand-text hover:shadow-soft"
+                >
+                  {Icon ? (
+                    <Icon className="h-4 w-4 transition-colors group-hover:text-brand-accent" />
+                  ) : (
+                    <span className="flex h-4 w-4 items-center justify-center font-display text-[13px] font-bold transition-colors group-hover:text-brand-accent">
+                      X
+                    </span>
+                  )}
+                  <span>{link.label}</span>
+                </a>
+              );
+            })}
+          </div>
+
           {/* Bottom bar */}
           <div className="pt-8 border-t border-brand-border">
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="flex items-center justify-center sm:justify-start">
               <div className="flex flex-wrap justify-center sm:justify-start items-center gap-3 text-xs text-brand-text-tertiary">
                 <span>&copy; {currentYear} PhyAgentOS</span>
                 <span className="hidden sm:inline">·</span>
@@ -193,25 +246,6 @@ export default function Footer() {
                     {t.footer.xeraLab}
                   </a>
                 </span>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <a
-                  href="https://github.com/PhyAgentOS/PhyAgentOS-core"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-lg text-brand-text-tertiary hover:text-brand-text hover:bg-brand-text/[0.04] transition-colors"
-                >
-                  <Github className="w-4 h-4" />
-                </a>
-                <a
-                  href={`${docsBase}/index.html`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-lg text-brand-text-tertiary hover:text-brand-text hover:bg-brand-text/[0.04] transition-colors"
-                >
-                  <BookOpen className="w-4 h-4" />
-                </a>
               </div>
             </div>
 
