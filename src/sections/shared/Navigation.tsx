@@ -49,7 +49,7 @@ export default function Navigation() {
       let stars: number | null = null;
 
       try {
-        const res = await fetch('https://api.github.com/repos/PhyAgentOS/PhyAgentOS', {
+        const res = await fetch('https://api.github.com/repos/PhyAgentOS/PhyAgentOS-core', {
           headers: { Accept: 'application/vnd.github+json' },
         });
         if (res.ok) {
@@ -62,7 +62,7 @@ export default function Navigation() {
 
       if (stars === null) {
         try {
-          const res = await fetch('https://img.shields.io/github/stars/PhyAgentOS/PhyAgentOS.json');
+          const res = await fetch('https://img.shields.io/github/stars/PhyAgentOS/PhyAgentOS-core.json');
           if (res.ok) {
             const data = await res.json();
             stars = Number(data.value);
@@ -153,7 +153,7 @@ export default function Navigation() {
                 {isLight ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
               </button>
               <a
-                href="https://github.com/PhyAgentOS/PhyAgentOS"
+                href="https://github.com/PhyAgentOS/PhyAgentOS-core"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl px-3 py-2.5 text-sm text-brand-text-secondary transition-all duration-200 hover:bg-brand-text/[0.04] hover:text-brand-text"
@@ -168,7 +168,7 @@ export default function Navigation() {
                 )}
               </a>
               <a
-                href={`${docsBase}/api-reference/`}
+                href={`${docsBase}/api-reference/index.html`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="shrink-0 whitespace-nowrap rounded-xl bg-brand-accent px-4 py-2.5 text-sm font-medium text-brand-text-on-accent shadow-glow-soft transition-all duration-300 hover:bg-brand-accent-light hover:shadow-glow"
@@ -230,7 +230,7 @@ export default function Navigation() {
               <span>{isLight ? 'Dark Mode' : 'Light Mode'}</span>
             </button>
             <a
-              href="https://github.com/PhyAgentOS/PhyAgentOS"
+              href="https://github.com/PhyAgentOS/PhyAgentOS-core"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-brand-border text-brand-text hover:border-brand-accent/30 transition-all"
@@ -245,7 +245,7 @@ export default function Navigation() {
               )}
             </a>
             <a
-              href={`${docsBase}/api-reference/`}
+              href={`${docsBase}/api-reference/index.html`}
               target="_blank"
               rel="noopener noreferrer"
               className="block w-full px-4 py-3 bg-brand-accent hover:bg-brand-accent-light text-brand-text-on-accent font-medium rounded-xl transition-all text-center shadow-glow-soft"

@@ -14,16 +14,16 @@ export default function Footer() {
       { label: t.nav.hardware, href: '/#hardware' },
     ],
     resources: [
-      { label: t.footer.documentation, href: `${docsBase}/architecture/`, external: true },
-      { label: t.footer.apiReference, href: `${docsBase}/api-reference/`, external: true },
+      { label: t.footer.documentation, href: `${docsBase}/architecture/index.html`, external: true },
+      { label: t.footer.apiReference, href: `${docsBase}/api-reference/index.html`, external: true },
       { label: t.footer.techReport, href: '/tech-report', external: false },
-      { label: t.nav.github, href: 'https://github.com/PhyAgentOS/PhyAgentOS', external: true },
-      { label: t.footer.issues, href: 'https://github.com/PhyAgentOS/PhyAgentOS/issues', external: true },
+      { label: t.nav.github, href: 'https://github.com/PhyAgentOS/PhyAgentOS-core', external: true },
+      { label: t.footer.issues, href: 'https://github.com/PhyAgentOS/PhyAgentOS-core/issues', external: true },
     ],
     community: [
       { label: t.footer.team, href: '/team' },
       { label: t.footer.hackathon, href: '/hackathon' },
-      { label: t.footer.contribute, href: `${docsBase}/developer-guide/`, external: true },
+      { label: t.footer.contribute, href: `${docsBase}/developer-guide/index.html`, external: true },
     ],
   };
   const logoSrc = `${import.meta.env.BASE_URL}LOGO.png`;
@@ -56,7 +56,7 @@ export default function Footer() {
 
               <div className="flex gap-3">
                 <a
-                  href="https://github.com/PhyAgentOS/PhyAgentOS"
+                  href="https://github.com/PhyAgentOS/PhyAgentOS-core"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-4 py-2.5 rounded-xl border border-brand-border text-brand-text-secondary hover:text-brand-text hover:border-brand-accent/30 hover:bg-brand-bg-tertiary transition-all duration-300 flex items-center gap-2 text-sm"
@@ -197,7 +197,7 @@ export default function Footer() {
 
               <div className="flex items-center gap-4">
                 <a
-                  href="https://github.com/PhyAgentOS/PhyAgentOS"
+                  href="https://github.com/PhyAgentOS/PhyAgentOS-core"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 rounded-lg text-brand-text-tertiary hover:text-brand-text hover:bg-brand-text/[0.04] transition-colors"
@@ -205,7 +205,7 @@ export default function Footer() {
                   <Github className="w-4 h-4" />
                 </a>
                 <a
-                  href={`${docsBase}/`}
+                  href={`${docsBase}/index.html`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 rounded-lg text-brand-text-tertiary hover:text-brand-text hover:bg-brand-text/[0.04] transition-colors"

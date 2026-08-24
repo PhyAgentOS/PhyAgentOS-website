@@ -372,7 +372,7 @@ export default function Hackathon() {
           {/* CTA Buttons */}
           <div className="hero-animate flex flex-wrap justify-center gap-4">
             <a
-              href="https://github.com/PhyAgentOS/PhyAgentOS"
+              href="https://github.com/PhyAgentOS/PhyAgentOS-core"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-4 bg-brand-bg-secondary hover:bg-brand-bg-tertiary text-brand-text font-semibold rounded-2xl border border-brand-border hover:border-brand-accent/30 transition-all duration-300 flex items-center gap-2 shadow-soft hover:shadow-card"
@@ -786,7 +786,7 @@ export default function Hackathon() {
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </a>
                   <a
-                    href="https://github.com/PhyAgentOS/PhyAgentOS"
+                    href="https://github.com/PhyAgentOS/PhyAgentOS-core"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-10 py-4 bg-brand-text/[0.03] hover:bg-brand-text/[0.05] backdrop-blur-sm text-brand-text font-semibold rounded-xl border border-brand-border-hover transition-all duration-300 flex items-center gap-2"

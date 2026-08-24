@@ -56,7 +56,7 @@ export default defineConfig({
           { text: '用户手册', link: '/api-reference/' },
           { text: '开发者指南', link: '/developer-guide/' },
           { text: '技术报告', link: '/tech-report.pdf' },
-          { text: 'GitHub', link: 'https://github.com/PhyAgentOS/PhyAgentOS' },
+          { text: 'GitHub', link: 'https://github.com/PhyAgentOS/PhyAgentOS-core' },
           { text: '官网首页', link: 'https://phy-agent-os.net/' },
         ],
         sidebar: {
@@ -120,7 +120,7 @@ export default defineConfig({
           { text: 'User Manual', link: '/en/api-reference/' },
           { text: 'Developer Guide', link: '/en/developer-guide/' },
           { text: 'Technical Report', link: '/tech-report.pdf' },
-          { text: 'GitHub', link: 'https://github.com/PhyAgentOS/PhyAgentOS' },
+          { text: 'GitHub', link: 'https://github.com/PhyAgentOS/PhyAgentOS-core' },
           { text: 'Home', link: 'https://phy-agent-os.net/' },
         ],
         sidebar: {
@@ -176,7 +176,7 @@ export default defineConfig({
   themeConfig: {
     logo: '/imgs/logo.png',
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/PhyAgentOS/PhyAgentOS' },
+      { icon: 'github', link: 'https://github.com/PhyAgentOS/PhyAgentOS-core' },
     ],
     search: {
       provider: 'local',

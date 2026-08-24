@@ -106,7 +106,7 @@ export default function Hero() {
           {/* CTA Buttons */}
           <div className="hero-animate flex flex-wrap justify-center gap-4 lg:flex-nowrap xl:gap-5">
             <a
-              href="https://github.com/PhyAgentOS/PhyAgentOS"
+              href="https://github.com/PhyAgentOS/PhyAgentOS-core"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-2 whitespace-nowrap rounded-2xl bg-brand-accent px-5 py-4 text-sm font-semibold text-brand-text-on-accent shadow-glow-soft transition-all duration-300 hover:bg-brand-accent-light hover:shadow-glow xl:px-7 xl:text-base"

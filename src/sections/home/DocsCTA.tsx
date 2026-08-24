@@ -9,9 +9,9 @@ export default function DocsCTA() {
   const { lang } = useLang();
   const docsBase = lang === 'zh' ? '/docs' : '/docs/en';
   const docItems = [
-    { title: t.docsCTA.items[0].title, subtitle: t.docsCTA.items[0].subtitle, description: t.docsCTA.items[0].description, icon: BookOpen, href: `${docsBase}/architecture/`, color: 'from-emerald-400/15 to-teal-400/15', iconColor: 'text-emerald-700', borderColor: 'border-emerald-500/25' },
-    { title: t.docsCTA.items[1].title, subtitle: t.docsCTA.items[1].subtitle, description: t.docsCTA.items[1].description, icon: Code, href: `${docsBase}/api-reference/`, color: 'from-sky-400/15 to-indigo-400/15', iconColor: 'text-sky-700', borderColor: 'border-sky-500/25' },
-    { title: t.docsCTA.items[2].title, subtitle: t.docsCTA.items[2].subtitle, description: t.docsCTA.items[2].description, icon: FileCode, href: `${docsBase}/developer-guide/`, color: 'from-amber-400/15 to-orange-400/15', iconColor: 'text-amber-700', borderColor: 'border-amber-500/25' },
+    { title: t.docsCTA.items[0].title, subtitle: t.docsCTA.items[0].subtitle, description: t.docsCTA.items[0].description, icon: BookOpen, href: `${docsBase}/architecture/index.html`, color: 'from-emerald-400/15 to-teal-400/15', iconColor: 'text-emerald-700', borderColor: 'border-emerald-500/25' },
+    { title: t.docsCTA.items[1].title, subtitle: t.docsCTA.items[1].subtitle, description: t.docsCTA.items[1].description, icon: Code, href: `${docsBase}/api-reference/index.html`, color: 'from-sky-400/15 to-indigo-400/15', iconColor: 'text-sky-700', borderColor: 'border-sky-500/25' },
+    { title: t.docsCTA.items[2].title, subtitle: t.docsCTA.items[2].subtitle, description: t.docsCTA.items[2].description, icon: FileCode, href: `${docsBase}/developer-guide/index.html`, color: 'from-amber-400/15 to-orange-400/15', iconColor: 'text-amber-700', borderColor: 'border-amber-500/25' },
   ];
   return (
     <section id="docs" className="relative py-24 lg:py-32 overflow-hidden">
@@ -79,7 +79,7 @@ export default function DocsCTA() {
             <div className="mt-16 text-center">
               <div className="inline-flex flex-col sm:flex-row items-center gap-4">
                 <a
-                  href="https://github.com/PhyAgentOS/PhyAgentOS"
+                  href="https://github.com/PhyAgentOS/PhyAgentOS-core"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-brand-bg-secondary border border-brand-border text-brand-text hover:border-brand-accent/30 hover:shadow-soft transition-all duration-300"
@@ -88,7 +88,7 @@ export default function DocsCTA() {
                   <span>{t.docsCTA.starOnGithub}</span>
                 </a>
                 <a
-                  href="https://github.com/PhyAgentOS/PhyAgentOS/issues"
+                  href="https://github.com/PhyAgentOS/PhyAgentOS-core/issues"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-brand-bg-secondary border border-brand-border text-brand-text hover:border-brand-accent/30 hover:shadow-soft transition-all duration-300"

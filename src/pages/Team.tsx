@@ -93,7 +93,7 @@ export default function Team() {
 
                 <div className="flex flex-wrap gap-3">
                   <a
-                    href="https://github.com/PhyAgentOS/PhyAgentOS/graphs/contributors"
+                    href="https://github.com/PhyAgentOS/PhyAgentOS-core/graphs/contributors"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-brand-accent text-brand-text-on-accent text-sm font-medium hover:bg-brand-accent-light transition-all shadow-glow-soft hover:shadow-glow"
@@ -102,7 +102,7 @@ export default function Team() {
                     {t.teamPage.viewContributors}
                   </a>
                   <a
-                    href={`${docsBase}/developer-guide/`}
+                    href={`${docsBase}/developer-guide/index.html`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-brand-text/[0.03] border border-brand-border text-brand-text text-sm hover:border-brand-accent/30 hover:shadow-soft transition-all"
@@ -128,7 +128,7 @@ export default function Team() {
             <ScrollReveal>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <a
-                  href="https://github.com/PhyAgentOS/PhyAgentOS/issues"
+                  href="https://github.com/PhyAgentOS/PhyAgentOS-core/issues"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-6 rounded-3xl bg-brand-bg-secondary border border-brand-border hover:border-brand-accent/20 transition-all group shadow-card hover:shadow-card-hover"
