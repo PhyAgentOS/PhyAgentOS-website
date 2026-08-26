@@ -244,7 +244,7 @@ export const translations: Record<Lang, TranslationShape> = {
       titleLine1: 'Self-Evolving Physical Agent',
       titleLine2: 'Operating System',
       subtitle: 'PhyAgentOS - A unified, transparent, and auditable runtime foundation for physical agents',
-      description: 'Heterogeneous robots plug in freely and work out of the box, making complex tasks one click away; embodied-model pipelines are automatically benchmarked and continuously evolved; long-term memory and self-evolution carry skills from games to simulation to real robots for seamless virtual-to-real migration.',
+      description: 'Any robot configuration can be integrated quickly for plug-and-play operation; algorithms and tools can be freely combined to rapidly build agent skills, putting complex tasks one click away; cognitive-physical decoupling unifies intelligent decision-making and physical execution, with support for long-term memory and continuous evolution; one protocol connects games, simulation, and real robots for seamless virtual-to-real migration.',
       getStarted: 'Get Started',
       technicalReport: 'Technical Report',
       watchDemo: 'Watch Demo',
@@ -252,22 +252,22 @@ export const translations: Record<Lang, TranslationShape> = {
       activeEvent: 'Ongoing Activities',
       statTargets: 'Supported Targets',
       statAlgorithms: 'Supported Algorithms',
-      statSkills: 'Runtime Skills',
+      statSkills: 'System Skills',
     },
     communityPage: {
       description: 'Connect with PhyAgentOS developers and follow the latest project updates.',
       discordTitle: 'Join us on Discord',
       discordDescription: 'Chat with developers worldwide, ask questions, and take part in community discussions.',
       joinDiscord: 'Join Discord',
-      feishu: 'Feishu Community',
+      feishu: 'Feishu Developer Group',
       bilibili: 'Bilibili',
       xiaohongshu: 'Xiaohongshu',
       scanToJoin: 'Scan the QR code to follow or join',
     },
     problemSolution: {
       label: 'Why PhyAgentOS?',
-      title: 'Solving the hardest problems',
-      highlight: 'in embodied AI',
+      title: "Solving embodied AI's",
+      highlight: 'hardest problems',
       description: 'Four fundamental challenges that have blocked embodied intelligence, and how PhyAgentOS solves each one.',
       items: [
         {
@@ -291,8 +291,8 @@ export const translations: Record<Lang, TranslationShape> = {
         {
           pain: 'Sim-to-real migration friction',
           detail: 'The same task behaves differently across simulation and real hardware.',
-          solution: 'Zero-Friction Migration',
-          solutionDetail: 'One Session protocol runs identically across simulation and real-world targets, declared via target_adapter:// URI.',
+          solution: 'Unified Execution Pipeline',
+          solutionDetail: 'The same Session protocol connects simulation environments and real hardware, with integrations declared through TARGETS.md.',
         },
       ],    },
     coreConcepts: {
@@ -304,7 +304,7 @@ export const translations: Record<Lang, TranslationShape> = {
         {
           title: 'Session-Centered Runtime',
           subtitle: 'One protocol, any target',
-          description: 'A unified pipeline, WatchdogSupervisor → SessionRunner → SkillRuntime → TargetSessionHandle, replaces the legacy driver-centric model. The same Session protocol runs identically across debug, simulation, and real-robot targets.',
+          description: 'A unified pipeline, WatchdogSupervisor → SessionRunner → SkillRuntime → Target, replaces the legacy driver-centric model. The same Session protocol runs identically across debug, simulation, and real-robot targets.',
           highlight: 'Replaces the legacy Driver-Center architecture',
         },
         {
@@ -334,15 +334,15 @@ export const translations: Record<Lang, TranslationShape> = {
         {
           title: 'Hierarchical Memory & Reflection',
           subtitle: 'Learn from experience autonomously',
-          description: 'Multi-granularity hierarchical memory (Episodic LESSONS.md → Semantic MEMORY.md → Methodological skills/) plus a multi-step reflection loop (Plan→Reflect→Abstract→Skill). The Agent autonomously compacts, deduplicates lessons, and auto-creates reusable skills after sufficient verification.',
+          description: 'Multi-granularity hierarchical memory (Tactical LESSONS.md → Strategic MEMORY.md → Methodological skills/) plus a multi-step reflection loop (Plan→Reflect→Abstract→Skill). The Agent autonomously compacts, deduplicates lessons, and auto-creates reusable skills after sufficient verification.',
           highlight: 'Experience auto-converts to reusable skills',
         },
       ],
     },
     architecture: {
       label: 'Architecture',
-      title: 'A session-centered',
-      highlight: 'runtime',
+      title: 'Session-Centered',
+      highlight: 'Runtime',
       description: 'Cognition and execution decoupled through a shared file-protocol layer. Click any component to explore.',
       trackA: 'Track A',
       trackASub: 'Agent Layer',
@@ -357,11 +357,11 @@ export const translations: Record<Lang, TranslationShape> = {
         { label: 'Planner', sublabel: 'Reasoning', description: 'The cognitive planner decomposes tasks into executable sessions, reading AGENTS.md/SOUL.md/USER.md context and appending sessions to SESSIONS.md.' },
         { label: 'ContextBuilder', sublabel: 'Context Loading', description: 'Aggregates state from the Markdown protocol matrix (ENVIRONMENT.md, EMBODIED.md, LESSONS.md, TASK.md) into the agent context window.' },
         { label: 'Multi-Agent Critic', sublabel: 'Validation', description: 'Validates planned actions against EMBODIED.md constraints before execution. Intercepts dangerous operations with detailed reasoning.' },
-        { label: 'Memory', sublabel: 'Lessons', description: 'Captures execution experience into LESSONS.md, covering both successes for reuse and failures analyzed to prevent recurrence.' },
+        { label: 'Memory', sublabel: 'Experience', description: 'Captures execution experience into LESSONS.md, covering both successes for reuse and failures analyzed to prevent recurrence.' },
         { label: 'WatchdogSupervisor', sublabel: 'Supervisor', description: 'The execution-plane supervisor that watches the session queue, launches SessionRunners, and enforces lifecycle (pending→running→succeeded/failed).' },
         { label: 'SessionRunner', sublabel: 'Sessions', description: 'Runs one session end-to-end: acquires a TargetSessionHandle, drives the SkillRuntime, and records results + artifacts.' },
         { label: 'SkillRuntime', sublabel: 'Skills', description: 'PolicySkillRuntime (closed-loop policy) and BuiltinSkillRuntime (agent interactive loop) execute skills against their declared contracts in SKILLRUNTIME.md.' },
-        { label: 'Adapters & Bridge', sublabel: 'Targets', description: 'TargetAdapter + PolicyAdapter + ActionBridge decouple contracts. Simulation and real-world targets register in TARGETS.md via target_adapter:// URI.' },
+        { label: 'Target', sublabel: 'Targets', description: 'TargetAdapter + PolicyAdapter + ActionBridge decouple contracts. Simulation and real-world targets register in TARGETS.md via target_adapter:// URI.' },
       ],
     },
     scenarios: {
@@ -487,7 +487,7 @@ export const translations: Record<Lang, TranslationShape> = {
       visitInstitution: 'Visit Website',
       institutions: [
         { name: 'Sun Yat-sen University', role: 'HCP Lab', description: 'Human Cyber Physical Intelligence Integration Lab' },
-        { name: 'Peng Cheng Laboratory', role: 'Research Partner', description: 'Peng Cheng National Laboratory' },
+        { name: 'Peng Cheng Laboratory', role: 'Embodied Intelligence Research Institute', description: 'Peng Cheng National Laboratory' },
         { name: 'X-Era Lab', role: 'X-Era Lab', description: 'X-Era' },
       ],
       highlights: [
@@ -517,8 +517,8 @@ export const translations: Record<Lang, TranslationShape> = {
       location: 'Location',
       locationValue: 'Guangzhou, China',
       members: [
-        { name: 'HCP Lab', role: 'Core Development Team', institution: 'Sun Yat-sen University' },
-        { name: 'Peng Cheng Lab', role: 'Research Partner', institution: 'Peng Cheng Laboratory' },
+        { name: 'Sun Yat-sen University', role: 'Core Development Team', institution: 'Human-Cyber-Physical Intelligence Integration Laboratory (HCP Lab)' },
+        { name: 'Peng Cheng National Laboratory', role: 'Embodied Intelligence Research Institute', institution: 'Peng Cheng National Laboratory' },
         { name: 'X-Era Lab', role: 'Research Collaborator', institution: 'X-Era Lab' },
       ],
     },
@@ -627,7 +627,7 @@ export const translations: Record<Lang, TranslationShape> = {
           pain: '大模型直连硬件的紧耦合',
           detail: '推理与执行紧密绑定，切换机器人意味着重写整个流水线。',
           solution: '认知-物理解耦',
-          solutionDetail: '会话中心化 Rumtime 位于规划器与硬件之间。新增机器人只需实现一个 Target Adapter（约 100 行）；调度层零改动。',
+          solutionDetail: '会话中心化 Runtime 位于规划器与硬件之间。新增机器人只需实现一个 Target Adapter（约 100 行）；调度层零改动。',
         },
         {
           pain: '危险动作缺乏验证',
@@ -715,7 +715,7 @@ export const translations: Record<Lang, TranslationShape> = {
         { label: 'WatchdogSupervisor', sublabel: '监督者', description: '执行层监督者，监视会话队列、启动 SessionRunner 并强制执行生命周期（pending→running→succeeded/failed）。' },
         { label: 'SessionRunner', sublabel: '会话', description: '端到端运行单个会话：获取 TargetSessionHandle、驱动 SkillRuntime 并记录结果与产物。' },
         { label: 'SkillRuntime', sublabel: '技能', description: 'PolicySkillRuntime（闭环策略）与 BuiltinSkillRuntime（智能体交互闭环）依据 SKILLRUNTIME.md 中声明的契约执行技能。' },
-        { label: 'Target', sublabel: '目标', description: '仿真和真实世界目标注册于 TARGETS.md，通过 TargetAdapter + PolicyAdapter + ActionBridge 实现契约解耦。' },
+        { label: 'Target', sublabel: '目标', description: '仿真和真实世界目标注册于 TARGETS.md，并通过 target_adapter:// URI 声明；TargetAdapter + PolicyAdapter + ActionBridge 实现契约解耦。' },
       ],
     },
     scenarios: {

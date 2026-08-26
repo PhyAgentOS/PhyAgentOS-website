@@ -17,7 +17,7 @@ export default function JoinUs() {
         </div>
 
         <a
-          href="https://discord.gg/TUzwE6FSd"
+          href="https://discord.gg/YJztZ4wUM"
           target="_blank"
           rel="noopener noreferrer"
           className="group mb-8 flex flex-col items-start justify-between gap-5 rounded-2xl border border-brand-accent/25 bg-brand-accent/[0.08] p-6 shadow-glow-soft transition-all duration-300 hover:border-brand-accent/50 hover:bg-brand-accent/[0.12] sm:flex-row sm:items-center"

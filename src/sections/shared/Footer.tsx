@@ -33,7 +33,7 @@ export default function Footer() {
       icon: Tv,
     },
     {
-      label: '小红书',
+      label: t.communityPage.xiaohongshu,
       href: 'https://www.xiaohongshu.com/user/profile/673d83e3000000001c01a183',
       icon: BookHeart,
     },
@@ -48,7 +48,7 @@ export default function Footer() {
     },
     {
       label: 'Discord',
-      href: 'https://discord.com/invite/TUzwE6FSd',
+      href: 'https://discord.gg/YJztZ4wUM',
       icon: MessageCircle,
     },
   ];
