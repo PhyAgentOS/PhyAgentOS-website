@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BarChart3, Bot, Gamepad2, Rocket, TerminalSquare } from 'lucide-react';
+import { BarChart3, Bot, FlaskConical, Gamepad2, Rocket, TerminalSquare } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useLang } from '../../i18n/LanguageContext';
@@ -25,6 +25,11 @@ export default function LiveDemo() {
             title: '真机任务链',
             eyebrow: 'Real Robot Execution',
             description: '真实房间中的人形/移动机器人连续完成购物、整理、取放、开袋、收纳等物理任务，展示从计划到动作的执行稳定性。',
+          },
+          {
+            title: '具身AI4S场景',
+            eyebrow: 'Real Robot · AI4S',
+            description: '从 Piper X 双臂设备联动、实验环境配置、物料识别，到执行取样、转移与放置任务，展示具身智能驱动科学实验的完整运行路径。',
           },
           {
             title: '部署流程',
@@ -78,6 +83,11 @@ export default function LiveDemo() {
             description: 'A humanoid/mobile robot completes shopping, sorting, pick-and-place, bag opening, and storage tasks in a real room, showing stable plan-to-action execution.',
           },
           {
+            title: 'Embodied AI4S scenario',
+            eyebrow: 'Real Robot · AI4S',
+            description: 'From coordinated Piper X dual-arm operation, experimental environment setup, and material recognition to sample collection, transfer, and placement, this demo presents the complete workflow of embodied intelligence for scientific experiments.',
+          },
+          {
             title: 'Deployment walkthrough',
             eyebrow: 'Deployment Walkthrough',
             description: 'Covers device setup, virtual environment, configuration files, API key setup, and the first Go2 standing/walking instruction.',
@@ -113,6 +123,7 @@ export default function LiveDemo() {
   const copyIds = [
     'libero-benchmark',
     'real-robot',
+    'embodied-ai4s',
     'deployment',
     'dont-starve',
     'stardew',
@@ -124,6 +135,7 @@ export default function LiveDemo() {
 
   const demos = [
     { id: 'real-robot', category: 'real', icon: Bot, src: '/media/demos/real-robot.mp4', poster: '/media/demos/real-robot.jpg', duration: '03:05' },
+    { id: 'embodied-ai4s', category: 'real', icon: FlaskConical, src: '/media/demos/embodied-ai4s.mp4', poster: '/media/demos/embodied-ai4s.jpg', duration: '00:33' },
     { id: 'deployment', category: 'deployment', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '02:29' },
     { id: 'minecraft-game', category: 'game', icon: Gamepad2, src: '/media/demos/cross-target-runtime.mp4', poster: '/media/demos/cross-target-runtime.jpg', duration: '01:10' },
     { id: 'dont-starve', category: 'game', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.png', duration: '03:03' },
