@@ -25,7 +25,7 @@ const hardwareDevices: HardwareDevice[] = [
   { name: 'SO101', typeKey: 'Desktop Arm', image: '/media/hardware/so101.jpg', access: ['real', 'mujoco', 'isaac'], specs: ['Open Source', 'MuJoCo', 'Real Robot'] },
   { name: 'SO100', typeKey: 'Desktop Arm', image: '/media/hardware/so100.webp', access: ['mujoco'], specs: ['Open Source', 'MuJoCo'] },
   { name: 'RealMan RM65-B', typeKey: 'Desktop Arm', image: '/media/hardware/robotic-arm-rm65-6.webp', access: ['mujoco'], specs: ['6-DoF', 'Collaborative', 'ROS2'] },
-  { name: 'BOBABOT', typeKey: 'Desktop Arm', image: '/media/hardware/bobabot.jpg', access: ['mujoco'], specs: ['Open Source', 'MuJoCo'] },
+  { name: 'BOBABOT', typeKey: 'Desktop Arm', image: '/media/hardware/bobabot.png', access: ['mujoco'], specs: ['Open Source', 'MuJoCo'] },
   { name: 'Elfin 5L', typeKey: 'Industrial Arm', image: '/media/hardware/elfin-5l.jpg', access: ['mujoco'], specs: ['6-DoF', 'Collaborative', 'Industrial'] },
   { name: 'Franka Emika Panda', typeKey: 'Industrial Arm', image: '/media/hardware/franka-panda.png', access: ['mujoco'], specs: ['7-DoF', 'Torque Sensing', 'Research'] },
   { name: 'Franka Research 3', typeKey: 'Industrial Arm', image: '/franka.png', access: ['mujoco'], specs: ['7-DoF', 'Torque Sensing', 'Industrial'] },

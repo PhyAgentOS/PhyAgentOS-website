@@ -1,17 +1,19 @@
 import { BookHeart, ExternalLink, Github, Heart, Linkedin, Mail, MessageCircle, Tv } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useT } from '../../i18n/LanguageContext';
 import { useLang } from '../../i18n/LanguageContext';
 
 export default function Footer() {
   const t = useT();
   const { lang } = useLang();
+  const location = useLocation();
+  const navigate = useNavigate();
   const docsBase = lang === 'zh' ? '/docs' : '/docs/en';
   const footerLinks = {
     product: [
       { label: t.nav.features, href: '/#features' },
       { label: t.nav.architecture, href: '/#architecture' },
-      { label: t.nav.hardware, href: '/#hardware' },
+      { label: t.nav.hardware, href: '/targets' },
     ],
     resources: [
       { label: t.footer.documentation, href: `${docsBase}/architecture/index.html`, external: true },
@@ -54,6 +56,28 @@ export default function Footer() {
   ];
   const logoSrc = `${import.meta.env.BASE_URL}LOGO.png`;
   const currentYear = new Date().getFullYear();
+
+  const handleProductClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('/#')) {
+      event.preventDefault();
+      const sectionId = href.slice(2);
+
+      if (location.pathname !== '/') {
+        navigate('/');
+      }
+
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  };
 
   return (
     <footer className="relative bg-brand-bg-secondary/80 border-t border-brand-border">
@@ -110,6 +134,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <Link
                       to={link.href}
+                      onClick={(event) => handleProductClick(event, link.href)}
                       className="text-sm text-brand-text-secondary hover:text-brand-text transition-colors duration-200"
                     >
                       {link.label}
