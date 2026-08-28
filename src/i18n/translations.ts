@@ -154,6 +154,9 @@ export interface TranslationShape {
     visitInstitution: string;
     institutions: { name: string; role: string; description: string }[];
     highlights: { label: string; value: string }[];
+    collaboratorsLabel: string;
+    collaboratorsTitle: string;
+    collaboratorsDescription: string;
   };
   teamPage: {
     label: string;
@@ -496,6 +499,9 @@ export const translations: Record<Lang, TranslationShape> = {
         { label: 'Collaborator', value: 'X-Era Lab' },
         { label: 'License', value: 'MIT Open Source' },
       ],
+      collaboratorsLabel: 'Ecosystem',
+      collaboratorsTitle: 'Robot & Hardware',
+      collaboratorsDescription: 'PhyAgentOS is compatible with robot platforms and hardware from the following partners.',
     },
     teamPage: {
       label: 'Team',
@@ -850,6 +856,9 @@ export const translations: Record<Lang, TranslationShape> = {
         { label: '合作单位', value: 'X-Era Lab' },
         { label: '开源协议', value: 'MIT 开源' },
       ],
+      collaboratorsLabel: '生态',
+      collaboratorsTitle: '合作伙伴',
+      collaboratorsDescription: 'PhyAgentOS 兼容以下伙伴厂商的机器人平台与硬件设备。',
     },
     teamPage: {
       label: '团队',

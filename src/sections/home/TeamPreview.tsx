@@ -17,6 +17,14 @@ const teamHighlights = [
   { label: t.teamPreview.highlights[2].label, value: t.teamPreview.highlights[2].value },
   { label: t.teamPreview.highlights[3].label, value: t.teamPreview.highlights[3].value },
 ];
+const collaborators = [
+  { name: 'XLeRobot', logo: '/media/collaborators/xlerobot.png' },
+  { name: 'AGILEX', logo: '/media/collaborators/agile-x.png' },
+  { name: 'RealMan', logo: '/media/collaborators/realman.png' },
+  { name: 'Zerith', logo: '/media/collaborators/zerith.png' },
+  { name: 'Digua Robot', logo: '/media/collaborators/digua.png' },
+  { name: 'SigmaStar', logo: '/media/collaborators/sigmastar.png' },
+];
   return (
     <section id="team" className="relative py-24 lg:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-grid opacity-[0.02]" />
@@ -89,6 +97,38 @@ const teamHighlights = [
                   <div className="text-xs text-brand-text-tertiary font-mono uppercase tracking-wider">{item.label}</div>
                 </div>
               ))}
+            </div>
+          </ScrollReveal>
+
+          {/* Collaborators */}
+          <ScrollReveal delay={0.45}>
+            <div className="mt-16">
+              <div className="text-center mb-8">
+                <p className="text-sm font-mono uppercase tracking-widest text-brand-accent mb-2">
+                  {t.teamPreview.collaboratorsLabel}
+                </p>
+                <h3 className="text-2xl font-display font-bold text-brand-text">
+                  {t.teamPreview.collaboratorsTitle}
+                </h3>
+                <p className="mt-2 text-sm text-brand-text-secondary max-w-2xl mx-auto">
+                  {t.teamPreview.collaboratorsDescription}
+                </p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
+                {collaborators.map((company, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-center p-6 rounded-2xl bg-white/[0.92] border border-brand-border/40 shadow-soft hover:shadow-card hover:-translate-y-0.5 transition-all duration-300"
+                  >
+                    <img
+                      src={company.logo}
+                      alt={company.name}
+                      loading="lazy"
+                      className="max-h-14 w-auto object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </ScrollReveal>
 
