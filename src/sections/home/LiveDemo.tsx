@@ -32,6 +32,11 @@ export default function LiveDemo() {
             description: '从 Piper X 双臂设备联动、实验环境配置、物料识别，到执行取样、转移与放置任务，展示具身智能驱动科学实验的完整运行路径。',
           },
           {
+            title: '真机 Skill 快速部署',
+            eyebrow: 'Deployment · Real-Robot Skill',
+            description: 'Piper 串口激活并加载 Skill 后，通过自然语言协同调用多 Tool，完成位姿解算、关节运动与夹爪控制，展示真机能力的快速接入与组合。',
+          },
+          {
             title: '部署流程',
             eyebrow: 'Deployment Walkthrough',
             description: '从设备连接、虚拟环境、配置文件、API Key 到给 Go2 发出起身行走指令，展示首次部署与运行路径。',
@@ -88,6 +93,11 @@ export default function LiveDemo() {
             description: 'From coordinated Piper X dual-arm operation, experimental environment setup, and material recognition to sample collection, transfer, and placement, this demo presents the complete workflow of embodied intelligence for scientific experiments.',
           },
           {
+            title: 'Rapid Real-Robot Skill Deployment',
+            eyebrow: 'Deployment · Real-Robot Skill',
+            description: 'After Piper serial activation and Skill loading, natural language coordinates multiple Tools for pose solving, joint motion, and gripper control—showing rapid real-robot capability integration and composition.',
+          },
+          {
             title: 'Deployment walkthrough',
             eyebrow: 'Deployment Walkthrough',
             description: 'Covers device setup, virtual environment, configuration files, API key setup, and the first Go2 standing/walking instruction.',
@@ -124,6 +134,7 @@ export default function LiveDemo() {
     'libero-benchmark',
     'real-robot',
     'embodied-ai4s',
+    'real-skill-deployment',
     'deployment',
     'dont-starve',
     'stardew',
@@ -136,6 +147,7 @@ export default function LiveDemo() {
   const demos = [
     { id: 'real-robot', category: 'real', icon: Bot, src: '/media/demos/real-robot.mp4', poster: '/media/demos/real-robot.jpg', duration: '03:05' },
     { id: 'embodied-ai4s', category: 'real', icon: FlaskConical, src: '/media/demos/embodied-ai4s.mp4', poster: '/media/demos/embodied-ai4s.jpg', duration: '00:33' },
+    { id: 'real-skill-deployment', category: 'deployment', icon: Rocket, src: '/media/demos/real-skill-deployment.mp4', poster: '/media/demos/real-skill-deployment-cover.jpg', duration: '01:04' },
     { id: 'deployment', category: 'deployment', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '02:29' },
     { id: 'minecraft-game', category: 'game', icon: Gamepad2, src: '/media/demos/cross-target-runtime.mp4', poster: '/media/demos/cross-target-runtime.jpg', duration: '01:10' },
     { id: 'dont-starve', category: 'game', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.png', duration: '03:03' },

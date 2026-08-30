@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Layers, Puzzle, GitBranch, ShieldCheck, FileText, BrainCircuit } from 'lucide-react';
+import { Layers, GitBranch, ShieldCheck, RefreshCcw, PackageCheck, BrainCircuit } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
@@ -8,14 +8,14 @@ import { useT } from '../../i18n/LanguageContext';
 export default function CoreConcepts() {
   const t = useT();
 
-const concepts = [
-  { id: 'session-runtime', icon: Layers, title: t.coreConcepts.items[0].title, subtitle: t.coreConcepts.items[0].subtitle, description: t.coreConcepts.items[0].description, highlight: t.coreConcepts.items[0].highlight, color: 'from-sky-400/15 to-indigo-400/15', borderColor: 'border-sky-500/25', iconColor: 'text-sky-700' },
-  { id: 'adapter-bridge', icon: Puzzle, title: t.coreConcepts.items[1].title, subtitle: t.coreConcepts.items[1].subtitle, description: t.coreConcepts.items[1].description, highlight: t.coreConcepts.items[1].highlight, color: 'from-emerald-400/15 to-teal-500/15', borderColor: 'border-emerald-500/25', iconColor: 'text-emerald-700' },
-  { id: 'dual-runtime', icon: GitBranch, title: t.coreConcepts.items[2].title, subtitle: t.coreConcepts.items[2].subtitle, description: t.coreConcepts.items[2].description, highlight: t.coreConcepts.items[2].highlight, color: 'from-amber-400/15 to-orange-400/15', borderColor: 'border-amber-500/25', iconColor: 'text-amber-700' },
-  { id: 'safety', icon: ShieldCheck, title: t.coreConcepts.items[3].title, subtitle: t.coreConcepts.items[3].subtitle, description: t.coreConcepts.items[3].description, highlight: t.coreConcepts.items[3].highlight, color: 'from-rose-400/15 to-red-400/15', borderColor: 'border-rose-500/25', iconColor: 'text-rose-700' },
-  { id: 'auditability', icon: FileText, title: t.coreConcepts.items[4].title, subtitle: t.coreConcepts.items[4].subtitle, description: t.coreConcepts.items[4].description, highlight: t.coreConcepts.items[4].highlight, color: 'from-violet-400/15 to-purple-400/15', borderColor: 'border-violet-500/25', iconColor: 'text-violet-700' },
-  { id: 'memory-reflection', icon: BrainCircuit, title: t.coreConcepts.items[5].title, subtitle: t.coreConcepts.items[5].subtitle, description: t.coreConcepts.items[5].description, highlight: t.coreConcepts.items[5].highlight, color: 'from-teal-400/15 to-cyan-400/15', borderColor: 'border-teal-500/25', iconColor: 'text-teal-700' },
-];
+  const concepts = [
+    { id: 'execution-boundary', icon: Layers, title: t.coreConcepts.items[0].title, subtitle: t.coreConcepts.items[0].subtitle, description: t.coreConcepts.items[0].description, highlight: t.coreConcepts.items[0].highlight, color: 'from-sky-400/15 to-indigo-400/15', borderColor: 'border-sky-500/25', iconColor: 'text-sky-700' },
+    { id: 'immutable-binding', icon: GitBranch, title: t.coreConcepts.items[1].title, subtitle: t.coreConcepts.items[1].subtitle, description: t.coreConcepts.items[1].description, highlight: t.coreConcepts.items[1].highlight, color: 'from-emerald-400/15 to-teal-500/15', borderColor: 'border-emerald-500/25', iconColor: 'text-emerald-700' },
+    { id: 'evidence-verdict', icon: ShieldCheck, title: t.coreConcepts.items[2].title, subtitle: t.coreConcepts.items[2].subtitle, description: t.coreConcepts.items[2].description, highlight: t.coreConcepts.items[2].highlight, color: 'from-amber-400/15 to-orange-400/15', borderColor: 'border-amber-500/25', iconColor: 'text-amber-700' },
+    { id: 'planner-recovery', icon: RefreshCcw, title: t.coreConcepts.items[3].title, subtitle: t.coreConcepts.items[3].subtitle, description: t.coreConcepts.items[3].description, highlight: t.coreConcepts.items[3].highlight, color: 'from-rose-400/15 to-red-400/15', borderColor: 'border-rose-500/25', iconColor: 'text-rose-700' },
+    { id: 'skill-runtime', icon: PackageCheck, title: t.coreConcepts.items[4].title, subtitle: t.coreConcepts.items[4].subtitle, description: t.coreConcepts.items[4].description, highlight: t.coreConcepts.items[4].highlight, color: 'from-violet-400/15 to-purple-400/15', borderColor: 'border-violet-500/25', iconColor: 'text-violet-700' },
+    { id: 'recursive-evolution', icon: BrainCircuit, title: t.coreConcepts.items[5].title, subtitle: t.coreConcepts.items[5].subtitle, description: t.coreConcepts.items[5].description, highlight: t.coreConcepts.items[5].highlight, color: 'from-teal-400/15 to-cyan-400/15', borderColor: 'border-teal-500/25', iconColor: 'text-teal-700' },
+  ];
   const [activeId, setActiveId] = useState(concepts[0].id);
   const activeConcept = concepts.find((c) => c.id === activeId)!;
   const ActiveIcon = activeConcept.icon;

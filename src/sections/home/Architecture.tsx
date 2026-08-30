@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
-import { Brain, FileText, ShieldCheck, Eye, Cpu, Boxes, Activity, Network, ArrowRight, X } from 'lucide-react';
+import { Brain, ShieldCheck, Cpu, Boxes, Activity, Network, ArrowRight, X, Puzzle, Database } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useT } from '../../i18n/LanguageContext';
@@ -11,40 +11,40 @@ interface ArchNode {
   label: string;
   sublabel: string;
   description: string;
-  track: 'A' | 'B' | 'protocol';
+  track: 'A' | 'B';
 }
 
-const protocolFiles = [
-  'AGENTS.md',
-  'SOUL.md',
-  'TOOLS.md',
-  'SKILLS.md',
-  'EMBODIED.md',
-  'ENVIRONMENT.md',
-  'LESSONS.md',
-  'TASK.md',
-  'RUNTIME.md',
-  'TARGETS.md',
-  'SKILLRUNTIME.md',
-  'SESSIONS.md',
+const protocolContracts = [
+  'Skill Manifest v2',
+  'ToolSpec',
+  'AgentTask',
+  'PlanRevision',
+  'QueryRecord',
+  'ToolInvocation',
+  'ExecutionRecord',
+  'EvidenceBundle',
+  'VerificationVerdict',
+  'TaskEpisode',
+  'ScopedLesson',
 ];
 
 export default function Architecture() {
   const t = useT();
-const nodes: ArchNode[] = [
-  { id: 'planner', icon: Brain, label: t.architecture.nodes[0].label, sublabel: t.architecture.nodes[0].sublabel, description: t.architecture.nodes[0].description, track: 'A' },
-  { id: 'context-builder', icon: FileText, label: t.architecture.nodes[1].label, sublabel: t.architecture.nodes[1].sublabel, description: t.architecture.nodes[1].description, track: 'A' },
-  { id: 'critic', icon: Eye, label: t.architecture.nodes[2].label, sublabel: t.architecture.nodes[2].sublabel, description: t.architecture.nodes[2].description, track: 'A' },
-  { id: 'memory', icon: Activity, label: t.architecture.nodes[3].label, sublabel: t.architecture.nodes[3].sublabel, description: t.architecture.nodes[3].description, track: 'A' },
-  { id: 'watchdog', icon: ShieldCheck, label: t.architecture.nodes[4].label, sublabel: t.architecture.nodes[4].sublabel, description: t.architecture.nodes[4].description, track: 'B' },
-  { id: 'session-runner', icon: Activity, label: t.architecture.nodes[5].label, sublabel: t.architecture.nodes[5].sublabel, description: t.architecture.nodes[5].description, track: 'B' },
-  { id: 'skill-runtime', icon: Boxes, label: t.architecture.nodes[6].label, sublabel: t.architecture.nodes[6].sublabel, description: t.architecture.nodes[6].description, track: 'B' },
-  { id: 'adapter-bridge', icon: Network, label: t.architecture.nodes[7].label, sublabel: t.architecture.nodes[7].sublabel, description: t.architecture.nodes[7].description, track: 'B' },
-];
-  const [selectedNode, setSelectedNode] = useState<ArchNode | null>(null);
+  const nodes: ArchNode[] = [
+    { id: 'agent-loop', icon: Brain, label: t.architecture.nodes[0].label, sublabel: t.architecture.nodes[0].sublabel, description: t.architecture.nodes[0].description, track: 'A' },
+    { id: 'skill-activation', icon: Puzzle, label: t.architecture.nodes[1].label, sublabel: t.architecture.nodes[1].sublabel, description: t.architecture.nodes[1].description, track: 'A' },
+    { id: 'agent-task', icon: Database, label: t.architecture.nodes[2].label, sublabel: t.architecture.nodes[2].sublabel, description: t.architecture.nodes[2].description, track: 'A' },
+    { id: 'verification-experience', icon: ShieldCheck, label: t.architecture.nodes[3].label, sublabel: t.architecture.nodes[3].sublabel, description: t.architecture.nodes[3].description, track: 'A' },
+    { id: 'skill-runtime', icon: Boxes, label: t.architecture.nodes[4].label, sublabel: t.architecture.nodes[4].sublabel, description: t.architecture.nodes[4].description, track: 'B' },
+    { id: 'forge-tool-client', icon: Network, label: t.architecture.nodes[5].label, sublabel: t.architecture.nodes[5].sublabel, description: t.architecture.nodes[5].description, track: 'B' },
+    { id: 'forge-gateway', icon: Cpu, label: t.architecture.nodes[6].label, sublabel: t.architecture.nodes[6].sublabel, description: t.architecture.nodes[6].description, track: 'B' },
+    { id: 'tool-endpoint', icon: Activity, label: t.architecture.nodes[7].label, sublabel: t.architecture.nodes[7].sublabel, description: t.architecture.nodes[7].description, track: 'B' },
+  ];
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
 
   const trackANodes = nodes.filter((n) => n.track === 'A');
   const trackBNodes = nodes.filter((n) => n.track === 'B');
+  const selectedNode = nodes.find((node) => node.id === selectedNodeId) ?? null;
 
   return (
     <section id="architecture" className="relative py-24 lg:py-32 overflow-hidden">
@@ -85,19 +85,19 @@ const nodes: ArchNode[] = [
                         return (
                           <button
                             key={node.id}
-                            onClick={() => setSelectedNode(node)}
+                            onClick={() => setSelectedNodeId(node.id)}
                             className={`w-full flex items-center gap-3 p-3.5 rounded-2xl transition-all duration-300 text-left group ${
-                              selectedNode?.id === node.id
+                              selectedNodeId === node.id
                                 ? 'bg-emerald-500/10 border border-emerald-500/30 shadow-glow-soft'
                                 : 'bg-brand-text/[0.03] border border-transparent hover:bg-brand-text/[0.04] hover:border-brand-accent/30 hover:shadow-soft'
                             }`}
                           >
-                            <NodeIcon className={`w-4 h-4 flex-shrink-0 ${selectedNode?.id === node.id ? 'text-emerald-700' : 'text-emerald-700/60'}`} />
+                            <NodeIcon className={`w-4 h-4 flex-shrink-0 ${selectedNodeId === node.id ? 'text-emerald-700' : 'text-emerald-700/60'}`} />
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-semibold text-brand-text truncate">{node.label}</p>
                               <p className="text-xs text-brand-text-tertiary">{node.sublabel}</p>
                             </div>
-                            <ArrowRight className={`w-3.5 h-3.5 transition-all duration-300 ${selectedNode?.id === node.id ? 'text-emerald-700 translate-x-0 opacity-100' : 'text-brand-text-tertiary -translate-x-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-0'}`} />
+                            <ArrowRight className={`w-3.5 h-3.5 transition-all duration-300 ${selectedNodeId === node.id ? 'text-emerald-700 translate-x-0 opacity-100' : 'text-brand-text-tertiary -translate-x-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-0'}`} />
                           </button>
                         );
                       })}
@@ -106,30 +106,30 @@ const nodes: ArchNode[] = [
                 </div>
 
                 {/* Center: Protocol Surface */}
-                <div className="flex flex-col items-center justify-center gap-6 lg:w-64">
-                  {/* Read arrow */}
+                <div className="flex flex-col items-center justify-center gap-5 lg:w-56">
+                  {/* Request flows from Track A to Track B */}
                   <div className="hidden lg:flex items-center gap-2">
-                    <ArrowRight className="w-5 h-5 text-brand-accent" />
-                    <span className="text-sm lg:text-base font-mono font-semibold tracking-wide text-brand-text-secondary">{t.architecture.read}</span>
+                    <ArrowRight className="w-4 h-4 text-brand-accent" />
+                    <span className="text-sm font-mono font-medium tracking-wide text-brand-text-secondary">{t.architecture.read}</span>
                   </div>
 
                   {/* Protocol hub */}
-                  <div className="relative w-full max-w-xs aspect-square">
+                  <div className="relative w-full max-w-[13.5rem]">
                     <div className="absolute inset-0 bg-brand-accent/20 blur-3xl rounded-full animate-pulse" />
-                    <div className="relative h-full rounded-3xl bg-brand-bg-secondary border-2 border-brand-accent/40 flex flex-col items-center justify-center p-6 glass shadow-card hover:shadow-card-hover transition-shadow duration-500">
-                      <div className="w-16 h-16 rounded-2xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center mb-4 shadow-glow-soft">
-                        <FileText className="w-8 h-8 text-brand-accent" />
+                    <div className="relative rounded-3xl bg-brand-bg-secondary border border-brand-accent/35 flex flex-col items-center justify-center px-5 py-8 glass shadow-card hover:shadow-card-hover transition-shadow duration-500">
+                      <div className="w-14 h-14 rounded-2xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center mb-4 shadow-glow-soft">
+                        <Network className="w-7 h-7 text-brand-accent" />
                       </div>
-                      <p className="text-xl font-display font-bold text-brand-text text-center">{t.architecture.protocol}</p>
+                      <p className="text-lg font-display font-semibold text-brand-text text-center">{t.architecture.protocol}</p>
                       <p className="text-xs text-brand-text-tertiary text-center mt-2">{t.architecture.sharedSurface}</p>
-                      <p className="text-xs font-mono text-brand-accent mt-3 px-3 py-1 rounded-full bg-brand-accent/10 border border-brand-accent/20">{t.architecture.stateIsFile}</p>
+                      <p className="whitespace-nowrap text-[11px] font-mono text-brand-accent mt-3 px-3 py-1 rounded-full bg-brand-accent/10 border border-brand-accent/20">{t.architecture.stateIsFile}</p>
                     </div>
                   </div>
 
-                  {/* Write arrow */}
+                  {/* Execution state and results flow back to Track A */}
                   <div className="hidden lg:flex items-center gap-2">
-                    <span className="text-sm lg:text-base font-mono font-semibold tracking-wide text-brand-text-secondary">{t.architecture.write}</span>
-                    <ArrowRight className="w-5 h-5 text-brand-accent rotate-180" />
+                    <span className="text-sm font-mono font-medium tracking-wide text-brand-text-secondary">{t.architecture.write}</span>
+                    <ArrowRight className="w-4 h-4 text-brand-accent rotate-180" />
                   </div>
                 </div>
 
@@ -152,19 +152,19 @@ const nodes: ArchNode[] = [
                         return (
                           <button
                             key={node.id}
-                            onClick={() => setSelectedNode(node)}
+                            onClick={() => setSelectedNodeId(node.id)}
                             className={`w-full flex items-center gap-3 p-3.5 rounded-2xl transition-all duration-300 text-left group ${
-                              selectedNode?.id === node.id
+                              selectedNodeId === node.id
                                 ? 'bg-sky-500/10 border border-sky-500/30 shadow-glow-soft'
                                 : 'bg-brand-text/[0.03] border border-transparent hover:bg-brand-text/[0.04] hover:border-brand-accent/30 hover:shadow-soft'
                             }`}
                           >
-                            <NodeIcon className={`w-4 h-4 flex-shrink-0 ${selectedNode?.id === node.id ? 'text-sky-700' : 'text-sky-700/60'}`} />
+                            <NodeIcon className={`w-4 h-4 flex-shrink-0 ${selectedNodeId === node.id ? 'text-sky-700' : 'text-sky-700/60'}`} />
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-semibold text-brand-text truncate">{node.label}</p>
                               <p className="text-xs text-brand-text-tertiary">{node.sublabel}</p>
                             </div>
-                            <ArrowRight className={`w-3.5 h-3.5 transition-all duration-300 ${selectedNode?.id === node.id ? 'text-sky-700 translate-x-0 opacity-100' : 'text-brand-text-tertiary -translate-x-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-0'}`} />
+                            <ArrowRight className={`w-3.5 h-3.5 transition-all duration-300 ${selectedNodeId === node.id ? 'text-sky-700 translate-x-0 opacity-100' : 'text-brand-text-tertiary -translate-x-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-0'}`} />
                           </button>
                         );
                       })}
@@ -173,16 +173,35 @@ const nodes: ArchNode[] = [
                 </div>
               </div>
 
-              {/* Protocol files */}
+              {/* Versioned contracts and durable records */}
               <div className="mt-12 flex flex-wrap justify-center gap-2">
-                {protocolFiles.map((file) => (
+                {protocolContracts.map((contract) => (
                   <span
-                    key={file}
+                    key={contract}
                     className="px-3.5 py-2 bg-brand-bg-secondary border border-brand-border rounded-xl font-mono text-xs text-brand-text-tertiary hover:border-brand-accent/30 hover:text-brand-accent hover:shadow-soft transition-all duration-300 cursor-default"
                   >
-                    {file}
+                    {contract}
                   </span>
                 ))}
+              </div>
+
+              {/* Auditable task loop */}
+              <div className="mt-8 rounded-3xl border border-brand-border bg-brand-bg-secondary/70 p-5 sm:p-6 shadow-soft">
+                <p className="mb-4 text-center text-xs font-mono uppercase tracking-widest text-brand-text-tertiary">
+                  {t.architecture.flowLabel}
+                </p>
+                <div className="flex flex-col items-stretch gap-2 lg:flex-row lg:items-center lg:justify-center">
+                  {t.architecture.flow.map((step, index) => (
+                    <div key={step} className="contents">
+                      <div className="flex min-h-12 flex-1 items-center justify-center rounded-xl border border-brand-border bg-brand-bg px-3 py-2 text-center text-xs font-medium text-brand-text-secondary shadow-soft sm:text-sm">
+                        {step}
+                      </div>
+                      {index < t.architecture.flow.length - 1 && (
+                        <ArrowRight className="mx-auto h-4 w-4 shrink-0 rotate-90 text-brand-accent lg:rotate-0" />
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </ScrollReveal>
@@ -192,7 +211,7 @@ const nodes: ArchNode[] = [
             <div className="mt-10 max-w-2xl mx-auto">
               <div className="relative p-6 rounded-3xl bg-brand-bg-secondary border border-brand-border shadow-card hover:shadow-card-hover transition-shadow duration-500">
                 <button
-                  onClick={() => setSelectedNode(null)}
+                  onClick={() => setSelectedNodeId(null)}
                   className="absolute top-4 right-4 p-1.5 rounded-lg hover:bg-brand-text/[0.04] transition-colors"
                 >
                   <X className="w-4 h-4 text-brand-text-tertiary" />
