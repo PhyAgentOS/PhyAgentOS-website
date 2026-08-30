@@ -135,7 +135,7 @@ export default function Hackathon() {
     ? {
         eventTitle: '2026 BETA',
         hackathonTitle: '黑客松',
-        heroSubtitle: '自进化物理智能体操作系统',
+        heroSubtitle: '递归自进化物理智能体操作系统',
         heroDescription: '你专注于创意，我们负责让智能体',
         heroEmphasis: '“可记忆、可纠错、可理解”',
         heroDescriptionEnd: '。',
@@ -216,7 +216,7 @@ export default function Hackathon() {
     : {
         eventTitle: '2026 BETA',
         hackathonTitle: 'Hackathon',
-        heroSubtitle: 'Self-Evolving Physical Agent Operating System',
+        heroSubtitle: 'Recursive Self-Improving Physical Agent Operating System',
         heroDescription: 'You focus on the creativity, we handle making the agent',
         heroEmphasis: '"rememberable, correctable, and comprehensible"',
         heroDescriptionEnd: '.',

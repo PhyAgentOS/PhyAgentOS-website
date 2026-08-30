@@ -103,7 +103,7 @@ export default defineConfig({
           ],
         },
         footer: {
-          message: 'PhyAgentOS — 自进化物理智能体操作系统',
+          message: 'PhyAgentOS — 递归自进化物理智能体操作系统',
           copyright: 'MIT Licensed',
         },
       },
@@ -167,7 +167,7 @@ export default defineConfig({
           ],
         },
         footer: {
-          message: 'PhyAgentOS — Self-Evolving Physical Agent Operating System',
+          message: 'PhyAgentOS — Recursive Self-Improving Physical Agent Operating System',
           copyright: 'MIT Licensed',
         },
       },

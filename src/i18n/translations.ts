@@ -221,7 +221,7 @@ export const translations: Record<Lang, TranslationShape> = {
     },
     footer: {
       tagline: 'A unified, transparent, and auditable runtime foundation for physical agents.',
-      physicalAgentOS: 'Self-Evolving Physical Agent OS',
+      physicalAgentOS: 'Recursive Self-Improving Physical Agent Operating System',
       product: 'Product',
       resources: 'Resources',
       community: 'Community',
@@ -244,7 +244,7 @@ export const translations: Record<Lang, TranslationShape> = {
     },
     hero: {
       label: 'The Harness for Physical Agents',
-      titleLine1: 'Self-Evolving Physical Agent',
+      titleLine1: 'Recursive Self-Improving Physical Agent',
       titleLine2: 'Operating System',
       subtitle: 'PhyAgentOS - A unified, transparent, and auditable runtime foundation for physical agents',
       description: 'Any robot configuration can be integrated quickly for plug-and-play operation; algorithms and tools can be freely combined to rapidly build agent skills, putting complex tasks one click away; cognitive-physical decoupling unifies intelligent decision-making and physical execution, with support for long-term memory and continuous evolution; one protocol connects games, simulation, and real robots for seamless virtual-to-real migration.',
@@ -577,7 +577,7 @@ export const translations: Record<Lang, TranslationShape> = {
     },
     footer: {
       tagline: '统一、透明、可审计的的物理智能体运行底座。',
-      physicalAgentOS: '自进化物理智能体操作系统',
+      physicalAgentOS: '递归自进化物理智能体操作系统',
       product: '产品',
       resources: '资源',
       community: '社区',
@@ -600,7 +600,7 @@ export const translations: Record<Lang, TranslationShape> = {
     },
     hero: {
       label: 'The Harness for Physical Agents',
-      titleLine1: '自进化物理智能体',
+      titleLine1: '递归自进化物理智能体',
       titleLine2: '操作系统',
       subtitle: 'PhyAgentOS-统一、透明、可审计的的物理智能体运行底座',
       description: '任意机器人构型快速接入，实现即插即用；多种算法与工具自由组合，快速构建智能体技能，复杂任务一触即达；通过认知-物理解耦统一智能决策与物理执行，并支持长期记忆与持续进化；一套协议贯通游戏、仿真与真机，实现虚实环境无缝迁移。',

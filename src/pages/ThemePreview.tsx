@@ -34,7 +34,7 @@ function MiniHero({ theme }: { theme: typeof themes[0] }) {
           className="text-2xl font-display font-bold mb-2"
           style={{ color: theme.colors.text }}
         >
-          Self-Evolving Physical Agent Operating System
+          Recursive Self-Improving Physical Agent Operating System
         </h3>
           <p className="text-sm mb-4 max-w-md"
           style={{ color: theme.colors.textSecondary }}

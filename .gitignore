@@ -22,3 +22,6 @@ pnpm-debug.log*
 # IDE/system
 .vscode/
 .DS_Store
+
+# VitePress generated cache
+docs/.vitepress/.temp/
