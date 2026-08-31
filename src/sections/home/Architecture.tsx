@@ -14,20 +14,6 @@ interface ArchNode {
   track: 'A' | 'B';
 }
 
-const protocolContracts = [
-  'Skill Manifest v2',
-  'ToolSpec',
-  'AgentTask',
-  'PlanRevision',
-  'QueryRecord',
-  'ToolInvocation',
-  'ExecutionRecord',
-  'EvidenceBundle',
-  'VerificationVerdict',
-  'TaskEpisode',
-  'ScopedLesson',
-];
-
 export default function Architecture() {
   const t = useT();
   const nodes: ArchNode[] = [
@@ -173,36 +159,6 @@ export default function Architecture() {
                 </div>
               </div>
 
-              {/* Versioned contracts and durable records */}
-              <div className="mt-12 flex flex-wrap justify-center gap-2">
-                {protocolContracts.map((contract) => (
-                  <span
-                    key={contract}
-                    className="px-3.5 py-2 bg-brand-bg-secondary border border-brand-border rounded-xl font-mono text-xs text-brand-text-tertiary hover:border-brand-accent/30 hover:text-brand-accent hover:shadow-soft transition-all duration-300 cursor-default"
-                  >
-                    {contract}
-                  </span>
-                ))}
-              </div>
-
-              {/* Auditable task loop */}
-              <div className="mt-8 rounded-3xl border border-brand-border bg-brand-bg-secondary/70 p-5 sm:p-6 shadow-soft">
-                <p className="mb-4 text-center text-xs font-mono uppercase tracking-widest text-brand-text-tertiary">
-                  {t.architecture.flowLabel}
-                </p>
-                <div className="flex flex-col items-stretch gap-2 lg:flex-row lg:items-center lg:justify-center">
-                  {t.architecture.flow.map((step, index) => (
-                    <div key={step} className="contents">
-                      <div className="flex min-h-12 flex-1 items-center justify-center rounded-xl border border-brand-border bg-brand-bg px-3 py-2 text-center text-xs font-medium text-brand-text-secondary shadow-soft sm:text-sm">
-                        {step}
-                      </div>
-                      {index < t.architecture.flow.length - 1 && (
-                        <ArrowRight className="mx-auto h-4 w-4 shrink-0 rotate-90 text-brand-accent lg:rotate-0" />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
           </ScrollReveal>
 
