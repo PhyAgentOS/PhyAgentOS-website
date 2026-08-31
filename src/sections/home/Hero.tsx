@@ -145,7 +145,7 @@ export default function Hero() {
           {/* Stats preview */}
           <div className="hero-animate mt-16 grid w-full max-w-4xl grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6 mx-auto">
             {[
-              { value: '36', label: t.hero.statTargets, to: '/targets' },
+              { value: '43', label: t.hero.statTargets, to: '/targets' },
               { value: String(algorithmItems.length), label: t.hero.statAlgorithms, href: undefined, to: '/algorithms' },
               { value: String(skillItems.length), label: t.hero.statSkills, href: undefined, to: '/skills' },
             ].map((stat) => {
