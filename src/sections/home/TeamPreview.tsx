@@ -1,6 +1,6 @@
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Network } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import SectionHeader from '../../components/layout/SectionHeader';
+import SectionHeader, { SectionLabel } from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useT } from '../../i18n/LanguageContext';
 
@@ -18,12 +18,12 @@ const teamHighlights = [
   { label: t.teamPreview.highlights[3].label, value: t.teamPreview.highlights[3].value },
 ];
 const collaborators = [
-  { name: 'XLeRobot', logo: '/media/collaborators/xlerobot.png' },
-  { name: 'AGILEX', logo: '/media/collaborators/agile-x.png' },
-  { name: 'RealMan', logo: '/media/collaborators/realman.png' },
-  { name: 'Zerith', logo: '/media/collaborators/zerith.png' },
-  { name: 'Digua Robot', logo: '/media/collaborators/digua.png' },
-  { name: 'SigmaStar', logo: '/media/collaborators/sigmastar.png' },
+  { name: 'XLeRobot', logo: '/media/collaborators/xlerobot.png', href: 'https://xlerobot.readthedocs.io/en/latest/' },
+  { name: 'AGILEX', logo: '/media/collaborators/agile-x.png', href: 'https://www.agilex.ai/' },
+  { name: 'RealMan', logo: '/media/collaborators/realman.png', href: 'https://www.realman-robotics.cn/' },
+  { name: 'Zerith', logo: '/media/collaborators/zerith.png', href: 'https://zerith.com/' },
+  { name: 'Digua Robot', logo: '/media/collaborators/digua.png', href: 'https://developer.d-robotics.cc/' },
+  { name: 'SigmaStar', logo: '/media/collaborators/sigmastar.png', href: 'https://www.sigmastar.com.cn/' },
 ];
   return (
     <section id="team" className="relative py-24 lg:py-32 overflow-hidden">
@@ -104,9 +104,12 @@ const collaborators = [
           <ScrollReveal delay={0.45}>
             <div className="mt-16">
               <div className="text-center mb-8">
-                <p className="text-sm font-mono uppercase tracking-widest text-brand-accent mb-2">
+                <SectionLabel
+                  labelIcon={<Network className="h-3.5 w-3.5" />}
+                  className="mb-5"
+                >
                   {t.teamPreview.collaboratorsLabel}
-                </p>
+                </SectionLabel>
                 <h3 className="text-2xl font-display font-bold text-brand-text">
                   {t.teamPreview.collaboratorsTitle}
                 </h3>
@@ -115,18 +118,25 @@ const collaborators = [
                 </p>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
-                {collaborators.map((company, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-center p-6 rounded-2xl bg-white/[0.92] border border-brand-border/40 shadow-soft hover:shadow-card hover:-translate-y-0.5 transition-all duration-300"
+                {collaborators.map((company) => (
+                  <a
+                    key={company.name}
+                    href={company.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Visit ${company.name} official website`}
+                    className="group relative flex items-center justify-center rounded-2xl border border-brand-border/40 bg-white/[0.92] p-6 shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-accent/30 hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-brand-bg"
                   >
                     <img
                       src={company.logo}
                       alt={company.name}
                       loading="lazy"
-                      className="max-h-14 w-auto object-contain"
+                      className="max-h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
                     />
-                  </div>
+                    <span className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full border border-brand-border/60 bg-white/90 text-brand-text-tertiary opacity-0 shadow-soft transition-all duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
+                      <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                    </span>
+                  </a>
                 ))}
               </div>
             </div>

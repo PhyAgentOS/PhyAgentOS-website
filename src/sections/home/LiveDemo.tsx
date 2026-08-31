@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { BarChart3, Bot, FlaskConical, Gamepad2, Rocket, TerminalSquare } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { BarChart3, Bot, ChevronLeft, ChevronRight, FlaskConical, Gamepad2, Rocket, TerminalSquare } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useLang } from '../../i18n/LanguageContext';
@@ -158,6 +158,7 @@ export default function LiveDemo() {
   ].map((demo) => ({ ...demo, ...copyById[demo.id] }));
 
   const filters = Object.entries(copy.filters) as [keyof typeof copy.filters, string][];
+  const demoTrackRef = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState<keyof typeof copy.filters>('all');
   const filteredDemos = filter === 'all' ? demos : demos.filter((demo) => demo.category === filter);
   const [activeId, setActiveId] = useState(demos[0].id);
@@ -168,6 +169,17 @@ export default function LiveDemo() {
     setFilter(newFilter);
     const nextDemos = newFilter === 'all' ? demos : demos.filter((demo) => demo.category === newFilter);
     setActiveId(nextDemos[0].id);
+    requestAnimationFrame(() => demoTrackRef.current?.scrollTo({ left: 0, behavior: 'smooth' }));
+  };
+
+  const scrollDemos = (direction: -1 | 1) => {
+    const track = demoTrackRef.current;
+    if (!track) return;
+
+    track.scrollBy({
+      left: direction * Math.max(track.clientWidth * 0.78, 320),
+      behavior: 'smooth',
+    });
   };
 
   return (
@@ -224,51 +236,82 @@ export default function LiveDemo() {
                 </div>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                {filteredDemos.map((demo) => {
-                  const Icon = demo.icon;
-                  const active = demo.id === activeDemo.id;
-                  return (
-                  <button
-                    key={demo.id}
-                    onClick={() => setActiveId(demo.id)}
-                    className={`group relative flex min-h-[300px] flex-col gap-3 rounded-2xl border p-3 text-left transition-all duration-300 ${
-                      active
-                        ? 'border-brand-accent/35 bg-brand-accent/10 shadow-glow-soft'
-                        : 'border-brand-border bg-brand-bg-secondary hover:border-brand-accent/30 hover:shadow-soft'
-                    }`}
-                  >
-                    <div className="relative overflow-hidden rounded-xl bg-black">
-                      <img
-                        src={demo.poster}
-                        alt=""
-                        className="aspect-video w-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                      <div className="absolute bottom-2 left-2 rounded-full bg-black/65 px-2 py-0.5 text-[11px] font-mono text-white/85">
-                        {demo.duration}
+              <div className="relative">
+                <div className="mb-3 flex items-center justify-between gap-4">
+                  <p className="text-xs font-mono uppercase tracking-[0.16em] text-brand-text-tertiary">
+                    {lang === 'zh' ? '左右滑动浏览更多演示' : 'Swipe to explore more demos'}
+                  </p>
+                  <div className="flex shrink-0 items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => scrollDemos(-1)}
+                      aria-label={lang === 'zh' ? '向左浏览视频' : 'Browse previous demos'}
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-brand-border bg-brand-bg-secondary text-brand-text-secondary shadow-soft transition-all hover:-translate-y-0.5 hover:border-brand-accent/30 hover:text-brand-accent"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => scrollDemos(1)}
+                      aria-label={lang === 'zh' ? '向右浏览视频' : 'Browse next demos'}
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-brand-border bg-brand-bg-secondary text-brand-text-secondary shadow-soft transition-all hover:-translate-y-0.5 hover:border-brand-accent/30 hover:text-brand-accent"
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  ref={demoTrackRef}
+                  aria-label={lang === 'zh' ? '演示视频列表' : 'Demo video list'}
+                  className="demo-carousel flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-4"
+                >
+                  {filteredDemos.map((demo) => {
+                    const Icon = demo.icon;
+                    const active = demo.id === activeDemo.id;
+                    return (
+                    <button
+                      key={demo.id}
+                      type="button"
+                      onClick={() => setActiveId(demo.id)}
+                      className={`group relative flex min-h-[300px] w-[84%] flex-none snap-start flex-col gap-3 rounded-2xl border p-3 text-left transition-all duration-300 sm:w-[48%] lg:w-[32%] xl:w-[24%] ${
+                        active
+                          ? 'border-brand-accent/35 bg-brand-accent/10 shadow-glow-soft'
+                          : 'border-brand-border bg-brand-bg-secondary hover:border-brand-accent/30 hover:shadow-soft'
+                      }`}
+                    >
+                      <div className="relative overflow-hidden rounded-xl bg-black">
+                        <img
+                          src={demo.poster}
+                          alt=""
+                          className="aspect-video w-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                        <div className="absolute bottom-2 left-2 rounded-full bg-black/65 px-2 py-0.5 text-[11px] font-mono text-white/85">
+                          {demo.duration}
+                        </div>
                       </div>
-                    </div>
-                    <div className="min-w-0 py-1">
-                      <div className="flex items-center gap-2">
-                        <Icon className={`h-4 w-4 ${active ? 'text-brand-accent-light' : 'text-brand-text-tertiary'}`} />
-                        <p className="truncate text-xs font-mono uppercase tracking-[0.14em] text-brand-text-tertiary">
-                          {demo.eyebrow}
+                      <div className="min-w-0 py-1">
+                        <div className="flex items-center gap-2">
+                          <Icon className={`h-4 w-4 ${active ? 'text-brand-accent-light' : 'text-brand-text-tertiary'}`} />
+                          <p className="truncate text-xs font-mono uppercase tracking-[0.14em] text-brand-text-tertiary">
+                            {demo.eyebrow}
+                          </p>
+                        </div>
+                        <h3 className={`mt-2 font-display text-lg font-bold leading-tight ${active ? 'text-brand-text' : 'text-brand-text-secondary'}`}>
+                          {demo.title}
+                        </h3>
+                        <p className="mt-1 text-sm leading-6 text-brand-text-tertiary">
+                          {demo.description}
                         </p>
                       </div>
-                      <h3 className={`mt-2 font-display text-lg font-bold leading-tight ${active ? 'text-brand-text' : 'text-brand-text-secondary'}`}>
-                        {demo.title}
-                      </h3>
-                      <p className="mt-1 text-sm leading-6 text-brand-text-tertiary">
-                        {demo.description}
-                      </p>
-                    </div>
-                    {active && (
-                      <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-brand-accent animate-pulse" />
-                    )}
-                  </button>
-                  );
-                })}
+                      {active && (
+                        <div className="absolute right-3 top-3 h-2 w-2 animate-pulse rounded-full bg-brand-accent" />
+                      )}
+                    </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </ScrollReveal>

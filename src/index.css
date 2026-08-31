@@ -288,6 +288,26 @@
   background: #5c7385;
 }
 
+.demo-carousel {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent) var(--color-bg-tertiary);
+  overscroll-behavior-inline: contain;
+}
+
+.demo-carousel::-webkit-scrollbar {
+  height: 6px;
+}
+
+.demo-carousel::-webkit-scrollbar-track {
+  background: var(--color-bg-tertiary);
+  border-radius: 999px;
+}
+
+.demo-carousel::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 999px;
+}
+
 /* === Dark Theme Overrides === */
 .theme-dark ::-webkit-scrollbar-track {
   background: var(--color-bg-tertiary, #161616);
