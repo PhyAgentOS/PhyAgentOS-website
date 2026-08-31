@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import CapabilityCatalog, { type CapabilityItem } from '../components/layout/CapabilityCatalog';
+import CapabilityCatalog, { type CapabilityItem, type CapabilityLink } from '../components/layout/CapabilityCatalog';
 import { useLang } from '../i18n/LanguageContext';
 import type { Lang } from '../i18n/translations';
 
@@ -16,6 +16,7 @@ interface SkillEntry {
   icon: string;
   configurations: Record<Lang, string[]>;
   algorithms: Record<Lang, string[]>;
+  configurationLink?: Record<Lang, CapabilityLink>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -30,12 +31,70 @@ export const skillItems: SkillEntry[] = [
     },
     icon: '🫳',
     configurations: {
-      en: ['Unitree Go2', 'Astra Pro'],
-      zh: ['Unitree Go2', 'Astra Pro'],
+      en: ['PIPER'],
+      zh: ['PIPER'],
     },
     algorithms: {
       en: ['YOLO / SAM', 'RGB-D Localization', 'Grasp Pose Estimation', 'Motion Planning'],
       zh: ['YOLO / SAM', 'RGB-D 定位', '抓取位姿估计', '运动规划'],
+    },
+  },
+  {
+    name: { en: 'LIBERO Benchmark', zh: 'LIBERO Benchmark' },
+    category: { en: 'Benchmark', zh: '性能测评' },
+    status: 'available',
+    description: {
+      en: 'Runs reproducible LIBERO evaluations across different embodied models and records comparable benchmark results.',
+      zh: '支持不同模型的 LIBERO 测评，并记录可复现、可比较的基准结果。',
+    },
+    icon: '📊',
+    configurations: {
+      en: ['KAI-0.5', 'LingBot'],
+      zh: ['KAI-0.5', 'LingBot'],
+    },
+    algorithms: {
+      en: ['LIBERO'],
+      zh: ['LIBERO'],
+    },
+  },
+  {
+    name: { en: 'RoboDojo Benchmark', zh: 'RoboDojo Benchmark' },
+    category: { en: 'Benchmark', zh: '性能测评' },
+    status: 'integrating',
+    description: {
+      en: 'RoboDojo evaluation workflow for standardized robot-policy testing and auditable result collection.',
+      zh: '面向机器人策略标准化测试与可审计结果采集的 RoboDojo 测评流程。',
+    },
+    icon: '🥋',
+    configurations: {
+      en: [],
+      zh: [],
+    },
+    algorithms: {
+      en: ['RoboDojo'],
+      zh: ['RoboDojo'],
+    },
+  },
+  {
+    name: { en: 'Natural-Language Robot Control', zh: '自然语言控制机器人' },
+    category: { en: 'Robot Control', zh: '机器人控制' },
+    status: 'available',
+    description: {
+      en: 'Turns natural-language goals into executable robot behaviors. Compatible robots inherit the complete set of targets supported by the framework.',
+      zh: '将自然语言目标转换为可执行的机器人行为；适配范围直接继承框架支持的全部机器人构型。',
+    },
+    icon: '🤖',
+    configurations: {
+      en: [],
+      zh: [],
+    },
+    algorithms: {
+      en: ['Language Grounding', 'Task Planning', 'Target Adapter'],
+      zh: ['语言目标解析', '任务规划', 'Target Adapter'],
+    },
+    configurationLink: {
+      en: { label: 'View all supported robots', href: '/targets', internal: true },
+      zh: { label: '查看全部适配机器人', href: '/targets', internal: true },
     },
   },
 ];
@@ -52,11 +111,12 @@ export default function Skills() {
         label: '技能目录',
         title: '可复用的',
         highlight: '机器人技能',
-        description: '面向不同机器人构型复用的高层操作技能，可组合感知、抓取规划与运动控制算法完成真实任务。',
+        description: '覆盖机器人操作、自然语言控制与标准化测评的可复用技能，可组合感知、规划和运动控制能力完成真实任务。',
         countLabel: '项技能',
         categoryCountLabel: '技能类别',
-        availableCountLabel: '已可用',
-        availableLabel: '可用',
+        availableCountLabel: '已接入',
+        availableLabel: '已接入',
+        integratingLabel: '接入中',
         evaluatingLabel: '验证中',
         backLabel: '返回首页',
         searchPlaceholder: '搜索技能、构型或算法',
@@ -74,11 +134,12 @@ export default function Skills() {
         label: 'Skill Catalog',
         title: 'Reusable',
         highlight: 'robot skills',
-        description: 'High-level manipulation skills reusable across robot configurations by composing perception, grasp planning, and motion control algorithms.',
+        description: 'Reusable skills for robot manipulation, natural-language control, and standardized evaluation by composing perception, planning, and motion-control capabilities.',
         countLabel: 'skills',
         categoryCountLabel: 'skill categories',
-        availableCountLabel: 'available',
-        availableLabel: 'Available',
+        availableCountLabel: 'integrated',
+        availableLabel: 'Integrated',
+        integratingLabel: 'Integrating',
         evaluatingLabel: 'Validating',
         backLabel: 'Back to home',
         searchPlaceholder: 'Search skills, configurations, or algorithms',
@@ -101,9 +162,9 @@ export default function Skills() {
     capabilities: [],
     icon: item.icon,
     tagGroups: [
-      { label: copy.configurationsLabel, tags: item.configurations[lang] },
+      { label: copy.configurationsLabel, tags: item.configurations[lang], tagLink: item.configurationLink?.[lang] },
       { label: copy.algorithmsLabel, tags: item.algorithms[lang] },
-    ],
+    ].filter((group) => group.tags.length > 0 || group.tagLink),
   }));
 
   return <CapabilityCatalog {...copy} items={items} />;

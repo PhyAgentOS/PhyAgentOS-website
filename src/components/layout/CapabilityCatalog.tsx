@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   ExternalLink,
   FlaskConical,
+  LoaderCircle,
   Search,
   SlidersHorizontal,
 } from 'lucide-react';
@@ -15,17 +16,19 @@ import SectionHeader from './SectionHeader';
 export interface CapabilityTagGroup {
   label: string;
   tags: string[];
+  tagLink?: CapabilityLink;
 }
 
 export interface CapabilityLink {
   label: string;
   href: string;
+  internal?: boolean;
 }
 
 export interface CapabilityItem {
   name: string;
   category: string;
-  status: 'available' | 'evaluating';
+  status: 'available' | 'integrating' | 'evaluating';
   description: string;
   capabilities: string[];
   icon?: string;
@@ -43,6 +46,7 @@ interface CapabilityCatalogProps {
   categoryCountLabel: string;
   availableCountLabel: string;
   availableLabel: string;
+  integratingLabel?: string;
   evaluatingLabel: string;
   backLabel: string;
   searchPlaceholder: string;
@@ -67,6 +71,7 @@ export default function CapabilityCatalog({
   categoryCountLabel,
   availableCountLabel,
   availableLabel,
+  integratingLabel,
   evaluatingLabel,
   backLabel,
   searchPlaceholder,
@@ -92,6 +97,7 @@ export default function CapabilityCatalog({
     ];
   }, [items]);
   const availableCount = items.filter((item) => item.status === 'available').length;
+  const hasIntegratingItems = items.some((item) => item.status === 'integrating');
   const filteredItems = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
 
@@ -180,6 +186,9 @@ export default function CapabilityCatalog({
                     {([
                       { value: 'all', label: allLabel },
                       { value: 'available', label: availableLabel },
+                      ...(hasIntegratingItems && integratingLabel
+                        ? [{ value: 'integrating' as const, label: integratingLabel }]
+                        : []),
                       { value: 'evaluating', label: evaluatingLabel },
                     ] as const).map((status) => (
                       <button
@@ -217,7 +226,13 @@ export default function CapabilityCatalog({
             <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {filteredItems.map((item, index) => {
                 const isAvailable = item.status === 'available';
-                const StatusIcon = isAvailable ? CheckCircle2 : FlaskConical;
+                const isIntegrating = item.status === 'integrating';
+                const StatusIcon = isAvailable ? CheckCircle2 : isIntegrating ? LoaderCircle : FlaskConical;
+                const statusLabel = isAvailable
+                  ? availableLabel
+                  : isIntegrating
+                    ? (integratingLabel ?? evaluatingLabel)
+                    : evaluatingLabel;
 
                 return (
                   <ScrollReveal key={item.name} delay={Math.min(index * 0.06, 0.3)}>
@@ -238,16 +253,16 @@ export default function CapabilityCatalog({
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-xs font-medium text-emerald-600 transition-colors hover:bg-emerald-500/10 hover:text-emerald-700"
-                              aria-label={`${availableLabel}: ${item.name}`}
+                              aria-label={`${statusLabel}: ${item.name}`}
                             >
                               <StatusIcon className="h-3.5 w-3.5" />
                               {availableLabel}
                               <ExternalLink className="h-3 w-3" />
                             </a>
                           ) : (
-                            <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${isAvailable ? 'text-emerald-600' : 'text-amber-600'}`}>
-                              <StatusIcon className="h-3.5 w-3.5" />
-                              {isAvailable ? availableLabel : evaluatingLabel}
+                            <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${isAvailable ? 'text-emerald-600' : isIntegrating ? 'text-sky-600' : 'text-amber-600'}`}>
+                              <StatusIcon className={`h-3.5 w-3.5 ${isIntegrating ? 'animate-spin' : ''}`} />
+                              {statusLabel}
                             </span>
                           )}
                         </div>
@@ -267,6 +282,15 @@ export default function CapabilityCatalog({
                                   {group.tags.map((tag) => (
                                     <span key={tag} className="rounded-lg border border-brand-accent/15 bg-brand-accent/[0.07] px-2.5 py-1 text-xs font-medium text-brand-text-secondary">{tag}</span>
                                   ))}
+                                  {group.tagLink?.internal && (
+                                    <Link
+                                      to={group.tagLink.href}
+                                      className="inline-flex items-center gap-1.5 rounded-lg border border-brand-accent/20 bg-brand-accent/[0.08] px-2.5 py-1 text-xs font-medium text-brand-text-secondary transition-all hover:border-brand-accent/40 hover:text-brand-accent"
+                                    >
+                                      {group.tagLink.label}
+                                      <ArrowRight className="h-3.5 w-3.5" />
+                                    </Link>
+                                  )}
                                 </div>
                               </div>
                             ))}
@@ -285,16 +309,27 @@ export default function CapabilityCatalog({
                         {item.upstreamLinks && item.upstreamLinks.length > 0 && (
                           <div className="mt-5 flex flex-wrap gap-2 border-t border-brand-border pt-5">
                             {item.upstreamLinks.map((link) => (
-                              <a
-                                key={`${link.label}-${link.href}`}
-                                href={link.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 rounded-full border border-brand-border bg-brand-bg px-3 py-1.5 text-xs font-medium text-brand-text-secondary transition-all hover:border-brand-accent/30 hover:text-brand-accent"
-                              >
-                                {link.label}
-                                <ExternalLink className="h-3.5 w-3.5" />
-                              </a>
+                              link.internal ? (
+                                <Link
+                                  key={`${link.label}-${link.href}`}
+                                  to={link.href}
+                                  className="inline-flex items-center gap-1.5 rounded-full border border-brand-border bg-brand-bg px-3 py-1.5 text-xs font-medium text-brand-text-secondary transition-all hover:border-brand-accent/30 hover:text-brand-accent"
+                                >
+                                  {link.label}
+                                  <ArrowRight className="h-3.5 w-3.5" />
+                                </Link>
+                              ) : (
+                                <a
+                                  key={`${link.label}-${link.href}`}
+                                  href={link.href}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1.5 rounded-full border border-brand-border bg-brand-bg px-3 py-1.5 text-xs font-medium text-brand-text-secondary transition-all hover:border-brand-accent/30 hover:text-brand-accent"
+                                >
+                                  {link.label}
+                                  <ExternalLink className="h-3.5 w-3.5" />
+                                </a>
+                              )
                             ))}
                           </div>
                         )}
