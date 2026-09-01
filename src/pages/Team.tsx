@@ -18,7 +18,7 @@ const coreTeam = [
 
 export default function Team() {
   const { lang, t } = useLang();
-  const docsBase = lang === 'zh' ? '/docs' : '/docs/en';
+  const docsBase = lang === 'zh' ? '/docs/zh' : '/docs/en';
   return (
     <div className="min-h-screen pt-24 lg:pt-32">
       <div className="px-6 sm:px-8 lg:px-16 xl:px-24">
@@ -102,7 +102,7 @@ export default function Team() {
                     {t.teamPage.viewContributors}
                   </a>
                   <a
-                    href={`${docsBase}/developer-guide/index.html`}
+                    href={`${docsBase}/03-developer-manual/`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-brand-text/[0.03] border border-brand-border text-brand-text text-sm hover:border-brand-accent/30 hover:shadow-soft transition-all"

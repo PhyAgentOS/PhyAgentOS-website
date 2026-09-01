@@ -31,150 +31,131 @@ function buildToDirectories(root: string) {
 }
 
 export default defineConfig({
-  title: 'PhyAgentOS 文档',
-  description: '统一、透明、可审计的物理智能体运行底座',
+  title: 'PhyAgentOS Docs 1.0.0',
+  description: 'PhyAgentOS 1.0.0 documentation for Forge Skills, Tool APIs, recovery, and evolution',
   base: '/docs/',
   cleanUrls: true,
   outDir: '../public/docs',
-  ignoreDeadLinks: true,
   lastUpdated: false,
   buildEnd() {
     buildToDirectories(outDir)
   },
   head: [
-    ['link', { rel: 'icon', href: '/imgs/logo.png' }],
+    ['link', { rel: 'icon', href: '/docs/imgs/logo.png' }],
   ],
-  locales: {
-    root: {
-      label: '中文',
-      lang: 'zh-CN',
-      title: 'PhyAgentOS 文档',
-      description: '统一、透明、可审计的物理智能体运行底座',
-      themeConfig: {
-        nav: [
-          { text: '系统架构', link: '/architecture/' },
-          { text: '用户手册', link: '/api-reference/' },
-          { text: '开发者指南', link: '/developer-guide/' },
-          { text: '技术报告', link: '/tech-report.pdf' },
-          { text: 'GitHub', link: 'https://github.com/PhyAgentOS/PhyAgentOS-core' },
-          { text: '官网首页', link: 'https://phy-agent-os.net/' },
-        ],
-        sidebar: {
-          '/architecture/': [
-            {
-              text: '系统架构',
-              link: '/architecture/',
-              items: [
-                { text: '项目定位', link: '/architecture/#_1-项目定位' },
-                { text: '当前架构', link: '/architecture/#_2-当前架构' },
-                { text: '文件协议', link: '/architecture/#_3-文件协议' },
-                { text: '已实现能力', link: '/architecture/#_4-当前已实现能力' },
-                { text: 'v0.1.6 范围', link: '/architecture/#_5-v0-1-6-版本范围' },
-                { text: '后续设计方向', link: '/architecture/#_6-后续设计方向' },
-                { text: '代码结构', link: '/architecture/#_7-代码结构' },
-                { text: '架构图', link: '/architecture/#_8-架构图' },
-              ],
-            },
-          ],
-          '/api-reference/': [
-            {
-              text: '用户手册',
-              link: '/api-reference/',
-              items: [
-                { text: '快速开始', link: '/api-reference/quick-start/' },
-                { text: '安装配置', link: '/api-reference/configuration/' },
-                { text: 'CLI 参考', link: '/api-reference/cli-reference/' },
-                { text: 'Runtime Session', link: '/api-reference/runtime-session/' },
-                { text: '运维与排障', link: '/api-reference/operations/' },
-              ],
-            },
-          ],
-          '/developer-guide/': [
-            {
-              text: '开发者指南',
-              link: '/developer-guide/',
-              items: [
-                { text: '核心接口与 Schema', link: '/developer-guide/core-interfaces/' },
-                { text: '扩展流程', link: '/developer-guide/extension/' },
-                { text: 'Target / Skill / Policy / Perception 集成', link: '/developer-guide/integration/' },
-                { text: '通信协议与 RPC 边界', link: '/developer-guide/communication/' },
-              ],
-            },
-          ],
-        },
-        footer: {
-          message: 'PhyAgentOS — 递归自进化物理智能体操作系统',
-          copyright: 'MIT Licensed',
-        },
-      },
-    },
-    en: {
-      label: 'English',
-      lang: 'en-US',
-      link: '/en/',
-      title: 'PhyAgentOS Docs',
-      description: 'A unified, transparent, and auditable runtime foundation for physical agents',
-      themeConfig: {
-        nav: [
-          { text: 'Architecture', link: '/en/architecture/' },
-          { text: 'User Manual', link: '/en/api-reference/' },
-          { text: 'Developer Guide', link: '/en/developer-guide/' },
-          { text: 'Technical Report', link: '/tech-report.pdf' },
-          { text: 'GitHub', link: 'https://github.com/PhyAgentOS/PhyAgentOS-core' },
-          { text: 'Home', link: 'https://phy-agent-os.net/' },
-        ],
-        sidebar: {
-          '/en/architecture/': [
-            {
-              text: 'Architecture',
-              link: '/en/architecture/',
-              items: [
-                { text: 'Project Positioning', link: '/en/architecture/#_1-project-positioning' },
-                { text: 'Current Architecture', link: '/en/architecture/#_2-current-architecture' },
-                { text: 'File Protocol', link: '/en/architecture/#_3-file-protocol' },
-                { text: 'Implemented Capabilities', link: '/en/architecture/#_4-implemented-capabilities' },
-                { text: 'v0.1.6 Scope', link: '/en/architecture/#_5-v0-1-6-scope' },
-                { text: 'Future Design Direction', link: '/en/architecture/#_6-future-design-direction' },
-                { text: 'Repository Structure', link: '/en/architecture/#_7-repository-structure' },
-                { text: 'Architecture Diagrams', link: '/en/architecture/#_8-architecture-diagrams' },
-              ],
-            },
-          ],
-          '/en/api-reference/': [
-            {
-              text: 'User Manual',
-              link: '/en/api-reference/',
-              items: [
-                { text: 'Quick Start', link: '/en/api-reference/quick-start/' },
-                { text: 'Configuration', link: '/en/api-reference/configuration/' },
-                { text: 'CLI Reference', link: '/en/api-reference/cli-reference/' },
-                { text: 'Runtime Session', link: '/en/api-reference/runtime-session/' },
-                { text: 'Operations & Troubleshooting', link: '/en/api-reference/operations/' },
-              ],
-            },
-          ],
-          '/en/developer-guide/': [
-            {
-              text: 'Developer Guide',
-              link: '/en/developer-guide/',
-              items: [
-                { text: 'Core Interfaces & Schemas', link: '/en/developer-guide/core-interfaces/' },
-                { text: 'Extension Workflow', link: '/en/developer-guide/extension/' },
-                { text: 'Target / Skill / Policy / Perception Integration', link: '/en/developer-guide/integration/' },
-                { text: 'Communication Protocol & RPC Boundaries', link: '/en/developer-guide/communication/' },
-              ],
-            },
-          ],
-        },
-        footer: {
-          message: 'PhyAgentOS — Recursive Self-Improving Physical Agent Operating System',
-          copyright: 'MIT Licensed',
-        },
-      },
-    },
-  },
   themeConfig: {
     logo: '/imgs/logo.png',
+    nav: [
+      { text: '文档首页', link: '/' },
+      {
+        text: '中文',
+        items: [
+          { text: '框架介绍', link: '/zh/01-framework-introduction/' },
+          { text: '用户手册', link: '/zh/02-user-manual/' },
+          { text: '开发者手册', link: '/zh/03-developer-manual/' },
+          { text: 'Forge 配置参考', link: '/zh/04-forge-configuration-reference/' },
+          { text: 'Agent 经验与 Skill 自进化', link: '/zh/05-agent-experience-and-skill-evolution/' },
+        ],
+      },
+      {
+        text: 'English',
+        items: [
+          { text: 'Documentation Home', link: '/en/' },
+          { text: 'Framework Introduction', link: '/en/01-framework-introduction/' },
+          { text: 'User Manual', link: '/en/02-user-manual/' },
+          { text: 'Developer Manual', link: '/en/03-developer-manual/' },
+          { text: 'Forge Configuration Reference', link: '/en/04-forge-configuration-reference/' },
+          { text: 'Agent Experience and Skill Evolution', link: '/en/05-agent-experience-and-skill-evolution/' },
+        ],
+      },
+      {
+        text: '专题 / Focused',
+        items: [
+          { text: '运行手册', link: '/user_manual/README/' },
+          { text: 'Docker 部署指南', link: '/user_manual/DOCKER/' },
+          { text: '集成开发指南', link: '/user_development_guide/README/' },
+          { text: '通信架构', link: '/user_development_guide/COMMUNICATION/' },
+          { text: 'Operations Manual', link: '/user_manual/README_en/' },
+          { text: 'Docker Deployment Guide', link: '/user_manual/DOCKER_en/' },
+          { text: 'Integration Development Guide', link: '/user_development_guide/README_en/' },
+          { text: 'Communication Architecture', link: '/user_development_guide/COMMUNICATION_en/' },
+        ],
+      },
+      {
+        text: 'Forge',
+        items: [
+          { text: 'Tool API 接入契约', link: '/forge/README_zh/' },
+          { text: 'Tool API Integration Contract', link: '/forge/README/' },
+          { text: '统一 Tool API / Unified Tool API', link: '/forge/UNIFIED_TOOL_API/' },
+        ],
+      },
+      { text: 'v1.0.0', link: '/' },
+      { text: '技术报告', link: '/docs/tech-report.pdf' },
+      { text: 'GitHub', link: 'https://github.com/PhyAgentOS/PhyAgentOS-core' },
+      { text: '官网首页', link: 'https://phy-agent-os.net/' },
+    ],
+    sidebar: {
+      '/zh/': [
+        {
+          text: 'PhyAgentOS 1.0.0 核心手册',
+          items: [
+            { text: '框架介绍', link: '/zh/01-framework-introduction/' },
+            { text: '用户手册', link: '/zh/02-user-manual/' },
+            { text: '开发者手册', link: '/zh/03-developer-manual/' },
+            { text: 'Forge 配置参考', link: '/zh/04-forge-configuration-reference/' },
+            { text: 'Agent 经验与 Skill 自进化', link: '/zh/05-agent-experience-and-skill-evolution/' },
+          ],
+        },
+      ],
+      '/en/': [
+        {
+          text: 'PhyAgentOS 1.0.0 Core Manuals',
+          items: [
+            { text: 'Documentation Home', link: '/en/' },
+            { text: 'Framework Introduction', link: '/en/01-framework-introduction/' },
+            { text: 'User Manual', link: '/en/02-user-manual/' },
+            { text: 'Developer Manual', link: '/en/03-developer-manual/' },
+            { text: 'Forge Configuration Reference', link: '/en/04-forge-configuration-reference/' },
+            { text: 'Agent Experience and Skill Evolution', link: '/en/05-agent-experience-and-skill-evolution/' },
+            { text: 'Operations Manual', link: '/user_manual/README_en/' },
+            { text: 'Integration Development Guide', link: '/user_development_guide/README_en/' },
+            { text: 'Forge Tool API Contract', link: '/forge/README/' },
+          ],
+        },
+      ],
+      '/user_manual/': [
+        {
+          text: '运行与部署 / Operations',
+          items: [
+            { text: '运行手册（中文）', link: '/user_manual/README/' },
+            { text: 'Docker 部署（中文）', link: '/user_manual/DOCKER/' },
+            { text: 'Operations Manual (English)', link: '/user_manual/README_en/' },
+            { text: 'Docker Deployment (English)', link: '/user_manual/DOCKER_en/' },
+          ],
+        },
+      ],
+      '/user_development_guide/': [
+        {
+          text: '集成开发 / Integration',
+          items: [
+            { text: '集成开发指南（中文）', link: '/user_development_guide/README/' },
+            { text: '通信架构（中文）', link: '/user_development_guide/COMMUNICATION/' },
+            { text: 'Integration Guide (English)', link: '/user_development_guide/README_en/' },
+            { text: 'Communication (English)', link: '/user_development_guide/COMMUNICATION_en/' },
+          ],
+        },
+      ],
+      '/forge/': [
+        {
+          text: 'Forge Tool API',
+          items: [
+            { text: '接入契约（中文）', link: '/forge/README_zh/' },
+            { text: 'Integration Contract (English)', link: '/forge/README/' },
+            { text: '统一 Tool API（双语）', link: '/forge/UNIFIED_TOOL_API/' },
+          ],
+        },
+      ],
+    },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/PhyAgentOS/PhyAgentOS-core' },
     ],
@@ -183,6 +164,10 @@ export default defineConfig({
     },
     outline: {
       level: 'deep',
+    },
+    footer: {
+      message: 'PhyAgentOS — 递归自进化物理智能体操作系统',
+      copyright: 'MIT Licensed',
     },
   },
 })
