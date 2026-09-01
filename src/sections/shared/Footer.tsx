@@ -8,7 +8,7 @@ export default function Footer() {
   const { lang } = useLang();
   const location = useLocation();
   const navigate = useNavigate();
-  const docsBase = lang === 'zh' ? '/docs' : '/docs/en';
+  const docsBase = lang === 'zh' ? '/docs/zh' : '/docs/en';
   const footerLinks = {
     product: [
       { label: t.nav.features, href: '/#features' },
@@ -16,8 +16,8 @@ export default function Footer() {
       { label: t.nav.hardware, href: '/targets' },
     ],
     resources: [
-      { label: t.footer.documentation, href: `${docsBase}/architecture/index.html`, external: true },
-      { label: t.footer.apiReference, href: `${docsBase}/api-reference/index.html`, external: true },
+      { label: t.footer.documentation, href: `${docsBase}/01-framework-introduction/`, external: true },
+      { label: t.footer.apiReference, href: `${docsBase}/02-user-manual/`, external: true },
       { label: t.footer.techReport, href: '/tech-report', external: false },
       { label: t.nav.github, href: 'https://github.com/PhyAgentOS/PhyAgentOS-core', external: true },
       { label: t.footer.issues, href: 'https://github.com/PhyAgentOS/PhyAgentOS-core/issues', external: true },
@@ -25,7 +25,7 @@ export default function Footer() {
     community: [
       { label: t.footer.team, href: '/team' },
       { label: t.footer.hackathon, href: '/hackathon' },
-      { label: t.footer.contribute, href: `${docsBase}/developer-guide/index.html`, external: true },
+      { label: t.footer.contribute, href: `${docsBase}/03-developer-manual/`, external: true },
     ],
   };
   const socialLinks = [

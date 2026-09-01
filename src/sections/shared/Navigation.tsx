@@ -8,7 +8,7 @@ import { useTheme } from '../../themes/ThemeContext';
 export default function Navigation() {
   const t = useT();
   const { lang } = useLang();
-  const docsBase = lang === 'zh' ? '/docs' : '/docs/en';
+  const docsBase = lang === 'zh' ? '/docs/zh' : '/docs/en';
   const { currentTheme, setTheme } = useTheme();
   const isLight = currentTheme.category === 'light';
 
@@ -168,7 +168,7 @@ export default function Navigation() {
                 )}
               </a>
               <a
-                href={`${docsBase}/api-reference/index.html`}
+                href={`${docsBase}/02-user-manual/`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="shrink-0 whitespace-nowrap rounded-xl bg-brand-accent px-4 py-2.5 text-sm font-medium text-brand-text-on-accent shadow-glow-soft transition-all duration-300 hover:bg-brand-accent-light hover:shadow-glow"
@@ -245,7 +245,7 @@ export default function Navigation() {
               )}
             </a>
             <a
-              href={`${docsBase}/api-reference/index.html`}
+              href={`${docsBase}/02-user-manual/`}
               target="_blank"
               rel="noopener noreferrer"
               className="block w-full px-4 py-3 bg-brand-accent hover:bg-brand-accent-light text-brand-text-on-accent font-medium rounded-xl transition-all text-center shadow-glow-soft"
