@@ -622,7 +622,7 @@ export const translations: Record<Lang, TranslationShape> = {
       activeEvent: '正在进行的活动',
       statTargets: '支持的构型',
       statAlgorithms: '支持的算法',
-      statSkills: '系统技能',
+      statSkills: '支持的技能',
     },
     communityPage: {
       description: '与 PhyAgentOS 开发者交流，获取项目最新动态。',
