@@ -88,7 +88,7 @@ export default function CapabilityCatalog({
 
   const categories = useMemo(() => {
     const unique = Array.from(new Set(items.map((item) => item.category)));
-    const preferred = ['Perception', 'Manipulation', 'Locomotion', 'Motion Control'];
+    const preferred = ['Perception', 'Manipulation', 'Planning'];
     return [
       ...preferred.filter((category) => unique.includes(category)),
       ...unique.filter((category) => !preferred.includes(category)),

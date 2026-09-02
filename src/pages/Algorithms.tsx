@@ -90,7 +90,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'GR00T N1.7', zh: 'GR00T N1.7' },
-    category: { en: 'Locomotion', zh: 'Locomotion' },
+    category: { en: 'Manipulation', zh: 'Manipulation' },
     status: 'evaluating',
     description: {
       en: 'NVIDIA Isaac GR00T N1.7 foundation model for humanoid robots, spanning whole-body locomotion and embodied control.',
@@ -296,7 +296,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'VQ-BeT', zh: 'VQ-BeT' },
-    category: { en: 'Motion Control', zh: 'Motion Control' },
+    category: { en: 'Manipulation', zh: 'Manipulation' },
     status: 'evaluating',
     description: {
       en: 'Vector-quantized Behavior Transformer for multimodal action distributions in robot motion and skill execution.',
@@ -320,6 +320,45 @@ export const algorithmItems: AlgorithmEntry[] = [
       zh: ['Diffusion Transformer', '多任务学习', '共享视觉运动特征'],
     },
   },
+  {
+    name: { en: 'Inverse Kinematics (IK)', zh: '逆运动学（IK）' },
+    category: { en: 'Planning', zh: 'Planning' },
+    status: 'evaluating',
+    description: {
+      en: 'Computes joint configurations from target end-effector poses to support robot motion planning and execution.',
+      zh: '根据末端执行器的目标位姿求解关节构型，为机器人运动规划与执行提供基础能力。',
+    },
+    capabilities: {
+      en: ['Pose-to-joint solving', 'Constraint handling', 'Motion planning primitive'],
+      zh: ['位姿到关节求解', '约束处理', '运动规划基础工具'],
+    },
+  },
+  {
+    name: { en: 'Forward Kinematics (FK)', zh: '正运动学（FK）' },
+    category: { en: 'Planning', zh: 'Planning' },
+    status: 'evaluating',
+    description: {
+      en: 'Computes link and end-effector poses from robot joint states for planning, prediction, and validation.',
+      zh: '根据机器人关节状态计算连杆与末端位姿，用于轨迹规划、状态预测与动作校验。',
+    },
+    capabilities: {
+      en: ['Joint-to-pose calculation', 'State prediction', 'Trajectory validation'],
+      zh: ['关节到位姿计算', '状态预测', '轨迹校验'],
+    },
+  },
+  {
+    name: { en: 'Model Context Protocol (MCP)', zh: '模型上下文协议（MCP）' },
+    category: { en: 'Planning', zh: 'Planning' },
+    status: 'evaluating',
+    description: {
+      en: 'Connects planning agents with robot tools and runtimes through a standardized context and tool-calling interface.',
+      zh: '通过标准化的上下文与工具调用接口，将规划智能体连接到机器人算法工具和运行时。',
+    },
+    capabilities: {
+      en: ['Standardized tool interface', 'Context bridging', 'Planner-runtime orchestration'],
+      zh: ['标准化工具接口', '上下文桥接', '规划器与运行时编排'],
+    },
+  },
 ];
 
 export default function Algorithms() {
@@ -334,7 +373,7 @@ export default function Algorithms() {
         label: '算法目录',
         title: '持续扩展的',
         highlight: '算法与工具',
-        description: '当前正在接入、评估或已经可用的 Perception、Manipulation、Locomotion 与 Motion Control 算法。框架仍在演进，新算法可直接在本页面的数据列表中维护。',
+        description: '按照 Perception、Manipulation 与 Planning 三类组织当前正在接入、评估或已经可用的算法与工具，覆盖感知模型、VLA / IL / WAM 操作策略以及运动学和工具调用能力。',
         countLabel: '项算法与工具',
         categoryCountLabel: '算法类别',
         availableCountLabel: '已接入',
@@ -354,7 +393,7 @@ export default function Algorithms() {
         label: 'Algorithm Catalog',
         title: 'An evolving collection of',
         highlight: 'algorithms and tools',
-        description: 'Perception, Manipulation, Locomotion, and Motion Control algorithms that are integrated or under active evaluation. Add future entries directly to this page catalog.',
+        description: 'Algorithms and tools organized into Perception, Manipulation, and Planning, spanning perception models, VLA / IL / WAM policies, kinematics, and tool-calling capabilities.',
         countLabel: 'algorithms and tools',
         categoryCountLabel: 'algorithm categories',
         availableCountLabel: 'available',
