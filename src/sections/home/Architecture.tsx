@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
-import { Brain, ShieldCheck, Cpu, Boxes, Activity, Network, ArrowRight, X, Puzzle, Database } from 'lucide-react';
+import { Brain, ShieldCheck, Cpu, Boxes, Activity, Bot, Network, ArrowRight, X, Puzzle, Database } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useT } from '../../i18n/LanguageContext';
@@ -22,7 +22,7 @@ export default function Architecture() {
     { id: 'agent-task', icon: Database, label: t.architecture.nodes[2].label, sublabel: t.architecture.nodes[2].sublabel, description: t.architecture.nodes[2].description, track: 'A' },
     { id: 'verification-experience', icon: ShieldCheck, label: t.architecture.nodes[3].label, sublabel: t.architecture.nodes[3].sublabel, description: t.architecture.nodes[3].description, track: 'A' },
     { id: 'skill-runtime', icon: Boxes, label: t.architecture.nodes[4].label, sublabel: t.architecture.nodes[4].sublabel, description: t.architecture.nodes[4].description, track: 'B' },
-    { id: 'forge-tool-client', icon: Network, label: t.architecture.nodes[5].label, sublabel: t.architecture.nodes[5].sublabel, description: t.architecture.nodes[5].description, track: 'B' },
+    { id: 'forge-resources', icon: Bot, label: t.architecture.nodes[5].label, sublabel: t.architecture.nodes[5].sublabel, description: t.architecture.nodes[5].description, track: 'B' },
     { id: 'forge-gateway', icon: Cpu, label: t.architecture.nodes[6].label, sublabel: t.architecture.nodes[6].sublabel, description: t.architecture.nodes[6].description, track: 'B' },
     { id: 'tool-endpoint', icon: Activity, label: t.architecture.nodes[7].label, sublabel: t.architecture.nodes[7].sublabel, description: t.architecture.nodes[7].description, track: 'B' },
   ];
@@ -93,10 +93,10 @@ export default function Architecture() {
 
                 {/* Center: Protocol Surface */}
                 <div className="flex flex-col items-center justify-center gap-5 lg:w-56">
-                  {/* Request flows from Track A to Track B */}
+                  {/* Agent discovers capabilities and invokes Forge Tools */}
                   <div className="hidden lg:flex items-center gap-2">
                     <ArrowRight className="w-4 h-4 text-brand-accent" />
-                    <span className="text-sm font-mono font-medium tracking-wide text-brand-text-secondary">{t.architecture.read}</span>
+                    <span className="text-sm font-mono font-medium tracking-wide text-brand-text-secondary">{t.architecture.outboundFlow}</span>
                   </div>
 
                   {/* Protocol hub */}
@@ -112,9 +112,9 @@ export default function Architecture() {
                     </div>
                   </div>
 
-                  {/* Execution state and results flow back to Track A */}
+                  {/* Forge returns invocation state, results, and observations */}
                   <div className="hidden lg:flex items-center gap-2">
-                    <span className="text-sm font-mono font-medium tracking-wide text-brand-text-secondary">{t.architecture.write}</span>
+                    <span className="whitespace-nowrap text-sm font-mono font-medium tracking-wide text-brand-text-secondary">{t.architecture.inboundFlow}</span>
                     <ArrowRight className="w-4 h-4 text-brand-accent rotate-180" />
                   </div>
                 </div>

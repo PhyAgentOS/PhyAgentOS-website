@@ -54,7 +54,7 @@ export default function LiveDemo() {
           {
             title: 'Minecraft 游戏智能体',
             eyebrow: 'Game Target - Minecraft',
-            description: '展示 PhyAgentOS 在 Minecraft 中通过 Session 协议完成从自然语言指令到游戏内执行的完整链路。',
+            description: '展示 PhyAgentOS 激活 Forge Skill，并通过游戏观测与动作 Tool 完成从自然语言指令到 Minecraft 执行的完整链路。',
           },
           {
             title: 'CALVIN 评测',

@@ -16,13 +16,11 @@ import SectionHeader from './SectionHeader';
 export interface CapabilityTagGroup {
   label: string;
   tags: string[];
-  tagLink?: CapabilityLink;
 }
 
 export interface CapabilityLink {
   label: string;
   href: string;
-  internal?: boolean;
 }
 
 export interface CapabilityItem {
@@ -282,15 +280,6 @@ export default function CapabilityCatalog({
                                   {group.tags.map((tag) => (
                                     <span key={tag} className="rounded-lg border border-brand-accent/15 bg-brand-accent/[0.07] px-2.5 py-1 text-xs font-medium text-brand-text-secondary">{tag}</span>
                                   ))}
-                                  {group.tagLink?.internal && (
-                                    <Link
-                                      to={group.tagLink.href}
-                                      className="inline-flex items-center gap-1.5 rounded-lg border border-brand-accent/20 bg-brand-accent/[0.08] px-2.5 py-1 text-xs font-medium text-brand-text-secondary transition-all hover:border-brand-accent/40 hover:text-brand-accent"
-                                    >
-                                      {group.tagLink.label}
-                                      <ArrowRight className="h-3.5 w-3.5" />
-                                    </Link>
-                                  )}
                                 </div>
                               </div>
                             ))}
@@ -309,27 +298,16 @@ export default function CapabilityCatalog({
                         {item.upstreamLinks && item.upstreamLinks.length > 0 && (
                           <div className="mt-5 flex flex-wrap gap-2 border-t border-brand-border pt-5">
                             {item.upstreamLinks.map((link) => (
-                              link.internal ? (
-                                <Link
-                                  key={`${link.label}-${link.href}`}
-                                  to={link.href}
-                                  className="inline-flex items-center gap-1.5 rounded-full border border-brand-border bg-brand-bg px-3 py-1.5 text-xs font-medium text-brand-text-secondary transition-all hover:border-brand-accent/30 hover:text-brand-accent"
-                                >
-                                  {link.label}
-                                  <ArrowRight className="h-3.5 w-3.5" />
-                                </Link>
-                              ) : (
-                                <a
-                                  key={`${link.label}-${link.href}`}
-                                  href={link.href}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1.5 rounded-full border border-brand-border bg-brand-bg px-3 py-1.5 text-xs font-medium text-brand-text-secondary transition-all hover:border-brand-accent/30 hover:text-brand-accent"
-                                >
-                                  {link.label}
-                                  <ExternalLink className="h-3.5 w-3.5" />
-                                </a>
-                              )
+                              <a
+                                key={`${link.label}-${link.href}`}
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 rounded-full border border-brand-border bg-brand-bg px-3 py-1.5 text-xs font-medium text-brand-text-secondary transition-all hover:border-brand-accent/30 hover:text-brand-accent"
+                              >
+                                {link.label}
+                                <ExternalLink className="h-3.5 w-3.5" />
+                              </a>
                             ))}
                           </div>
                         )}

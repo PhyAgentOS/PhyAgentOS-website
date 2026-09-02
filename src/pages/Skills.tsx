@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import CapabilityCatalog, { type CapabilityItem, type CapabilityLink } from '../components/layout/CapabilityCatalog';
+import CapabilityCatalog, { type CapabilityItem } from '../components/layout/CapabilityCatalog';
 import { useLang } from '../i18n/LanguageContext';
 import type { Lang } from '../i18n/translations';
 
@@ -16,7 +16,6 @@ interface SkillEntry {
   icon: string;
   configurations: Record<Lang, string[]>;
   algorithms: Record<Lang, string[]>;
-  configurationLink?: Record<Lang, CapabilityLink>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -24,7 +23,7 @@ export const skillItems: SkillEntry[] = [
   {
     name: { en: 'Arbitrary Object Pick and Place', zh: '任意物品抓取放置' },
     category: { en: 'Manipulation', zh: '操作技能' },
-    status: 'available',
+    status: 'integrating',
     description: {
       en: 'Understands a target object from visual input, estimates a stable grasp pose, and completes closed-loop picking, transport, and placement.',
       zh: '从视觉输入中理解目标物品，估计稳定抓取位姿，并闭环完成抓取、搬运与指定位置放置。',
@@ -80,21 +79,17 @@ export const skillItems: SkillEntry[] = [
     category: { en: 'Robot Control', zh: '机器人控制' },
     status: 'available',
     description: {
-      en: 'Turns natural-language goals into executable robot behaviors. Compatible robots inherit the complete set of targets supported by the framework.',
-      zh: '将自然语言目标转换为可执行的机器人行为；适配范围直接继承框架支持的全部机器人构型。',
+      en: 'Turns natural-language goals into executable robot behaviors through activated Forge Skills and live robot tools.',
+      zh: '通过已激活的 Forge Skill 与在线机器人工具，将自然语言目标转换为可执行的机器人行为。',
     },
     icon: '🤖',
     configurations: {
-      en: [],
-      zh: [],
+      en: ['PIPER', 'Zerith H1 PRO'],
+      zh: ['PIPER', 'Zerith H1 PRO'],
     },
     algorithms: {
-      en: ['Language Grounding', 'Task Planning', 'Target Adapter'],
-      zh: ['语言目标解析', '任务规划', 'Target Adapter'],
-    },
-    configurationLink: {
-      en: { label: 'View all supported robots', href: '/targets', internal: true },
-      zh: { label: '查看全部适配机器人', href: '/targets', internal: true },
+      en: ['Language Grounding', 'Task Planning', 'Forge Skill'],
+      zh: ['语言目标解析', '任务规划', 'Forge Skill'],
     },
   },
 ];
@@ -162,9 +157,9 @@ export default function Skills() {
     capabilities: [],
     icon: item.icon,
     tagGroups: [
-      { label: copy.configurationsLabel, tags: item.configurations[lang], tagLink: item.configurationLink?.[lang] },
+      { label: copy.configurationsLabel, tags: item.configurations[lang] },
       { label: copy.algorithmsLabel, tags: item.algorithms[lang] },
-    ].filter((group) => group.tags.length > 0 || group.tagLink),
+    ].filter((group) => group.tags.length > 0),
   }));
 
   return <CapabilityCatalog {...copy} items={items} />;
