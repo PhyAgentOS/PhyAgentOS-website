@@ -284,18 +284,31 @@ export default function Skills() {
         algorithmsLabel: 'Algorithms',
       };
 
-  const items: CapabilityItem[] = skillItems.map((item) => ({
-    name: item.name[lang],
-    category: item.category[lang],
-    status: item.status,
-    description: item.description[lang],
-    capabilities: [],
-    icon: item.icon,
-    tagGroups: [
-      { label: copy.configurationsLabel, tags: item.configurations[lang] },
-      { label: copy.algorithmsLabel, tags: item.algorithms[lang] },
-    ].filter((group) => group.tags.length > 0),
-  }));
+  const items: CapabilityItem[] = skillItems.map((item) => {
+    const isAutomatedEvaluation = item.category.en === 'Automated Evaluation';
+    const tagGroups = isAutomatedEvaluation
+      ? [
+          {
+            label: lang === 'zh' ? '适配算法' : 'Compatible Algorithms',
+            tags: item.configurations[lang],
+          },
+        ]
+      : [
+          { label: copy.configurationsLabel, tags: item.configurations[lang] },
+          { label: copy.algorithmsLabel, tags: item.algorithms[lang] },
+        ];
+    const visibleTagGroups = tagGroups.filter((group) => group.tags.length > 0);
+
+    return {
+      name: item.name[lang],
+      category: item.category[lang],
+      status: item.status,
+      description: item.description[lang],
+      capabilities: [],
+      icon: item.icon,
+      tagGroups: visibleTagGroups.length > 0 ? visibleTagGroups : undefined,
+    };
+  });
 
   return <CapabilityCatalog {...copy} items={items} />;
 }
