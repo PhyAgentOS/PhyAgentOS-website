@@ -357,7 +357,7 @@ export const translations: Record<Lang, TranslationShape> = {
       sharedSurface: 'Versioned Contract',
       stateIsFile: 'Query · Action · Session',
       outboundFlow: 'Orchestration',
-      inboundFlow: 'Telemetry',
+      inboundFlow: 'Observation',
       nodes: [
         { label: 'AgentLoop + Planner', sublabel: 'Reasoning', description: 'Understands the user goal, selects an activated Skill and live Forge Tool, defines task-level criteria, and decides whether to continue or recover.' },
         { label: 'Skill Activation', sublabel: 'Immutable Binding', description: 'Loads the matching workflow and scoped Lessons, then freezes the exact Skill version, Runtime, manifest/workflow hashes, and required ToolSpecs into the AgentTask.' },
@@ -723,7 +723,7 @@ export const translations: Record<Lang, TranslationShape> = {
       sharedSurface: '版本化契约',
       stateIsFile: 'Query · Action · Session',
       outboundFlow: '编排',
-      inboundFlow: '遥测',
+      inboundFlow: '观测',
       nodes: [
         { label: 'AgentLoop + Planner', sublabel: '推理', description: '理解用户目标，选择已激活 Skill 与在线 Forge Tool，定义任务级 criteria，并决定继续执行或进入恢复。' },
         { label: 'Skill Activation', sublabel: '不可变绑定', description: '加载匹配工作流与 scoped Lesson，并将精确 Skill 版本、Runtime、manifest/workflow hash 及所需 ToolSpec 冻结到 AgentTask。' },
