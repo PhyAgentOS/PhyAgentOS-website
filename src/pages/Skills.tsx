@@ -181,8 +181,8 @@ export const skillItems: SkillEntry[] = [
     category: { en: 'Automated Evaluation', zh: '性能评测' },
     status: 'integrating',
     description: {
-      en: 'Automatically evaluates exploration, resource collection, and long-horizon task execution in Minecraft.',
-      zh: '自动评测智能体在 Minecraft 中的探索、资源收集与长程任务执行能力。',
+      en: 'Supports different models in mastering atomic skills in game environments, transferring across environments, generalizing compositionally, and planning and executing long-horizon tasks along resource dependency chains.',
+      zh: '支持不同模型在游戏场景中的原子技能掌握、跨环境迁移、组合泛化，以及沿资源依赖链完成长程任务的规划与执行能力。',
     },
     icon: '⛏️',
     configurations: { en: ['Minecraft'], zh: ['Minecraft'] },
@@ -205,8 +205,8 @@ export const skillItems: SkillEntry[] = [
     category: { en: 'Automated Evaluation', zh: '性能评测' },
     status: 'integrating',
     description: {
-      en: 'Evaluates scheduling, tool use, and persistent long-horizon decision-making in Stardew Valley.',
-      zh: '评测智能体在 Stardew Valley 中的日程规划、工具使用与持续长程决策能力。',
+      en: 'Supports automated evaluation of different models on long-horizon temporal tasks, assessing embodied agents’ phase planning, resource scheduling, state transitions, and dynamic replanning under waiting, deadline, and cross-day constraints.',
+      zh: '支持不同模型在长程时序任务上进行自动评测，考察具身 Agent 在等待、截止时间和跨日约束下的阶段规划、资源调度、状态切换与动态重规划能力。',
     },
     icon: '🌾',
     configurations: { en: ['Stardew Valley'], zh: ['Stardew Valley'] },
