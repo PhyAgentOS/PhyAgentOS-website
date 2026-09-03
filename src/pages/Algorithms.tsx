@@ -34,7 +34,7 @@ const LEROBOT_UPSTREAM_LINK: LocalizedLink = {
 export const algorithmItems: AlgorithmEntry[] = [
   {
     name: { en: 'Pi05', zh: 'Pi05' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'VLA', zh: 'VLA' },
     status: 'available',
     description: {
       en: 'Physical Intelligence π0.5 vision-language-action model for generalist robot manipulation across diverse embodiments.',
@@ -49,7 +49,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'MolmoAct2', zh: 'MolmoAct2' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'VLA', zh: 'VLA' },
     status: 'evaluating',
     description: {
       en: 'Open multimodal action model that grounds language and vision into executable robot actions for manipulation tasks.',
@@ -62,7 +62,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'SmolVLA', zh: 'SmolVLA' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'VLA', zh: 'VLA' },
     status: 'available',
     description: {
       en: 'Compact vision-language-action policy that combines multimodal scene understanding with efficient continuous robot control.',
@@ -77,7 +77,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'XVLA', zh: 'XVLA' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'VLA', zh: 'VLA' },
     status: 'evaluating',
     description: {
       en: 'Cross-embodiment vision-language-action model for transferring manipulation skills across robot platforms.',
@@ -90,7 +90,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'GR00T N1.7', zh: 'GR00T N1.7' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'VLA', zh: 'VLA' },
     status: 'evaluating',
     description: {
       en: 'NVIDIA Isaac GR00T N1.7 foundation model for humanoid robots, spanning whole-body locomotion and embodied control.',
@@ -103,7 +103,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'WALL-OSS', zh: 'WALL-OSS' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'VLA', zh: 'VLA' },
     status: 'evaluating',
     description: {
       en: 'Open-source WALL-series vision-language-action stack for building and evaluating robot manipulation agents.',
@@ -116,7 +116,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'Pi0', zh: 'Pi0' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'VLA', zh: 'VLA' },
     status: 'evaluating',
     description: {
       en: 'Physical Intelligence π0 generalist robot policy that maps multimodal observations and language to continuous actions.',
@@ -129,7 +129,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'Pi0Fast', zh: 'Pi0Fast' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'VLA', zh: 'VLA' },
     status: 'evaluating',
     description: {
       en: 'FAST-tokenized variant of π0 that accelerates action generation for responsive vision-language-action control.',
@@ -142,7 +142,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'EO-1', zh: 'EO-1' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'VLA', zh: 'VLA' },
     status: 'evaluating',
     description: {
       en: 'Embodied foundation model focused on language-conditioned manipulation and multi-task robot control.',
@@ -155,7 +155,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'EVO1', zh: 'EVO1' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'VLA', zh: 'VLA' },
     status: 'evaluating',
     description: {
       en: 'Evolving vision-action policy family for continual improvement on manipulation benchmarks and real-robot tasks.',
@@ -167,8 +167,21 @@ export const algorithmItems: AlgorithmEntry[] = [
     },
   },
   {
+    name: { en: 'Kai0', zh: 'Kai0' },
+    category: { en: 'VLA', zh: 'VLA' },
+    status: 'available',
+    description: {
+      en: 'Vision-language-action model integrated with PhyAgentOS to map visual observations and task instructions to robot manipulation actions.',
+      zh: '已接入 PhyAgentOS 的视觉-语言-动作模型，用于将视觉观测与任务指令映射为机器人操作动作。',
+    },
+    capabilities: {
+      en: ['Vision-language-action', 'Multimodal conditioning', 'Robot manipulation'],
+      zh: ['视觉-语言-动作', '多模态条件化', '机器人操作'],
+    },
+  },
+  {
     name: { en: 'VLA-JEPA', zh: 'VLA-JEPA' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'WM', zh: 'WM' },
     status: 'available',
     description: {
       en: 'Vision-language-action policy that learns predictive latent representations with a JEPA world model and generates continuous actions through flow matching.',
@@ -183,7 +196,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'LingBot-VA', zh: 'LingBot-VA' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'WM', zh: 'WM' },
     status: 'available',
     description: {
       en: 'Autoregressive video-action world-model policy that jointly predicts future visual latents and robot actions for closed-loop manipulation.',
@@ -198,7 +211,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'FastWAM', zh: 'FastWAM' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'WM', zh: 'WM' },
     status: 'available',
     description: {
       en: 'Efficient world-action model that learns predictive visual dynamics while generating robot actions without test-time future imagination.',
@@ -213,7 +226,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'DreamZero', zh: 'DreamZero' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'WM', zh: 'WM' },
     status: 'evaluating',
     description: {
       en: 'World-model style policy stack with official LeRobot format support for training and deploying manipulation agents.',
@@ -226,7 +239,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'SAM3', zh: 'SAM3' },
-    category: { en: 'Perception', zh: 'Perception' },
+    category: { en: 'Detection', zh: 'Detection' },
     status: 'available',
     description: {
       en: 'Meta Segment Anything Model 3 for promptable segmentation and fine-grained object understanding in robot perception.',
@@ -246,7 +259,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'YOLO', zh: 'YOLO' },
-    category: { en: 'Perception', zh: 'Perception' },
+    category: { en: 'Detection', zh: 'Detection' },
     status: 'available',
     description: {
       en: 'Ultralytics YOLO real-time object detection for efficient localization of objects in robot camera streams.',
@@ -266,7 +279,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'ACT', zh: 'ACT' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'IL', zh: 'IL' },
     status: 'available',
     description: {
       en: 'Action Chunking with Transformers imitation-learning policy for precise bimanual and tabletop manipulation.',
@@ -281,7 +294,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'Diffusion Policy', zh: 'Diffusion Policy' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'IL', zh: 'IL' },
     status: 'available',
     description: {
       en: 'Diffusion-based visuomotor policy that models multimodal action distributions and generates smooth action sequences for robot manipulation.',
@@ -296,7 +309,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'VQ-BeT', zh: 'VQ-BeT' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'IL', zh: 'IL' },
     status: 'evaluating',
     description: {
       en: 'Vector-quantized Behavior Transformer for multimodal action distributions in robot motion and skill execution.',
@@ -309,7 +322,7 @@ export const algorithmItems: AlgorithmEntry[] = [
   },
   {
     name: { en: 'Multitask DiT Policy', zh: 'Multitask DiT Policy' },
-    category: { en: 'Manipulation', zh: 'Manipulation' },
+    category: { en: 'IL', zh: 'IL' },
     status: 'evaluating',
     description: {
       en: 'Diffusion Transformer policy trained across multiple manipulation tasks for shared visuomotor representations.',
@@ -373,12 +386,12 @@ export default function Algorithms() {
         label: '算法目录',
         title: '持续扩展的',
         highlight: '算法与工具',
-        description: '按照 Perception、Manipulation 与 Planning 三类组织当前正在接入、评估或已经可用的算法与工具，覆盖感知模型、VLA / IL / WAM 操作策略以及运动学和工具调用能力。',
+        description: '按照 VLA、WM、Detection、IL 与 Planning 五类组织当前已接入或计划接入的算法与工具，覆盖视觉-语言-动作模型、世界模型、目标检测、模仿学习策略以及运动学和工具调用能力。',
         countLabel: '项算法与工具',
         categoryCountLabel: '算法类别',
         availableCountLabel: '已接入',
         availableLabel: '已接入',
-        evaluatingLabel: '评估中',
+        evaluatingLabel: '计划接入',
         backLabel: '返回首页',
         searchPlaceholder: '搜索算法名称、描述或能力',
         categoryFilterLabel: '算法类别',
@@ -393,12 +406,12 @@ export default function Algorithms() {
         label: 'Algorithm Catalog',
         title: 'An evolving collection of',
         highlight: 'algorithms and tools',
-        description: 'Algorithms and tools organized into Perception, Manipulation, and Planning, spanning perception models, VLA / IL / WAM policies, kinematics, and tool-calling capabilities.',
+        description: 'Algorithms and tools organized into VLA, WM, Detection, IL, and Planning, spanning vision-language-action models, world models, object detection, imitation-learning policies, kinematics, and tool-calling capabilities.',
         countLabel: 'algorithms and tools',
         categoryCountLabel: 'algorithm categories',
         availableCountLabel: 'available',
         availableLabel: 'Available',
-        evaluatingLabel: 'Evaluating',
+        evaluatingLabel: 'Planned',
         backLabel: 'Back to home',
         searchPlaceholder: 'Search algorithm names, descriptions, or capabilities',
         categoryFilterLabel: 'Algorithm Category',
