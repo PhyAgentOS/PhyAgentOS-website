@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhyAgentOS Agent Architecture</title>
+  <style>
+    body{margin:0;background:#f5f7f8;color:#17202a;font:15px/1.55 system-ui,sans-serif}header{padding:30px 5%;background:#18232d;color:white;border-bottom:5px solid #39a078}main{max-width:1200px;margin:auto;padding:24px}.lang{color:#bfe8d8}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.card,section{background:white;border:1px solid #cbd4dc;padding:16px;margin-bottom:16px}.flow{font-family:monospace;background:#eaf2fb;padding:16px;overflow:auto}h2{font-size:18px;color:#344454}.note{color:#607080}
+  </style>
+</head>
+<body>
+<header><h1>PhyAgentOS Agent Architecture</h1><p>Track A is a message-driven Agent control plane. It combines file state, conversation history, Runtime state, model calls, and structured tools.</p><a class="lang" href="agent-architecture.html">中文</a></header>
+<main>
+  <section><h2>1 · Ingress and Egress</h2><div class="flow">Channels / CLI / Cron / Heartbeat → MessageBus or process_direct → AgentLoop → OutboundMessage</div><p class="note">Channel I/O is isolated from Agent reasoning. A session key serializes work for one conversation.</p></section>
+  <section><h2>2 · Core Agent Loop</h2><div class="grid"><div class="card"><b>ContextBuilder</b><p>Loads AGENTS, SOUL, USER, TOOLS, SKILLS, EMBODIED, ENVIRONMENT, TASK, RUNTIME, TARGETS, SESSIONS, memory, and conversation history.</p></div><div class="card"><b>Model Loop</b><p>Calls the selected Provider with messages and tool schemas. Tool results re-enter the same context until the model returns final content or reaches maxToolIterations.</p></div><div class="card"><b>ToolRegistry</b><p>Filesystem, shell, web, message, subagent, cron, scene graph, image, MCP, and optional verify_session tools.</p></div></div></section>
+  <section><h2>3 · Agent-Owned Services</h2><div class="grid"><div class="card"><b>SessionManager</b><p>Persists per-channel JSONL history.</p></div><div class="card"><b>Memory</b><p>Consolidates long histories into memory/MEMORY.md and memory/HISTORY.md.</p></div><div class="card"><b>SubagentManager</b><p>Runs bounded background Agent work.</p></div><div class="card"><b>SessionVerifier</b><p>Applies semantic success/failure/replan verdicts from Runtime evidence.</p></div></div></section>
+  <section><h2>4 · Track A / Track B Boundary</h2><div class="flow">TARGETS.md + SKILLRUNTIME.md → planning contract<br>SESSIONS.md → queue and state<br>LOG.md + ENVIRONMENT.md + LESSONS.md + artifacts/runtime/* → evidence and feedback</div><p>Agent planning never calls a raw Target. It appends a pending Session; the Watchdog owns claim, Preflight, execution, and Runtime writeback.</p></section>
+  <section><h2>5 · One Turn</h2><div class="flow">Receive → Load context → Reason → Execute tools → Persist → Deliver</div></section>
+</main>
+</body>
+</html>
