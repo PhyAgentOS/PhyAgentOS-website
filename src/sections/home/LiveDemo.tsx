@@ -37,6 +37,11 @@ export default function LiveDemo() {
             description: 'Piper 串口激活并加载 Skill 后，通过自然语言协同调用多 Tool，完成位姿解算、关节运动与夹爪控制，展示真机能力的快速接入与组合。',
           },
           {
+            title: '复合机器人 Skill 快速部署',
+            eyebrow: 'Deployment · Compound-Robot Skill',
+            description: '面向 Zerith H1 双臂、关节、升降柱与 AGV 底盘，Skill 解耦自然语言任务与底层控制，实现多执行单元协同和连续任务执行。',
+          },
+          {
             title: '部署流程',
             eyebrow: 'Deployment Walkthrough',
             description: '从设备连接、虚拟环境、配置文件、API Key 到给 Go2 发出起身行走指令，展示首次部署与运行路径。',
@@ -98,6 +103,11 @@ export default function LiveDemo() {
             description: 'After Piper serial activation and Skill loading, natural language coordinates multiple Tools for pose solving, joint motion, and gripper control—showing rapid real-robot capability integration and composition.',
           },
           {
+            title: 'Rapid Compound-Robot Skill Deployment',
+            eyebrow: 'Deployment · Compound-Robot Skill',
+            description: 'For Zerith H1 arms, joints, lift column, and AGV chassis, the Skill decouples natural-language tasks from low-level control for coordinated, continuous multi-unit execution.',
+          },
+          {
             title: 'Deployment walkthrough',
             eyebrow: 'Deployment Walkthrough',
             description: 'Covers device setup, virtual environment, configuration files, API key setup, and the first Go2 standing/walking instruction.',
@@ -135,6 +145,7 @@ export default function LiveDemo() {
     'real-robot',
     'embodied-ai4s',
     'real-skill-deployment',
+    'compound-robot-skill-deployment',
     'deployment',
     'dont-starve',
     'stardew',
@@ -147,6 +158,7 @@ export default function LiveDemo() {
   const demos = [
     { id: 'real-robot', category: 'real', icon: Bot, src: '/media/demos/real-robot.mp4', poster: '/media/demos/real-robot.jpg', duration: '03:05' },
     { id: 'embodied-ai4s', category: 'real', icon: FlaskConical, src: '/media/demos/embodied-ai4s.mp4', poster: '/media/demos/embodied-ai4s.jpg', duration: '00:33' },
+    { id: 'compound-robot-skill-deployment', category: 'deployment', icon: Rocket, src: '/media/demos/compound-robot-skill-deployment.mp4', poster: '/media/demos/compound-robot-skill-deployment-cover-v2.jpg', duration: '03:11' },
     { id: 'real-skill-deployment', category: 'deployment', icon: Rocket, src: '/media/demos/real-skill-deployment.mp4', poster: '/media/demos/real-skill-deployment-cover.jpg', duration: '01:04' },
     { id: 'deployment', category: 'deployment', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '02:29' },
     { id: 'minecraft-game', category: 'game', icon: Gamepad2, src: '/media/demos/cross-target-runtime.mp4', poster: '/media/demos/cross-target-runtime.jpg', duration: '01:10' },
