@@ -45,16 +45,24 @@ export default function Home() {
           <ProblemSolution />
         </>
       )}
-      <div className="section-divider" />
-      <CoreConcepts />
+      {lang === 'en' && (
+        <>
+          <div className="section-divider" />
+          <CoreConcepts />
+        </>
+      )}
       <div className="section-divider" />
       <Architecture />
       <div className="section-divider" />
       <Scenarios />
       <div className="section-divider" />
       <LiveDemo />
-      <div className="section-divider" />
-      <Benchmark />
+      {lang === 'en' && (
+        <>
+          <div className="section-divider" />
+          <Benchmark />
+        </>
+      )}
       <div className="section-divider" />
       <DocsCTA />
       <div className="section-divider" />

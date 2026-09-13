@@ -95,14 +95,16 @@ export default function Hero() {
           </h1>
 
           {/* Subtitle */}
-          <p className="hero-animate text-lg sm:text-xl md:text-2xl text-brand-text-secondary max-w-2xl mx-auto mb-5 leading-relaxed">
+          <p className={`hero-animate text-lg sm:text-xl md:text-2xl text-brand-text-secondary max-w-2xl mx-auto leading-relaxed ${t.hero.description ? 'mb-5' : 'mb-12'}`}>
             {t.hero.subtitle}
           </p>
 
           {/* Description */}
-          <p className="hero-animate text-sm sm:text-base text-brand-text-tertiary max-w-xl mx-auto mb-12 leading-relaxed">
-            {t.hero.description}
-          </p>
+          {t.hero.description && (
+            <p className="hero-animate text-sm sm:text-base text-brand-text-tertiary max-w-xl mx-auto mb-12 leading-relaxed">
+              {t.hero.description}
+            </p>
+          )}
 
           {/* CTA Buttons */}
           <div className="hero-animate flex flex-wrap justify-center gap-4 lg:flex-nowrap xl:gap-5">

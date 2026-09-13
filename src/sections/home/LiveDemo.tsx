@@ -9,10 +9,10 @@ export default function LiveDemo() {
   const copy = lang === 'zh'
     ? {
         label: '实时演示',
-        title: '跨场景、跨本体、跨构型',
-        highlight: '运行实录',
+        title: '跨场景、跨构型、',
+        highlight: '跨任务',
         description:
-          '集中展示快速部署、游戏交互与真实机器人任务，呈现 PhyAgentOS 在不同场景、本体和构型中的任务执行能力。',
+          '完整展示 PhyAgentOS 在不同场景、构型及任务中的执行能力。',
         watch: '当前播放',
         filters: { all: '全部', deployment: '快速部署', real: '真机', simulation: '仿真', game: '游戏' },
         videos: [

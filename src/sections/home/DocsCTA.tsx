@@ -55,9 +55,11 @@ export default function DocsCTA() {
                         <h3 className="text-2xl font-display font-bold text-brand-text mb-3">
                           {item.title}
                         </h3>
-                        <p className="text-brand-text-secondary leading-relaxed text-sm">
-                          {item.description}
-                        </p>
+                        {item.description && (
+                          <p className="text-brand-text-secondary leading-relaxed text-sm">
+                            {item.description}
+                          </p>
+                        )}
                       </div>
 
                       <div className="flex items-center justify-between mt-8 pt-6 border-t border-brand-border/60">
