@@ -60,14 +60,16 @@ const scenarios = [
                       </p>
 
                       {/* Features */}
-                      <div className="space-y-2.5 mb-6">
-                        {scenario.features.map((feature, fidx) => (
-                          <div key={fidx} className="flex items-center gap-2.5">
-                            <div className={`w-1.5 h-1.5 rounded-full ${scenario.accentColor}`} />
-                            <span className="text-xs text-brand-text-tertiary">{feature}</span>
-                          </div>
-                        ))}
-                      </div>
+                      {scenario.features.length > 0 && (
+                        <div className="space-y-2.5 mb-6">
+                          {scenario.features.map((feature, fidx) => (
+                            <div key={fidx} className="flex items-center gap-2.5">
+                              <div className={`w-1.5 h-1.5 rounded-full ${scenario.accentColor}`} />
+                              <span className="text-xs text-brand-text-tertiary">{feature}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
 
                     </div>
                   </TiltCard>
@@ -79,9 +81,11 @@ const scenarios = [
           {/* Complementary note */}
           <ScrollReveal delay={0.3}>
             <div className="mt-16 text-center">
-                            <p className="text-sm text-brand-text-tertiary max-w-2xl mx-auto">
-                {t.scenarios.note}
-              </p>
+              {t.scenarios.note && (
+                <p className="text-sm text-brand-text-tertiary max-w-2xl mx-auto">
+                  {t.scenarios.note}
+                </p>
+              )}
             </div>
           </ScrollReveal>
         </div>

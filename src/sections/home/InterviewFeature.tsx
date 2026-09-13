@@ -49,8 +49,8 @@ export default function InterviewFeature() {
             <div className="relative overflow-hidden rounded-3xl border border-brand-border bg-black shadow-2xl">
               <video
                 className="aspect-video w-full object-cover"
-                src="/media/demos/overview.mp4"
-                poster="/media/demos/overview.jpg"
+                src="/media/demos/concept-film.mp4"
+                poster="/media/demos/concept-film.jpg"
                 controls
                 autoPlay
                 muted

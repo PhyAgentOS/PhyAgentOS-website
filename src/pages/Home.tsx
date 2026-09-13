@@ -12,11 +12,14 @@ import LiveDemo from '../sections/home/LiveDemo';
 import Benchmark from '../sections/home/Benchmark';
 import TeamPreview from '../sections/home/TeamPreview';
 import DocsCTA from '../sections/home/DocsCTA';
+import { useLang } from '../i18n/LanguageContext';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
+  const { lang } = useLang();
+
   useEffect(() => {
     // Configure ScrollTrigger defaults
     ScrollTrigger.defaults({
@@ -36,8 +39,12 @@ export default function Home() {
       <Hero />
       <div className="section-divider" />
       <InterviewFeature />
-      <div className="section-divider" />
-      <ProblemSolution />
+      {lang === 'en' && (
+        <>
+          <div className="section-divider" />
+          <ProblemSolution />
+        </>
+      )}
       <div className="section-divider" />
       <CoreConcepts />
       <div className="section-divider" />
