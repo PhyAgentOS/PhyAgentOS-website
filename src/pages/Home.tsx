@@ -4,22 +4,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Hero from '../sections/home/Hero';
 import InterviewFeature from '../sections/home/InterviewFeature';
-import ProblemSolution from '../sections/home/ProblemSolution';
-import CoreConcepts from '../sections/home/CoreConcepts';
 import Architecture from '../sections/home/Architecture';
 import Scenarios from '../sections/home/Scenarios';
 import LiveDemo from '../sections/home/LiveDemo';
-import Benchmark from '../sections/home/Benchmark';
 import TeamPreview from '../sections/home/TeamPreview';
 import DocsCTA from '../sections/home/DocsCTA';
-import { useLang } from '../i18n/LanguageContext';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  const { lang } = useLang();
-
   useEffect(() => {
     // Configure ScrollTrigger defaults
     ScrollTrigger.defaults({
@@ -39,30 +33,12 @@ export default function Home() {
       <Hero />
       <div className="section-divider" />
       <InterviewFeature />
-      {lang === 'en' && (
-        <>
-          <div className="section-divider" />
-          <ProblemSolution />
-        </>
-      )}
-      {lang === 'en' && (
-        <>
-          <div className="section-divider" />
-          <CoreConcepts />
-        </>
-      )}
       <div className="section-divider" />
       <Architecture />
       <div className="section-divider" />
       <Scenarios />
       <div className="section-divider" />
       <LiveDemo />
-      {lang === 'en' && (
-        <>
-          <div className="section-divider" />
-          <Benchmark />
-        </>
-      )}
       <div className="section-divider" />
       <DocsCTA />
       <div className="section-divider" />

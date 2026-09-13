@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
-import { Brain, ShieldCheck, Cpu, Boxes, Activity, Bot, Network, ArrowRight, X, Puzzle, Database, RefreshCw } from 'lucide-react';
+import { Brain, ShieldCheck, Cpu, Boxes, Activity, Bot, Network, ArrowRight, X, Puzzle, RefreshCw } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useLang } from '../../i18n/LanguageContext';
@@ -17,27 +17,16 @@ interface ArchNode {
 export default function Architecture() {
   const { lang, t } = useLang();
   const isZh = lang === 'zh';
-  const nodeMetadata: Pick<ArchNode, 'id' | 'icon' | 'track'>[] = isZh
-    ? [
-        { id: 'agent-loop', icon: Brain, track: 'A' },
-        { id: 'online-workflow', icon: Puzzle, track: 'A' },
-        { id: 'task-verification', icon: ShieldCheck, track: 'A' },
-        { id: 'recursive-self-improving', icon: RefreshCw, track: 'A' },
-        { id: 'skill-runtime', icon: Boxes, track: 'B' },
-        { id: 'tool-gateway', icon: Cpu, track: 'B' },
-        { id: 'runtime-dataflow', icon: Activity, track: 'B' },
-        { id: 'robot-sensor-env', icon: Bot, track: 'B' },
-      ]
-    : [
-        { id: 'agent-loop', icon: Brain, track: 'A' },
-        { id: 'skill-activation', icon: Puzzle, track: 'A' },
-        { id: 'agent-task', icon: Database, track: 'A' },
-        { id: 'verification-experience', icon: ShieldCheck, track: 'A' },
-        { id: 'skill-runtime', icon: Boxes, track: 'B' },
-        { id: 'forge-resources', icon: Bot, track: 'B' },
-        { id: 'forge-gateway', icon: Cpu, track: 'B' },
-        { id: 'tool-endpoint', icon: Activity, track: 'B' },
-      ];
+  const nodeMetadata: Pick<ArchNode, 'id' | 'icon' | 'track'>[] = [
+    { id: 'agent-loop', icon: Brain, track: 'A' },
+    { id: 'online-workflow', icon: Puzzle, track: 'A' },
+    { id: 'task-verification', icon: ShieldCheck, track: 'A' },
+    { id: 'recursive-self-improving', icon: RefreshCw, track: 'A' },
+    { id: 'skill-runtime', icon: Boxes, track: 'B' },
+    { id: 'tool-gateway', icon: Cpu, track: 'B' },
+    { id: 'runtime-dataflow', icon: Activity, track: 'B' },
+    { id: 'robot-sensor-env', icon: Bot, track: 'B' },
+  ];
   const nodes: ArchNode[] = nodeMetadata.map((node, index) => ({
     ...node,
     ...t.architecture.nodes[index],

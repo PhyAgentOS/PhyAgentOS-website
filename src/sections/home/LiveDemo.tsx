@@ -75,10 +75,10 @@ export default function LiveDemo() {
       }
     : {
         label: 'Live Demo',
-        title: 'Runtime demos',
-        highlight: 'across targets',
+        title: 'Across scenarios, configurations,',
+        highlight: 'and tasks',
         description:
-          'Deployment, game targets, and real robots are shown through the same Session-centered runtime path, from instruction to verifiable execution.',
+          'A complete view of PhyAgentOS execution capabilities across scenarios, configurations, and tasks.',
         watch: 'Now playing',
         filters: { all: 'All', deployment: 'Quick Deployment', real: 'Real Robot', simulation: 'Simulation', game: 'Games' },
         videos: [

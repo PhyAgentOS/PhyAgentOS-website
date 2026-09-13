@@ -14,11 +14,9 @@ export default function Navigation() {
 
   const navItems = [
     { label: t.nav.conceptFilm, href: '/#interview' },
-    { label: t.nav.features, href: '/#features' },
     { label: t.nav.architecture, href: '/#architecture' },
     { label: t.nav.scenarios, href: '/#scenarios' },
     { label: t.liveDemo.label, href: '/#demo' },
-    { label: t.nav.benchmark, href: '/#benchmark' },
     { label: t.nav.gettingStartedDocs, href: '/#docs' },
   ];
   const [isScrolled, setIsScrolled] = useState(false);
