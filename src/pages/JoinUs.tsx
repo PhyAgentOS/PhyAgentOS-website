@@ -37,11 +37,10 @@ export default function JoinUs() {
           </span>
         </a>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
           {[
             { title: t.communityPage.feishu, src: '/media/community/feishu.png' },
-            { title: t.communityPage.bilibili, src: '/media/community/bilibili.jpg' },
-            { title: t.communityPage.xiaohongshu, src: '/media/community/xiaohongshu.jpg' },
+            { title: t.communityPage.wechat, src: '/media/community/wechat.jpg' },
           ].map((channel) => (
             <section key={channel.title} className="overflow-hidden rounded-2xl border border-brand-border bg-brand-bg-secondary/50 p-4 shadow-soft">
               <div className="flex aspect-[4/5] items-center justify-center overflow-hidden rounded-xl bg-white">

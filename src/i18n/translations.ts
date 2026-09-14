@@ -61,6 +61,7 @@ export interface TranslationShape {
     discordDescription: string;
     joinDiscord: string;
     feishu: string;
+    wechat: string;
     bilibili: string;
     xiaohongshu: string;
     scanToJoin: string;
@@ -269,9 +270,10 @@ export const translations: Record<Lang, TranslationShape> = {
       discordDescription: 'Chat with developers worldwide, ask questions, and take part in community discussions.',
       joinDiscord: 'Join Discord',
       feishu: 'Feishu Developer Group',
+      wechat: 'WeChat Developer Group',
       bilibili: 'Bilibili',
       xiaohongshu: 'Xiaohongshu',
-      scanToJoin: 'Scan the QR code to follow or join',
+      scanToJoin: 'Scan the QR code to join the group',
     },
     problemSolution: {
       label: 'Why PhyAgentOS?',
@@ -636,9 +638,10 @@ export const translations: Record<Lang, TranslationShape> = {
       discordDescription: '与全球开发者交流、提问，并参与社区讨论。',
       joinDiscord: '加入 Discord',
       feishu: '飞书开发者群',
+      wechat: '微信开发者群',
       bilibili: '哔哩哔哩',
       xiaohongshu: '小红书',
-      scanToJoin: '扫描二维码关注或加入',
+      scanToJoin: '扫描二维码加入群聊',
     },
     problemSolution: {
       label: '为何选择 PhyAgentOS？',
