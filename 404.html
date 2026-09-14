@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/LOGO.png" />
+    <link rel="apple-touch-icon" href="/LOGO.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PhyAgentOS</title>
+    <script>
+      // SPA fallback for GitHub Pages with HashRouter
+      // Redirect all 404s to the root hash route
+      const path = window.location.pathname;
+      const search = window.location.search;
+      const hash = window.location.hash;
+      if (path !== '/' && !path.startsWith('/#')) {
+        window.location.replace('/#' + path + search + hash);
+      } else {
+        window.location.replace('/');
+      }
+    </script>
+  </head>
+  <body>
+    <p>Redirecting...</p>
+  </body>
+</html>
