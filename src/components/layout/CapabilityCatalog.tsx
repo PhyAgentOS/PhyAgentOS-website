@@ -136,6 +136,7 @@ export default function CapabilityCatalog({
               <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-brand-text-tertiary" />
               <input
                 value={query}
+                aria-label={searchPlaceholder}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder={searchPlaceholder}
                 className="h-14 w-full rounded-2xl border border-brand-border bg-brand-bg-secondary pl-12 pr-4 text-sm text-brand-text outline-none transition-all placeholder:text-brand-text-tertiary focus:border-brand-accent/40 focus:shadow-glow-soft"
@@ -178,9 +179,9 @@ export default function CapabilityCatalog({
                   </div>
                 </div>
 
-                <div>
+                <div className="min-w-0">
                   <div className="mb-3 text-xs font-mono uppercase tracking-wider text-brand-text-tertiary">{statusFilterLabel}</div>
-                  <div className="flex flex-nowrap gap-2">
+                  <div className="flex flex-nowrap gap-2 overflow-x-auto pb-1">
                     {([
                       { value: 'all', label: allLabel },
                       { value: 'available', label: availableLabel },
@@ -271,7 +272,7 @@ export default function CapabilityCatalog({
                         <h2 className={`${item.icon ? 'mt-3' : 'mt-6'} font-display text-2xl font-bold text-brand-text`}>{item.name}</h2>
                         <p className="mt-3 text-sm leading-6 text-brand-text-secondary">{item.description}</p>
 
-                        {item.tagGroups ? (
+                        {item.tagGroups && item.tagGroups.length > 0 ? (
                           <div className="mt-6 space-y-4 border-t border-brand-border pt-5">
                             {item.tagGroups.map((group) => (
                               <div key={group.label}>
@@ -284,7 +285,7 @@ export default function CapabilityCatalog({
                               </div>
                             ))}
                           </div>
-                        ) : (
+                        ) : item.capabilities.length > 0 ? (
                           <div className="mt-6 space-y-2 border-t border-brand-border pt-5">
                             {item.capabilities.map((capability) => (
                               <div key={capability} className="flex items-start gap-2 text-sm text-brand-text-tertiary">
@@ -293,7 +294,7 @@ export default function CapabilityCatalog({
                               </div>
                             ))}
                           </div>
-                        )}
+                        ) : null}
 
                         {item.upstreamLinks && item.upstreamLinks.length > 0 && (
                           <div className="mt-5 flex flex-wrap gap-2 border-t border-brand-border pt-5">

@@ -13,6 +13,7 @@ import JoinUs from './pages/JoinUs';
 import Algorithms from './pages/Algorithms';
 import Skills from './pages/Skills';
 import Targets from './pages/Targets';
+import SimulationEvaluation from './pages/SimulationEvaluation';
 
 import './App.css';
 
@@ -43,6 +44,7 @@ function App() {
                 <Route path="/join-us" element={<JoinUs />} />
                 <Route path="/targets" element={<Targets />} />
                 <Route path="/algorithms" element={<Algorithms />} />
+                <Route path="/simulation-evaluation" element={<SimulationEvaluation />} />
                 <Route path="/skills" element={<Skills />} />
               </Routes>
             </main>

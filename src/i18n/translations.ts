@@ -7,6 +7,7 @@ export interface TranslationShape {
     architecture: string;
     scenarios: string;
     benchmark: string;
+    simulationEvaluation: string;
     gettingStartedDocs: string;
     hardware: string;
     team: string;
@@ -51,6 +52,7 @@ export interface TranslationShape {
     activeEvent: string;
     statTargets: string;
     statAlgorithms: string;
+    statSimulationEvaluations: string;
     statSkills: string;
   };
   communityPage: {
@@ -213,6 +215,7 @@ export const translations: Record<Lang, TranslationShape> = {
       architecture: 'Architecture',
       scenarios: 'Scenarios',
       benchmark: 'Benchmarks',
+      simulationEvaluation: 'Simulation Evaluation',
       gettingStartedDocs: 'Getting Started Docs',
       hardware: 'Hardware',
       team: 'Team',
@@ -255,8 +258,9 @@ export const translations: Record<Lang, TranslationShape> = {
       watchDemo: 'Watch Demo',
       developerCommunity: 'Developer Community',
       activeEvent: 'Ongoing Activities',
-      statTargets: 'Supported Targets',
-      statAlgorithms: 'Supported Algorithms',
+      statTargets: 'Robot Configurations',
+      statAlgorithms: 'Algorithm Tools',
+      statSimulationEvaluations: 'Simulation Evaluation',
       statSkills: 'System Skills',
     },
     communityPage: {
@@ -578,6 +582,7 @@ export const translations: Record<Lang, TranslationShape> = {
       architecture: '系统架构',
       scenarios: '应用场景',
       benchmark: '性能基准',
+      simulationEvaluation: '仿真测评',
       gettingStartedDocs: '入门文档',
       hardware: '硬件设备',
       team: '团队',
@@ -620,9 +625,10 @@ export const translations: Record<Lang, TranslationShape> = {
       watchDemo: '观看演示',
       developerCommunity: '开发者社区',
       activeEvent: '正在进行的活动',
-      statTargets: '支持的构型',
-      statAlgorithms: '支持的算法',
-      statSkills: '支持的技能',
+      statTargets: '机器构型',
+      statAlgorithms: '算法工具',
+      statSimulationEvaluations: '仿真测评',
+      statSkills: '系统技能',
     },
     communityPage: {
       description: '与 PhyAgentOS 开发者交流，获取项目最新动态。',

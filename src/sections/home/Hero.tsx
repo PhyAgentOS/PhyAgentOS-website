@@ -7,6 +7,7 @@ import ParticleField from '../../components/three/ParticleField';
 import { useMousePosition } from '../../hooks/useMousePosition';
 import { algorithmItems } from '../../pages/Algorithms';
 import { skillItems } from '../../pages/Skills';
+import { simulationEvaluationItems } from '../../data/simulationEvaluations';
 import ActivityGallery from './ActivityGallery';
 
 export default function Hero() {
@@ -137,10 +138,11 @@ export default function Hero() {
           </div>
 
           {/* Stats preview */}
-          <div className="hero-animate mt-16 grid w-full max-w-4xl grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6 mx-auto">
+          <div className="hero-animate mt-16 grid w-full max-w-5xl grid-cols-2 gap-4 lg:grid-cols-4 sm:gap-5 lg:gap-6 mx-auto">
             {[
               { value: '43', label: t.hero.statTargets, to: '/targets' },
               { value: String(algorithmItems.length), label: t.hero.statAlgorithms, href: undefined, to: '/algorithms' },
+              { value: String(simulationEvaluationItems.length), label: t.hero.statSimulationEvaluations, to: '/simulation-evaluation' },
               { value: String(skillItems.length), label: t.hero.statSkills, href: undefined, to: '/skills' },
             ].map((stat) => {
               const content = (

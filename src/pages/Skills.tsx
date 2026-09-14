@@ -111,108 +111,6 @@ export const skillItems: SkillEntry[] = [
     },
   },
   {
-    name: { en: 'LIBERO Automated Evaluation', zh: 'LIBERO 自动评测' },
-    category: { en: 'Automated Evaluation', zh: '性能评测' },
-    status: 'available',
-    description: {
-      en: 'Runs reproducible LIBERO evaluations across embodied models and records comparable benchmark results.',
-      zh: '支持不同具身模型的 LIBERO 自动评测，并记录可复现、可比较的基准结果。',
-    },
-    icon: '📊',
-    configurations: {
-      en: ['KAI-0.5', 'LingBot'],
-      zh: ['KAI-0.5', 'LingBot'],
-    },
-    algorithms: {
-      en: ['LIBERO'],
-      zh: ['LIBERO'],
-    },
-  },
-  {
-    name: { en: 'RoboDojo Automated Evaluation', zh: 'RoboDojo 自动评测' },
-    category: { en: 'Automated Evaluation', zh: '性能评测' },
-    status: 'integrating',
-    description: {
-      en: 'Standardizes robot-policy testing in RoboDojo and collects auditable evaluation results.',
-      zh: '在 RoboDojo 中标准化执行机器人策略测试，并采集可审计的自动评测结果。',
-    },
-    icon: '🥋',
-    configurations: { en: [], zh: [] },
-    algorithms: { en: ['RoboDojo'], zh: ['RoboDojo'] },
-  },
-  {
-    name: { en: 'BEHAVIOR-1K Automated Evaluation', zh: 'BEHAVIOR-1K 自动评测' },
-    category: { en: 'Automated Evaluation', zh: '性能评测' },
-    status: 'evaluating',
-    description: {
-      en: 'Evaluates long-horizon household activities against the BEHAVIOR-1K task suite.',
-      zh: '面向 BEHAVIOR-1K 任务集，对长程家庭活动的完成质量进行自动评测。',
-    },
-    icon: '🏠',
-    configurations: { en: [], zh: [] },
-    algorithms: { en: ['BEHAVIOR-1K'], zh: ['BEHAVIOR-1K'] },
-  },
-  {
-    name: { en: 'CALVIN Automated Evaluation', zh: 'CALVIN 自动评测' },
-    category: { en: 'Automated Evaluation', zh: '性能评测' },
-    status: 'evaluating',
-    description: {
-      en: 'Measures language-conditioned manipulation performance on the CALVIN benchmark.',
-      zh: '基于 CALVIN 基准自动衡量语言条件下的机器人连续操作能力。',
-    },
-    icon: '🧪',
-    configurations: { en: [], zh: [] },
-    algorithms: { en: ['CALVIN'], zh: ['CALVIN'] },
-  },
-  {
-    name: { en: 'RoboCasa365 Automated Evaluation', zh: 'RoboCasa365 自动评测' },
-    category: { en: 'Automated Evaluation', zh: '性能评测' },
-    status: 'evaluating',
-    description: {
-      en: 'Evaluates generalization and task completion across diverse RoboCasa365 household scenes.',
-      zh: '在 RoboCasa365 的多样化家庭场景中评测策略泛化性与任务完成效果。',
-    },
-    icon: '🍽️',
-    configurations: { en: [], zh: [] },
-    algorithms: { en: ['RoboCasa365'], zh: ['RoboCasa365'] },
-  },
-  {
-    name: { en: 'Minecraft Automated Evaluation', zh: 'Minecraft 自动评测' },
-    category: { en: 'Automated Evaluation', zh: '性能评测' },
-    status: 'integrating',
-    description: {
-      en: 'Supports different models in mastering atomic skills in game environments, transferring across environments, generalizing compositionally, and planning and executing long-horizon tasks along resource dependency chains.',
-      zh: '支持不同模型在游戏场景中的原子技能掌握、跨环境迁移、组合泛化，以及沿资源依赖链完成长程任务的规划与执行能力。',
-    },
-    icon: '⛏️',
-    configurations: { en: ['Minecraft'], zh: ['Minecraft'] },
-    algorithms: { en: ['Game Agent Evaluation'], zh: ['游戏智能体评测'] },
-  },
-  {
-    name: { en: "Don't Starve Automated Evaluation", zh: "Don't Starve 自动评测" },
-    category: { en: 'Automated Evaluation', zh: '性能评测' },
-    status: 'integrating',
-    description: {
-      en: "Evaluates survival planning, resource management, and adaptive decision-making in Don't Starve.",
-      zh: "评测智能体在 Don't Starve 中的生存规划、资源管理与自适应决策能力。",
-    },
-    icon: '🔥',
-    configurations: { en: ["Don't Starve"], zh: ["Don't Starve"] },
-    algorithms: { en: ['Game Agent Evaluation'], zh: ['游戏智能体评测'] },
-  },
-  {
-    name: { en: 'Stardew Valley Automated Evaluation', zh: 'Stardew Valley 自动评测' },
-    category: { en: 'Automated Evaluation', zh: '性能评测' },
-    status: 'integrating',
-    description: {
-      en: 'Supports automated evaluation of different models on long-horizon temporal tasks, assessing embodied agents’ phase planning, resource scheduling, state transitions, and dynamic replanning under waiting, deadline, and cross-day constraints.',
-      zh: '支持不同模型在长程时序任务上进行自动评测，考察具身 Agent 在等待、截止时间和跨日约束下的阶段规划、资源调度、状态切换与动态重规划能力。',
-    },
-    icon: '🌾',
-    configurations: { en: ['Stardew Valley'], zh: ['Stardew Valley'] },
-    algorithms: { en: ['Game Agent Evaluation'], zh: ['游戏智能体评测'] },
-  },
-  {
     name: { en: 'Desktop Object Sorting and Organization', zh: '桌面物品分类整理' },
     category: { en: 'Long-Horizon Capabilities', zh: '长程能力' },
     status: 'evaluating',
@@ -241,7 +139,7 @@ export default function Skills() {
         label: '技能目录',
         title: '可复用的',
         highlight: '机器人技能',
-        description: '通过组合感知、规划与交互等基础算法与工具，构建可复用的原子技能、长程能力以及自动测评体系。',
+        description: '通过组合感知、规划与交互等基础算法与工具，构建可复用的原子技能与长程能力。',
         countLabel: '项技能',
         categoryCountLabel: '技能类别',
         availableCountLabel: '已接入',
@@ -264,7 +162,7 @@ export default function Skills() {
         label: 'Skill Catalog',
         title: 'Reusable',
         highlight: 'robot skills',
-        description: 'By composing foundational perception, planning, and interaction algorithms and tools, we build reusable atomic skills, long-horizon capabilities, and automated evaluation systems.',
+        description: 'By composing foundational perception, planning, and interaction algorithms and tools, we build reusable atomic skills and long-horizon capabilities.',
         countLabel: 'skills',
         categoryCountLabel: 'skill categories',
         availableCountLabel: 'integrated',
@@ -285,18 +183,10 @@ export default function Skills() {
       };
 
   const items: CapabilityItem[] = skillItems.map((item) => {
-    const isAutomatedEvaluation = item.category.en === 'Automated Evaluation';
-    const tagGroups = isAutomatedEvaluation
-      ? [
-          {
-            label: lang === 'zh' ? '适配算法' : 'Compatible Algorithms',
-            tags: item.configurations[lang],
-          },
-        ]
-      : [
-          { label: copy.configurationsLabel, tags: item.configurations[lang] },
-          { label: copy.algorithmsLabel, tags: item.algorithms[lang] },
-        ];
+    const tagGroups = [
+      { label: copy.configurationsLabel, tags: item.configurations[lang] },
+      { label: copy.algorithmsLabel, tags: item.algorithms[lang] },
+    ];
     const visibleTagGroups = tagGroups.filter((group) => group.tags.length > 0);
 
     return {

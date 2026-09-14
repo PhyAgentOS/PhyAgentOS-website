@@ -16,6 +16,7 @@ export default function Navigation() {
     { label: t.nav.conceptFilm, href: '/#interview' },
     { label: t.nav.architecture, href: '/#architecture' },
     { label: t.nav.scenarios, href: '/#scenarios' },
+    { label: t.nav.simulationEvaluation, href: '/simulation-evaluation' },
     { label: t.liveDemo.label, href: '/#demo' },
     { label: t.nav.gettingStartedDocs, href: '/#docs' },
   ];
@@ -127,13 +128,13 @@ export default function Navigation() {
             </Link>
 
             {/* Desktop Navigation + Actions */}
-            <div className="hidden xl:flex items-center gap-2 xl:gap-3">
+            <div className="hidden xl:flex items-center gap-1 2xl:gap-3">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className="shrink-0 whitespace-nowrap rounded-xl px-3 py-2 text-[13px] text-brand-text-secondary transition-all duration-200 hover:bg-brand-text/[0.04] hover:text-brand-text"
+                  className="shrink-0 whitespace-nowrap rounded-xl px-2 py-2 text-[13px] text-brand-text-secondary transition-all duration-200 hover:bg-brand-text/[0.04] hover:text-brand-text 2xl:px-3"
                 >
                   {item.label}
                 </Link>

@@ -14,6 +14,7 @@ export default function Footer() {
       { label: t.nav.features, href: '/#features' },
       { label: t.nav.architecture, href: '/#architecture' },
       { label: t.nav.hardware, href: '/targets' },
+      { label: t.nav.simulationEvaluation, href: '/simulation-evaluation' },
     ],
     resources: [
       { label: t.footer.documentation, href: `${docsBase}/01-framework-introduction/`, external: true },
