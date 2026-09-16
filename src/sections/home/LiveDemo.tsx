@@ -42,9 +42,14 @@ export default function LiveDemo() {
             description: '面向 Zerith H1 双臂、关节、升降柱与 AGV 底盘，Skill 解耦自然语言任务与底层控制，实现多执行单元协同和连续任务执行。',
           },
           {
-            title: '部署流程',
+            title: '四足机器狗快速部署',
             eyebrow: 'Deployment Walkthrough',
             description: '从设备连接、虚拟环境、配置文件、API Key 到给 Go2 发出起身行走指令，展示首次部署与运行路径。',
+          },
+          {
+            title: 'XLeRobot 快速部署',
+            eyebrow: 'Deployment · XLeRobot',
+            description: '启动 XLeRobot 控制 Skill，通过自然语言下发底盘移动与机械臂操作指令，展示移动双臂机器人的快速接入与协同执行。',
           },
           {
             title: '饥荒游戏智能体',
@@ -108,9 +113,14 @@ export default function LiveDemo() {
             description: 'For Zerith H1 arms, joints, lift column, and AGV chassis, the Skill decouples natural-language tasks from low-level control for coordinated, continuous multi-unit execution.',
           },
           {
-            title: 'Deployment walkthrough',
+            title: 'Quadruped Robot Quick Deployment',
             eyebrow: 'Deployment Walkthrough',
             description: 'Covers device setup, virtual environment, configuration files, API key setup, and the first Go2 standing/walking instruction.',
+          },
+          {
+            title: 'XLeRobot Quick Deployment',
+            eyebrow: 'Deployment · XLeRobot',
+            description: 'Launch the XLeRobot control Skill and use natural-language instructions to move the base and operate the arms, demonstrating rapid integration and coordinated execution for a mobile dual-arm robot.',
           },
           {
             title: 'Don’t Starve game agent',
@@ -147,6 +157,7 @@ export default function LiveDemo() {
     'real-skill-deployment',
     'compound-robot-skill-deployment',
     'deployment',
+    'xlerobot-quick-deployment',
     'dont-starve',
     'stardew',
     'minecraft-game',
@@ -161,6 +172,7 @@ export default function LiveDemo() {
     { id: 'compound-robot-skill-deployment', category: 'deployment', icon: Rocket, src: '/media/demos/compound-robot-skill-deployment.mp4', poster: '/media/demos/compound-robot-skill-deployment-cover-v2.jpg', duration: '03:11' },
     { id: 'real-skill-deployment', category: 'deployment', icon: Rocket, src: '/media/demos/real-skill-deployment.mp4', poster: '/media/demos/real-skill-deployment-cover.jpg', duration: '01:04' },
     { id: 'deployment', category: 'deployment', icon: Rocket, src: '/media/demos/deployment.mp4', poster: '/media/demos/deployment.jpg', duration: '02:29' },
+    { id: 'xlerobot-quick-deployment', category: 'deployment', icon: Rocket, src: '/media/demos/xlerobot-quick-deployment.mp4', poster: '/media/demos/xlerobot-quick-deployment.jpg', duration: '04:42' },
     { id: 'minecraft-game', category: 'game', icon: Gamepad2, src: '/media/demos/cross-target-runtime.mp4', poster: '/media/demos/cross-target-runtime.jpg', duration: '01:10' },
     { id: 'dont-starve', category: 'game', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.png', duration: '03:03' },
     { id: 'stardew', category: 'game', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.png', duration: '00:58' },
