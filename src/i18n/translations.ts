@@ -66,6 +66,9 @@ export interface TranslationShape {
     xiaohongshuTitle: string;
     xiaohongshuDescription: string;
     visitXiaohongshu: string;
+    youtubeTitle: string;
+    youtubeDescription: string;
+    visitYoutube: string;
     feishu: string;
     wechat: string;
     bilibili: string;
@@ -281,6 +284,9 @@ export const translations: Record<Lang, TranslationShape> = {
       xiaohongshuTitle: 'Follow us on Xiaohongshu',
       xiaohongshuDescription: 'Discover PhyAgentOS project updates and community stories.',
       visitXiaohongshu: 'Visit Xiaohongshu',
+      youtubeTitle: 'Follow us on YouTube',
+      youtubeDescription: 'Watch PhyAgentOS videos and demos, and follow the latest project updates.',
+      visitYoutube: 'Visit YouTube',
       feishu: 'Feishu Developer Group',
       wechat: 'WeChat Developer Group',
       bilibili: 'Bilibili',
@@ -655,6 +661,9 @@ export const translations: Record<Lang, TranslationShape> = {
       xiaohongshuTitle: '关注小红书',
       xiaohongshuDescription: '关注 PhyAgentOS 项目动态，发现更多社区分享。',
       visitXiaohongshu: '前往小红书',
+      youtubeTitle: '关注 YouTube',
+      youtubeDescription: '观看 PhyAgentOS 视频与演示，了解项目最新进展。',
+      visitYoutube: '前往 YouTube',
       feishu: '飞书开发者群',
       wechat: '微信开发者群',
       bilibili: '哔哩哔哩',

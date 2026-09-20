@@ -1,5 +1,5 @@
 import { useT } from '../i18n/LanguageContext';
-import { BookOpen, ExternalLink, MessageCircle, Tv } from 'lucide-react';
+import { BookOpen, ExternalLink, MessageCircle, Tv, Youtube } from 'lucide-react';
 
 export default function JoinUs() {
   const t = useT();
@@ -24,6 +24,13 @@ export default function JoinUs() {
       title: t.communityPage.xiaohongshuTitle,
       description: t.communityPage.xiaohongshuDescription,
       action: t.communityPage.visitXiaohongshu,
+    },
+    {
+      href: 'https://www.youtube.com/@PhyAgent-OS',
+      icon: Youtube,
+      title: t.communityPage.youtubeTitle,
+      description: t.communityPage.youtubeDescription,
+      action: t.communityPage.visitYoutube,
     },
   ];
 
