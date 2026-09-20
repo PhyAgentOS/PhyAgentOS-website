@@ -60,6 +60,12 @@ export interface TranslationShape {
     discordTitle: string;
     discordDescription: string;
     joinDiscord: string;
+    bilibiliTitle: string;
+    bilibiliDescription: string;
+    visitBilibili: string;
+    xiaohongshuTitle: string;
+    xiaohongshuDescription: string;
+    visitXiaohongshu: string;
     feishu: string;
     wechat: string;
     bilibili: string;
@@ -269,6 +275,12 @@ export const translations: Record<Lang, TranslationShape> = {
       discordTitle: 'Join us on Discord',
       discordDescription: 'Chat with developers worldwide, ask questions, and take part in community discussions.',
       joinDiscord: 'Join Discord',
+      bilibiliTitle: 'Follow us on Bilibili',
+      bilibiliDescription: 'Watch PhyAgentOS videos and demos, and follow the latest project updates.',
+      visitBilibili: 'Visit Bilibili',
+      xiaohongshuTitle: 'Follow us on Xiaohongshu',
+      xiaohongshuDescription: 'Discover PhyAgentOS project updates and community stories.',
+      visitXiaohongshu: 'Visit Xiaohongshu',
       feishu: 'Feishu Developer Group',
       wechat: 'WeChat Developer Group',
       bilibili: 'Bilibili',
@@ -637,6 +649,12 @@ export const translations: Record<Lang, TranslationShape> = {
       discordTitle: '加入 Discord 社区',
       discordDescription: '与全球开发者交流、提问，并参与社区讨论。',
       joinDiscord: '加入 Discord',
+      bilibiliTitle: '关注 B 站',
+      bilibiliDescription: '观看 PhyAgentOS 视频与演示，了解项目最新进展。',
+      visitBilibili: '前往 B 站',
+      xiaohongshuTitle: '关注小红书',
+      xiaohongshuDescription: '关注 PhyAgentOS 项目动态，发现更多社区分享。',
+      visitXiaohongshu: '前往小红书',
       feishu: '飞书开发者群',
       wechat: '微信开发者群',
       bilibili: '哔哩哔哩',

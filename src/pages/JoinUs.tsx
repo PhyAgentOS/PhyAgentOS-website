@@ -1,8 +1,31 @@
 import { useT } from '../i18n/LanguageContext';
-import { ExternalLink, MessageCircle } from 'lucide-react';
+import { BookOpen, ExternalLink, MessageCircle, Tv } from 'lucide-react';
 
 export default function JoinUs() {
   const t = useT();
+  const communityLinks = [
+    {
+      href: 'https://discord.gg/YJztZ4wUM',
+      icon: MessageCircle,
+      title: t.communityPage.discordTitle,
+      description: t.communityPage.discordDescription,
+      action: t.communityPage.joinDiscord,
+    },
+    {
+      href: 'https://space.bilibili.com/3546880296355920?spm_id_from=333.1007.0.0',
+      icon: Tv,
+      title: t.communityPage.bilibiliTitle,
+      description: t.communityPage.bilibiliDescription,
+      action: t.communityPage.visitBilibili,
+    },
+    {
+      href: 'https://www.xiaohongshu.com/user/profile/673d83e3000000001c01a183',
+      icon: BookOpen,
+      title: t.communityPage.xiaohongshuTitle,
+      description: t.communityPage.xiaohongshuDescription,
+      action: t.communityPage.visitXiaohongshu,
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-brand-bg px-4 pb-16 pt-28 sm:px-6 lg:px-8">
@@ -16,26 +39,29 @@ export default function JoinUs() {
           </p>
         </div>
 
-        <a
-          href="https://discord.gg/YJztZ4wUM"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group mb-8 flex flex-col items-start justify-between gap-5 rounded-2xl border border-brand-accent/25 bg-brand-accent/[0.08] p-6 shadow-glow-soft transition-all duration-300 hover:border-brand-accent/50 hover:bg-brand-accent/[0.12] sm:flex-row sm:items-center"
-        >
-          <span className="flex items-center gap-4">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-accent text-brand-text-on-accent">
-              <MessageCircle className="h-6 w-6" />
+        {communityLinks.map(({ href, icon: Icon, title, description, action }) => (
+          <a
+            key={href}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group mb-8 flex flex-col items-start justify-between gap-5 rounded-2xl border border-brand-accent/25 bg-brand-accent/[0.08] p-6 shadow-glow-soft transition-all duration-300 hover:border-brand-accent/50 hover:bg-brand-accent/[0.12] sm:flex-row sm:items-center"
+          >
+            <span className="flex items-center gap-4">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-accent text-brand-text-on-accent">
+                <Icon className="h-6 w-6" />
+              </span>
+              <span>
+                <span className="block text-lg font-semibold text-brand-text">{title}</span>
+                <span className="mt-1 block text-sm text-brand-text-secondary">{description}</span>
+              </span>
             </span>
-            <span>
-              <span className="block text-lg font-semibold text-brand-text">{t.communityPage.discordTitle}</span>
-              <span className="mt-1 block text-sm text-brand-text-secondary">{t.communityPage.discordDescription}</span>
+            <span className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-brand-accent px-5 py-3 text-sm font-semibold text-brand-text-on-accent">
+              {action}
+              <ExternalLink className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </span>
-          </span>
-          <span className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-brand-accent px-5 py-3 text-sm font-semibold text-brand-text-on-accent">
-            {t.communityPage.joinDiscord}
-            <ExternalLink className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </span>
-        </a>
+          </a>
+        ))}
 
         <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
           {[
