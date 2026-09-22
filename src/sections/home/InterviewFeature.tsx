@@ -1,26 +1,105 @@
-import { MessageSquareText } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight, Film, MessageSquareText, Play } from 'lucide-react';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useLang } from '../../i18n/LanguageContext';
 
+const films = [
+  {
+    id: 'concept-film-20260922',
+    src: '/media/demos/concept-film-20260922.mp4',
+    poster: '/media/demos/concept-film-20260922.jpg',
+    duration: '01:44',
+  },
+  {
+    id: 'concept-film',
+    src: '/media/demos/concept-film.mp4',
+    poster: '/media/demos/concept-film.jpg',
+    duration: '03:37',
+  },
+];
+
 export default function InterviewFeature() {
   const { lang } = useLang();
+  const [activeId, setActiveId] = useState(films[0].id);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [canScroll, setCanScroll] = useState({ previous: false, next: false });
   const copy = lang === 'zh'
     ? {
         label: '概念短片',
         title: '从会话到行动',
         highlight: '理解 PhyAgentOS',
-        description:
-          '通过概念短片展示 Session 文件协议、可审计验证，以及 PhyAgentOS 如何把思考、协议与真实物理执行连接起来。',
-        meta: '概念短片',
+        playlist: '概念短片播放列表',
+        hint: '左右滑动浏览，点击切换短片',
+        selected: '当前播放',
+        previous: '向左浏览概念短片',
+        next: '向右浏览概念短片',
+        films: [
+          {
+            title: 'PhyAgentOS 最新概念短片',
+            eyebrow: 'Concept Film · 最新短片',
+            description: '从会话到行动，了解 PhyAgentOS 如何连接智能体与物理世界。',
+          },
+          {
+            title: 'PhyAgentOS概念短片 . 配制六级pH彩虹',
+            eyebrow: 'Concept Film · 原版短片',
+            description: '三台机器人按自然语言指令协作配制六级pH彩虹。样本异常过冲后，无需重置，自主重规划修正，零人工干预完成验收，并将经验写入长期记忆。',
+          },
+        ],
       }
     : {
         label: 'Concept Film',
         title: 'From sessions to action',
         highlight: 'inside PhyAgentOS',
-        description:
-          'A concept film showing Session files, auditable verification, and how PhyAgentOS connects reasoning, protocol state, and real-world execution.',
-        meta: 'Concept film',
+        playlist: 'Concept film playlist',
+        hint: 'Swipe to browse, select a film to watch',
+        selected: 'Now playing',
+        previous: 'Browse previous concept films',
+        next: 'Browse next concept films',
+        films: [
+          {
+            title: 'PhyAgentOS — Latest Concept Film',
+            eyebrow: 'Concept Film · Latest',
+            description: 'From sessions to action: see how PhyAgentOS connects agents with the physical world.',
+          },
+          {
+            title: 'PhyAgentOS Concept Film . Preparing a Six-Level pH Rainbow',
+            eyebrow: 'Concept Film · Original',
+            description: 'Three robots follow natural-language instructions to prepare a six-level pH rainbow. After a sample anomaly causes an overshoot, the system replans and corrects without resetting, passes verification without human intervention, and stores the experience in long-term memory.',
+          },
+        ],
       };
+  const playlist = films.map((film, index) => ({ ...film, ...copy.films[index] }));
+  const activeFilm = playlist.find((film) => film.id === activeId) ?? playlist[0];
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const updateScrollControls = () => {
+      setCanScroll({
+        previous: track.scrollLeft > 1,
+        next: track.scrollLeft + track.clientWidth < track.scrollWidth - 1,
+      });
+    };
+    const observer = new ResizeObserver(updateScrollControls);
+    observer.observe(track);
+    track.addEventListener('scroll', updateScrollControls, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      track.removeEventListener('scroll', updateScrollControls);
+    };
+  }, []);
+
+  const scrollFilms = (direction: -1 | 1) => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    track.scrollBy({
+      left: direction * track.clientWidth * 0.84,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+    });
+  };
 
   return (
     <section id="interview" className="relative overflow-hidden py-20 lg:py-28">
@@ -48,9 +127,12 @@ export default function InterviewFeature() {
           <ScrollReveal delay={0.15}>
             <div className="relative overflow-hidden rounded-3xl border border-brand-border bg-black shadow-2xl">
               <video
-                className="aspect-video w-full object-cover"
-                src="/media/demos/concept-film.mp4"
-                poster="/media/demos/concept-film.jpg"
+                key={activeFilm.id}
+                id="concept-film-player"
+                aria-label={activeFilm.title}
+                className="aspect-video w-full object-contain"
+                src={activeFilm.src}
+                poster={activeFilm.poster}
                 controls
                 autoPlay
                 muted
@@ -58,6 +140,99 @@ export default function InterviewFeature() {
                 playsInline
               />
               <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10" />
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.2}>
+            <div className="mt-6">
+              <div className="mb-3 flex items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-sm font-semibold text-brand-text-secondary">{copy.playlist}</h3>
+                  <p className="mt-1 text-xs font-mono tracking-wide text-brand-text-tertiary">{copy.hint}</p>
+                </div>
+                <div className="flex shrink-0 items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => scrollFilms(-1)}
+                    disabled={!canScroll.previous}
+                    aria-label={copy.previous}
+                    aria-controls="concept-film-playlist"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-brand-border bg-brand-bg-secondary text-brand-text-secondary shadow-soft transition-all enabled:hover:-translate-y-0.5 enabled:hover:border-brand-accent/30 enabled:hover:text-brand-accent disabled:cursor-default disabled:opacity-35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                  >
+                    <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => scrollFilms(1)}
+                    disabled={!canScroll.next}
+                    aria-label={copy.next}
+                    aria-controls="concept-film-playlist"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-brand-border bg-brand-bg-secondary text-brand-text-secondary shadow-soft transition-all enabled:hover:-translate-y-0.5 enabled:hover:border-brand-accent/30 enabled:hover:text-brand-accent disabled:cursor-default disabled:opacity-35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                  >
+                    <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                  </button>
+                </div>
+              </div>
+
+              <div
+                ref={trackRef}
+                id="concept-film-playlist"
+                role="group"
+                aria-label={copy.playlist}
+                className="demo-carousel flex snap-x snap-mandatory gap-3 overflow-x-auto pb-4"
+              >
+                {playlist.map((film) => {
+                  const active = film.id === activeFilm.id;
+                  return (
+                    <button
+                      key={film.id}
+                      type="button"
+                      onClick={() => setActiveId(film.id)}
+                      aria-pressed={active}
+                      aria-controls="concept-film-player"
+                      className={`group relative flex w-[84%] flex-none snap-start flex-col gap-3 rounded-2xl border p-3 text-left transition-all duration-300 sm:w-[48%] lg:w-[32%] xl:w-[24%] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-accent ${
+                        active
+                          ? 'border-brand-accent/35 bg-brand-accent/10 shadow-glow-soft'
+                          : 'border-brand-border bg-brand-bg-secondary hover:border-brand-accent/30 hover:shadow-soft'
+                      }`}
+                    >
+                      <div className="relative w-full overflow-hidden rounded-xl bg-black">
+                        <img
+                          src={film.poster}
+                          alt=""
+                          loading="lazy"
+                          className="aspect-video w-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                        <span className="absolute bottom-2 left-2 rounded-full bg-black/65 px-2 py-0.5 text-[11px] font-mono text-white/85">
+                          {film.duration}
+                        </span>
+                        {active ? (
+                          <span className="absolute right-2 top-2 rounded-full bg-black/65 px-2 py-1 text-[11px] font-medium text-white">
+                            {copy.selected}
+                          </span>
+                        ) : (
+                          <span className="absolute inset-0 flex items-center justify-center">
+                            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/35 text-white transition-transform group-hover:scale-110">
+                              <Play className="ml-0.5 h-4 w-4" aria-hidden="true" />
+                            </span>
+                          </span>
+                        )}
+                      </div>
+                      <div className="min-w-0 w-full py-1">
+                        <div className="flex items-center gap-2 text-brand-text-tertiary">
+                          <Film className="h-4 w-4 shrink-0" aria-hidden="true" />
+                          <p className="truncate text-xs font-mono uppercase tracking-[0.14em]">{film.eyebrow}</p>
+                        </div>
+                        <h4 className={`mt-2 font-display text-lg font-bold leading-tight ${active ? 'text-brand-text' : 'text-brand-text-secondary'}`}>
+                          {film.title}
+                        </h4>
+                        <p className="mt-1 text-sm leading-6 text-brand-text-tertiary">{film.description}</p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </ScrollReveal>
         </div>
