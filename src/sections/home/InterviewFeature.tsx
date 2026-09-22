@@ -35,14 +35,14 @@ export default function InterviewFeature() {
         next: '向右浏览概念短片',
         films: [
           {
-            title: 'PhyAgentOS 最新概念短片',
-            eyebrow: 'Concept Film · 最新短片',
-            description: '从会话到行动，了解 PhyAgentOS 如何连接智能体与物理世界。',
+            title: '从会话到行动：让 AI 真正走进物理世界',
+            eyebrow: 'CONCEPT FILM · 全新短片',
+            description: '了解 PhyAgentOS 如何通过统一的 Harness，连接模型、技能与不同机器人，让 Physical Agent 能够执行、验证、恢复，并在真实交互中持续进化。',
           },
           {
-            title: 'PhyAgentOS概念短片 . 配制六级pH彩虹',
-            eyebrow: 'Concept Film · 原版短片',
-            description: '三台机器人按自然语言指令协作配制六级pH彩虹。样本异常过冲后，无需重置，自主重规划修正，零人工干预完成验收，并将经验写入长期记忆。',
+            title: '三个机器人，如何协作调制一杯六级 pH 彩虹？',
+            eyebrow: 'CONCEPT FILM · 经典案例',
+            description: '三个机器人根据自然语言指令协同完成实验，在异常发生后自主分析、重新规划并继续执行，最终完成验收，将成功经验沉淀为可复用的长期记忆。',
           },
         ],
       }
@@ -57,14 +57,14 @@ export default function InterviewFeature() {
         next: 'Browse next concept films',
         films: [
           {
-            title: 'PhyAgentOS — Latest Concept Film',
-            eyebrow: 'Concept Film · Latest',
-            description: 'From sessions to action: see how PhyAgentOS connects agents with the physical world.',
+            title: 'From Sessions to Action: Bringing AI into the Physical World',
+            eyebrow: 'CONCEPT FILM · New Film',
+            description: 'Discover how PhyAgentOS connects models, skills, and different robots through a unified Harness, enabling Physical Agents to execute, verify, recover, and continuously evolve through real-world interaction.',
           },
           {
-            title: 'PhyAgentOS Concept Film . Preparing a Six-Level pH Rainbow',
-            eyebrow: 'Concept Film · Original',
-            description: 'Three robots follow natural-language instructions to prepare a six-level pH rainbow. After a sample anomaly causes an overshoot, the system replans and corrects without resetting, passes verification without human intervention, and stores the experience in long-term memory.',
+            title: 'How Do Three Robots Work Together to Mix a Six-Level pH Rainbow?',
+            eyebrow: 'CONCEPT FILM · Classic Case',
+            description: 'Three robots follow natural-language instructions to carry out an experiment together. When an anomaly occurs, they independently analyze it, replan, and continue execution, ultimately passing verification and storing successful experience as reusable long-term memory.',
           },
         ],
       };
