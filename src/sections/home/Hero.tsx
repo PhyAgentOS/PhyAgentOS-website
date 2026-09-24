@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, FileText, Users } from 'lucide-react';
+import { ArrowRight, FileText, MonitorPlay, Users } from 'lucide-react';
 import gsap from 'gsap';
 import { useT } from '../../i18n/LanguageContext';
 import ParticleField from '../../components/three/ParticleField';
@@ -110,12 +110,13 @@ export default function Hero() {
           {/* CTA Buttons */}
           <div className="hero-animate flex flex-wrap justify-center gap-4 lg:flex-nowrap xl:gap-5">
             <a
-              href="https://github.com/PhyAgentOS/PhyAgentOS-core"
+              href="https://demo-phy-agent-os.x-era.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-2 whitespace-nowrap rounded-2xl bg-brand-accent px-5 py-4 text-sm font-semibold text-brand-text-on-accent shadow-glow-soft transition-all duration-300 hover:bg-brand-accent-light hover:shadow-glow xl:px-7 xl:text-base"
             >
-              {t.hero.getStarted}
+              <MonitorPlay className="h-5 w-5" />
+              {t.hero.onlineDemo}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
             <Link
@@ -136,6 +137,9 @@ export default function Hero() {
             </Link>
             <ActivityGallery />
           </div>
+          <p className="hero-animate mt-4 text-center text-xs text-brand-text-tertiary sm:text-sm">
+            The first login may take a little longer. Please be patient.
+          </p>
 
           {/* Stats preview */}
           <div className="hero-animate mt-16 grid w-full max-w-5xl grid-cols-2 gap-4 lg:grid-cols-4 sm:gap-5 lg:gap-6 mx-auto">

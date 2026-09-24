@@ -46,6 +46,7 @@ export interface TranslationShape {
     subtitle: string;
     description: string;
     getStarted: string;
+    onlineDemo: string;
     technicalReport: string;
     watchDemo: string;
     developerCommunity: string;
@@ -264,6 +265,7 @@ export const translations: Record<Lang, TranslationShape> = {
       subtitle: 'PhyAgentOS - A unified, transparent, and auditable runtime foundation for physical agents',
       description: '',
       getStarted: 'Get Started',
+      onlineDemo: 'Try Online',
       technicalReport: 'Technical Report',
       watchDemo: 'Watch Demo',
       developerCommunity: 'Developer Community',
@@ -641,6 +643,7 @@ export const translations: Record<Lang, TranslationShape> = {
       subtitle: 'PhyAgentOS-统一、透明、可审计的的物理智能体运行底座',
       description: '',
       getStarted: '快速开始',
+      onlineDemo: '在线体验',
       technicalReport: '技术报告',
       watchDemo: '观看演示',
       developerCommunity: '开发者社区',
