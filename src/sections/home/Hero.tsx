@@ -137,9 +137,6 @@ export default function Hero() {
             </Link>
             <ActivityGallery />
           </div>
-          <p className="hero-animate mt-4 text-center text-xs text-brand-text-tertiary sm:text-sm">
-            The first login may take a little longer. Please be patient.
-          </p>
 
           {/* Stats preview */}
           <div className="hero-animate mt-16 grid w-full max-w-5xl grid-cols-2 gap-4 lg:grid-cols-4 sm:gap-5 lg:gap-6 mx-auto">
