@@ -24,6 +24,7 @@ const collaborators = [
   { name: 'Zerith', logo: '/media/collaborators/zerith.png', href: 'https://zerith.com/' },
   { name: 'Digua Robot', logo: '/media/collaborators/digua.png', href: 'https://developer.d-robotics.cc/' },
   { name: 'SigmaStar', logo: '/media/collaborators/sigmastar.png', href: 'https://www.sigmastar.com.cn/' },
+  { name: 'Tianji', logo: '/media/collaborators/tianji.jpg', href: 'https://www.tianjizn.com/' },
 ];
   return (
     <section id="team" className="relative py-24 lg:py-32 overflow-hidden">
@@ -127,12 +128,16 @@ const collaborators = [
                     aria-label={`Visit ${company.name} official website`}
                     className="group relative flex items-center justify-center rounded-2xl border border-brand-border/40 bg-white/[0.92] p-6 shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-accent/30 hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-brand-bg"
                   >
-                    <img
-                      src={company.logo}
-                      alt={company.name}
-                      loading="lazy"
-                      className="max-h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
-                    />
+                    <span className="flex h-14 w-full items-center justify-center overflow-hidden">
+                      <img
+                        src={company.logo}
+                        alt={company.name}
+                        loading="lazy"
+                        className={company.name === 'Tianji'
+                          ? 'w-[190%] max-w-none shrink-0 transition-transform duration-300 group-hover:scale-[1.03]'
+                          : 'max-h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]'}
+                      />
+                    </span>
                     <span className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full border border-brand-border/60 bg-white/90 text-brand-text-tertiary opacity-0 shadow-soft transition-all duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
                       <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
                     </span>

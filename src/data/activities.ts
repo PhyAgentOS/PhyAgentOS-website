@@ -1,4 +1,5 @@
 import challengePoster from '../../pics/20260907-155708.jpg';
+import pazhouCompetitionPoster from '../../pics/pazhou-algorithm-competition-2026.png';
 import supermarketPoster from '../../pics/20260907-155721.jpg';
 import livestreamPoster from '../../pics/20260907-155726.jpg';
 import type { Lang } from '../i18n/translations';
@@ -17,6 +18,19 @@ export interface Activity {
 // Display order follows the supplied posters. Add an href when an event page is ready;
 // entries without one remain visible with a "Coming soon" status.
 export const activities: Activity[] = [
+  {
+    id: 'pazhou-algorithm-competition-2026',
+    poster: pazhouCompetitionPoster,
+    title: {
+      zh: '琶洲算法大赛 × 具身智能世界模型挑战赛',
+      en: 'Pazhou Algorithm Competition × Embodied Intelligence World Model Challenge',
+    },
+    description: {
+      zh: '双赛道：未来演化预测 · PAOS Skill',
+      en: 'Two tracks: future video generation · PAOS Skill',
+    },
+    href: 'https://www.aicompetition-pz.com/topic_detail/58',
+  },
   {
     id: 'actphyscause-lovif-2026',
     poster: challengePoster,
