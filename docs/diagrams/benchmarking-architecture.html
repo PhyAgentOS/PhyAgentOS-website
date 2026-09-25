@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhyAgentOS Benchmarking Architecture</title>
+  <style>
+    :root {
+      --ink: #18222b;
+      --muted: #61707c;
+      --line: #cbd5dc;
+      --paper: #f4f6f7;
+      --white: #fff;
+      --agent: #2463a9;
+      --agent-soft: #eaf2fb;
+      --runtime: #17735c;
+      --runtime-soft: #e6f4ef;
+      --protocol: #9a5b08;
+      --protocol-soft: #fff3dc;
+      --artifact: #674a9b;
+      --artifact-soft: #f0ebf8;
+      --error: #a63c3c;
+      --error-soft: #faeaea;
+      --dark: #1c2933;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+      letter-spacing: 0;
+    }
+    code, .mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+    header {
+      padding: 32px clamp(18px, 4vw, 56px) 26px;
+      color: var(--white);
+      background: var(--dark);
+      border-bottom: 5px solid #31a078;
+    }
+    header h1 { margin: 0; font-size: clamp(28px, 4vw, 44px); font-weight: 760; }
+    header p { max-width: 980px; margin: 9px 0 0; color: #cbd5dc; font-size: 15px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 18px; color: #aebcc6; font-size: 12px; }
+    main { width: min(1500px, 100%); margin: 0 auto; padding: 24px clamp(14px, 3vw, 40px) 42px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 12px 22px; margin-bottom: 18px; color: var(--muted); font-size: 12px; }
+    .legend span { display: inline-flex; align-items: center; gap: 7px; }
+    .dot { width: 11px; height: 11px; border: 2px solid currentColor; background: var(--white); }
+    .diagram { overflow: hidden; border: 1px solid var(--line); background: var(--white); }
+    .band { padding: 18px; border-bottom: 1px solid var(--line); }
+    .band:last-child { border-bottom: 0; }
+    .band-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 14px; }
+    .band-head h2 { margin: 0; color: #344454; font-size: 15px; text-transform: uppercase; }
+    .band-head small { color: var(--muted); font-size: 11px; text-align: right; }
+    .boundary-grid { display: grid; grid-template-columns: 1fr 48px 1fr; gap: 10px; align-items: stretch; }
+    .domain {
+      min-width: 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--agent);
+      background: var(--agent-soft);
+    }
+    .domain.runtime { border-top-color: var(--runtime); background: var(--runtime-soft); }
+    .domain h3 { margin: 0 0 7px; font-size: 16px; }
+    .domain p { margin: 0 0 10px; color: var(--muted); font-size: 12px; }
+    .domain ul { display: grid; gap: 5px; margin: 0; padding-left: 17px; font-size: 11px; }
+    .not-equal { display: grid; place-items: center; color: var(--error); font-size: 31px; font-weight: 700; }
+    .callout {
+      margin-top: 12px;
+      padding: 10px 12px;
+      color: #5e430f;
+      border: 1px dashed var(--protocol);
+      background: var(--protocol-soft);
+      font-size: 11px;
+    }
+    .gate-grid { display: grid; grid-template-columns: minmax(180px, .85fr) 42px minmax(390px, 1.7fr) 42px minmax(170px, .8fr); gap: 8px; align-items: stretch; }
+    .node { min-width: 0; padding: 13px; border: 1px solid var(--line); border-left: 4px solid var(--agent); background: var(--white); }
+    .node h3 { margin: 0 0 5px; font-size: 13px; }
+    .node p { margin: 0; color: var(--muted); font-size: 10px; overflow-wrap: anywhere; }
+    .node.agent { border-left-color: var(--agent); background: var(--agent-soft); }
+    .node.runtime { border-left-color: var(--runtime); background: var(--runtime-soft); }
+    .node.protocol { border-left-color: var(--protocol); background: var(--protocol-soft); }
+    .node.artifact { border-left-color: var(--artifact); background: var(--artifact-soft); }
+    .node.error { border-left-color: var(--error); background: var(--error-soft); }
+    .arrow { position: relative; min-height: 66px; }
+    .arrow::before { content: ""; position: absolute; top: 50%; left: 4px; right: 10px; border-top: 2px solid #7f8e99; }
+    .arrow::after { content: ""; position: absolute; top: calc(50% - 5px); right: 4px; width: 8px; height: 8px; border-top: 2px solid #7f8e99; border-right: 2px solid #7f8e99; transform: rotate(45deg); }
+    .arrow label { position: absolute; top: calc(50% - 22px); left: 50%; padding: 0 4px; color: var(--muted); background: var(--white); font-size: 9px; white-space: nowrap; transform: translateX(-50%); }
+    .checks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .check { min-width: 0; padding: 11px; border: 1px solid var(--line); background: var(--white); }
+    .check b { display: block; font-size: 11px; }
+    .check code { display: block; margin-top: 5px; color: var(--runtime); font-size: 9px; overflow-wrap: anywhere; }
+    .check small { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; }
+    .gate-result { display: grid; gap: 8px; }
+    .result { padding: 10px; border: 1px solid var(--line); font-size: 11px; }
+    .result.yes { color: var(--runtime); border-color: #9bc8b8; background: var(--runtime-soft); }
+    .result.no { color: var(--error); border-color: #dbadad; background: var(--error-soft); }
+    .sequence { display: grid; grid-template-columns: repeat(7, 1fr); border: 1px solid var(--line); }
+    .seq { position: relative; min-height: 132px; padding: 13px 11px 12px 38px; border-right: 1px solid var(--line); background: var(--white); }
+    .seq:last-child { border-right: 0; }
+    .seq i { position: absolute; top: 12px; left: 10px; width: 19px; height: 19px; color: var(--white); background: #344454; font-style: normal; font-size: 10px; line-height: 19px; text-align: center; }
+    .seq b { display: block; font-size: 11px; }
+    .seq p { margin: 5px 0 0; color: var(--muted); font-size: 9px; }
+    .seq code { color: var(--protocol); font-size: 9px; overflow-wrap: anywhere; }
+    .plane { margin: 15px 0 13px; border-top: 2px dashed #758591; text-align: center; }
+    .plane span { position: relative; top: -10px; padding: 2px 10px; color: var(--muted); background: var(--white); font-size: 10px; }
+    .runtime-line { display: grid; grid-template-columns: 1fr 34px 1fr 34px 1fr 34px 1fr; gap: 6px; align-items: stretch; }
+    .mini-arrow { display: grid; place-items: center; color: #7f8e99; font-size: 22px; }
+    .sources { display: grid; grid-template-columns: repeat(3, 1fr) 54px minmax(240px, 1.25fr); gap: 10px; align-items: stretch; }
+    .source { padding: 13px; border: 1px solid var(--line); border-top: 4px solid var(--artifact); background: var(--artifact-soft); }
+    .source h3 { margin: 0 0 6px; font-size: 12px; }
+    .source p { margin: 0; color: var(--muted); font-size: 9px; }
+    .merge { display: grid; place-items: center; color: var(--artifact); font-size: 27px; }
+    .metric-box { padding: 14px; border: 2px solid var(--artifact); background: var(--white); }
+    .metric-box h3 { margin: 0 0 8px; font-size: 13px; }
+    .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .metric { padding: 8px; border: 1px solid #d9cfe9; background: var(--artifact-soft); }
+    .metric b { display: block; color: var(--artifact); font-size: 10px; }
+    .metric span { display: block; margin-top: 2px; color: var(--muted); font-size: 8px; }
+    .report-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 12px; }
+    .report { padding: 14px; border: 1px solid var(--line); background: #fafbfc; }
+    .report h3 { margin: 0 0 10px; font-size: 13px; }
+    .report-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+    .report-part { min-height: 72px; padding: 9px; border: 1px solid var(--line); border-top: 3px solid var(--protocol); background: var(--white); }
+    .report-part b { display: block; font-size: 10px; }
+    .report-part small { display: block; margin-top: 3px; color: var(--muted); font-size: 8px; }
+    .rule-list { display: grid; gap: 7px; }
+    .rule { display: grid; grid-template-columns: 25px 1fr; gap: 8px; align-items: start; padding: 8px; border: 1px solid var(--line); background: var(--white); }
+    .rule i { width: 21px; height: 21px; color: var(--white); background: var(--runtime); font-style: normal; font-size: 10px; line-height: 21px; text-align: center; }
+    .rule b { display: block; font-size: 10px; }
+    .rule span { display: block; color: var(--muted); font-size: 8px; }
+    .file-map { display: grid; grid-template-columns: repeat(5, 1fr); gap: 9px; }
+    .file-card { min-width: 0; padding: 11px; border: 1px solid var(--line); background: var(--white); }
+    .file-card b { display: block; color: #344454; font-size: 10px; overflow-wrap: anywhere; }
+    .file-card span { display: block; margin-top: 4px; color: var(--muted); font-size: 8px; }
+    footer { margin-top: 14px; color: var(--muted); font-size: 10px; text-align: right; }
+    @media (max-width: 1100px) {
+      .gate-grid { grid-template-columns: 1fr; }
+      .gate-grid > .arrow { min-height: 34px; }
+      .sequence { grid-template-columns: repeat(4, 1fr); }
+      .seq:nth-child(4) { border-right: 0; }
+      .seq:nth-child(-n+4) { border-bottom: 1px solid var(--line); }
+      .sources { grid-template-columns: repeat(3, 1fr); }
+      .sources .merge { grid-column: 1 / -1; min-height: 30px; }
+      .metric-box { grid-column: 1 / -1; }
+      .file-map { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 760px) {
+      .boundary-grid, .report-grid { grid-template-columns: 1fr; }
+      .not-equal { min-height: 35px; }
+      .checks, .sequence, .sources, .report-flow, .file-map { grid-template-columns: 1fr; }
+      .seq, .seq:nth-child(4) { min-height: 92px; border-right: 0; border-bottom: 1px solid var(--line); }
+      .seq:last-child { border-bottom: 0; }
+      .runtime-line { grid-template-columns: 1fr; }
+      .mini-arrow { min-height: 28px; transform: rotate(90deg); }
+      .sources .merge, .metric-box { grid-column: auto; }
+      .gate-grid .arrow::before { top: 3px; bottom: 10px; left: 50%; right: auto; border-top: 0; border-left: 2px solid #7f8e99; }
+      .gate-grid .arrow::after { top: auto; bottom: 4px; right: calc(50% - 4px); transform: rotate(135deg); }
+      .gate-grid .arrow label { top: 8px; left: calc(50% + 42px); }
+    }
+    @media print {
+      body { background: var(--white); }
+      header { background: var(--dark) !important; print-color-adjust: exact; }
+      main { width: 100%; padding: 12px; }
+      .diagram { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>PhyAgentOS Benchmarking Architecture</h1>
+    <p>Benchmarking 是 Agent Control Plane 中的流程型技能：它检查 Runtime 是否存在可执行的 simulation + policy 组合，发现任务、生成 Sessions，并在 Watchdog 完成执行后聚合证据、计算指标、生成实验报告。</p>
+    <div class="meta">
+      <span>代码基线：SkillsLoader · ContextBuilder · Benchmarking SKILL.md</span>
+      <span>执行基线：SESSIONS.md · WatchdogSupervisor · ResultWriter</span>
+      <span>数据基线：LOG.md · episode.json · SessionResult</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="legend">
+      <span style="color:var(--agent)"><i class="dot"></i>Agent 控制面</span>
+      <span style="color:var(--runtime)"><i class="dot"></i>Runtime 执行面</span>
+      <span style="color:var(--protocol)"><i class="dot"></i>文件 / RPC 协议</span>
+      <span style="color:var(--artifact)"><i class="dot"></i>证据与报告</span>
+      <span style="color:var(--error)"><i class="dot"></i>不可用 / 失败</span>
+    </div>
+
+    <section class="diagram">
+      <div class="band">
+        <div class="band-head"><h2>1 · Architectural Boundary</h2><small>Agent skill 负责“如何评测”；SkillRuntime 负责“如何执行策略”</small></div>
+        <div class="boundary-grid">
+          <article class="domain">
+            <h3>benchmarking · Agent Skill</h3>
+            <p><code>PhyAgentOS/skills/benchmarking/SKILL.md</code></p>
+            <ul>
+              <li>进入 Agent skills summary，按需加载 Markdown 指令。</li>
+              <li>选择 target / policy skillruntime，发现 task list。</li>
+              <li>创建 pending sessions，等待标准 Runtime 回写。</li>
+              <li>聚合日志与 artifacts，计算指标并撰写报告。</li>
+            </ul>
+          </article>
+          <div class="not-equal">≠</div>
+          <article class="domain runtime">
+            <h3>Policy SkillRuntime · Runtime Executor</h3>
+            <p><code>SKILLRUNTIME.md → runtime_kind: policy</code></p>
+            <ul>
+              <li>实现 policy closed loop、observation/action contract。</li>
+              <li>由 SessionRunner 与 WatchdogSupervisor 调度。</li>
+              <li>连接 target、policy client、adapter 与 safety bridge。</li>
+              <li>产出 SessionResult，不负责评测实验编排。</li>
+            </ul>
+          </article>
+        </div>
+        <div class="callout"><b>关键边界：</b>Benchmarking 不新增 <code>SKILLRUNTIME.md</code> 条目，也不直接实例化 <code>SessionRunner</code>。它通过现有 session 协议复用 Runtime 的执行与回写能力。</div>
+      </div>
+
+      <div class="band">
+        <div class="band-head"><h2>2 · Runtime-Aware Availability Gate</h2><small>控制“技能是否可见”，不替代 Runtime preflight</small></div>
+        <div class="gate-grid">
+          <div class="node agent">
+            <h3>ContextBuilder</h3>
+            <p>传入 <code>workspace</code>、独立 <code>runtime_workspace</code>、<code>runtime_enabled</code> 和 target enabled overrides。</p>
+          </div>
+          <div class="arrow"><label>construct</label></div>
+          <div class="node">
+            <h3>SkillsLoader._check_runtime_requirement()</h3>
+            <div class="checks">
+              <div class="check"><b>① Runtime 模式</b><code>enabled == true</code><small>配置关闭时立即不可用。</small></div>
+              <div class="check"><b>② Simulation Target</b><code>target_kind: simulation</code><small>读取 runtime workspace 的 TARGETS.md。</small></div>
+              <div class="check"><b>③ Target 已启用</b><code>enabled: true</code><small>应用 runtime_target_enabled 覆盖。</small></div>
+              <div class="check"><b>④ Policy 可连接</b><code>supported ∩ policy IDs</code><small>必须支持真实存在的 policy skillruntime。</small></div>
+            </div>
+          </div>
+          <div class="arrow"><label>visibility</label></div>
+          <div class="gate-result">
+            <div class="result yes"><b>available=true</b><br>出现在 skills summary，可被 Agent 按需读取。</div>
+            <div class="result no"><b>available=false</b><br>summary 显示具体 Runtime 缺失原因。</div>
+          </div>
+        </div>
+        <div class="callout"><b>声明入口：</b><code>requires.runtime = { enabled: true, target_kind: "simulation", skillruntime_kind: "policy" }</code>。若 <code>TARGETS.md</code> 或 <code>SKILLRUNTIME.md</code> 缺失/无效，技能保持不可用。</div>
+      </div>
+
+      <div class="band">
+        <div class="band-head"><h2>3 · Benchmark Lifecycle</h2><small>Agent 编排 → Runtime 执行 → Agent 汇总</small></div>
+        <div class="sequence">
+          <div class="seq"><i>1</i><b>Load Protocol</b><p>读取 RUNTIME、TARGETS、SKILLRUNTIME、SESSIONS、LOG。</p></div>
+          <div class="seq"><i>2</i><b>Select Pair</b><p>选择 enabled simulation target 与其支持的 policy skillruntime。</p></div>
+          <div class="seq"><i>3</i><b>Discover Tasks</b><p>优先调用 <code>target.describe</code> 获取 task_list；失败时回退静态 config。</p></div>
+          <div class="seq"><i>4</i><b>Compile Sessions</b><p>按 task × init-state 生成唯一 pending session，保留既有记录。</p></div>
+          <div class="seq"><i>5</i><b>Execute</b><p>Watchdog claim、preflight、SessionRunner、policy loop。</p></div>
+          <div class="seq"><i>6</i><b>Write Back</b><p>回写 SessionResult、LOG.md 和每个 episode artifact。</p></div>
+          <div class="seq"><i>7</i><b>Report</b><p>聚合成功率、steps、reward、错误分布，生成论文风格报告。</p></div>
+        </div>
+
+        <div class="plane"><span>Agent Control Plane ↑　　文件协议 / TargetWS RPC　　Runtime Execution Plane ↓</span></div>
+        <div class="runtime-line">
+          <div class="node protocol"><h3>SESSIONS.md</h3><p><code>status: pending</code><br>target_ref · skillruntime_ref · task_description · routing · execution</p></div>
+          <div class="mini-arrow">→</div>
+          <div class="node runtime"><h3>WatchdogSupervisor</h3><p>claim → health/preflight → running → finalizing；拒绝不兼容组合。</p></div>
+          <div class="mini-arrow">→</div>
+          <div class="node runtime"><h3>SessionRunner</h3><p>target lifecycle + policy inference + adapter/bridge + execution status。</p></div>
+          <div class="mini-arrow">→</div>
+          <div class="node artifact"><h3>ResultWriter</h3><p>SessionResult → episode.json → LOG.md → SESSIONS.md final state。</p></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="band-head"><h2>4 · Evidence Aggregation</h2><small>按字段优先级读取，避免从文本日志猜测结果</small></div>
+        <div class="sources">
+          <article class="source">
+            <h3>SESSIONS.md</h3>
+            <p>最终 status、result.success、num_steps、return_value、artifact_dir、error_code。</p>
+          </article>
+          <article class="source">
+            <h3>LOG.md</h3>
+            <p>按 session_id 索引的历史摘要、目标、状态、延迟、错误和 artifact 路径。</p>
+          </article>
+          <article class="source">
+            <h3>episode.json</h3>
+            <p><code>benchmark</code>、task/init-state、success、reward、steps、chunks 和 metadata。</p>
+          </article>
+          <div class="merge">Σ</div>
+          <div class="metric-box">
+            <h3>Run-Level Metrics</h3>
+            <div class="metrics">
+              <div class="metric"><b>Success Rate</b><span>successes / total episodes</span></div>
+              <div class="metric"><b>Per-Task SR</b><span>group by task_id</span></div>
+              <div class="metric"><b>Step Statistics</b><span>mean + median completed steps</span></div>
+              <div class="metric"><b>Reward / Return</b><span>mean when available</span></div>
+              <div class="metric"><b>Status Counts</b><span>failed · timed_out · rejected · cancelled</span></div>
+              <div class="metric"><b>Error Taxonomy</b><span>error_code frequency + examples</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="callout"><b>字段优先级：</b><code>episode.json["benchmark"]</code> → <code>result.metadata.final_status</code> → session-level result。静态 task discovery 或缺失指标必须在报告中显式披露。</div>
+      </div>
+
+      <div class="band">
+        <div class="band-head"><h2>5 · Experiment Report Contract</h2><small>benchmark-aware，而不是固定模板堆砌</small></div>
+        <div class="report-grid">
+          <article class="report">
+            <h3>Recommended Report Structure</h3>
+            <div class="report-flow">
+              <div class="report-part"><b>Setup</b><small>target、policy、endpoint、runtime config</small></div>
+              <div class="report-part"><b>Benchmark</b><small>suite、task split、init states、task source</small></div>
+              <div class="report-part"><b>Metrics</b><small>成功定义、聚合口径、缺失值处理</small></div>
+              <div class="report-part"><b>Results</b><small>总体表、per-task 表、steps/reward</small></div>
+              <div class="report-part"><b>Failures</b><small>状态分布、error_code、代表案例</small></div>
+              <div class="report-part"><b>Artifacts</b><small>session IDs、episode paths、logs</small></div>
+              <div class="report-part"><b>Reproduce</b><small>max_steps、replan、timeouts、版本</small></div>
+              <div class="report-part"><b>Discussion</b><small>与对应 simulation 论文口径对齐</small></div>
+            </div>
+          </article>
+          <article class="report">
+            <h3>Reporting Invariants</h3>
+            <div class="rule-list">
+              <div class="rule"><i>1</i><div><b>保持原始证据不可变</b><span>报告只引用和汇总，不覆盖 runtime 日志与 episode artifacts。</span></div></div>
+              <div class="rule"><i>2</i><div><b>记录任务来源</b><span>区分 live target.describe 与 TARGETS.md 静态回退。</span></div></div>
+              <div class="rule"><i>3</i><div><b>区分失败类型</b><span>policy failure、timeout、preflight rejection 不应混为普通 task failure。</span></div></div>
+              <div class="rule"><i>4</i><div><b>对齐论文口径</b><span>如 LIBERO 报告 suite、task、init-state 和 success-rate 聚合方式。</span></div></div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="band-head"><h2>6 · Source Map</h2><small>图中行为对应当前代码与协议文件</small></div>
+        <div class="file-map">
+          <div class="file-card"><b>agent/skills.py</b><span>解析 metadata、检查 runtime requirements、输出 availability。</span></div>
+          <div class="file-card"><b>agent/context.py</b><span>传递 agent/runtime workspace 与 runtime enable overrides。</span></div>
+          <div class="file-card"><b>skills/benchmarking/SKILL.md</b><span>定义 discovery、session construction、aggregation 和 report workflow。</span></div>
+          <div class="file-card"><b>runtime/watchdog/supervisor.py</b><span>session claim、preflight、execution、final state。</span></div>
+          <div class="file-card"><b>runtime/artifacts/episode_writer.py</b><span>将 benchmark episode summary 提升到 episode.json。</span></div>
+        </div>
+      </div>
+    </section>
+    <footer>Generated from current PhyAgentOS design and source · standalone responsive HTML</footer>
+  </main>
+</body>
+</html>

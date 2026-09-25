@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhyAgentOS SessionVerifier Architecture</title>
+  <style>body{margin:0;background:#f5f7f8;color:#17202a;font:15px/1.55 system-ui,sans-serif}header{padding:30px 5%;background:#20252b;color:white;border-bottom:5px solid #d18b2c}main{max-width:1200px;margin:auto;padding:24px}.lang{color:#ffe0ae}section,.card{background:white;border:1px solid #cbd4dc;padding:16px;margin-bottom:16px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}.flow{font-family:monospace;background:#e7f5ef;padding:16px;overflow:auto}h2{font-size:18px;color:#344454}.note{color:#607080}</style>
+</head>
+<body>
+<header><h1>SessionVerifier Architecture</h1><p>Execution success is not semantic task completion. SessionVerifier evaluates final RGB, task, environment, and history evidence in the Agent control plane.</p><a class="lang" href="session-verifier-architecture.html">中文</a></header>
+<main>
+  <section><h2>1 · Evidence Production</h2><div class="flow">Target final observation → SessionRunner.last_status → ResultWriter → episode.json + verification_bundle.json + rgb/final_*.png → awaiting_verification</div><p>Track B records facts. It does not make the semantic verdict.</p></section>
+  <section><h2>2 · Entry Paths</h2><div class="grid"><div class="card"><b>Automatic apply</b><p>The background worker claims the first awaiting Session and applies a verdict.</p></div><div class="card"><b>verify_session tool</b><p>The Agent applies a waiting Session or reviews a terminal Session while retained evidence is available.</p></div></div></section>
+  <section><h2>3 · State Machine</h2><div class="flow">pending → claimed → running → finalizing → awaiting_verification → verifying → succeeded | failed | replanned</div><p>A replan keeps the original terminal Session and appends a new pending child. A review never changes terminal state or creates a child.</p></section>
+  <section><h2>4 · RGB Retention</h2><div class="grid"><div class="card"><b>all</b><p>Keep RGB for every valid verdict.</p></div><div class="card"><b>failed (default)</b><p>Delete successful RGB; retain failure and replan evidence.</p></div><div class="card"><b>none</b><p>Delete RGB after every valid verdict.</p></div></div><p class="note">Verification errors retain evidence. Retention errors do not reverse a committed Session verdict.</p></section>
+  <section><h2>5 · Audit Record</h2><p><code>result.metadata.verification.attempts</code> records attempt ID, timestamp, source, apply/review mode, verdict, evidence, lesson, details, and error. Retention metadata records policy, status, deleted paths, and errors.</p></section>
+  <section><h2>6 · Configuration</h2><div class="flow">agents.verification.enabled · model · maxReplans · rgbRetention</div><p>The service and tool are registered only when both Runtime and verification are enabled.</p></section>
+</main>
+</body>
+</html>
