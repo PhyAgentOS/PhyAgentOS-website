@@ -9,6 +9,13 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      const redirect = sessionStorage.getItem('phyagentos-spa-redirect');
+      if (redirect) {
+        sessionStorage.removeItem('phyagentos-spa-redirect');
+        window.history.replaceState(null, '', redirect);
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

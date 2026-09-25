@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './themes/ThemeContext';
 import { LanguageProvider } from './i18n/LanguageContext';
 import Navigation from './sections/shared/Navigation';
@@ -21,7 +21,7 @@ function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <HashRouter>
+        <BrowserRouter>
           <div
             className="relative min-h-screen flex flex-col transition-colors duration-500"
             style={{ backgroundColor: 'var(--color-bg)' }}
@@ -51,7 +51,7 @@ function App() {
             <Footer />
             <LanguageToggle />
           </div>
-        </HashRouter>
+        </BrowserRouter>
       </LanguageProvider>
     </ThemeProvider>
   );
