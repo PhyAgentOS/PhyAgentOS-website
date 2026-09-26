@@ -135,6 +135,27 @@ export interface TranslationShape {
     title: string;
     highlight: string;
     description: string;
+    preliminary: string;
+    pending: string;
+    protocolPending: string;
+    resultsPending: string;
+    successRate: string;
+    strategies: string;
+    baseline: string;
+    unreported: string;
+    comparisonNote: string;
+    pendingNote: string;
+    selectBenchmark: string;
+    details: string;
+    strategy: string;
+    tasks: string;
+    episodes: string;
+    runtime: string;
+    tokens: string;
+    cost: string;
+    sourceNote: string;
+    directNote: string;
+    costNote: string;
     chart1Title: string;
     chart1Subtitle: string;
     chartCalvinTitle: string;
@@ -483,10 +504,31 @@ export const translations: Record<Lang, TranslationShape> = {
       ],
     },
     benchmark: {
-      label: 'Benchmark',
-      title: 'Performance',
-      highlight: "that's auditable",
-      description: 'Agent-assisted validation on LIBERO, CALVIN ABC→D, and RoboCasa365 target50, with recovery traceable through AgentTask records, evidence, verdicts, and scoped Lessons.',
+      label: 'Benchmarks',
+      title: 'Different policies,',
+      highlight: 'shared benchmarks',
+      description: 'Explore PhyAgentOS support for VLM Direct and VLM + VLA Hybrid control across robotics benchmarks.',
+      preliminary: 'Preliminary results',
+      pending: 'Results pending',
+      protocolPending: 'Reported success rates · Evaluation settings under review',
+      resultsPending: 'Evaluation results are being prepared.',
+      successRate: 'Success rate',
+      strategies: 'Control policies and reported success rates',
+      baseline: 'VLA · Reference baseline',
+      unreported: 'Pending',
+      comparisonNote: 'Evaluation protocols may differ. These reported scores are not a matched ranking.',
+      pendingNote: 'Scores will appear here once available. Missing results do not indicate a zero success rate.',
+      selectBenchmark: 'Select a benchmark',
+      details: 'Evaluation settings & cost details',
+      strategy: 'Policy',
+      tasks: 'Tasks',
+      episodes: 'Episodes (reported)',
+      runtime: 'Time / episode',
+      tokens: 'Tokens',
+      cost: 'Est. cost (USD)',
+      sourceNote: 'Source: the experimental summary. The LIBERO subset, task counts, and episode definition are being checked; the episode field does not establish the total number of trials. Model names and cost estimates are reproduced as reported.',
+      directNote: 'VLM Direct configurations use zero-shot control.',
+      costNote: 'Costs are estimated from newapi usage and may differ from actual costs.',
       chart1Title: 'Agent-assisted LIBERO validation',
       chart1Subtitle: 'Overall task success rate before and after verifier-triggered retry.',
       chartCalvinTitle: 'Agent-assisted CALVIN ABC→D validation',
@@ -863,9 +905,30 @@ export const translations: Record<Lang, TranslationShape> = {
     },
     benchmark: {
       label: '性能基准',
-      title: '可审计的',
-      highlight: '性能表现',
-      description: 'LIBERO、CALVIN ABC→D 与 RoboCasa365 target50 上的智能体辅助验证结果，每次恢复均可通过 AgentTask 记录、证据、verdict 与 scoped Lesson 追溯。',
+      title: '多种策略，',
+      highlight: '统一评测',
+      description: '在不同基准中，展示 PhyAgentOS 对 VLM 直接控制与 VLM + VLA 混合控制的支持。',
+      preliminary: '初步结果',
+      pending: '结果待补充',
+      protocolPending: '实验汇总成功率 · 评测设置待核对',
+      resultsPending: '评测结果整理中，完成后将在此展示。',
+      successRate: '任务成功率',
+      strategies: '控制策略与已报告成功率',
+      baseline: 'VLA · 参考基线',
+      unreported: '待补充',
+      comparisonNote: '各策略的评测设置尚待统一核对，当前结果不构成同条件排名。',
+      pendingNote: '尚未提供的成绩保留为空，待结果补充后更新。',
+      selectBenchmark: '选择评测基准',
+      details: '评测设置与费用详情',
+      strategy: '策略',
+      tasks: 'Task 数量',
+      episodes: 'Episode 数（原表）',
+      runtime: '运行时间 / episode',
+      tokens: '消耗 Token',
+      cost: '估算费用 (USD)',
+      sourceNote: '数据摘自实验汇总表。LIBERO 子集、任务数量及 Episode 字段含义待核对；该字段暂不作为总评测回合数。模型名称与估算费用按原表记录。',
+      directNote: 'VLM Direct 控制模式均为 zero-shot。',
+      costNote: '费用按 newapi 统计消耗量估算，实际成本可能有偏差。',
       chart1Title: '智能体辅助 LIBERO 验证',
       chart1Subtitle: '展示验证器触发重试前后的总体任务成功率。',
       chartCalvinTitle: '智能体辅助 CALVIN ABC→D 验证',

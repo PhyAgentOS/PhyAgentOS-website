@@ -1,0 +1,114 @@
+<style>
+  #paos-benchmark-proposal { --paos-bg: light-dark(#f6f4ef,#182128); --paos-panel: light-dark(#fcfaf5,#202c35); --paos-text: light-dark(#2d3a45,#edf1f3); --paos-muted: light-dark(#5d6b78,#b3c0ca); --paos-line: light-dark(#ddd7ca,#42535f); --paos-hybrid: light-dark(#5c7385,#9ab8cc); --paos-direct: light-dark(#91a6b5,#668ca8); --paos-baseline: light-dark(#bec4c8,#67757f); color:var(--paos-text); font:14px/1.6 'Manrope','Noto Sans SC',system-ui,sans-serif; }
+  #paos-benchmark-proposal * {box-sizing:border-box;}
+  #paos-benchmark-proposal .paos-section {background:var(--paos-bg); padding:32px 24px; border-radius:20px;}
+  #paos-benchmark-proposal .paos-heading {text-align:center;margin-bottom:24px;}
+  #paos-benchmark-proposal .paos-kicker {font-size:11px;letter-spacing:2px;color:var(--paos-muted);}
+  #paos-benchmark-proposal h2 {font-size:30px;line-height:1.3;font-weight:600;margin:10px 0;}
+  #paos-benchmark-proposal p {margin:0;color:var(--paos-muted);}
+  #paos-benchmark-proposal .paos-panel {background:var(--paos-panel);border:1px solid var(--paos-line);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:20px;}
+  #paos-benchmark-proposal .paos-head {display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 12px;}
+  #paos-benchmark-proposal h3 {font-size:20px;margin:0;font-weight:600;}
+  #paos-benchmark-proposal .paos-small {font-size:12px;color:var(--paos-muted);}
+  #paos-benchmark-proposal .paos-warning {text-align:center;margin-top:12px;font-size:12px;}
+  #paos-benchmark-proposal .paos-axis {display:flex;justify-content:space-between;margin-left:190px;padding-right:50px;font-size:11px;color:var(--paos-muted);}
+  #paos-benchmark-proposal .paos-rows {display:grid;gap:16px;margin-top:10px;}
+  #paos-benchmark-proposal .paos-row {display:grid;grid-template-columns:178px minmax(0,1fr) 44px;gap:12px;align-items:center;}
+  #paos-benchmark-proposal .paos-model {font-weight:500;line-height:1.4;}
+  #paos-benchmark-proposal .paos-model small {display:block;font-size:11px;font-weight:400;color:var(--paos-muted);margin-top:3px;}
+  #paos-benchmark-proposal .paos-track {height:18px;background:color-mix(in srgb,var(--paos-line) 27%,transparent);border-radius:3px;}
+  #paos-benchmark-proposal .paos-bar {height:100%;border-radius:3px;transition:width .25s ease;}
+  #paos-benchmark-proposal [data-mode="hybrid"] .paos-bar {background:var(--paos-hybrid);}
+  #paos-benchmark-proposal [data-mode="direct"] .paos-bar {background:var(--paos-direct);}
+  #paos-benchmark-proposal [data-mode="baseline"] .paos-bar {background:var(--paos-baseline);}
+  #paos-benchmark-proposal .paos-value {font-variant-numeric:tabular-nums;text-align:right;font-weight:500;}
+  #paos-benchmark-proposal .paos-tabs {display:flex;justify-content:center;flex-wrap:wrap;gap:8px;}
+  #paos-benchmark-proposal .paos-tabs button {font:inherit;font-size:13px;color:var(--paos-muted);background:var(--paos-panel);border:1px solid var(--paos-line);border-radius:9px;padding:9px 16px;min-height:44px;}
+  #paos-benchmark-proposal .paos-tabs button[aria-selected="true"] {background:var(--paos-hybrid);border-color:var(--paos-hybrid);color:light-dark(#fff,#17242e);}
+  #paos-benchmark-proposal .paos-details {border-top:1px solid var(--paos-line);padding-top:12px;}
+  #paos-benchmark-proposal summary {color:var(--paos-muted);font-size:12px;min-height:32px;}
+  #paos-benchmark-proposal dl {display:grid;grid-template-columns:90px 1fr;gap:8px;font-size:12px;margin:10px 0 0;}
+  #paos-benchmark-proposal dt {color:var(--paos-muted);}
+  #paos-benchmark-proposal dd {margin:0;}
+  @media(max-width:560px) {#paos-benchmark-proposal .paos-section {padding:24px 12px;}#paos-benchmark-proposal .paos-panel{padding:18px 14px;}#paos-benchmark-proposal h2{font-size:25px;}#paos-benchmark-proposal .paos-row{grid-template-columns:minmax(0,1fr) 44px;gap:5px 10px;}#paos-benchmark-proposal .paos-model{grid-column:1 / -1;}#paos-benchmark-proposal .paos-model small{display:inline;margin-left:7px;}#paos-benchmark-proposal .paos-axis{margin-left:0;padding-right:54px;}#paos-benchmark-proposal .paos-tabs button{padding:8px 11px;}}
+  @media(prefers-reduced-motion:reduce){#paos-benchmark-proposal .paos-bar{transition:none;}}
+</style>
+<div id="paos-benchmark-proposal" aria-label="PhyAgentOS 首页评测展示方案">
+  <section class="paos-section">
+    <header class="paos-heading">
+      <div class="paos-kicker">BENCHMARKS</div>
+      <h2>跨基准评测</h2>
+      <p>VLM Direct 与 VLM + VLA Hybrid</p>
+      <p class="paos-warning">交互布局示意 · 以下全部数值为虚构占位数据</p>
+    </header>
+    <div class="paos-panel">
+      <div class="paos-chart" id="paos-benchmark-panel" role="tabpanel" aria-labelledby="paos-tab-libero">
+        <div class="paos-head"><h3 id="paos-dataset-title">LIBERO-10</h3><span class="paos-small">任务成功率 (%) ↑</span></div>
+        <p class="paos-small" id="paos-protocol">评测子集、任务数与总回合数：待补充</p>
+        <div style="margin-top:20px" role="img" aria-label="虚构示例柱状图，正式测评结果待填充">
+          <div class="paos-axis"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+          <div class="paos-rows">
+            <div class="paos-row" data-mode="hybrid"><div class="paos-model">PAOS / 配置 A<small>VLM + VLA Hybrid</small></div><div class="paos-track"><div class="paos-bar" style="width:84%"></div></div><span class="paos-value">84%</span></div>
+            <div class="paos-row" data-mode="direct"><div class="paos-model">PAOS / 配置 B<small>VLM Direct · zero-shot</small></div><div class="paos-track"><div class="paos-bar" style="width:68%"></div></div><span class="paos-value">68%</span></div>
+            <div class="paos-row" data-mode="baseline"><div class="paos-model">参考策略 C<small>Baseline · 来源待补充</small></div><div class="paos-track"><div class="paos-bar" style="width:90%"></div></div><span class="paos-value">90%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="paos-tabs" role="tablist" aria-label="切换评测数据集">
+        <button type="button" role="tab" id="paos-tab-libero" aria-selected="true" aria-controls="paos-benchmark-panel" data-dataset="libero">LIBERO-10</button>
+        <button type="button" role="tab" id="paos-tab-robotwin" aria-selected="false" aria-controls="paos-benchmark-panel" data-dataset="robotwin">RoboTwin</button>
+        <button type="button" role="tab" id="paos-tab-robodojo" aria-selected="false" aria-controls="paos-benchmark-panel" data-dataset="robodojo">RoboDojo</button>
+      </div>
+      <details class="paos-details"><summary>评测设置与费用说明</summary><dl><dt>数据集</dt><dd id="paos-detail-dataset">LIBERO-10（暂定）</dd><dt>评测规模</dt><dd>Tasks / 初始状态 / 重复轮次 / 总 Episodes：待确认</dd><dt>Direct 设置</dt><dd>zero-shot；模型版本、推理档位与重试预算待填</dd><dt>费用口径</dt><dd>按 newapi 消耗量估算，实际成本可能有偏差</dd><dt>数值状态</dt><dd>所有柱长与百分比仅用于交互演示</dd></dl></details>
+    </div>
+    <p class="paos-warning">三个数据集名称暂定 · 首页正文末尾 / Footer 之前</p>
+    <div id="paos-announcement" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)"></div>
+  </section>
+</div>
+<script>
+(() => {
+  const root = document.getElementById('paos-benchmark-proposal');
+  const datasets = {libero:{name:'LIBERO-10',values:[84,68,90]},robotwin:{name:'RoboTwin',values:[72,56,65]},robodojo:{name:'RoboDojo',values:[64,70,60]}};
+  const layout = {tabs:'bottom'};
+  let selected = 'libero';
+  const tabs = Array.from(root.querySelectorAll('[data-dataset]'));
+  const rows = Array.from(root.querySelectorAll('[data-mode]'));
+  const chart = root.querySelector('.paos-chart');
+  const tablist = root.querySelector('.paos-tabs');
+  function render(announce = false) {
+    const data = datasets[selected];
+    root.querySelector('#paos-dataset-title').textContent = data.name;
+    root.querySelector('#paos-detail-dataset').textContent = data.name + '（暂定）';
+    root.querySelector('#paos-benchmark-panel').setAttribute('aria-labelledby','paos-tab-' + selected);
+    tabs.forEach(tab => tab.setAttribute('aria-selected',String(tab.dataset.dataset === selected)));
+    rows.forEach((row,index) => {row.querySelector('.paos-bar').style.width = data.values[index] + '%';row.querySelector('.paos-value').textContent = data.values[index] + '%';});
+    chart.style.order = layout.tabs === 'top' ? '1' : '0';
+    tablist.style.order = layout.tabs === 'top' ? '0' : '1';
+    root.querySelector('.paos-details').style.order = '2';
+    if(announce) root.querySelector('#paos-announcement').textContent = '已切换至 ' + data.name + '，当前数值为虚构示例。';
+  }
+  function applyState(state) {
+    if(datasets[state?.modelContent?.dataset]) selected = state.modelContent.dataset;
+    render();
+  }
+  function select(id) {
+    selected = id;render(true);
+    if(window.openai?.setWidgetState) window.openai.setWidgetState({modelContent:{dataset:selected},privateContent:null}).catch(() => {});
+  }
+  tabs.forEach((tab,index) => {
+    tab.addEventListener('click',() => select(tab.dataset.dataset));
+    tab.addEventListener('keydown',event => {
+      if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+      event.preventDefault();
+      const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length-1 : (index+(event.key === 'ArrowRight' ? 1 : -1)+tabs.length)%tabs.length;
+      tabs[next].focus();select(tabs[next].dataset.dataset);
+    });
+  });
+  applyState(window.openai?.widgetState);
+  window.addEventListener('openai:set_globals',event => {if(event.detail?.globals?.widgetState) applyState(event.detail.globals.widgetState);});
+  if(globalThis.Tweak) {
+    const tweak = new Tweak({container:root,onChange:() => render()});
+    tweak.addSelect(layout,'tabs',{label:'数据集按钮位置',options:[{label:'图表下方（按 mt 最新描述）',value:'bottom'},{label:'图表上方（按最初参考图）',value:'top'}]});
+  }
+})();
+</script>

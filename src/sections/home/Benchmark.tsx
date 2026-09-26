@@ -1,292 +1,170 @@
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Bar, BarChart, CartesianGrid, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { useRef, useState, type KeyboardEvent } from 'react';
+import { ArrowUpRight, BarChart3, ChevronDown, FileText, Info } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useT } from '../../i18n/LanguageContext';
+import { benchmarkDatasets } from '../../data/benchmarks';
+import './benchmark.css';
 
-type ComparisonDatum = { name: string; first: number; final: number };
-type Unit = '%' | '';
-
-const calvinData = {
-  one: [
-    { name: 'X-VLA', first: 96.8, final: 97.0 },
-    { name: 'π₀', first: 86.5, final: 86.8 },
-    { name: 'π₀.₅', first: 99.7, final: 99.7 },
-  ],
-  two: [
-    { name: 'X-VLA', first: 92.0, final: 92.0 },
-    { name: 'π₀', first: 74.0, final: 74.7 },
-    { name: 'π₀.₅', first: 98.0, final: 98.5 },
-  ],
-  three: [
-    { name: 'X-VLA', first: 86.2, final: 86.3 },
-    { name: 'π₀', first: 62.2, final: 64.1 },
-    { name: 'π₀.₅', first: 94.5, final: 95.2 },
-  ],
-  four: [
-    { name: 'X-VLA', first: 81.7, final: 81.9 },
-    { name: 'π₀', first: 50.9, final: 53.7 },
-    { name: 'π₀.₅', first: 91.5, final: 92.5 },
-  ],
-  five: [
-    { name: 'X-VLA', first: 74.3, final: 75.7 },
-    { name: 'π₀', first: 38.9, final: 45.6 },
-    { name: 'π₀.₅', first: 85.3, final: 89.4 },
-  ],
-  average: [
-    { name: 'X-VLA', first: 4.310, final: 4.329 },
-    { name: 'π₀', first: 3.125, final: 3.249 },
-    { name: 'π₀.₅', first: 4.690, final: 4.753 },
-  ],
-};
-
-const robocasaData = {
-  atomic: [
-    { name: 'π₀.₅', first: 41.1, final: 56.7 },
-    { name: 'RLDX-1', first: 70.0, final: 75.6 },
-    { name: 'WorldDreamer', first: 66.7, final: 73.3 },
-  ],
-  composite: [
-    { name: 'π₀.₅', first: 4.4, final: 10.0 },
-    { name: 'RLDX-1', first: 16.2, final: 24.4 },
-    { name: 'WorldDreamer', first: 15.6, final: 25.0 },
-  ],
-  overall: [
-    { name: 'π₀.₅', first: 17.6, final: 26.8 },
-    { name: 'RLDX-1', first: 35.6, final: 42.8 },
-    { name: 'WorldDreamer', first: 34.0, final: 42.4 },
-  ],
-};
-
-type CalvinMetric = keyof typeof calvinData;
-type RoboCasaMetric = keyof typeof robocasaData;
-
-function formatValue(value: number, unit: Unit) {
-  return unit === '%' ? `${value.toFixed(1)}%` : value.toFixed(3);
-}
-
-function getDomain(data: ComparisonDatum[], unit: Unit): [number, number] {
-  if (unit === '') {
-    return [0, 5];
-  }
-  const maximum = Math.max(...data.flatMap((item) => [item.first, item.final]));
-  return [0, Math.ceil(maximum)];
-}
-
-function MetricSelector({
-  label,
-  options,
-  active,
-  onChange,
-}: {
-  label: string;
-  options: { id: string; label: string }[];
-  active: string;
-  onChange: (id: string) => void;
-}) {
-  return (
-    <div className="mt-6 flex flex-wrap items-center gap-2" aria-label={label}>
-      <span className="mr-1 text-xs font-mono font-semibold uppercase tracking-[0.12em] text-brand-text-tertiary">
-        {label}
-      </span>
-      {options.map((option) => (
-        <button
-          key={option.id}
-          type="button"
-          onClick={() => onChange(option.id)}
-          className={`min-w-14 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${
-            active === option.id
-              ? 'border-brand-accent/40 bg-brand-accent/12 text-brand-accent-dark'
-              : 'border-brand-border bg-brand-bg text-brand-text-tertiary hover:text-brand-text'
-          }`}
-        >
-          {option.label}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function ComparisonChart({
-  title,
-  subtitle,
-  data,
-  unit,
-  firstLabel,
-  finalLabel,
-  controls,
-  note,
-}: {
-  title: string;
-  subtitle: string;
-  data: ComparisonDatum[];
-  unit: Unit;
-  firstLabel: string;
-  finalLabel: string;
-  controls?: React.ReactNode;
-  note?: string;
-}) {
-  const domain = getDomain(data, unit);
-
-  return (
-    <div className="rounded-3xl border border-brand-border bg-brand-bg-secondary p-6 shadow-card transition-shadow duration-500 hover:shadow-card-hover sm:p-8">
-      <h3 className="text-lg font-semibold text-brand-text">{title}</h3>
-      <p className="mt-2 max-w-4xl text-sm leading-6 text-brand-text-tertiary">{subtitle}</p>
-      {controls}
-      <div className="mt-5 h-[320px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} margin={{ top: 28, right: 20, left: -4, bottom: 0 }} barGap={6}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(45,58,69,0.08)" vertical={false} />
-            <XAxis dataKey="name" tick={{ fill: '#5d6b78', fontSize: 12 }} axisLine={false} tickLine={false} />
-            <YAxis
-              domain={domain}
-              tick={{ fill: '#8d97a3', fontSize: 12 }}
-              axisLine={false}
-              tickLine={false}
-              tickFormatter={(value) => (unit === '%' ? `${value}%` : Number(value).toFixed(1))}
-            />
-            <Tooltip
-              formatter={(value: number, name: string) => [formatValue(value, unit), name]}
-              contentStyle={{
-                background: '#fcfaf5',
-                border: '1px solid rgba(45,58,69,0.1)',
-                borderRadius: '12px',
-                color: '#2d3a45',
-              }}
-              cursor={{ fill: 'rgba(45,58,69,0.03)' }}
-            />
-            <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '12px' }} />
-            <Bar dataKey="first" name={firstLabel} fill="#a4adb6" radius={[8, 8, 0, 0]} barSize={28}>
-              <LabelList dataKey="first" position="top" formatter={(value: number) => formatValue(value, unit)} fill="#7a858f" fontSize={11} />
-            </Bar>
-            <Bar dataKey="final" name={finalLabel} fill="#5c7385" radius={[8, 8, 0, 0]} barSize={28}>
-              <LabelList dataKey="final" position="top" formatter={(value: number) => formatValue(value, unit)} fill="#425867" fontSize={11} />
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-      {note && <p className="mt-3 text-xs leading-6 text-brand-text-tertiary">{note}</p>}
-    </div>
-  );
-}
+const ticks = [0, 25, 50, 75, 100];
 
 export default function Benchmark() {
-  const t = useT();
-  const [calvinMetric, setCalvinMetric] = useState<CalvinMetric>('five');
-  const [robocasaMetric, setRobocasaMetric] = useState<RoboCasaMetric>('overall');
-  const [benchmarkIndex, setBenchmarkIndex] = useState(0);
+  const { benchmark: copy } = useT();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const dataset = benchmarkDatasets[activeIndex];
+  const status = dataset.status === 'preliminary' ? copy.preliminary : copy.pending;
 
-  const calvinOptions = [
-    { id: 'one', label: '1/5' },
-    { id: 'two', label: '2/5' },
-    { id: 'three', label: '3/5' },
-    { id: 'four', label: '4/5' },
-    { id: 'five', label: '5/5' },
-    { id: 'average', label: t.benchmark.averageLength },
-  ];
-  const robocasaOptions = [
-    { id: 'atomic', label: t.benchmark.atomic },
-    { id: 'composite', label: t.benchmark.composite },
-    { id: 'overall', label: t.benchmark.overall },
-  ];
-  const charts = [
-    {
-      name: 'CALVIN',
-      content: (
-        <ComparisonChart
-          title={t.benchmark.chartCalvinTitle}
-          subtitle={t.benchmark.chartCalvinSubtitle}
-          data={calvinData[calvinMetric]}
-          unit={calvinMetric === 'average' ? '' : '%'}
-          firstLabel={t.benchmark.first}
-          finalLabel={t.benchmark.final}
-          controls={
-            <MetricSelector
-              label={t.benchmark.metric}
-              options={calvinOptions}
-              active={calvinMetric}
-              onChange={(id) => setCalvinMetric(id as CalvinMetric)}
-            />
-          }
-        />
-      ),
-    },
-    {
-      name: 'RoboCasa365',
-      content: (
-        <ComparisonChart
-          title={t.benchmark.chartRobocasaTitle}
-          subtitle={t.benchmark.chartRobocasaSubtitle}
-          data={robocasaData[robocasaMetric]}
-          unit="%"
-          firstLabel={t.benchmark.first}
-          finalLabel={t.benchmark.final}
-          controls={
-            <MetricSelector
-              label={t.benchmark.metric}
-              options={robocasaOptions}
-              active={robocasaMetric}
-              onChange={(id) => setRobocasaMetric(id as RoboCasaMetric)}
-            />
-          }
-          note={`${t.benchmark.rescued}: π₀.₅ 23 · RLDX-1 18 · WorldDreamer 21`}
-        />
-      ),
-    },
-  ];
-  const activeChart = charts[benchmarkIndex];
-  const changeBenchmark = (direction: number) => {
-    setBenchmarkIndex((current) => (current + direction + charts.length) % charts.length);
-  };
+  function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    let next: number;
+    switch (event.key) {
+      case 'ArrowRight': next = (index + 1) % benchmarkDatasets.length; break;
+      case 'ArrowLeft': next = (index - 1 + benchmarkDatasets.length) % benchmarkDatasets.length; break;
+      case 'Home': next = 0; break;
+      case 'End': next = benchmarkDatasets.length - 1; break;
+      default: return;
+    }
+    event.preventDefault();
+    setActiveIndex(next);
+    tabRefs.current[next]?.focus();
+  }
 
   return (
-    <section id="benchmark" className="relative overflow-hidden py-24 lg:py-32">
-      <div className="absolute inset-0 bg-brand-bg-secondary/40" />
-      <div className="absolute inset-0 bg-grid opacity-[0.02]" />
-
+    <section id="benchmark" className="relative scroll-mt-20 overflow-hidden py-24 lg:py-32">
+      <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.02]" />
       <div className="relative z-10 px-6 sm:px-8 lg:px-16 xl:px-24">
         <div className="mx-auto max-w-7xl">
           <ScrollReveal>
             <SectionHeader
-              label={t.benchmark.label}
-              title={t.benchmark.title}
-              highlight={t.benchmark.highlight}
-              description={t.benchmark.description}
+              label={copy.label}
+              labelIcon={<BarChart3 className="h-3.5 w-3.5" />}
+              title={copy.title}
+              highlight={copy.highlight}
+              description={copy.description}
             />
           </ScrollReveal>
 
           <ScrollReveal delay={0.1}>
-            <div className="mx-auto mt-12 max-w-5xl">
-              <div className="mb-4 flex items-center justify-center gap-4">
-                <button
-                  type="button"
-                  onClick={() => changeBenchmark(-1)}
-                  title={t.benchmark.previousBenchmark}
-                  aria-label={t.benchmark.previousBenchmark}
-                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-brand-border bg-brand-bg-secondary text-brand-text-secondary transition-colors hover:border-brand-accent/35 hover:text-brand-text"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-                <div className="min-w-40 text-center">
-                  <p className="font-display text-lg font-bold text-brand-text">{activeChart.name}</p>
-                  <p className="mt-1 text-xs font-mono text-brand-text-tertiary">
-                    {benchmarkIndex + 1} / {charts.length}
-                  </p>
+            <div className="benchmark-card mx-auto mt-12 max-w-6xl overflow-hidden rounded-3xl border border-brand-border bg-brand-bg-secondary shadow-card sm:mt-16">
+              <div
+                id="benchmark-panel"
+                role="tabpanel"
+                aria-labelledby={`benchmark-tab-${dataset.id}`}
+                tabIndex={0}
+                className="px-5 pb-5 pt-6 sm:px-9 sm:pb-7 sm:pt-8"
+              >
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <h3 className="font-display text-2xl font-bold tracking-tight text-brand-text sm:text-3xl">{dataset.name}</h3>
+                      <span className="rounded-full border border-brand-border bg-brand-bg px-2.5 py-1 text-[11px] font-medium text-brand-text-secondary">{status}</span>
+                    </div>
+                    <p className="mt-2 text-sm text-brand-text-secondary">
+                      {dataset.status === 'preliminary' ? copy.protocolPending : copy.resultsPending}
+                    </p>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 pt-1 text-xs font-medium text-brand-text-secondary">
+                    {copy.successRate} (%) <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  </span>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => changeBenchmark(1)}
-                  title={t.benchmark.nextBenchmark}
-                  aria-label={t.benchmark.nextBenchmark}
-                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-brand-border bg-brand-bg-secondary text-brand-text-secondary transition-colors hover:border-brand-accent/35 hover:text-brand-text"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
+
+                <div className="benchmark-chart mt-8" aria-label={`${dataset.name} · ${copy.successRate}`}>
+                  <div className="benchmark-scale" aria-hidden="true">
+                    {ticks.map((tick) => <span key={tick}>{tick}</span>)}
+                  </div>
+                  <ul className="benchmark-rows" aria-label={copy.strategies}>
+                    {dataset.results.map((result) => (
+                      <li className="benchmark-row" data-source={result.source} data-mode={result.mode} key={result.id}>
+                        <div className="benchmark-strategy">
+                          <span className="benchmark-name block text-sm font-semibold leading-5">{result.name}</span>
+                        </div>
+                        <div className="benchmark-track" aria-hidden="true">
+                          {result.successRate !== null ? (
+                            <div className="benchmark-bar" style={{ width: `${result.successRate}%` }} />
+                          ) : (
+                            <span className="benchmark-missing" />
+                          )}
+                        </div>
+                        <span className={`benchmark-value ${result.successRate === null ? 'text-xs font-normal text-brand-text-secondary' : 'benchmark-reported-value text-sm font-semibold'}`}>
+                          {result.successRate === null ? copy.unreported : `${result.successRate}%`}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <p className="mt-4 flex items-start gap-2 text-xs leading-5 text-brand-text-secondary">
+                  <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                  {dataset.status === 'preliminary' ? copy.comparisonNote : copy.pendingNote}
+                </p>
               </div>
-              <div key={activeChart.name}>{activeChart.content}</div>
+
+              <div className="border-t border-brand-border/70 bg-brand-bg/50 px-4 py-5 sm:px-9">
+                <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3" role="tablist" aria-label={copy.selectBenchmark}>
+                  {benchmarkDatasets.map((item, index) => (
+                    <button
+                      key={item.id}
+                      id={`benchmark-tab-${item.id}`}
+                      type="button"
+                      role="tab"
+                      aria-selected={activeIndex === index}
+                      aria-controls="benchmark-panel"
+                      tabIndex={activeIndex === index ? 0 : -1}
+                      ref={(element) => { tabRefs.current[index] = element; }}
+                      onClick={() => setActiveIndex(index)}
+                      onKeyDown={(event) => handleTabKeyDown(event, index)}
+                      className={`benchmark-tab inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition-colors sm:min-w-36 sm:px-6 ${activeIndex === index
+                        ? 'border-brand-accent bg-brand-accent text-brand-text-on-accent shadow-soft'
+                        : 'border-brand-border bg-brand-bg-secondary text-brand-text-secondary hover:border-brand-accent/40 hover:text-brand-text'}`}
+                    >
+                      {item.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="mx-auto mt-5 max-w-6xl">
+              <details className="group rounded-2xl border border-brand-border/70 bg-brand-bg-secondary/50" key={dataset.id}>
+                <summary className="benchmark-summary flex min-h-12 cursor-pointer list-none items-center gap-2.5 px-5 py-3.5 text-sm font-medium text-brand-text-secondary sm:px-6">
+                  <FileText className="h-4 w-4 shrink-0 text-brand-accent" aria-hidden="true" />
+                  {copy.details}
+                  <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none" aria-hidden="true" />
+                </summary>
+                <div className="space-y-4 border-t border-brand-border/60 px-5 py-5 text-xs leading-6 text-brand-text-secondary sm:px-6">
+                  {dataset.status === 'preliminary' && (
+                    <div className="overflow-x-auto rounded-xl border border-brand-border/70">
+                      <table className="w-full min-w-[720px] border-collapse text-left">
+                        <caption className="sr-only">{dataset.name} · {copy.details}</caption>
+                        <thead className="bg-brand-bg">
+                          <tr>
+                            {[copy.strategy, copy.tasks, copy.episodes, copy.runtime, copy.tokens, copy.cost].map((label) => (
+                              <th className="px-4 py-2.5 font-semibold text-brand-text" scope="col" key={label}>{label}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {dataset.results.map((result) => (
+                            <tr className="border-t border-brand-border/60" key={result.id}>
+                              <th className="px-4 py-3 font-medium text-brand-text" scope="row">{result.name}</th>
+                              <td className="px-4 py-3 tabular-nums">{result.tasks ?? '—'}</td>
+                              <td className="px-4 py-3 tabular-nums">{result.reportedEpisodes ?? '—'}</td>
+                              <td className="px-4 py-3 tabular-nums">{result.runtime ?? '—'}</td>
+                              <td className="px-4 py-3 tabular-nums">{result.tokens ?? '—'}</td>
+                              <td className="px-4 py-3 tabular-nums">{result.estimatedCostUsd === undefined ? '—' : `$${result.estimatedCostUsd}`}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                  <p>{dataset.status === 'preliminary' ? copy.sourceNote : copy.pendingNote}</p>
+                  <p>{copy.directNote}<br />{copy.costNote}</p>
+                </div>
+              </details>
             </div>
           </ScrollReveal>
+          <p className="sr-only" aria-live="polite" aria-atomic="true">{dataset.name} · {status}</p>
         </div>
       </div>
     </section>

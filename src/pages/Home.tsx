@@ -7,6 +7,7 @@ import InterviewFeature from '../sections/home/InterviewFeature';
 import Architecture from '../sections/home/Architecture';
 import Scenarios from '../sections/home/Scenarios';
 import LiveDemo from '../sections/home/LiveDemo';
+import Benchmark from '../sections/home/Benchmark';
 import TeamPreview from '../sections/home/TeamPreview';
 import DocsCTA from '../sections/home/DocsCTA';
 
@@ -39,6 +40,8 @@ export default function Home() {
       <Scenarios />
       <div className="section-divider" />
       <LiveDemo />
+      <div className="section-divider" />
+      <Benchmark />
       <div className="section-divider" />
       <DocsCTA />
       <div className="section-divider" />
