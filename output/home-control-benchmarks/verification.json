@@ -1,0 +1,25 @@
+{
+  "checks": [
+    "PASS: correct section order, three control paradigms, old task section removed",
+    "PASS: LIBERO-Long exact success rates, proportional bars, full detail table, 3 highlighted PAOS entries",
+    "PASS: RoboDojo exact success rates, proportional bars, full detail table, 3 highlighted PAOS entries",
+    "PASS: mouse and keyboard tab switching, Home/End and arrow wraparound",
+    "PASS: 768px layout, no horizontal overflow or clipped content",
+    "PASS: 390px layout, no horizontal overflow or clipped content",
+    "PASS: 320px layout, no horizontal overflow or clipped content",
+    "PASS: live language switch and 320px English content",
+    "PASS: dark theme and English desktop rendering",
+    "PASS: no JavaScript page errors"
+  ],
+  "sections": [
+    "interview",
+    "architecture",
+    "control-paradigms",
+    "benchmark",
+    "demo",
+    "docs",
+    "team"
+  ],
+  "build": "PASS: npm run build",
+  "lint": "Changed content files pass. Navigation.tsx retains the pre-existing set-state-in-effect error at line 86 (confirmed in HEAD)."
+}

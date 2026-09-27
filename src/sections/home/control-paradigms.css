@@ -1,0 +1,63 @@
+.control-paradigms {
+  --control-general: #bb6b12;
+  --control-hybrid: #277fbd;
+  --control-action: #8750bd;
+}
+
+.theme-dark .control-paradigms {
+  --control-general: #efb765;
+  --control-hybrid: #78bced;
+  --control-action: #bb95ed;
+}
+
+.control-paradigms-heading { max-width: 70rem; }
+.control-paradigms-heading > p { max-width: 55rem; }
+
+.control-card[data-mode='general'] { --control-color: var(--control-general); }
+.control-card[data-mode='hybrid'] { --control-color: var(--control-hybrid); }
+.control-card[data-mode='action'] { --control-color: var(--control-action); }
+
+.control-card {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--control-color) 5%, var(--color-bg-secondary)), var(--color-bg));
+  border-color: color-mix(in srgb, var(--control-color) 25%, transparent);
+  box-shadow: 0 12px 36px color-mix(in srgb, var(--control-color) 4%, transparent);
+}
+
+.control-card[data-mode='hybrid'] {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--control-color) 9%, var(--color-bg-secondary)), var(--color-bg-secondary));
+}
+
+.control-icon {
+  color: var(--control-color);
+  border-color: color-mix(in srgb, var(--control-color) 15%, transparent);
+  background: var(--color-bg-secondary);
+}
+
+.control-eyebrow { color: var(--control-color); }
+.control-dot { background: var(--control-color); }
+
+.control-connectors { height: 48px; }
+.control-connectors path {
+  fill: none;
+  stroke: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+  vector-effect: non-scaling-stroke;
+}
+.control-node-general { fill: var(--control-general); }
+.control-node-hybrid { fill: var(--control-hybrid); }
+.control-node-action { fill: var(--control-action); }
+
+.control-foundation {
+  border-color: color-mix(in srgb, var(--control-hybrid) 22%, transparent);
+  background: linear-gradient(120deg, color-mix(in srgb, var(--control-hybrid) 5%, var(--color-bg-secondary)), var(--color-bg-secondary));
+}
+
+@media (max-width: 1023px) {
+  .control-connectors {
+    width: 0;
+    height: 28px;
+    margin-inline: auto;
+    border-left: 1px dashed var(--color-accent);
+  }
+}

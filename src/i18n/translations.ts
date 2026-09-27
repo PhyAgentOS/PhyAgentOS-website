@@ -5,7 +5,7 @@ export interface TranslationShape {
     conceptFilm: string;
     features: string;
     architecture: string;
-    scenarios: string;
+    controlParadigms: string;
     benchmark: string;
     simulationEvaluation: string;
     gettingStartedDocs: string;
@@ -108,13 +108,15 @@ export interface TranslationShape {
     flowLabel: string;
     flow: string[];
   };
-  scenarios: {
+  controlParadigms: {
     label: string;
     title: string;
     highlight: string;
     description: string;
     items: { title: string; subtitle: string; description: string; features: string[] }[];
-    note: string;
+    foundationTitle: string;
+    foundationDescription: string;
+    foundationItems: { title: string; description: string }[];
   };
   hardware: {
     label: string;
@@ -135,43 +137,20 @@ export interface TranslationShape {
     title: string;
     highlight: string;
     description: string;
-    preliminary: string;
-    pending: string;
-    protocolPending: string;
-    resultsPending: string;
+    resultsLabel: string;
     successRate: string;
     strategies: string;
-    baseline: string;
-    unreported: string;
-    comparisonNote: string;
-    pendingNote: string;
+    paos: string;
+    reference: string;
     selectBenchmark: string;
     details: string;
     strategy: string;
-    tasks: string;
-    episodes: string;
-    runtime: string;
-    tokens: string;
-    cost: string;
+    controlMode: string;
+    basedOnPaos: string;
+    yes: string;
+    no: string;
     sourceNote: string;
-    directNote: string;
-    costNote: string;
-    chart1Title: string;
-    chart1Subtitle: string;
-    chartCalvinTitle: string;
-    chartCalvinSubtitle: string;
-    chartRobocasaTitle: string;
-    chartRobocasaSubtitle: string;
-    first: string;
-    final: string;
-    metric: string;
-    averageLength: string;
-    atomic: string;
-    composite: string;
-    overall: string;
-    rescued: string;
-    previousBenchmark: string;
-    nextBenchmark: string;
+    modes: { general: string; hybrid: string; action: string };
   };
   liveDemo: {
     label: string;
@@ -245,7 +224,7 @@ export const translations: Record<Lang, TranslationShape> = {
       conceptFilm: 'Concept Film',
       features: 'Features',
       architecture: 'Architecture',
-      scenarios: 'Scenarios',
+      controlParadigms: 'Control Paradigms',
       benchmark: 'Benchmarks',
       simulationEvaluation: 'Simulation Evaluation',
       gettingStartedDocs: 'Getting Started Docs',
@@ -418,32 +397,39 @@ export const translations: Record<Lang, TranslationShape> = {
       flowLabel: '',
       flow: [],
     },
-    scenarios: {
-      label: 'Scenarios',
+    controlParadigms: {
+      label: 'Control Paradigms',
       title: 'One execution framework,',
-      highlight: 'three task types',
-      description: 'One execution framework spans real robots, simulation, and games, supporting physical operations, model evaluation, and long-horizon interaction with rapid deployment examples for each.',
+      highlight: 'three control paradigms',
+      description: 'One PhyAgentOS Harness supports General Model, Hybrid Control, and Action Model, with shared robot access, Tool / Skill calls, execution runtime, and evaluation.',
       items: [
         {
-          title: 'Game',
-          subtitle: 'Interactive demos · Minecraft / Stardew Valley / Don\'t Starve',
-          description: 'Understands live state in open game environments, supports long-horizon planning and continuous interaction, and adapts when conditions change or tasks are blocked.',
-          features: ['Game-state understanding', 'Long-horizon task planning', 'Resource management and adaptive adjustment'],
+          title: 'General Model',
+          subtitle: 'General models · GPT-6 / DeepSeek / GLM',
+          description: 'A general-purpose multimodal model interprets tasks, perceives the environment, and generates executable actions or Tool / Skill calls.',
+          features: ['Natural-language understanding and planning', 'Direct generation of executable instructions', 'Zero-shot generalization and rapid experimentation'],
         },
         {
-          title: 'Simulation',
-          subtitle: 'Evaluation demos · LIBERO / RoboCasa365 / CALVIN',
-          description: 'Runs model evaluation and task validation in simulation, compares different approaches efficiently, and produces stable, reproducible results.',
-          features: ['Multi-model automated evaluation', 'Continuous manipulation validation', 'Cross-scenario generalization comparison'],
+          title: 'Hybrid Control',
+          subtitle: 'Hybrid control · GPT-6 + π0.5 / DeepSeek + π0.5',
+          description: 'A General Model handles understanding, task decomposition, and decisions. An Action Model generates low-level actions, combining reasoning with stable execution.',
+          features: ['High-level planning + low-level control', 'Complex task decomposition and coordination', 'Performance alongside generalization'],
         },
         {
-          title: 'Real Robot',
-          subtitle: 'Rapid deployment demos · PIPER / Go2 / XLeRobot',
-          description: 'Connects robotic arms, quadrupeds, and mobile robots to perform object manipulation, navigation, and coordinated multi-actuator tasks in the physical world.',
-          features: ['Object pick and place', 'Navigation and environment perception', 'Multi-actuator coordination'],
+          title: 'Action Model',
+          subtitle: 'Action models · π0.5 / π0 / OpenVLA',
+          description: 'An action model directly predicts robot actions for low-level control, supporting standardized evaluation, high-frequency execution, and repeatable behavior.',
+          features: ['Direct prediction of low-level actions', 'Stable, high-frequency task execution', 'Standardized benchmark evaluation'],
         },
       ],
-      note: '',
+      foundationTitle: 'PhyAgentOS Shared Foundation',
+      foundationDescription: 'Different model approaches share the same infrastructure for execution, validation, and iteration.',
+      foundationItems: [
+        { title: 'Robot Abstraction', description: 'Multi-robot access and unified abstraction' },
+        { title: 'Tool & Skill', description: 'Tool invocation and skill management' },
+        { title: 'Runtime', description: 'Execution scheduling and runtime' },
+        { title: 'Evaluation', description: 'Unified evaluation and result analysis' },
+      ],
     },
     hardware: {
       label: 'Hardware',
@@ -507,44 +493,21 @@ export const translations: Record<Lang, TranslationShape> = {
       label: 'Benchmarks',
       title: 'Different policies,',
       highlight: 'shared benchmarks',
-      description: 'Explore PhyAgentOS support for VLM Direct and VLM + VLA Hybrid control across robotics benchmarks.',
-      preliminary: 'Preliminary results',
-      pending: 'Results pending',
-      protocolPending: 'Reported success rates · Evaluation settings under review',
-      resultsPending: 'Evaluation results are being prepared.',
-      successRate: 'Success rate',
-      strategies: 'Control policies and reported success rates',
-      baseline: 'VLA · Reference baseline',
-      unreported: 'Pending',
-      comparisonNote: 'Evaluation protocols may differ. These reported scores are not a matched ranking.',
-      pendingNote: 'Scores will appear here once available. Missing results do not indicate a zero success rate.',
+      description: 'Compare General Model, Hybrid Control, and Action Model results on LIBERO-Long and RoboDojo.',
+      resultsLabel: 'Evaluation results',
+      successRate: 'Task success rate',
+      strategies: 'Control policies and task success rates',
+      paos: 'Implemented with PhyAgentOS',
+      reference: 'Data from public leaderboards',
       selectBenchmark: 'Select a benchmark',
-      details: 'Evaluation settings & cost details',
-      strategy: 'Policy',
-      tasks: 'Tasks',
-      episodes: 'Episodes (reported)',
-      runtime: 'Time / episode',
-      tokens: 'Tokens',
-      cost: 'Est. cost (USD)',
-      sourceNote: 'Source: the experimental summary. The LIBERO subset, task counts, and episode definition are being checked; the episode field does not establish the total number of trials. Model names and cost estimates are reproduced as reported.',
-      directNote: 'VLM Direct configurations use zero-shot control.',
-      costNote: 'Costs are estimated from newapi usage and may differ from actual costs.',
-      chart1Title: 'Agent-assisted LIBERO validation',
-      chart1Subtitle: 'Overall task success rate before and after verifier-triggered retry.',
-      chartCalvinTitle: 'Agent-assisted CALVIN ABC→D validation',
-      chartCalvinSubtitle: 'Chain success across five-subtask sequences; Avg. Len. is the average number of completed subtasks per sequence.',
-      chartRobocasaTitle: 'Agent-assisted RoboCasa365 target50 validation',
-      chartRobocasaSubtitle: 'Episode success on the pretrain split: 18 atomic skills / 90 episodes and 32 composite activities / 160 episodes.',
-      first: 'First attempt',
-      final: 'After verifier retry',
-      metric: 'Metric',
-      averageLength: 'Avg. Len.',
-      atomic: 'Atomic',
-      composite: 'Composite',
-      overall: 'Overall',
-      rescued: 'Rescued episodes',
-      previousBenchmark: 'Previous benchmark',
-      nextBenchmark: 'Next benchmark',
+      details: 'Results & control paradigms',
+      strategy: 'Method',
+      controlMode: 'Control paradigm',
+      basedOnPaos: 'Built on PAOS',
+      yes: 'Yes',
+      no: 'No',
+      sourceNote: 'Source: the LIBERO-Long and RoboDojo evaluation summaries. Success rates and control paradigms are shown as reported.',
+      modes: { general: 'General Model', hybrid: 'Hybrid Control', action: 'Action Model' },
     },
     liveDemo: {
       label: 'Live Demo',
@@ -644,7 +607,7 @@ export const translations: Record<Lang, TranslationShape> = {
       conceptFilm: '概念短片',
       features: '核心特性',
       architecture: '系统架构',
-      scenarios: '应用场景',
+      controlParadigms: '控制范式',
       benchmark: '性能基准',
       simulationEvaluation: '仿真测评',
       gettingStartedDocs: '入门文档',
@@ -818,32 +781,39 @@ export const translations: Record<Lang, TranslationShape> = {
       flowLabel: '',
       flow: [],
     },
-    scenarios: {
-      label: '应用场景',
+    controlParadigms: {
+      label: '控制范式',
       title: '一套执行框架，',
-      highlight: '三类任务',
-      description: '同一套执行框架覆盖真机、仿真与游戏环境，支持实际操作、模型评测与长程交互，并提供对应的快速部署样例。',
+      highlight: '三种控制范式',
+      description: '同一套 PhyAgentOS Harness 统一支持 General Model、Hybrid Control 与 Action Model，覆盖机器人接入、Tool / Skill 调用、执行运行与统一评测。',
       items: [
         {
-          title: '游戏',
-          subtitle: '交互样例 · Minecraft / 星露谷 / 饥荒',
-          description: '在开放游戏环境中理解实时状态，完成长程规划与连续交互，并在环境变化或任务受阻时自主调整。',
-          features: ['游戏状态理解', '长程任务规划', '资源管理与动态调整'],
+          title: 'General Model',
+          subtitle: '通用模型 · GPT-6 / DeepSeek / GLM',
+          description: '由通用多模态模型直接理解任务、感知环境，并生成可执行动作或 Tool / Skill 调用。',
+          features: ['自然语言理解与规划', '直接生成可执行指令', '零样本泛化与快速试验'],
         },
         {
-          title: '仿真',
-          subtitle: '评测样例 · LIBERO / RoboCasa365 / CALVIN',
-          description: '在仿真环境中运行模型评测与任务验证，快速比较不同方案的表现，并获得稳定、可复现的结果。',
-          features: ['多模型自动评测', '连续操作能力验证', '跨场景泛化对比'],
+          title: 'Hybrid Control',
+          subtitle: '混合控制 · GPT-6 + π0.5 / DeepSeek + π0.5',
+          description: 'General Model 负责理解、分解与决策，Action Model 负责低层动作生成，在复杂任务中兼顾推理与稳定执行。',
+          features: ['高层规划 + 低层控制', '复杂任务分解与协同', '性能与泛化兼顾'],
         },
         {
-          title: '真机',
-          subtitle: '快速部署样例 · PIPER / Go2 / XLeRobot',
-          description: '连接机械臂、四足和移动机器人，在真实环境中完成物品操作、移动导航与多执行单元协同。',
-          features: ['物品抓取与放置', '移动导航与环境感知', '多执行单元协同'],
+          title: 'Action Model',
+          subtitle: '动作模型 · π0.5 / π0 / OpenVLA',
+          description: '面向低层控制的动作模型直接预测机器人动作，适合标准化评测、高频执行与稳定复现。',
+          features: ['低层动作直接预测', '任务执行高频稳定', '标准化 Benchmark 评测'],
         },
       ],
-      note: '',
+      foundationTitle: 'PhyAgentOS 统一底座',
+      foundationDescription: '让不同模型方案共享同一套执行、验证与迭代基础设施。',
+      foundationItems: [
+        { title: 'Robot Abstraction', description: '多机器人接入与统一抽象' },
+        { title: 'Tool & Skill', description: '工具调用与技能管理' },
+        { title: 'Runtime', description: '执行调度与运行时' },
+        { title: 'Evaluation', description: '统一评测与结果分析' },
+      ],
     },
     hardware: {
       label: '硬件设备',
@@ -904,47 +874,24 @@ export const translations: Record<Lang, TranslationShape> = {
       ],
     },
     benchmark: {
-      label: '性能基准',
+      label: '评测结果',
       title: '多种策略，',
       highlight: '统一评测',
-      description: '在不同基准中，展示 PhyAgentOS 对 VLM 直接控制与 VLM + VLA 混合控制的支持。',
-      preliminary: '初步结果',
-      pending: '结果待补充',
-      protocolPending: '实验汇总成功率 · 评测设置待核对',
-      resultsPending: '评测结果整理中，完成后将在此展示。',
+      description: '在 LIBERO-Long 与 RoboDojo 上，展示 General Model、Hybrid Control 与 Action Model 的任务成功率。',
+      resultsLabel: '评测结果',
       successRate: '任务成功率',
-      strategies: '控制策略与已报告成功率',
-      baseline: 'VLA · 参考基线',
-      unreported: '待补充',
-      comparisonNote: '各策略的评测设置尚待统一核对，当前结果不构成同条件排名。',
-      pendingNote: '尚未提供的成绩保留为空，待结果补充后更新。',
+      strategies: '控制策略与任务成功率',
+      paos: '基于PhyAgentOS 实现',
+      reference: '数据源于公开榜单',
       selectBenchmark: '选择评测基准',
-      details: '评测设置与费用详情',
-      strategy: '策略',
-      tasks: 'Task 数量',
-      episodes: 'Episode 数（原表）',
-      runtime: '运行时间 / episode',
-      tokens: '消耗 Token',
-      cost: '估算费用 (USD)',
-      sourceNote: '数据摘自实验汇总表。LIBERO 子集、任务数量及 Episode 字段含义待核对；该字段暂不作为总评测回合数。模型名称与估算费用按原表记录。',
-      directNote: 'VLM Direct 控制模式均为 zero-shot。',
-      costNote: '费用按 newapi 统计消耗量估算，实际成本可能有偏差。',
-      chart1Title: '智能体辅助 LIBERO 验证',
-      chart1Subtitle: '展示验证器触发重试前后的总体任务成功率。',
-      chartCalvinTitle: '智能体辅助 CALVIN ABC→D 验证',
-      chartCalvinSubtitle: '展示五步子任务序列的链式成功率；平均链长表示每个序列平均完成的子任务数量。',
-      chartRobocasaTitle: '智能体辅助 RoboCasa365 target50 验证',
-      chartRobocasaSubtitle: 'pretrain 划分上的回合成功率：18 项原子技能 / 90 回合，32 项复合活动 / 160 回合。',
-      first: '首次执行',
-      final: '验证器重试后',
-      metric: '指标',
-      averageLength: '平均链长',
-      atomic: '原子技能',
-      composite: '复合活动',
-      overall: '总体',
-      rescued: '挽救回合',
-      previousBenchmark: '上一个基准',
-      nextBenchmark: '下一个基准',
+      details: '完整结果与控制范式',
+      strategy: '方法',
+      controlMode: '控制范式',
+      basedOnPaos: '是否基于 PAOS',
+      yes: '是',
+      no: '否',
+      sourceNote: '数据来源：LIBERO-Long 与 RoboDojo 评测汇总表，成功率与控制范式按原表展示。',
+      modes: { general: 'General Model', hybrid: 'Hybrid Control', action: 'Action Model' },
     },
     liveDemo: {
       label: '实时演示',

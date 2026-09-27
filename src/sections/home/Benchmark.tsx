@@ -1,5 +1,5 @@
 import { useRef, useState, type KeyboardEvent } from 'react';
-import { ArrowUpRight, BarChart3, ChevronDown, FileText, Info } from 'lucide-react';
+import { ArrowUpRight, BarChart3, ChevronDown, FileText } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useT } from '../../i18n/LanguageContext';
@@ -13,7 +13,6 @@ export default function Benchmark() {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const dataset = benchmarkDatasets[activeIndex];
-  const status = dataset.status === 'preliminary' ? copy.preliminary : copy.pending;
 
   function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     let next: number;
@@ -57,11 +56,12 @@ export default function Benchmark() {
                   <div>
                     <div className="flex flex-wrap items-center gap-3">
                       <h3 className="font-display text-2xl font-bold tracking-tight text-brand-text sm:text-3xl">{dataset.name}</h3>
-                      <span className="rounded-full border border-brand-border bg-brand-bg px-2.5 py-1 text-[11px] font-medium text-brand-text-secondary">{status}</span>
+                      <span className="benchmark-status rounded-full border border-brand-border bg-brand-bg px-2.5 py-1 text-[11px] font-medium text-brand-text-secondary">{copy.resultsLabel}</span>
                     </div>
-                    <p className="mt-2 text-sm text-brand-text-secondary">
-                      {dataset.status === 'preliminary' ? copy.protocolPending : copy.resultsPending}
-                    </p>
+                    <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-brand-text-secondary">
+                      <span className="inline-flex items-center gap-2"><span className="benchmark-legend-swatch" data-source="phyagentos" aria-hidden="true" />{copy.paos}</span>
+                      <span className="inline-flex items-center gap-2"><span className="benchmark-legend-swatch" data-source="reference" aria-hidden="true" />{copy.reference}</span>
+                    </div>
                   </div>
                   <span className="inline-flex items-center gap-1.5 pt-1 text-xs font-medium text-brand-text-secondary">
                     {copy.successRate} (%) <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -72,34 +72,25 @@ export default function Benchmark() {
                   <div className="benchmark-scale" aria-hidden="true">
                     {ticks.map((tick) => <span key={tick}>{tick}</span>)}
                   </div>
-                  <ul className="benchmark-rows" aria-label={copy.strategies}>
+                  <ul className="benchmark-rows" aria-label={copy.strategies} key={dataset.id}>
                     {dataset.results.map((result) => (
                       <li className="benchmark-row" data-source={result.source} data-mode={result.mode} key={result.id}>
                         <div className="benchmark-strategy">
                           <span className="benchmark-name block text-sm font-semibold leading-5">{result.name}</span>
                         </div>
                         <div className="benchmark-track" aria-hidden="true">
-                          {result.successRate !== null ? (
-                            <div className="benchmark-bar" style={{ width: `${result.successRate}%` }} />
-                          ) : (
-                            <span className="benchmark-missing" />
-                          )}
+                          <div className="benchmark-bar" style={{ width: `${result.successRate}%` }} />
                         </div>
-                        <span className={`benchmark-value ${result.successRate === null ? 'text-xs font-normal text-brand-text-secondary' : 'benchmark-reported-value text-sm font-semibold'}`}>
-                          {result.successRate === null ? copy.unreported : `${result.successRate}%`}
+                        <span className="benchmark-value benchmark-reported-value text-sm font-semibold">
+                          {result.successRate.toFixed(2)}%
                         </span>
                       </li>
                     ))}
                   </ul>
                 </div>
-
-                <p className="mt-4 flex items-start gap-2 text-xs leading-5 text-brand-text-secondary">
-                  <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                  {dataset.status === 'preliminary' ? copy.comparisonNote : copy.pendingNote}
-                </p>
               </div>
 
-              <div className="border-t border-brand-border/70 bg-brand-bg/50 px-4 py-5 sm:px-9">
+              <div className="benchmark-tabs border-t border-brand-border/70 bg-brand-bg/50 px-4 py-5 sm:px-9">
                 <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3" role="tablist" aria-label={copy.selectBenchmark}>
                   {benchmarkDatasets.map((item, index) => (
                     <button
@@ -132,39 +123,34 @@ export default function Benchmark() {
                   <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none" aria-hidden="true" />
                 </summary>
                 <div className="space-y-4 border-t border-brand-border/60 px-5 py-5 text-xs leading-6 text-brand-text-secondary sm:px-6">
-                  {dataset.status === 'preliminary' && (
-                    <div className="overflow-x-auto rounded-xl border border-brand-border/70">
-                      <table className="w-full min-w-[720px] border-collapse text-left">
-                        <caption className="sr-only">{dataset.name} · {copy.details}</caption>
-                        <thead className="bg-brand-bg">
-                          <tr>
-                            {[copy.strategy, copy.tasks, copy.episodes, copy.runtime, copy.tokens, copy.cost].map((label) => (
-                              <th className="px-4 py-2.5 font-semibold text-brand-text" scope="col" key={label}>{label}</th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {dataset.results.map((result) => (
-                            <tr className="border-t border-brand-border/60" key={result.id}>
-                              <th className="px-4 py-3 font-medium text-brand-text" scope="row">{result.name}</th>
-                              <td className="px-4 py-3 tabular-nums">{result.tasks ?? '—'}</td>
-                              <td className="px-4 py-3 tabular-nums">{result.reportedEpisodes ?? '—'}</td>
-                              <td className="px-4 py-3 tabular-nums">{result.runtime ?? '—'}</td>
-                              <td className="px-4 py-3 tabular-nums">{result.tokens ?? '—'}</td>
-                              <td className="px-4 py-3 tabular-nums">{result.estimatedCostUsd === undefined ? '—' : `$${result.estimatedCostUsd}`}</td>
-                            </tr>
+                  <div className="overflow-x-auto rounded-xl border border-brand-border/70">
+                    <table className="w-full min-w-[640px] border-collapse text-left">
+                      <caption className="sr-only">{dataset.name} · {copy.details}</caption>
+                      <thead className="bg-brand-bg">
+                        <tr>
+                          {[copy.strategy, copy.successRate, copy.controlMode, copy.basedOnPaos].map((label) => (
+                            <th className="px-4 py-2.5 font-semibold text-brand-text" scope="col" key={label}>{label}</th>
                           ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                  <p>{dataset.status === 'preliminary' ? copy.sourceNote : copy.pendingNote}</p>
-                  <p>{copy.directNote}<br />{copy.costNote}</p>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {dataset.results.map((result) => (
+                          <tr className="border-t border-brand-border/60" key={result.id}>
+                            <th className="px-4 py-3 font-medium text-brand-text" scope="row">{result.name}</th>
+                            <td className="px-4 py-3 tabular-nums">{result.successRate.toFixed(2)}%</td>
+                            <td className="px-4 py-3">{copy.modes[result.mode]}</td>
+                            <td className="px-4 py-3">{result.source === 'phyagentos' ? copy.yes : copy.no}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p>{copy.sourceNote}</p>
                 </div>
               </details>
             </div>
           </ScrollReveal>
-          <p className="sr-only" aria-live="polite" aria-atomic="true">{dataset.name} · {status}</p>
+          <p className="sr-only" aria-live="polite" aria-atomic="true">{dataset.name} · {copy.resultsLabel}</p>
         </div>
       </div>
     </section>

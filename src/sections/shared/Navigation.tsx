@@ -15,7 +15,7 @@ export default function Navigation() {
   const navItems = [
     { label: t.nav.conceptFilm, href: '/#interview' },
     { label: t.nav.architecture, href: '/#architecture' },
-    { label: t.nav.scenarios, href: '/#scenarios' },
+    { label: t.nav.controlParadigms, href: '/#control-paradigms' },
     { label: t.nav.simulationEvaluation, href: '/simulation-evaluation' },
     { label: t.liveDemo.label, href: '/#demo' },
     { label: t.nav.gettingStartedDocs, href: '/#docs' },
