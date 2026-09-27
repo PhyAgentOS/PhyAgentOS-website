@@ -113,10 +113,7 @@ export interface TranslationShape {
     title: string;
     highlight: string;
     description: string;
-    items: { title: string; subtitle: string; description: string; features: string[] }[];
-    foundationTitle: string;
-    foundationDescription: string;
-    foundationItems: { title: string; description: string }[];
+    items: { title: string; subtitle: string; description: string; flowDescription: string }[];
   };
   hardware: {
     label: string;
@@ -401,34 +398,26 @@ export const translations: Record<Lang, TranslationShape> = {
       label: 'Control Paradigms',
       title: 'One execution framework,',
       highlight: 'three control paradigms',
-      description: 'One PhyAgentOS Harness supports General Model, Hybrid Control, and Action Model, with shared robot access, Tool / Skill calls, execution runtime, and evaluation.',
+      description: 'Supports general models, action models, and hybrid control.',
       items: [
         {
-          title: 'General Model',
+          title: 'System 1',
           subtitle: 'General models · GPT-6 / DeepSeek / GLM',
-          description: 'A general-purpose multimodal model interprets tasks, perceives the environment, and generates executable actions or Tool / Skill calls.',
-          features: ['Natural-language understanding and planning', 'Direct generation of executable instructions', 'Zero-shot generalization and rapid experimentation'],
+          description: 'General models generate executable actions directly or combine tools to complete tasks.',
+          flowDescription: 'LLM or VLM → PhyAgentOS → Action.',
         },
         {
-          title: 'Hybrid Control',
+          title: 'System 1 + System 2',
           subtitle: 'Hybrid control · GPT-6 + π0.5 / DeepSeek + π0.5',
-          description: 'A General Model handles understanding, task decomposition, and decisions. An Action Model generates low-level actions, combining reasoning with stable execution.',
-          features: ['High-level planning + low-level control', 'Complex task decomposition and coordination', 'Performance alongside generalization'],
+          description: 'General models handle high-level reasoning; action models handle low-level actions.',
+          flowDescription: 'LLM or VLM and VLA or WAM collaborate bidirectionally. Both connect to PhyAgentOS, which outputs Action.',
         },
         {
-          title: 'Action Model',
+          title: 'System 2',
           subtitle: 'Action models · π0.5 / π0 / OpenVLA',
-          description: 'An action model directly predicts robot actions for low-level control, supporting standardized evaluation, high-frequency execution, and repeatable behavior.',
-          features: ['Direct prediction of low-level actions', 'Stable, high-frequency task execution', 'Standardized benchmark evaluation'],
+          description: 'Action models directly predict robot actions.',
+          flowDescription: 'VLA or WAM → PhyAgentOS → Action.',
         },
-      ],
-      foundationTitle: 'PhyAgentOS Shared Foundation',
-      foundationDescription: 'Different model approaches share the same infrastructure for execution, validation, and iteration.',
-      foundationItems: [
-        { title: 'Robot Abstraction', description: 'Multi-robot access and unified abstraction' },
-        { title: 'Tool & Skill', description: 'Tool invocation and skill management' },
-        { title: 'Runtime', description: 'Execution scheduling and runtime' },
-        { title: 'Evaluation', description: 'Unified evaluation and result analysis' },
       ],
     },
     hardware: {
@@ -785,34 +774,26 @@ export const translations: Record<Lang, TranslationShape> = {
       label: '控制范式',
       title: '一套执行框架，',
       highlight: '三种控制范式',
-      description: '同一套 PhyAgentOS Harness 统一支持 General Model、Hybrid Control 与 Action Model，覆盖机器人接入、Tool / Skill 调用、执行运行与统一评测。',
+      description: '支持通用模型与动作模型，且支持混合模式。',
       items: [
         {
-          title: 'General Model',
+          title: 'System 1',
           subtitle: '通用模型 · GPT-6 / DeepSeek / GLM',
-          description: '由通用多模态模型直接理解任务、感知环境，并生成可执行动作或 Tool / Skill 调用。',
-          features: ['自然语言理解与规划', '直接生成可执行指令', '零样本泛化与快速试验'],
+          description: '通用模型直接生成可执行动作，或通过多种工具组合完成任务。',
+          flowDescription: 'LLM 或 VLM → PhyAgentOS → Action。',
         },
         {
-          title: 'Hybrid Control',
+          title: 'System 1 + System 2',
           subtitle: '混合控制 · GPT-6 + π0.5 / DeepSeek + π0.5',
-          description: 'General Model 负责理解、分解与决策，Action Model 负责低层动作生成，在复杂任务中兼顾推理与稳定执行。',
-          features: ['高层规划 + 低层控制', '复杂任务分解与协同', '性能与泛化兼顾'],
+          description: '通用模型负责高层推理，动作模型负责底层动作。',
+          flowDescription: 'LLM 或 VLM 与 VLA 或 WAM 双向协作，共同接入 PhyAgentOS，再输出 Action。',
         },
         {
-          title: 'Action Model',
+          title: 'System 2',
           subtitle: '动作模型 · π0.5 / π0 / OpenVLA',
-          description: '面向低层控制的动作模型直接预测机器人动作，适合标准化评测、高频执行与稳定复现。',
-          features: ['低层动作直接预测', '任务执行高频稳定', '标准化 Benchmark 评测'],
+          description: '动作模型直接预测机器人动作。',
+          flowDescription: 'VLA 或 WAM → PhyAgentOS → Action。',
         },
-      ],
-      foundationTitle: 'PhyAgentOS 统一底座',
-      foundationDescription: '让不同模型方案共享同一套执行、验证与迭代基础设施。',
-      foundationItems: [
-        { title: 'Robot Abstraction', description: '多机器人接入与统一抽象' },
-        { title: 'Tool & Skill', description: '工具调用与技能管理' },
-        { title: 'Runtime', description: '执行调度与运行时' },
-        { title: 'Evaluation', description: '统一评测与结果分析' },
       ],
     },
     hardware: {

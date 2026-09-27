@@ -1,63 +1,205 @@
 .control-paradigms {
-  --control-general: #bb6b12;
-  --control-hybrid: #277fbd;
-  --control-action: #8750bd;
+  --control-general: #df7720;
+  --control-general-text: #c44a19;
+  --control-hybrid: #358ddd;
+  --control-hybrid-text: #075fd5;
+  --control-action: #9855e4;
+  --control-action-text: #6d24ce;
+  --control-heading: #10142e;
+  --control-body: #54627f;
+  --control-surface: #fdfefe;
+  --control-title-accent: #0764df;
+  padding: 88px 0 96px;
+  background: radial-gradient(ellipse at 50% 40%, #f6faff 0%, var(--control-surface) 70%);
 }
 
 .theme-dark .control-paradigms {
-  --control-general: #efb765;
-  --control-hybrid: #78bced;
-  --control-action: #bb95ed;
+  --control-general: #dca05c;
+  --control-general-text: #f1b475;
+  --control-hybrid: #67a5e4;
+  --control-hybrid-text: #8abaff;
+  --control-action: #a779df;
+  --control-action-text: #cba4ff;
+  --control-heading: #f0effb;
+  --control-body: #b4bdd2;
+  --control-surface: #1e202b;
+  --control-title-accent: #83b5ff;
+  background: radial-gradient(ellipse at 50% 40%, #202b3b 0%, var(--control-surface) 70%);
 }
 
-.control-paradigms-heading { max-width: 70rem; }
-.control-paradigms-heading > p { max-width: 55rem; }
+.control-paradigms-container {
+  width: calc(100% - 64px);
+  max-width: 1440px;
+  margin-inline: auto;
+}
 
-.control-card[data-mode='general'] { --control-color: var(--control-general); }
-.control-card[data-mode='hybrid'] { --control-color: var(--control-hybrid); }
-.control-card[data-mode='action'] { --control-color: var(--control-action); }
+.control-paradigms-heading { max-width: 76rem; }
+.control-paradigms-heading > div {
+  margin-bottom: 18px;
+  border-color: color-mix(in srgb, var(--control-hybrid) 20%, transparent);
+  background: color-mix(in srgb, var(--control-hybrid) 2%, var(--control-surface));
+  color: var(--control-hybrid-text);
+  padding: 10px 22px;
+  font-family: inherit;
+  font-size: 15px;
+  letter-spacing: 0;
+  box-shadow: none;
+}
+.control-paradigms-heading h2 {
+  color: var(--control-heading);
+  font-size: clamp(32px, 4.2vw, 66px);
+  line-height: 1.3;
+}
+.control-paradigms-heading .text-gradient {
+  background: none;
+  color: var(--control-title-accent);
+  -webkit-text-fill-color: var(--control-title-accent);
+}
+.control-paradigms-heading > p {
+  max-width: 60rem;
+  margin-top: 14px;
+  color: var(--control-body);
+  font-size: clamp(16px, 1.6vw, 23px);
+  line-height: 1.6;
+}
+
+.control-paradigms-diagram { margin-top: 28px; }
+.control-paradigms-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.13fr) minmax(0, 1fr);
+  gap: 18px;
+}
+
+.control-card[data-mode='general'] {
+  --control-color: var(--control-general);
+  --control-label: var(--control-general-text);
+}
+.control-card[data-mode='hybrid'] {
+  --control-color: var(--control-hybrid);
+  --control-label: var(--control-hybrid-text);
+}
+.control-card[data-mode='action'] {
+  --control-color: var(--control-action);
+  --control-label: var(--control-action-text);
+}
 
 .control-card {
-  background: linear-gradient(145deg, color-mix(in srgb, var(--control-color) 5%, var(--color-bg-secondary)), var(--color-bg));
-  border-color: color-mix(in srgb, var(--control-color) 25%, transparent);
-  box-shadow: 0 12px 36px color-mix(in srgb, var(--control-color) 4%, transparent);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 28px 30px 26px;
+  border: 1px solid color-mix(in srgb, var(--control-color) 55%, transparent);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--control-color) 4%, var(--control-surface));
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--control-color) 3%, transparent);
 }
-
 .control-card[data-mode='hybrid'] {
-  background: linear-gradient(145deg, color-mix(in srgb, var(--control-color) 9%, var(--color-bg-secondary)), var(--color-bg-secondary));
+  background: color-mix(in srgb, var(--control-color) 6%, var(--control-surface));
+}
+.control-card-heading { min-height: 94px; }
+.control-eyebrow {
+  color: var(--control-label);
+  font-size: clamp(12px, 1.04vw, 16px);
+  font-weight: 500;
+  line-height: 1.6;
+}
+.control-card h3 {
+  margin-top: 6px;
+  font-family: Georgia, 'Times New Roman', 'Noto Serif SC', serif;
+  color: var(--control-heading);
+  font-size: clamp(28px, 2.65vw, 42px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
 }
 
-.control-icon {
-  color: var(--control-color);
-  border-color: color-mix(in srgb, var(--control-color) 15%, transparent);
-  background: var(--color-bg-secondary);
+.control-flow { margin-top: 16px; }
+.control-flow-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 70px;
+  padding: 14px 8px;
+  border: 1px solid color-mix(in srgb, var(--control-color) 65%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--control-color) 2%, transparent);
+  color: var(--control-heading);
+  text-align: center;
+  font-size: clamp(18px, 1.65vw, 25px);
+  font-weight: 600;
+  line-height: 1.35;
 }
-
-.control-eyebrow { color: var(--control-color); }
-.control-dot { background: var(--control-color); }
-
-.control-connectors { height: 48px; }
-.control-connectors path {
-  fill: none;
-  stroke: color-mix(in srgb, var(--color-accent) 40%, transparent);
-  stroke-width: 1.5;
-  stroke-dasharray: 4 4;
+.control-flow-source { min-height: 82px; }
+.control-flow-models {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+}
+.control-flow-models .control-flow-node { font-size: clamp(15px, 1.4vw, 23px); }
+.control-flow-exchange {
+  width: 100%;
+  height: 28px;
+  stroke-width: 1.6;
+  color: var(--control-body);
+}
+.control-flow-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 38px;
+  color: var(--control-body);
+}
+.control-flow-arrow svg { width: 27px; height: 27px; stroke-width: 1.6; }
+.control-flow-merge { display: block; width: 100%; height: 38px; overflow: visible; }
+.control-flow-merge path {
+  stroke: var(--control-body);
+  stroke-width: 1.6;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
   vector-effect: non-scaling-stroke;
 }
-.control-node-general { fill: var(--control-general); }
-.control-node-hybrid { fill: var(--control-hybrid); }
-.control-node-action { fill: var(--control-action); }
+.control-card[data-mode='hybrid'] .control-flow-runtime,
+.control-card[data-mode='hybrid'] .control-flow-action { margin-inline: 7%; }
+.control-card-description {
+  margin-top: 24px;
+  color: var(--control-body);
+  text-align: center;
+  font-size: clamp(15px, 1.36vw, 20px);
+  line-height: 1.65;
+  white-space: pre-line;
+}
 
-.control-foundation {
-  border-color: color-mix(in srgb, var(--control-hybrid) 22%, transparent);
-  background: linear-gradient(120deg, color-mix(in srgb, var(--control-hybrid) 5%, var(--color-bg-secondary)), var(--color-bg-secondary));
+@media (max-width: 1199px) and (min-width: 1024px) {
+  .control-card { padding: 24px 20px; }
+  .control-card h3 { font-size: 28px; }
+  .control-flow-models { grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr); gap: 4px; }
 }
 
 @media (max-width: 1023px) {
-  .control-connectors {
-    width: 0;
-    height: 28px;
-    margin-inline: auto;
-    border-left: 1px dashed var(--color-accent);
-  }
+  .control-paradigms { padding: 64px 0 72px; }
+  .control-paradigms-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; max-width: 640px; margin-inline: auto; }
+  .control-card { padding: 28px; }
+  .control-card-heading { min-height: auto; }
+  .control-card h3 { font-size: 36px; }
+  .control-eyebrow { font-size: 14px; }
+  .control-flow { margin-top: 26px; }
+  .control-flow-node { font-size: 22px; }
+  .control-flow-models .control-flow-node { font-size: 20px; }
+  .control-card-description { font-size: 17px; }
+}
+
+@media (max-width: 479px) {
+  .control-paradigms-container { width: calc(100% - 32px); }
+  .control-paradigms-heading h2 { font-size: 30px; }
+  .control-card { padding: 24px 20px; }
+  .control-card h3 { font-size: 30px; }
+  .control-card[data-mode='hybrid'] h3 { font-size: 28px; }
+  .control-eyebrow { font-size: 12px; }
+  .control-flow-node { min-height: 64px; font-size: 20px; }
+  .control-flow-source { min-height: 74px; }
+  .control-flow-models { grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1fr); gap: 4px; }
+  .control-flow-models .control-flow-node { font-size: 16px; padding-inline: 4px; }
+  .control-card-description { font-size: 16px; }
 }
