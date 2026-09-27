@@ -46,7 +46,7 @@ export default function ControlParadigms() {
           <div id="control-paradigms-title">
             <SectionHeader
               label={copy.label}
-              labelIcon={<Layers3 className="h-5 w-5" />}
+              labelIcon={<Layers3 className="h-3.5 w-3.5" />}
               title={copy.title}
               highlight={copy.highlight}
               description={copy.description}
