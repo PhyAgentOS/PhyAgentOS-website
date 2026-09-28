@@ -4,7 +4,7 @@ import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useT } from '../../i18n/LanguageContext';
 import './control-paradigms.css';
 
-const paradigms = ['general', 'hybrid', 'action'] as const;
+const paradigms = ['action', 'hybrid', 'general'] as const;
 type ControlMode = typeof paradigms[number];
 
 function ControlFlow({ mode, label }: { mode: ControlMode; label: string }) {
@@ -13,9 +13,9 @@ function ControlFlow({ mode, label }: { mode: ControlMode; label: string }) {
       {mode === 'hybrid' ? (
         <>
           <div className="control-flow-models">
-            <div className="control-flow-node control-flow-source">LLM or VLM</div>
-            <MoveHorizontal className="control-flow-exchange" aria-hidden="true" />
             <div className="control-flow-node control-flow-source">VLA or WAM</div>
+            <MoveHorizontal className="control-flow-exchange" aria-hidden="true" />
+            <div className="control-flow-node control-flow-source">LLM or VLM</div>
           </div>
           <svg className="control-flow-merge" viewBox="0 0 400 40" preserveAspectRatio="none" fill="none" aria-hidden="true">
             <path d="M88 2V17H312V2M200 17V35M195 29L200 35L205 29" />
