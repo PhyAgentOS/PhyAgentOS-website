@@ -1,4 +1,4 @@
-import { BookHeart, ExternalLink, Github, Heart, Linkedin, Mail, MessageCircle, Tv } from 'lucide-react';
+import { BookHeart, ExternalLink, Github, Heart, Linkedin, Mail, Tv } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useT } from '../../i18n/LanguageContext';
 import { useLang } from '../../i18n/LanguageContext';
@@ -48,11 +48,6 @@ export default function Footer() {
       label: 'LinkedIn',
       href: 'https://www.linkedin.com/in/phyagent-os-252372401/',
       icon: Linkedin,
-    },
-    {
-      label: 'Discord',
-      href: 'https://discord.gg/YJztZ4wUM',
-      icon: MessageCircle,
     },
   ];
   const logoSrc = `${import.meta.env.BASE_URL}LOGO.png`;

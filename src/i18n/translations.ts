@@ -57,10 +57,12 @@ export interface TranslationShape {
     statSkills: string;
   };
   communityPage: {
+    label: string;
+    title: string;
     description: string;
-    discordTitle: string;
-    discordDescription: string;
-    joinDiscord: string;
+    xTitle: string;
+    xDescription: string;
+    visitX: string;
     bilibiliTitle: string;
     bilibiliDescription: string;
     visitBilibili: string;
@@ -75,6 +77,11 @@ export interface TranslationShape {
     bilibili: string;
     xiaohongshu: string;
     scanToJoin: string;
+    groupsTitle: string;
+    groupsDescription: string;
+    feishuValidity: string;
+    wechatValidity: string;
+    tagline: string;
   };
   problemSolution: {
     label: string;
@@ -273,10 +280,12 @@ export const translations: Record<Lang, TranslationShape> = {
       statSkills: 'System Skills',
     },
     communityPage: {
-      description: 'Connect with PhyAgentOS developers and follow the latest project updates.',
-      discordTitle: 'Join us on Discord',
-      discordDescription: 'Chat with developers worldwide, ask questions, and take part in community discussions.',
-      joinDiscord: 'Join Discord',
+      label: 'Join us',
+      title: 'Follow us on more platforms',
+      description: 'Discover PhyAgentOS updates, video demos, and developer stories. Explore what’s possible with us.',
+      xTitle: 'Follow us on X',
+      xDescription: 'Get the latest project updates and connect with developers worldwide.',
+      visitX: 'Visit X',
       bilibiliTitle: 'Follow us on Bilibili',
       bilibiliDescription: 'Watch PhyAgentOS videos and demos, and follow the latest project updates.',
       visitBilibili: 'Visit Bilibili',
@@ -291,6 +300,11 @@ export const translations: Record<Lang, TranslationShape> = {
       bilibili: 'Bilibili',
       xiaohongshu: 'Xiaohongshu',
       scanToJoin: 'Scan the QR code to join the group',
+      groupsTitle: 'Join our developer groups',
+      groupsDescription: 'Meet fellow developers, share ideas, and hear the latest news.',
+      feishuValidity: 'QR code valid until July 20, 2027',
+      wechatValidity: 'QR code valid until October 5, 2026',
+      tagline: 'Connecting developers worldwide to build a smarter world',
     },
     problemSolution: {
       label: 'Why PhyAgentOS?',
@@ -648,10 +662,12 @@ export const translations: Record<Lang, TranslationShape> = {
       statSkills: '系统技能',
     },
     communityPage: {
-      description: '与 PhyAgentOS 开发者交流，获取项目最新动态。',
-      discordTitle: '加入 Discord 社区',
-      discordDescription: '与全球开发者交流、提问，并参与社区讨论。',
-      joinDiscord: '加入 Discord',
+      label: '加入我们',
+      title: '在更多平台关注我们',
+      description: '获取 PhyAgentOS 最新动态、视频演示和开发者分享，与我们一起探索更大的可能。',
+      xTitle: '关注 X',
+      xDescription: '获取项目最新动态，与全球开发者交流。',
+      visitX: '前往 X',
       bilibiliTitle: '关注 B 站',
       bilibiliDescription: '观看 PhyAgentOS 视频与演示，了解项目最新进展。',
       visitBilibili: '前往 B 站',
@@ -666,6 +682,11 @@ export const translations: Record<Lang, TranslationShape> = {
       bilibili: '哔哩哔哩',
       xiaohongshu: '小红书',
       scanToJoin: '扫描二维码加入群聊',
+      groupsTitle: '加入开发者群',
+      groupsDescription: '与更多开发者交流讨论，获取一手信息',
+      feishuValidity: '该二维码有效期至 2027 年 7 月 20 日',
+      wechatValidity: '该二维码有效期至 2026 年 10 月 5 日',
+      tagline: '连接全球开发者，共建更智能的世界',
     },
     problemSolution: {
       label: '为何选择 PhyAgentOS？',
