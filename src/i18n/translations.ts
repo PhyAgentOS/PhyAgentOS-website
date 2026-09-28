@@ -151,10 +151,15 @@ export interface TranslationShape {
     strategy: string;
     controlMode: string;
     basedOnPaos: string;
+    averageTime: string;
+    averageTokens: string;
+    notProvided: string;
+    unreportedResults: string;
     yes: string;
     no: string;
     sourceNote: string;
     modes: { general: string; hybrid: string; action: string };
+    modeDescriptions: { general: string; hybrid: string; action: string };
   };
   liveDemo: {
     label: string;
@@ -496,21 +501,30 @@ export const translations: Record<Lang, TranslationShape> = {
       label: 'Benchmarks',
       title: 'Different policies,',
       highlight: 'shared benchmarks',
-      description: 'Compare General Model, Hybrid Control, and Action Model results on LIBERO-Long and RoboDojo.',
+      description: 'Compare task success rates, time per task, and token costs on LIBERO-Long and RoboDojo.',
       resultsLabel: 'Evaluation results',
       successRate: 'Task success rate',
       strategies: 'Control policies and task success rates',
       paos: 'Implemented with PhyAgentOS',
       reference: 'Data from public leaderboards',
       selectBenchmark: 'Select a benchmark',
-      details: 'Results & control paradigms',
+      details: 'Full results, time & token costs',
       strategy: 'Method',
       controlMode: 'Control paradigm',
       basedOnPaos: 'Built on PAOS',
+      averageTime: 'Average time (s/task)',
+      averageTokens: 'Average cost (tokens/task)',
+      notProvided: 'Not reported',
+      unreportedResults: 'Success rate not reported for these methods',
       yes: 'Yes',
       no: 'No',
-      sourceNote: 'Source: the LIBERO-Long and RoboDojo evaluation summaries. Success rates and control paradigms are shown as reported.',
-      modes: { general: 'General Model', hybrid: 'Hybrid Control', action: 'Action Model' },
+      sourceNote: 'Source: the provided LIBERO-Long and RoboDojo evaluation summaries. Values and control paradigms are shown as reported. — means not reported; ~ indicates an approximate value. M denotes one million tokens.',
+      modes: { general: 'System 2 · General Model', hybrid: 'System 1 + System 2 · Hybrid Control', action: 'System 1 · Action Model' },
+      modeDescriptions: {
+        general: 'Directly generates executable actions or tool calls.',
+        hybrid: 'Combines high-level reasoning from a general model with low-level actions from an action model.',
+        action: 'Directly predicts robot actions.',
+      },
     },
     liveDemo: {
       label: 'Live Demo',
@@ -879,21 +893,30 @@ export const translations: Record<Lang, TranslationShape> = {
       label: '评测结果',
       title: '多种策略，',
       highlight: '统一评测',
-      description: '在 LIBERO-Long 与 RoboDojo 上，展示 General Model、Hybrid Control 与 Action Model 的任务成功率。',
+      description: '在 LIBERO-Long 与 RoboDojo 上，对比各方案的任务成功率、平均耗时与 token 成本。',
       resultsLabel: '评测结果',
       successRate: '任务成功率',
       strategies: '控制策略与任务成功率',
       paos: '基于PhyAgentOS 实现',
       reference: '数据源于公开榜单',
       selectBenchmark: '选择评测基准',
-      details: '完整结果与控制范式',
+      details: '完整结果、耗时与 token 成本',
       strategy: '方法',
       controlMode: '控制范式',
       basedOnPaos: '是否基于 PAOS',
+      averageTime: '平均耗时（秒/任务）',
+      averageTokens: '平均成本（token/任务）',
+      notProvided: '未提供',
+      unreportedResults: '以下方法暂未提供成功率',
       yes: '是',
       no: '否',
-      sourceNote: '数据来源：LIBERO-Long 与 RoboDojo 评测汇总表，成功率与控制范式按原表展示。',
-      modes: { general: 'General Model', hybrid: 'Hybrid Control', action: 'Action Model' },
+      sourceNote: '数据来源：提供的 LIBERO-Long 与 RoboDojo 评测汇总表，各项指标与控制范式按原表展示。— 表示未提供，~ 表示近似值，M 表示百万 token。',
+      modes: { general: 'System 2 · 通用模型', hybrid: 'System 1 + System 2 · 混合控制', action: 'System 1 · 动作模型' },
+      modeDescriptions: {
+        general: '直接生成可执行动作或工具调用。',
+        hybrid: '通用模型负责高层推理，动作模型负责底层动作。',
+        action: '直接预测机器人动作。',
+      },
     },
     liveDemo: {
       label: '实时演示',

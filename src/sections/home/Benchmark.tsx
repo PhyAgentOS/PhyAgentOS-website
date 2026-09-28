@@ -3,7 +3,7 @@ import { ArrowUpRight, BarChart3, ChevronDown, FileText } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useT } from '../../i18n/LanguageContext';
-import { benchmarkDatasets } from '../../data/benchmarks';
+import { benchmarkDatasets, type BenchmarkResult } from '../../data/benchmarks';
 import './benchmark.css';
 
 const ticks = [0, 25, 50, 75, 100];
@@ -13,6 +13,11 @@ export default function Benchmark() {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const dataset = benchmarkDatasets[activeIndex];
+  const reportedResults = dataset.results.filter(
+    (result): result is BenchmarkResult & { successRate: number } => result.successRate !== null,
+  );
+  const unreportedResults = dataset.results.filter((result) => result.successRate === null);
+  const missingValue = <span aria-label={copy.notProvided}>—</span>;
 
   function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     let next: number;
@@ -73,7 +78,7 @@ export default function Benchmark() {
                     {ticks.map((tick) => <span key={tick}>{tick}</span>)}
                   </div>
                   <ul className="benchmark-rows" aria-label={copy.strategies} key={dataset.id}>
-                    {dataset.results.map((result) => (
+                    {reportedResults.map((result) => (
                       <li className="benchmark-row" data-source={result.source} data-mode={result.mode} key={result.id}>
                         <div className="benchmark-strategy">
                           <span className="benchmark-name block text-sm font-semibold leading-5">{result.name}</span>
@@ -88,6 +93,18 @@ export default function Benchmark() {
                     ))}
                   </ul>
                 </div>
+                {unreportedResults.length > 0 && (
+                  <div className="mt-6 border-t border-brand-border pt-4">
+                    <p className="text-xs font-medium text-brand-text-secondary">{copy.unreportedResults}</p>
+                    <ul className="mt-3 flex flex-wrap gap-2" aria-label={copy.unreportedResults}>
+                      {unreportedResults.map((result) => (
+                        <li key={result.id} className="rounded-lg border border-brand-border bg-brand-bg px-3 py-2 text-xs text-brand-text-secondary">
+                          {result.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
 
               <div className="benchmark-tabs border-t border-brand-border/70 bg-brand-bg/50 px-4 py-5 sm:px-9">
@@ -123,12 +140,12 @@ export default function Benchmark() {
                   <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none" aria-hidden="true" />
                 </summary>
                 <div className="space-y-4 border-t border-brand-border/60 px-5 py-5 text-xs leading-6 text-brand-text-secondary sm:px-6">
-                  <div className="overflow-x-auto rounded-xl border border-brand-border/70">
-                    <table className="w-full min-w-[640px] border-collapse text-left">
+                  <div className="overflow-x-auto rounded-xl border border-brand-border/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-accent" role="region" aria-label={`${dataset.name} · ${copy.details}`} tabIndex={0}>
+                    <table className="w-full min-w-[1040px] border-collapse text-left">
                       <caption className="sr-only">{dataset.name} · {copy.details}</caption>
                       <thead className="bg-brand-bg">
                         <tr>
-                          {[copy.strategy, copy.successRate, copy.controlMode, copy.basedOnPaos].map((label) => (
+                          {[copy.strategy, copy.successRate, copy.controlMode, copy.basedOnPaos, copy.averageTime, copy.averageTokens].map((label) => (
                             <th className="px-4 py-2.5 font-semibold text-brand-text" scope="col" key={label}>{label}</th>
                           ))}
                         </tr>
@@ -136,10 +153,19 @@ export default function Benchmark() {
                       <tbody>
                         {dataset.results.map((result) => (
                           <tr className="border-t border-brand-border/60" key={result.id}>
-                            <th className="px-4 py-3 font-medium text-brand-text" scope="row">{result.name}</th>
-                            <td className="px-4 py-3 tabular-nums">{result.successRate.toFixed(2)}%</td>
-                            <td className="px-4 py-3">{copy.modes[result.mode]}</td>
-                            <td className="px-4 py-3">{result.source === 'phyagentos' ? copy.yes : copy.no}</td>
+                            <th className="min-w-[230px] px-4 py-3 font-medium text-brand-text" scope="row">{result.name}</th>
+                            <td className="whitespace-nowrap px-4 py-3 tabular-nums">{result.successRate === null ? missingValue : `${result.successRate.toFixed(2)}%`}</td>
+                            <td className="min-w-[300px] px-4 py-3">
+                              {result.mode === null ? missingValue : (
+                                <>
+                                  <span className="block font-medium text-brand-text">{copy.modes[result.mode]}</span>
+                                  <span className="mt-1 block leading-5">{copy.modeDescriptions[result.mode]}</span>
+                                </>
+                              )}
+                            </td>
+                            <td className="whitespace-nowrap px-4 py-3">{result.source === 'phyagentos' ? copy.yes : copy.no}</td>
+                            <td className="whitespace-nowrap px-4 py-3 tabular-nums">{result.averageTimeSeconds ?? missingValue}</td>
+                            <td className="whitespace-nowrap px-4 py-3 tabular-nums">{result.averageTokens ?? missingValue}</td>
                           </tr>
                         ))}
                       </tbody>
