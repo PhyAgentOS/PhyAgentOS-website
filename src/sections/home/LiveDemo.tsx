@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import { BarChart3, Bot, ChevronDown, ChevronLeft, ChevronRight, FlaskConical, Gamepad2, Rocket, TerminalSquare } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { BarChart3, Bot, ChevronLeft, ChevronRight, FlaskConical, Gamepad2, Rocket, TerminalSquare, X } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '../../components/ui/dialog';
 import { useLang } from '../../i18n/LanguageContext';
 import PiperQuickStart from './PiperQuickStart';
 
@@ -184,19 +185,12 @@ export default function LiveDemo() {
 
   const filters = Object.entries(copy.filters) as [keyof typeof copy.filters, string][];
   const demoTrackRef = useRef<HTMLDivElement>(null);
-  const quickStartRef = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState<keyof typeof copy.filters>('all');
   const filteredDemos = filter === 'all' ? demos : demos.filter((demo) => demo.category === filter);
   const [activeId, setActiveId] = useState(demos[0].id);
   const [showPiperQuickStart, setShowPiperQuickStart] = useState(false);
   const activeDemo = filteredDemos.find((demo) => demo.id === activeId) ?? filteredDemos[0];
   const ActiveIcon = activeDemo.icon;
-
-  useEffect(() => {
-    if (showPiperQuickStart) {
-      quickStartRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }, [showPiperQuickStart]);
 
   const handleFilterChange = (newFilter: keyof typeof copy.filters) => {
     setFilter(newFilter);
@@ -233,6 +227,7 @@ export default function LiveDemo() {
             />
           </ScrollReveal>
 
+          <Dialog open={showPiperQuickStart} onOpenChange={setShowPiperQuickStart}>
           <ScrollReveal delay={0.2}>
             <div className="mt-16 space-y-5">
               <div className="flex flex-wrap justify-center gap-2">
@@ -348,20 +343,16 @@ export default function LiveDemo() {
                       </button>
                       {demo.id === 'real-skill-deployment' && (
                         <div className="mt-auto flex justify-end pt-3">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setActiveId(demo.id);
-                              setShowPiperQuickStart((shown) => !shown);
-                            }}
-                            aria-expanded={showPiperQuickStart}
-                            aria-controls="piper-quick-start"
-                            className="inline-flex items-center gap-1.5 rounded-lg border border-brand-accent/30 bg-brand-accent/10 px-3 py-2 text-xs font-semibold text-brand-accent transition-colors hover:bg-brand-accent/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
-                          >
-                            <TerminalSquare className="h-3.5 w-3.5" />
-                            {lang === 'zh' ? (showPiperQuickStart ? '收起命令' : '查看命令') : (showPiperQuickStart ? 'Hide commands' : 'View commands')}
-                            <ChevronDown className={`h-3.5 w-3.5 transition-transform ${showPiperQuickStart ? 'rotate-180' : ''}`} />
-                          </button>
+                          <DialogTrigger asChild>
+                            <button
+                              type="button"
+                              onClick={() => setActiveId(demo.id)}
+                              className="inline-flex items-center gap-1.5 rounded-lg border border-brand-accent/30 bg-brand-accent/10 px-3 py-2 text-xs font-semibold text-brand-accent transition-colors hover:bg-brand-accent/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
+                            >
+                              <TerminalSquare className="h-3.5 w-3.5" />
+                              {lang === 'zh' ? '查看命令' : 'View commands'}
+                            </button>
+                          </DialogTrigger>
                         </div>
                       )}
                       {active && (
@@ -372,13 +363,27 @@ export default function LiveDemo() {
                   })}
                 </div>
               </div>
-              {showPiperQuickStart && (
-                <div ref={quickStartRef} className="scroll-mt-24">
-                  <PiperQuickStart lang={lang} />
-                </div>
-              )}
             </div>
           </ScrollReveal>
+          <DialogContent
+            showCloseButton={false}
+            className="flex max-h-[90dvh] w-[calc(100%-2rem)] max-w-[1100px] flex-col gap-0 overflow-hidden rounded-3xl border-brand-border bg-brand-bg p-0 shadow-2xl sm:max-w-[1100px]"
+          >
+            <DialogTitle className="sr-only">{lang === 'zh' ? 'Piper机械臂快速启动' : 'Piper Robot Arm Quick Start'}</DialogTitle>
+            <DialogDescription className="sr-only">
+              {lang === 'zh' ? 'Piper 机械臂安装和启动命令' : 'Piper robot arm setup and startup commands'}
+            </DialogDescription>
+            <DialogClose
+              aria-label={lang === 'zh' ? '关闭快速启动弹窗' : 'Close quick-start dialog'}
+              className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-brand-border bg-brand-bg text-brand-text-secondary shadow-soft transition-colors hover:bg-brand-bg-tertiary focus-visible:outline-2 focus-visible:outline-brand-accent"
+            >
+              <X className="h-5 w-5" aria-hidden="true" />
+            </DialogClose>
+            <div data-lenis-prevent className="min-h-0 w-full overflow-y-auto overscroll-contain p-3 sm:p-5">
+              <PiperQuickStart lang={lang} />
+            </div>
+          </DialogContent>
+          </Dialog>
         </div>
       </div>
     </section>
