@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react';
-import { BarChart3, Bot, ChevronLeft, ChevronRight, FlaskConical, Gamepad2, Rocket, TerminalSquare } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { BarChart3, Bot, ChevronDown, ChevronLeft, ChevronRight, FlaskConical, Gamepad2, Rocket, TerminalSquare } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useLang } from '../../i18n/LanguageContext';
+import PiperQuickStart from './PiperQuickStart';
 
 export default function LiveDemo() {
   const { lang } = useLang();
@@ -32,9 +33,9 @@ export default function LiveDemo() {
             description: '从 Piper X 双臂设备联动、实验环境配置、物料识别，到执行取样、转移与放置任务，展示具身智能驱动科学实验的完整运行路径。',
           },
           {
-            title: '真机 Skill 快速部署',
+            title: 'Piper机械臂快速启动',
             eyebrow: 'Deployment · Real-Robot Skill',
-            description: 'Piper 串口激活并加载 Skill 后，通过自然语言协同调用多 Tool，完成位姿解算、关节运动与夹爪控制，展示真机能力的快速接入与组合。',
+            description: 'Piper CAN 接口激活并加载 Skill 后，通过自然语言协同调用多 Tool，完成位姿解算、关节运动与夹爪控制，展示真机能力的快速接入与组合。',
           },
           {
             title: '复合机器人 Skill 快速部署',
@@ -103,9 +104,9 @@ export default function LiveDemo() {
             description: 'From coordinated Piper X dual-arm operation, experimental environment setup, and material recognition to sample collection, transfer, and placement, this demo presents the complete workflow of embodied intelligence for scientific experiments.',
           },
           {
-            title: 'Rapid Real-Robot Skill Deployment',
+            title: 'Piper Robot Arm Quick Start',
             eyebrow: 'Deployment · Real-Robot Skill',
-            description: 'After Piper serial activation and Skill loading, natural language coordinates multiple Tools for pose solving, joint motion, and gripper control—showing rapid real-robot capability integration and composition.',
+            description: 'After Piper CAN activation and Skill loading, natural language coordinates multiple Tools for pose solving, joint motion, and gripper control—showing rapid real-robot capability integration and composition.',
           },
           {
             title: 'Rapid Compound-Robot Skill Deployment',
@@ -183,14 +184,23 @@ export default function LiveDemo() {
 
   const filters = Object.entries(copy.filters) as [keyof typeof copy.filters, string][];
   const demoTrackRef = useRef<HTMLDivElement>(null);
+  const quickStartRef = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState<keyof typeof copy.filters>('all');
   const filteredDemos = filter === 'all' ? demos : demos.filter((demo) => demo.category === filter);
   const [activeId, setActiveId] = useState(demos[0].id);
+  const [showPiperQuickStart, setShowPiperQuickStart] = useState(false);
   const activeDemo = filteredDemos.find((demo) => demo.id === activeId) ?? filteredDemos[0];
   const ActiveIcon = activeDemo.icon;
 
+  useEffect(() => {
+    if (showPiperQuickStart) {
+      quickStartRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [showPiperQuickStart]);
+
   const handleFilterChange = (newFilter: keyof typeof copy.filters) => {
     setFilter(newFilter);
+    setShowPiperQuickStart(false);
     const nextDemos = newFilter === 'all' ? demos : demos.filter((demo) => demo.category === newFilter);
     setActiveId(nextDemos[0].id);
     requestAnimationFrame(() => demoTrackRef.current?.scrollTo({ left: 0, behavior: 'smooth' }));
@@ -294,49 +304,79 @@ export default function LiveDemo() {
                     const Icon = demo.icon;
                     const active = demo.id === activeDemo.id;
                     return (
-                    <button
+                    <div
                       key={demo.id}
-                      type="button"
-                      onClick={() => setActiveId(demo.id)}
-                      className={`group relative flex min-h-[300px] w-[84%] flex-none snap-start flex-col gap-3 rounded-2xl border p-3 text-left transition-all duration-300 sm:w-[48%] lg:w-[32%] xl:w-[24%] ${
+                      className={`group relative flex min-h-[300px] w-[84%] flex-none snap-start flex-col rounded-2xl border p-3 text-left transition-all duration-300 sm:w-[48%] lg:w-[32%] xl:w-[24%] ${
                         active
                           ? 'border-brand-accent/35 bg-brand-accent/10 shadow-glow-soft'
                           : 'border-brand-border bg-brand-bg-secondary hover:border-brand-accent/30 hover:shadow-soft'
                       }`}
                     >
-                      <div className="relative overflow-hidden rounded-xl bg-black">
-                        <img
-                          src={demo.poster}
-                          alt=""
-                          className="aspect-video w-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                        <div className="absolute bottom-2 left-2 rounded-full bg-black/65 px-2 py-0.5 text-[11px] font-mono text-white/85">
-                          {demo.duration}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setActiveId(demo.id);
+                          if (demo.id !== 'real-skill-deployment') setShowPiperQuickStart(false);
+                        }}
+                        className="flex min-w-0 flex-1 flex-col gap-3 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
+                      >
+                        <div className="relative overflow-hidden rounded-xl bg-black">
+                          <img
+                            src={demo.poster}
+                            alt=""
+                            className="aspect-video w-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                          <div className="absolute bottom-2 left-2 rounded-full bg-black/65 px-2 py-0.5 text-[11px] font-mono text-white/85">
+                            {demo.duration}
+                          </div>
                         </div>
-                      </div>
-                      <div className="min-w-0 py-1">
-                        <div className="flex items-center gap-2">
-                          <Icon className={`h-4 w-4 ${active ? 'text-brand-accent-light' : 'text-brand-text-tertiary'}`} />
-                          <p className="truncate text-xs font-mono uppercase tracking-[0.14em] text-brand-text-tertiary">
-                            {demo.eyebrow}
+                        <div className="min-w-0 py-1">
+                          <div className="flex items-center gap-2">
+                            <Icon className={`h-4 w-4 ${active ? 'text-brand-accent-light' : 'text-brand-text-tertiary'}`} />
+                            <p className="truncate text-xs font-mono uppercase tracking-[0.14em] text-brand-text-tertiary">
+                              {demo.eyebrow}
+                            </p>
+                          </div>
+                          <h3 className={`mt-2 font-display text-lg font-bold leading-tight ${active ? 'text-brand-text' : 'text-brand-text-secondary'}`}>
+                            {demo.title}
+                          </h3>
+                          <p className="mt-1 text-sm leading-6 text-brand-text-tertiary">
+                            {demo.description}
                           </p>
                         </div>
-                        <h3 className={`mt-2 font-display text-lg font-bold leading-tight ${active ? 'text-brand-text' : 'text-brand-text-secondary'}`}>
-                          {demo.title}
-                        </h3>
-                        <p className="mt-1 text-sm leading-6 text-brand-text-tertiary">
-                          {demo.description}
-                        </p>
-                      </div>
+                      </button>
+                      {demo.id === 'real-skill-deployment' && (
+                        <div className="mt-auto flex justify-end pt-3">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setActiveId(demo.id);
+                              setShowPiperQuickStart((shown) => !shown);
+                            }}
+                            aria-expanded={showPiperQuickStart}
+                            aria-controls="piper-quick-start"
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-brand-accent/30 bg-brand-accent/10 px-3 py-2 text-xs font-semibold text-brand-accent transition-colors hover:bg-brand-accent/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
+                          >
+                            <TerminalSquare className="h-3.5 w-3.5" />
+                            {lang === 'zh' ? (showPiperQuickStart ? '收起命令' : '查看命令') : (showPiperQuickStart ? 'Hide commands' : 'View commands')}
+                            <ChevronDown className={`h-3.5 w-3.5 transition-transform ${showPiperQuickStart ? 'rotate-180' : ''}`} />
+                          </button>
+                        </div>
+                      )}
                       {active && (
                         <div className="absolute right-3 top-3 h-2 w-2 animate-pulse rounded-full bg-brand-accent" />
                       )}
-                    </button>
+                    </div>
                     );
                   })}
                 </div>
               </div>
+              {showPiperQuickStart && (
+                <div ref={quickStartRef} className="scroll-mt-24">
+                  <PiperQuickStart lang={lang} />
+                </div>
+              )}
             </div>
           </ScrollReveal>
         </div>
