@@ -154,7 +154,12 @@ export interface TranslationShape {
     averageTime: string;
     averageTokens: string;
     notProvided: string;
-    unreportedResults: string;
+    timeLabel: string;
+    tokensLabel: string;
+    unitsNote: string;
+    taskDetails: string;
+    taskDetailsDescription: string;
+    viewResults: string;
     yes: string;
     no: string;
     sourceNote: string;
@@ -501,7 +506,7 @@ export const translations: Record<Lang, TranslationShape> = {
       label: 'Benchmarks',
       title: 'Different policies,',
       highlight: 'shared benchmarks',
-      description: 'Compare task success rates, time per task, and token costs on LIBERO-Long and RoboDojo.',
+      description: 'Compare task success rates, time per task, and token costs on LIBERO-Long, RoboDojo, and RoboTwin.',
       resultsLabel: 'Evaluation results',
       successRate: 'Task success rate',
       strategies: 'Control policies and task success rates',
@@ -515,10 +520,15 @@ export const translations: Record<Lang, TranslationShape> = {
       averageTime: 'Average time (s/task)',
       averageTokens: 'Average cost (tokens/task)',
       notProvided: 'Not reported',
-      unreportedResults: 'Success rate not reported for these methods',
+      timeLabel: 'Avg. time',
+      tokensLabel: 'Tokens',
+      unitsNote: 'Units: success rate % · time s/task · Token usage Tokens/task. M = one million Tokens.',
+      taskDetails: 'Evaluation task details',
+      taskDetailsDescription: 'Compare task success rates, average time, and token usage for the selected benchmark. Expand the results to see control paradigms and all reported metrics.',
+      viewResults: 'View evaluation results',
       yes: 'Yes',
       no: 'No',
-      sourceNote: 'Source: the provided LIBERO-Long and RoboDojo evaluation summaries. Values and control paradigms are shown as reported. — means not reported; ~ indicates an approximate value. M denotes one million tokens.',
+      sourceNote: 'Source: the provided LIBERO-Long, RoboDojo, and RoboTwin evaluation summaries. Values and control paradigms are shown as reported. — means not reported; ~ indicates an approximate value. M denotes one million tokens.',
       modes: { general: 'System 2 · General Model', hybrid: 'System 1 + System 2 · Hybrid Control', action: 'System 1 · Action Model' },
       modeDescriptions: {
         general: 'Directly generates executable actions or tool calls.',
@@ -893,7 +903,7 @@ export const translations: Record<Lang, TranslationShape> = {
       label: '评测结果',
       title: '多种策略，',
       highlight: '统一评测',
-      description: '在 LIBERO-Long 与 RoboDojo 上，对比各方案的任务成功率、平均耗时与 token 成本。',
+      description: '在 LIBERO-Long、RoboDojo 与 RoboTwin 上，对比各方案的任务成功率、平均耗时与 token 成本。',
       resultsLabel: '评测结果',
       successRate: '任务成功率',
       strategies: '控制策略与任务成功率',
@@ -907,10 +917,15 @@ export const translations: Record<Lang, TranslationShape> = {
       averageTime: '平均耗时（秒/任务）',
       averageTokens: '平均成本（token/任务）',
       notProvided: '未提供',
-      unreportedResults: '以下方法暂未提供成功率',
+      timeLabel: '平均耗时',
+      tokensLabel: 'token 消耗',
+      unitsNote: '单位：成功率 % · 耗时 秒/任务 · Token 消耗 Tokens/任务。M = 百万 Token。',
+      taskDetails: '评测任务细节',
+      taskDetailsDescription: '对比各方案在当前基准上的任务成功率、平均耗时与 token 消耗，展开查看控制范式和完整评测结果。',
+      viewResults: '查看评测结果明细',
       yes: '是',
       no: '否',
-      sourceNote: '数据来源：提供的 LIBERO-Long 与 RoboDojo 评测汇总表，各项指标与控制范式按原表展示。— 表示未提供，~ 表示近似值，M 表示百万 token。',
+      sourceNote: '数据来源：提供的 LIBERO-Long、RoboDojo 与 RoboTwin 评测汇总表，各项指标与控制范式按原表展示。— 表示未提供，~ 表示近似值，M 表示百万 token。',
       modes: { general: 'System 2 · 通用模型', hybrid: 'System 1 + System 2 · 混合控制', action: 'System 1 · 动作模型' },
       modeDescriptions: {
         general: '直接生成可执行动作或工具调用。',

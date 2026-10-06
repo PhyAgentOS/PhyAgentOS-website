@@ -67,7 +67,6 @@
   --benchmark-label-width: 282px;
   --benchmark-value-width: 84px;
   --benchmark-gap: 24px;
-  min-height: 518px;
 }
 
 .benchmark-scale {
@@ -131,6 +130,10 @@
 .benchmark-legend-swatch[data-source='phyagentos'] { background: var(--benchmark-highlight); }
 
 .benchmark-value { text-align: right; font-variant-numeric: tabular-nums; }
+.benchmark-metrics { font-variant-numeric: tabular-nums; }
+.benchmark-summary { color: var(--benchmark-highlight-text); }
+.benchmark-summary:hover { text-decoration: underline; text-underline-offset: 4px; }
+.benchmark-summary:focus-visible { outline: 2px solid var(--benchmark-highlight); outline-offset: 4px; }
 .benchmark-summary::-webkit-details-marker { display: none; }
 
 @media (max-width: 1023px) {

@@ -1,5 +1,5 @@
 import { useRef, useState, type KeyboardEvent } from 'react';
-import { ArrowUpRight, BarChart3, ChevronDown, FileText } from 'lucide-react';
+import { ArrowUpRight, BarChart3, ChevronRight } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useT } from '../../i18n/LanguageContext';
@@ -16,7 +16,6 @@ export default function Benchmark() {
   const reportedResults = dataset.results.filter(
     (result): result is BenchmarkResult & { successRate: number } => result.successRate !== null,
   );
-  const unreportedResults = dataset.results.filter((result) => result.successRate === null);
   const missingValue = <span aria-label={copy.notProvided}>—</span>;
 
   function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
@@ -82,6 +81,13 @@ export default function Benchmark() {
                       <li className="benchmark-row" data-source={result.source} data-mode={result.mode} key={result.id}>
                         <div className="benchmark-strategy">
                           <span className="benchmark-name block text-sm font-semibold leading-5">{result.name}</span>
+                          {(result.source === 'phyagentos' || result.averageTimeSeconds !== null || result.averageTokens !== null) && (
+                            <div className="benchmark-metrics mt-1 flex flex-wrap items-center gap-x-1.5 text-xs leading-5 text-brand-text-secondary">
+                              <span className="whitespace-nowrap">{copy.timeLabel} {result.averageTimeSeconds ?? missingValue}</span>
+                              <span aria-hidden="true">·</span>
+                              <span className="whitespace-nowrap">{copy.tokensLabel} {result.averageTokens ?? missingValue}</span>
+                            </div>
+                          )}
                         </div>
                         <div className="benchmark-track" aria-hidden="true">
                           <div className="benchmark-bar" style={{ width: `${result.successRate}%` }} />
@@ -93,18 +99,7 @@ export default function Benchmark() {
                     ))}
                   </ul>
                 </div>
-                {unreportedResults.length > 0 && (
-                  <div className="mt-6 border-t border-brand-border pt-4">
-                    <p className="text-xs font-medium text-brand-text-secondary">{copy.unreportedResults}</p>
-                    <ul className="mt-3 flex flex-wrap gap-2" aria-label={copy.unreportedResults}>
-                      {unreportedResults.map((result) => (
-                        <li key={result.id} className="rounded-lg border border-brand-border bg-brand-bg px-3 py-2 text-xs text-brand-text-secondary">
-                          {result.name}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                <p className="mt-6 text-xs leading-6 text-brand-text-secondary">{copy.unitsNote}</p>
               </div>
 
               <div className="benchmark-tabs border-t border-brand-border/70 bg-brand-bg/50 px-4 py-5 sm:px-9">
@@ -132,14 +127,15 @@ export default function Benchmark() {
               </div>
             </div>
 
-            <div className="mx-auto mt-5 max-w-6xl">
-              <details className="group rounded-2xl border border-brand-border/70 bg-brand-bg-secondary/50" key={dataset.id}>
-                <summary className="benchmark-summary flex min-h-12 cursor-pointer list-none items-center gap-2.5 px-5 py-3.5 text-sm font-medium text-brand-text-secondary sm:px-6">
-                  <FileText className="h-4 w-4 shrink-0 text-brand-accent" aria-hidden="true" />
-                  {copy.details}
-                  <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none" aria-hidden="true" />
+            <div className="benchmark-card mx-auto mt-5 max-w-6xl rounded-2xl border px-5 py-5 sm:px-9 sm:py-6">
+              <h3 className="text-lg font-semibold tracking-tight">{copy.taskDetails}</h3>
+              <p className="mt-2 text-sm leading-7 text-brand-text-secondary">{copy.taskDetailsDescription}</p>
+              <details className="group mt-1" key={dataset.id}>
+                <summary className="benchmark-summary inline-flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-md text-sm font-medium">
+                  {copy.viewResults} ({dataset.results.length})
+                  <ChevronRight className="h-4 w-4 shrink-0 transition-transform group-open:rotate-90 motion-reduce:transition-none" aria-hidden="true" />
                 </summary>
-                <div className="space-y-4 border-t border-brand-border/60 px-5 py-5 text-xs leading-6 text-brand-text-secondary sm:px-6">
+                <div className="mt-2 space-y-4 border-t border-brand-border/60 pt-5 text-xs leading-6 text-brand-text-secondary">
                   <div className="overflow-x-auto rounded-xl border border-brand-border/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-accent" role="region" aria-label={`${dataset.name} · ${copy.details}`} tabIndex={0}>
                     <table className="w-full min-w-[1040px] border-collapse text-left">
                       <caption className="sr-only">{dataset.name} · {copy.details}</caption>
