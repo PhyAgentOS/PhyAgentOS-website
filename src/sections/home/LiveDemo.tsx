@@ -4,7 +4,8 @@ import SectionHeader from '../../components/layout/SectionHeader';
 import ScrollReveal from '../../components/animations/ScrollReveal';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '../../components/ui/dialog';
 import { useLang } from '../../i18n/LanguageContext';
-import PiperQuickStart from './PiperQuickStart';
+import MarkdownQuickStart from '../../components/MarkdownQuickStart';
+import { demoQuickStarts } from '../../data/demoQuickStarts';
 
 export default function LiveDemo() {
   const { lang } = useLang();
@@ -78,6 +79,21 @@ export default function LiveDemo() {
             eyebrow: 'Benchmark · RoboCasa365',
             description: '展示 RoboCasa365 target50 的评测接入：启动 Verification 与 π0.5 策略服务，通过自然语言下发冰箱门关闭任务并记录可审计的执行结果。',
           },
+          {
+            title: '通用模型：GPT-6',
+            eyebrow: 'Simulation · VLM',
+            description: 'GPT-6 读取画面直接决策，逐步下发目标位姿与夹爪指令，在 LIBERO 仿真中闭环执行任务。',
+          },
+          {
+            title: '动作模型：π0.5',
+            eyebrow: 'Simulation · VLA',
+            description: 'π0.5 以画面与语言指令为输入，端到端输出动作序列驱动机械臂，在 LIBERO 仿真中执行任务。',
+          },
+          {
+            title: '混合控制：GPT-6 + π0.5',
+            eyebrow: 'Simulation · VLM + VLA',
+            description: 'π0.5 输出动作，GPT-6 在检查点看画面判断进展、决定放行或介入，两者配合执行 LIBERO 仿真任务。',
+          },
         ],
       }
     : {
@@ -149,6 +165,21 @@ export default function LiveDemo() {
             eyebrow: 'Benchmark · RoboCasa365',
             description: 'Shows the RoboCasa365 target50 evaluation setup: starting the Verification and π0.5 policy services, issuing a refrigerator-closing task in natural language, and recording auditable execution results.',
           },
+          {
+            title: 'General Model: GPT-6',
+            eyebrow: 'Simulation · VLM',
+            description: 'GPT-6 makes decisions directly from visual observations and issues target poses and gripper commands step by step, executing tasks in a closed loop in LIBERO simulation.',
+          },
+          {
+            title: 'Action Model: π0.5',
+            eyebrow: 'Simulation · VLA',
+            description: 'π0.5 takes visual observations and language instructions as input and produces action sequences end to end to drive the robot arm, executing tasks in LIBERO simulation.',
+          },
+          {
+            title: 'Hybrid Control: GPT-6 + π0.5',
+            eyebrow: 'Simulation · VLM + VLA',
+            description: 'π0.5 produces actions while GPT-6 reviews visual observations at checkpoints to assess progress and decide whether to let execution proceed or intervene, working together on LIBERO simulation tasks.',
+          },
         ],
       };
 
@@ -165,6 +196,9 @@ export default function LiveDemo() {
     'minecraft-game',
     'calvin-benchmark',
     'robocasa365-benchmark',
+    'libero-gpt6',
+    'libero-pi05',
+    'libero-gpt6-pi05',
   ];
   const copyById = Object.fromEntries(copyIds.map((id, index) => [id, copy.videos[index]]));
 
@@ -178,6 +212,9 @@ export default function LiveDemo() {
     { id: 'minecraft-game', category: 'game', icon: Gamepad2, src: '/media/demos/cross-target-runtime.mp4', poster: '/media/demos/cross-target-runtime.jpg', duration: '01:10' },
     { id: 'dont-starve', category: 'game', icon: TerminalSquare, src: '/media/demos/dont-starve.mp4', poster: '/media/demos/dont-starve.png', duration: '03:03' },
     { id: 'stardew', category: 'game', icon: Gamepad2, src: '/media/demos/stardew.mp4', poster: '/media/demos/stardew.png', duration: '00:58' },
+    { id: 'libero-gpt6', category: 'simulation', icon: BarChart3, src: '/media/demos/libero-gpt6.mp4', poster: '/media/demos/libero-gpt6.svg', duration: '01:56' },
+    { id: 'libero-pi05', category: 'simulation', icon: BarChart3, src: '/media/demos/libero-pi05.mp4', poster: '/media/demos/libero-pi05.svg', duration: '04:10' },
+    { id: 'libero-gpt6-pi05', category: 'simulation', icon: BarChart3, src: '/media/demos/libero-gpt6-pi05.mp4', poster: '/media/demos/libero-gpt6-pi05.svg', duration: '01:34' },
     { id: 'libero-benchmark', category: 'simulation', icon: BarChart3, src: '/media/demos/libero-benchmark.mp4', poster: '/media/demos/libero-benchmark.jpg', duration: '02:39' },
     { id: 'calvin-benchmark', category: 'simulation', icon: BarChart3, src: '/media/demos/calvin-benchmark.mp4', poster: '/media/demos/calvin-benchmark.jpg', duration: '02:37' },
     { id: 'robocasa365-benchmark', category: 'simulation', icon: BarChart3, src: '/media/demos/robocasa365-benchmark.mp4', poster: '/media/demos/robocasa365-benchmark.jpg', duration: '02:27' },
@@ -188,13 +225,15 @@ export default function LiveDemo() {
   const [filter, setFilter] = useState<keyof typeof copy.filters>('all');
   const filteredDemos = filter === 'all' ? demos : demos.filter((demo) => demo.category === filter);
   const [activeId, setActiveId] = useState(demos[0].id);
-  const [showPiperQuickStart, setShowPiperQuickStart] = useState(false);
+  const [quickStartId, setQuickStartId] = useState<string | null>(null);
+  const quickStartTriggerRef = useRef<HTMLButtonElement>(null);
+  const quickStartGuide = quickStartId ? demoQuickStarts[quickStartId] : undefined;
   const activeDemo = filteredDemos.find((demo) => demo.id === activeId) ?? filteredDemos[0];
   const ActiveIcon = activeDemo.icon;
 
   const handleFilterChange = (newFilter: keyof typeof copy.filters) => {
     setFilter(newFilter);
-    setShowPiperQuickStart(false);
+    setQuickStartId(null);
     const nextDemos = newFilter === 'all' ? demos : demos.filter((demo) => demo.category === newFilter);
     setActiveId(nextDemos[0].id);
     requestAnimationFrame(() => demoTrackRef.current?.scrollTo({ left: 0, behavior: 'smooth' }));
@@ -227,7 +266,7 @@ export default function LiveDemo() {
             />
           </ScrollReveal>
 
-          <Dialog open={showPiperQuickStart} onOpenChange={setShowPiperQuickStart}>
+          <Dialog open={Boolean(quickStartGuide)} onOpenChange={(open) => { if (!open) setQuickStartId(null); }}>
           <ScrollReveal delay={0.2}>
             <div className="mt-16 space-y-5">
               <div className="flex flex-wrap justify-center gap-2">
@@ -311,7 +350,7 @@ export default function LiveDemo() {
                         type="button"
                         onClick={() => {
                           setActiveId(demo.id);
-                          if (demo.id !== 'real-skill-deployment') setShowPiperQuickStart(false);
+                          setQuickStartId(null);
                         }}
                         className="flex min-w-0 flex-1 flex-col gap-3 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
                       >
@@ -341,12 +380,16 @@ export default function LiveDemo() {
                           </p>
                         </div>
                       </button>
-                      {demo.id === 'real-skill-deployment' && (
+                      {demoQuickStarts[demo.id] && (
                         <div className="mt-auto flex justify-end pt-3">
                           <DialogTrigger asChild>
                             <button
                               type="button"
-                              onClick={() => setActiveId(demo.id)}
+                              onClick={(event) => {
+                                quickStartTriggerRef.current = event.currentTarget;
+                                setActiveId(demo.id);
+                                setQuickStartId(demo.id);
+                              }}
                               className="inline-flex items-center gap-1.5 rounded-lg border border-brand-accent/30 bg-brand-accent/10 px-3 py-2 text-xs font-semibold text-brand-accent transition-colors hover:bg-brand-accent/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
                             >
                               <TerminalSquare className="h-3.5 w-3.5" />
@@ -367,11 +410,15 @@ export default function LiveDemo() {
           </ScrollReveal>
           <DialogContent
             showCloseButton={false}
+            onCloseAutoFocus={(event) => {
+              event.preventDefault();
+              quickStartTriggerRef.current?.focus();
+            }}
             className="flex max-h-[90dvh] w-[calc(100%-2rem)] max-w-[1100px] flex-col gap-0 overflow-hidden rounded-3xl border-brand-border bg-brand-bg p-0 shadow-2xl sm:max-w-[1100px]"
           >
-            <DialogTitle className="sr-only">{lang === 'zh' ? 'Piper机械臂快速启动' : 'Piper Robot Arm Quick Start'}</DialogTitle>
+            <DialogTitle className="sr-only">{quickStartGuide?.title[lang]}</DialogTitle>
             <DialogDescription className="sr-only">
-              {lang === 'zh' ? 'Piper 机械臂安装和启动命令' : 'Piper robot arm setup and startup commands'}
+              {lang === 'zh' ? '环境配置、安装和启动命令' : 'Environment setup, installation, and startup commands'}
             </DialogDescription>
             <DialogClose
               aria-label={lang === 'zh' ? '关闭快速启动弹窗' : 'Close quick-start dialog'}
@@ -380,7 +427,15 @@ export default function LiveDemo() {
               <X className="h-5 w-5" aria-hidden="true" />
             </DialogClose>
             <div data-lenis-prevent className="min-h-0 w-full overflow-y-auto overscroll-contain p-3 sm:p-5">
-              <PiperQuickStart lang={lang} />
+              {quickStartGuide && (
+                <MarkdownQuickStart
+                  key={`${quickStartId}-${lang}`}
+                  lang={lang}
+                  markdown={quickStartGuide.markdown[lang]}
+                  id={quickStartGuide.id}
+                  eyebrow={quickStartGuide.eyebrow}
+                />
+              )}
             </div>
           </DialogContent>
           </Dialog>
