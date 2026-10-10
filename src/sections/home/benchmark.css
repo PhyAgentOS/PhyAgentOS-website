@@ -136,6 +136,14 @@
 .benchmark-summary:focus-visible { outline: 2px solid var(--benchmark-highlight); outline-offset: 4px; }
 .benchmark-summary::-webkit-details-marker { display: none; }
 
+.benchmark-protocol-details,
+.benchmark-protocol-parameter,
+.benchmark-protocol-table,
+.benchmark-protocol-table tr { border-color: var(--benchmark-line); }
+.benchmark-protocol-parameter,
+.benchmark-protocol-table thead { background: var(--benchmark-tint); }
+.benchmark-protocol-table th { color: var(--benchmark-ink); }
+
 @media (max-width: 1023px) {
   .benchmark-chart { --benchmark-label-width: 218px; --benchmark-gap: 16px; }
 }

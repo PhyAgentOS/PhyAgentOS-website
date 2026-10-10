@@ -5,6 +5,7 @@ import ScrollReveal from '../../components/animations/ScrollReveal';
 import { useT } from '../../i18n/LanguageContext';
 import { benchmarkDatasets, type BenchmarkResult } from '../../data/benchmarks';
 import './benchmark.css';
+import BenchmarkProtocol from './BenchmarkProtocol';
 
 const ticks = [0, 25, 50, 75, 100];
 
@@ -171,6 +172,7 @@ export default function Benchmark() {
                 </div>
               </details>
             </div>
+            <BenchmarkProtocol benchmarkId={dataset.id} name={dataset.name} />
           </ScrollReveal>
           <p className="sr-only" aria-live="polite" aria-atomic="true">{dataset.name} · {copy.resultsLabel}</p>
         </div>
