@@ -313,7 +313,7 @@ export const translations: Record<Lang, TranslationShape> = {
       groupsTitle: 'Join our developer groups',
       groupsDescription: 'Meet fellow developers, share ideas, and hear the latest news.',
       feishuValidity: 'QR code valid until July 20, 2027',
-      wechatValidity: 'QR code valid until October 5, 2026',
+      wechatValidity: 'QR code valid until October 17, 2026',
       tagline: 'Connecting developers worldwide to build a smarter world',
     },
     problemSolution: {
@@ -709,7 +709,7 @@ export const translations: Record<Lang, TranslationShape> = {
       groupsTitle: '加入开发者群',
       groupsDescription: '与更多开发者交流讨论，获取一手信息',
       feishuValidity: '该二维码有效期至 2027 年 7 月 20 日',
-      wechatValidity: '该二维码有效期至 2026 年 10 月 5 日',
+      wechatValidity: '该二维码有效期至 2026 年 10 月 17 日',
       tagline: '连接全球开发者，共建更智能的世界',
     },
     problemSolution: {

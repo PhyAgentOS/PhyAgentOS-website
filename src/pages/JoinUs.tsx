@@ -52,7 +52,7 @@ export default function JoinUs() {
       title: t.communityPage.wechat,
       logo: 'wechat',
       logoBackground: 'bg-[#edfaf1]',
-      src: '/media/community/wechat-20260928.png',
+      src: '/media/community/wechat-20261010.jpg',
       imageWidth: 1146,
       imageHeight: 1661,
       qrCrop: { left: 160, top: 576, size: 824 },
